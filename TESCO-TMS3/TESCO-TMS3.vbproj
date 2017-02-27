@@ -2705,6 +2705,12 @@
   <ItemGroup>
     <Folder Include="Assets\js\plugins\elfinder\files\.quarantine\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LinqDB\LinqDB.vbproj">
+      <Project>{631d831b-7e5a-44e4-a947-4cb0cb9f35ad}</Project>
+      <Name>LinqDB</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

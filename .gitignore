@@ -1,3 +1,8 @@
 /packages
 /TESCO-TMS3/obj
 /TESCO-TMS3/bin
+/GenerateLinqDB/.vs
+/GenerateLinqDB/GenerateLinqDB/obj
+/GenerateLinqDB/GenerateLinqDB/bin
+/GenerateLinqDB/LinqDB/obj
+/GenerateLinqDB/LinqDB/bin
