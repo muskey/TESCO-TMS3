@@ -2,6 +2,7 @@
 Imports System.Data.SqlClient
 Imports Newtonsoft.Json.Linq
 Imports LinqDB.ConnectDB
+Imports LinqDB.TABLE
 
 Public Class frmLogin
     Inherits System.Web.UI.Page
@@ -17,7 +18,7 @@ Public Class frmLogin
         End If
     End Sub
 
-
+#Region "Load Data Login"
     Private Function Login(ByVal Username As String, ByVal Password As String) As Boolean
         Dim ret As Boolean = False
         Try
@@ -48,45 +49,45 @@ Public Class frmLogin
 
 
 
-                For Each item As JProperty In data
-                    item.CreateReader()
-                    Select Case item.Name
-                        Case "token"
-                            UserData.TokenStr = item.First
-                            UserData.Token = "token=" & UserData.TokenStr
-                            ret = True
-                        Case "user"
-                            For Each comment As JProperty In item.Values
-                                UserData.FullName = comment.Value.ToString
-                            Next
-                        Case "user_id"
-                            UserData.UserID = item.First
-                        Case "data"
-                            'UserData.UserFormat = New DataTable
-                            'UserData.UserFormat.Columns.Add("format_id")
-                            'UserData.UserFormat.Columns.Add("format_title")
+                'For Each item As JProperty In data
+                '    item.CreateReader()
+                '    Select Case item.Name
+                '        Case "token"
+                '            UserData.TokenStr = item.First
+                '            UserData.Token = "token=" & UserData.TokenStr
+                '            ret = True
+                '        Case "user"
+                '            For Each comment As JProperty In item.Values
+                '                UserData.FullName = comment.Value.ToString
+                '            Next
+                '        Case "user_id"
+                '            UserData.UserID = item.First
+                '        Case "data"
+                '            'UserData.UserFormat = New DataTable
+                '            'UserData.UserFormat.Columns.Add("format_id")
+                '            'UserData.UserFormat.Columns.Add("format_title")
 
-                            'UserData.UserFunction = New DataTable
-                            'UserData.UserFunction.Columns.Add("format_id")
-                            'UserData.UserFunction.Columns.Add("function_id")
-                            'UserData.UserFunction.Columns.Add("function_title")
-                            'UserData.UserFunction.Columns.Add("function_cover")
-                            'UserData.UserFunction.Columns.Add("function_cover_color")
-                            'UserData.UserFunction.Columns.Add("function_subject")
+                '            'UserData.UserFunction = New DataTable
+                '            'UserData.UserFunction.Columns.Add("format_id")
+                '            'UserData.UserFunction.Columns.Add("function_id")
+                '            'UserData.UserFunction.Columns.Add("function_title")
+                '            'UserData.UserFunction.Columns.Add("function_cover")
+                '            'UserData.UserFunction.Columns.Add("function_cover_color")
+                '            'UserData.UserFunction.Columns.Add("function_subject")
 
-                            'UserData.UserDepartment = New DataTable
-                            'UserData.UserDepartment.Columns.Add("department_id")
-                            'UserData.UserDepartment.Columns.Add("department_title")
-                            'UserData.UserDepartment.Columns.Add("department_cover")
-                            'UserData.UserDepartment.Columns.Add("function_id")
+                '            'UserData.UserDepartment = New DataTable
+                '            'UserData.UserDepartment.Columns.Add("department_id")
+                '            'UserData.UserDepartment.Columns.Add("department_title")
+                '            'UserData.UserDepartment.Columns.Add("department_cover")
+                '            'UserData.UserDepartment.Columns.Add("function_id")
 
 
 
-                            BuiltUserFormat(item.First)
-                        Case "welcome"
-                            'BuiltDatableTableUserMessage(item)
-                    End Select
-                Next
+                '            BuiltUserFormat(item.First)
+                '        Case "welcome"
+                '            'BuiltDatableTableUserMessage(item)
+                '    End Select
+                'Next
             End If
         Catch ex As Exception
             'MessageBox.Show(ex.Message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -99,7 +100,7 @@ Public Class frmLogin
     Private Function CreateUserSession(Token As String, UserID As Long, Username As String, data As List(Of JToken)) As ExecuteDataInfo
         Dim ret As New ExecuteDataInfo
         Try
-            Dim lnq As New LinqDB.TABLE.TbUserSessionLinqDB
+            Dim lnq As New TbUserSessionLinqDB
             lnq.TOKEN = Token
             lnq.USER_ID = UserID
             lnq.USERNAME = Username
@@ -112,7 +113,29 @@ Public Class frmLogin
             Dim trans As New TransactionDB
             ret = lnq.InsertData(Username, trans.Trans)
             If ret.IsSuccess = True Then
-                trans.CommitTransaction()
+                Dim hLnq As New TbLoginHistoryLinqDB
+                hLnq.TOKEN = lnq.TOKEN
+                hLnq.USERNAME = lnq.USERNAME
+                hLnq.FIRST_NAME_ENG = lnq.FIRST_NAME_ENG
+                hLnq.LAST_NAME_ENG = lnq.LAST_NAME_ENG
+                hLnq.FIRST_NAME_THAI = lnq.FIRST_NAME_THAI
+                hLnq.LAST_NAME_THAI = lnq.LAST_NAME_THAI
+                hLnq.LOGON_TIME = DateTime.Now
+                hLnq.CLIENT_IP = HttpContext.Current.Request.UserHostAddress
+                hLnq.CLIENT_BROWSER = HttpContext.Current.Request.Browser.Browser & " Version:" & HttpContext.Current.Request.Browser.Version
+                hLnq.SERVER_URL = HttpContext.Current.Request.Url.AbsoluteUri
+
+                ret = hLnq.InsertData(Username, trans.Trans)
+                If ret.IsSuccess = True Then
+                    ret = BuiltUserFormat(lnq.ID, lnq.USER_ID, Username, DirectCast(data(7), JToken).First, trans)
+                    If ret.IsSuccess = True Then
+                        trans.CommitTransaction()
+                    Else
+                        trans.RollbackTransaction()
+                    End If
+                Else
+                    trans.RollbackTransaction()
+                End If
             Else
                 trans.RollbackTransaction()
             End If
@@ -190,27 +213,49 @@ Public Class frmLogin
 
     End Sub
 
-    Private Sub BuiltUserFormat(data2 As JToken)
+    Private Function BuiltUserFormat(UserSessionID As Long, UserID As Long, Username As String, data2 As JToken, trans As TransactionDB) As ExecuteDataInfo
+        Dim ret As New ExecuteDataInfo
+
         For Each comment As JProperty In data2
             comment.CreateReader()
             Select Case comment.Name
                 Case "format"
                     For Each f As JObject In comment.Values
+                        Dim lnq As New TbUserFormatLinqDB
+                        lnq.TB_USER_SESSION_ID = UserSessionID
+                        lnq.USER_ID = UserID
+                        lnq.FORMAT_ID = f("id").ToString
+                        lnq.FORMAT_TITLE = f("title").ToString
+
+                        ret = lnq.InsertData(Username, trans.Trans)
+                        If ret.IsSuccess = True Then
+                            Dim jProp As JObject = JObject.Parse("{""function"":" & f("function").ToString & "}")
+                            ret = BuiltUserFunction(lnq.ID, lnq.FORMAT_ID, UserID, Username, jProp, trans)
+                            If ret.IsSuccess = False Then
+                                Exit For
+                            End If
+                        Else
+                            Exit For
+                        End If
+
                         'Dim dr As DataRow = UserData.UserFormat.NewRow
                         'dr("format_id") = f("id").ToString
                         'dr("format_title") = f("title").ToString
                         'UserData.UserFormat.Rows.Add(dr)
-
-                        Dim jProp As JObject = JObject.Parse("{""function"":" & f("function").ToString & "}")
-                        BuiltUserFunction(jProp, f("id").ToString)
                     Next
             End Select
         Next
-    End Sub
+        Return ret
+    End Function
 
-    Private Sub BuiltUserFunction(data_ser As JObject, FormatID As Integer)
+    Private Function BuiltUserFunction(UserFormatID As Long, FormatID As Integer, UserID As Long, Username As String, data_ser As JObject, trans As TransactionDB) As ExecuteDataInfo
+        Dim ret As New ExecuteDataInfo
         Dim data As List(Of JToken) = data_ser.Children().ToList
         For Each item As JProperty In data
+            If item.Values.Count = 0 Then
+                ret.IsSuccess = True
+                Exit For
+            End If
             For Each comment As JObject In item.Value
                 comment.CreateReader()
 
@@ -223,16 +268,43 @@ Public Class frmLogin
                 'dr("function_subject") = comment("subject_type").ToString   'main subject / additional subject
                 'UserData.UserFunction.Rows.Add(dr)
 
-                Dim jProp As JObject = JObject.Parse("{""department"":" & comment("department").ToString & "}")
-                BuiltFuserDepartment(jProp, comment("id").ToString)
+                Dim lnq As New TbUserFunctionLinqDB
+                lnq.TB_USER_FORMAT_ID = UserFormatID
+                lnq.USER_ID = UserID
+                lnq.FORMAT_ID = FormatID
+                lnq.FUNCTION_ID = comment("id").ToString
+                lnq.FUNCTION_TITLE = comment("title").ToString
+                lnq.FUNCTION_COVER_URL = comment("cover").ToString
+                lnq.FUNCTION_COVER_COLOR = comment("color").ToString
+                lnq.FUNCTION_SUBJECT_TYPE = comment("subject_type").ToString   'main subject / additional subject
+
+                ret = lnq.InsertData(Username, trans.Trans)
+                If ret.IsSuccess = True Then
+                    Dim jProp As JObject = JObject.Parse("{""department"":" & comment("department").ToString & "}")
+                    ret = BuiltFuserDepartment(lnq.ID, lnq.FUNCTION_ID, UserID, Username, jProp, trans)
+
+                    If ret.IsSuccess = False Then
+                        Exit For
+                    End If
+                Else
+                    Exit For
+                End If
+                lnq = Nothing
             Next
         Next
-    End Sub
+        Return ret
+    End Function
 
-    Private Sub BuiltFuserDepartment(data_ser As JObject, FunctionID As String)
-
+    Private Function BuiltFuserDepartment(UserFunctionID As Long, FunctionID As Integer, UserID As Long, Username As String, data_ser As JObject, trans As TransactionDB) As ExecuteDataInfo
+        Dim ret As New ExecuteDataInfo
         Dim data As List(Of JToken) = data_ser.Children().ToList
+
         For Each item As JProperty In data
+            If item.Values.Count = 0 Then
+                ret.IsSuccess = True
+                Exit For
+            End If
+
             For Each desc As JObject In item.Values
                 desc.CreateReader()
 
@@ -241,28 +313,67 @@ Public Class frmLogin
                 'dr("department_title") = desc("title").ToString
                 'dr("department_cover") = desc("cover").ToString
                 'dr("function_id") = FunctionID
-
                 'UserData.UserDepartment.Rows.Add(dr)
 
-                BindDatableTableFromCourse(desc.Last)
+                Dim lnq As New TbUserDepartmentLinqDB
+                lnq.TB_USER_FUNCTION_ID = UserFunctionID
+                lnq.FUNCTION_ID = FunctionID
+                lnq.USER_ID = UserID
+                lnq.DEPARTMENT_ID = desc("id").ToString
+                lnq.DEPARTMENT_TITLE = desc("title").ToString
+                lnq.DEPARTMENT_COVER_URL = desc("cover").ToString
+                ret = lnq.InsertData(Username, trans.Trans)
+                If ret.IsSuccess = True Then
+                    ret = BindDatableTableFromCourse(lnq.ID, UserID, Username, desc.Last, trans)
+                    If ret.IsSuccess = False Then
+                        Exit For
+                    End If
+                Else
+                    Exit For
+                End If
             Next
         Next
+        Return ret
+    End Function
 
-    End Sub
+    Private Function BindDatableTableFromCourse(UserDepartmentID As Long, UserID As Long, Username As String, data As JProperty, trans As TransactionDB) As ExecuteDataInfo
+        'Dim course_id As Int32 = 0
+        'Dim doc_id As Int32 = 0
 
-    Private Sub BindDatableTableFromCourse(data As JProperty)
-        Dim course_id As Int32 = 0
-        Dim doc_id As Int32 = 0
+        'Dim sql As String = ""
+        'Dim CourseIconFolder As String = "CourseIcon"
+        'Dim CourseCoverFolder As String = "CourseCover"
 
-        Dim sql As String = ""
-        Dim CourseIconFolder As String = "CourseIcon"
-        Dim CourseCoverFolder As String = "CourseCover"
+        Dim ret As New ExecuteDataInfo
 
         Dim item As JProperty = data
+        If item.Values.Count = 0 Then
+            ret.IsSuccess = True
+            Return ret
+        End If
+
         Dim ci As Integer = 1
         For Each comment As JObject In item.Values
             Try
-                course_id = comment("id")
+                Dim lnq As New TbUserCourseLinqDB
+                lnq.TB_USER_DEPARTMENT_ID = UserDepartmentID
+                lnq.USER_ID = UserID
+                lnq.DEPARTMENT_ID = comment("department_id").ToString
+                lnq.COURSE_TITLE = comment("name").ToString
+                lnq.COURSE_DESC = comment("description").ToString
+                lnq.ICON_URL = comment("icon").ToString
+                lnq.COVER_URL = comment("cover").ToString
+                lnq.SORT = ci
+                lnq.IS_DOCUMENT_LOCK = IIf(comment("is_document_lock").ToString.ToLower = "true", "Y", "N")
+                lnq.DOCUMENT_DETAIL = "{""document"":" & comment("document").ToString & "}"
+                lnq.BIND_DOCUMENT = "N"
+
+                ret = lnq.InsertData(Username, trans.Trans)
+                If ret.IsSuccess = False Then
+                    Exit For
+                End If
+
+                'course_id = comment("id")
                 'sql = "insert into TB_COURSE (id, department_id,title,description,icon_url,icon_file,cover_url,cover_file,sort,is_document_lock,document_detail,bind_document)"
                 'sql += " values('" & course_id & "'"
                 'sql += ", '" & comment("department_id").ToString & "'"
@@ -280,9 +391,10 @@ Public Class frmLogin
                 '    Dim aaa As String = ""
                 'End If
             Catch ex As Exception
-
+                ret.IsSuccess = False
+                ret.ErrorMessage = ex.Message
+                Exit For
             End Try
-
             ci += 1
         Next
         'End If
@@ -309,5 +421,7 @@ Public Class frmLogin
         '    Next
         'End If
         'fDt.Dispose()
-    End Sub
+        Return ret
+    End Function
+#End Region
 End Class

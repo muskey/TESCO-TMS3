@@ -92,6 +92,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="TABLE\TbLoginHistoryLinqDB.vb" />
     <Compile Include="TABLE\TbUserCourseDocumentFileLinqDB.vb" />
     <Compile Include="TABLE\TbUserCourseDocumentLinqDB.vb" />
     <Compile Include="TABLE\TbUserCourseLinqDB.vb" />

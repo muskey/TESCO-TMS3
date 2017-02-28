@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_USER_COURSE_DOCUMENT table LinqDB.
-    '[Create by  on Febuary, 27 2017]
+    '[Create by  on Febuary, 28 2017]
     Public Class TbUserCourseDocumentLinqDB
         Public sub TbUserCourseDocumentLinqDB()
 
@@ -206,7 +206,6 @@ Namespace TABLE
         '/// <returns>true if insert data successfully; otherwise, false.</returns>
         Public Function InsertData(CreatedBy As String,trans As SQLTransaction) As ExecuteDataInfo
             If trans IsNot Nothing Then 
-                _ID = DB.GetNextID("ID",tableName, trans)
                 _created_by = CreatedBy
                 _created_date = DateTime.Now
                 Return doInsert(trans)
@@ -352,6 +351,7 @@ Namespace TABLE
                         ret.IsSuccess = False
                         ret.ErrorMessage = DB.ErrorMessage
                     Else
+                        _ID = dt.Rows(0)("ID")
                         _haveData = True
                         ret.IsSuccess = True
                         _information = MessageResources.MSGIN001
@@ -613,10 +613,9 @@ Namespace TABLE
         Private ReadOnly Property SqlInsert() As String 
             Get
                 Dim Sql As String=""
-                Sql += "INSERT INTO " & tableName  & " (ID, CREATED_BY, CREATED_DATE, TB_USER_COURSE_ID, USER_ID, DOCUMENT_TITLE, MS_DOCUMENT_ICON_ID, DOCUMENT_VERSION, DOCUMENT_TYPE, ORDER_BY)"
+                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_COURSE_ID, USER_ID, DOCUMENT_TITLE, MS_DOCUMENT_ICON_ID, DOCUMENT_VERSION, DOCUMENT_TYPE, ORDER_BY)"
                 Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_COURSE_ID, INSERTED.USER_ID, INSERTED.DOCUMENT_TITLE, INSERTED.MS_DOCUMENT_ICON_ID, INSERTED.DOCUMENT_VERSION, INSERTED.DOCUMENT_TYPE, INSERTED.ORDER_BY"
                 Sql += " VALUES("
-                sql += "@_ID" & ", "
                 sql += "@_CREATED_BY" & ", "
                 sql += "@_CREATED_DATE" & ", "
                 sql += "@_TB_USER_COURSE_ID" & ", "

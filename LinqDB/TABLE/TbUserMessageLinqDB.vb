@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_USER_MESSAGE table LinqDB.
-    '[Create by  on Febuary, 27 2017]
+    '[Create by  on Febuary, 28 2017]
     Public Class TbUserMessageLinqDB
         Public sub TbUserMessageLinqDB()
 

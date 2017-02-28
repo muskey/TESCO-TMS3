@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_USER_SESSION table LinqDB.
-    '[Create by  on Febuary, 27 2017]
+    '[Create by  on Febuary, 28 2017]
     Public Class TbUserSessionLinqDB
         Public sub TbUserSessionLinqDB()
 
