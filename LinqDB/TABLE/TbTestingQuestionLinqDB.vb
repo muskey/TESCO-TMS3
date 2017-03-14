@@ -7,14 +7,14 @@ Imports DB = LinqDB.ConnectDB.SqlDB
 Imports LinqDB.ConnectDB
 
 Namespace TABLE
-    'Represents a transaction for TB_USER_MESSAGE table LinqDB.
+    'Represents a transaction for TB_TESTING_QUESTION table LinqDB.
     '[Create by  on March, 14 2017]
-    Public Class TbUserMessageLinqDB
-        Public sub TbUserMessageLinqDB()
+    Public Class TbTestingQuestionLinqDB
+        Public sub TbTestingQuestionLinqDB()
 
         End Sub 
-        ' TB_USER_MESSAGE
-        Const _tableName As String = "TB_USER_MESSAGE"
+        ' TB_TESTING_QUESTION
+        Const _tableName As String = "TB_TESTING_QUESTION"
 
         'Set Common Property
         Dim _error As String = ""
@@ -44,10 +44,13 @@ Namespace TABLE
         Dim _CREATED_DATE As  System.Nullable(Of DateTime)  = New DateTime(1,1,1)
         Dim _UPDATED_BY As  String  = ""
         Dim _UPDATED_DATE As  System.Nullable(Of DateTime)  = New DateTime(1,1,1)
-        Dim _TB_USER_SESSION_ID As Long = 0
-        Dim _USER_ID As Long = 0
-        Dim _MESSAGE_NAME As String = ""
-        Dim _MESSAGE_DESC As String = ""
+        Dim _TB_TESTING_ID As Long = 0
+        Dim _TEST_ID As Long = 0
+        Dim _QUESTION_TITLE As String = ""
+        Dim _ICON_URL As  String  = ""
+        Dim _CHOICE As String = ""
+        Dim _ANSWER As String = ""
+        Dim _QUESTION_NO As Long = 0
 
         'Generate Field Property 
         <Column(Storage:="_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
@@ -95,40 +98,67 @@ Namespace TABLE
                _UPDATED_DATE = value
             End Set
         End Property 
-        <Column(Storage:="_TB_USER_SESSION_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
-        Public Property TB_USER_SESSION_ID() As Long
+        <Column(Storage:="_TB_TESTING_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
+        Public Property TB_TESTING_ID() As Long
             Get
-                Return _TB_USER_SESSION_ID
+                Return _TB_TESTING_ID
             End Get
             Set(ByVal value As Long)
-               _TB_USER_SESSION_ID = value
+               _TB_TESTING_ID = value
             End Set
         End Property 
-        <Column(Storage:="_USER_ID", DbType:="Int NOT NULL ",CanBeNull:=false)>  _
-        Public Property USER_ID() As Long
+        <Column(Storage:="_TEST_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
+        Public Property TEST_ID() As Long
             Get
-                Return _USER_ID
+                Return _TEST_ID
             End Get
             Set(ByVal value As Long)
-               _USER_ID = value
+               _TEST_ID = value
             End Set
         End Property 
-        <Column(Storage:="_MESSAGE_NAME", DbType:="VarChar(255) NOT NULL ",CanBeNull:=false)>  _
-        Public Property MESSAGE_NAME() As String
+        <Column(Storage:="_QUESTION_TITLE", DbType:="VarChar(255) NOT NULL ",CanBeNull:=false)>  _
+        Public Property QUESTION_TITLE() As String
             Get
-                Return _MESSAGE_NAME
+                Return _QUESTION_TITLE
             End Get
             Set(ByVal value As String)
-               _MESSAGE_NAME = value
+               _QUESTION_TITLE = value
             End Set
         End Property 
-        <Column(Storage:="_MESSAGE_DESC", DbType:="VarChar(500) NOT NULL ",CanBeNull:=false)>  _
-        Public Property MESSAGE_DESC() As String
+        <Column(Storage:="_ICON_URL", DbType:="VarChar(500)")>  _
+        Public Property ICON_URL() As  String 
             Get
-                Return _MESSAGE_DESC
+                Return _ICON_URL
+            End Get
+            Set(ByVal value As  String )
+               _ICON_URL = value
+            End Set
+        End Property 
+        <Column(Storage:="_CHOICE", DbType:="VarChar(500) NOT NULL ",CanBeNull:=false)>  _
+        Public Property CHOICE() As String
+            Get
+                Return _CHOICE
             End Get
             Set(ByVal value As String)
-               _MESSAGE_DESC = value
+               _CHOICE = value
+            End Set
+        End Property 
+        <Column(Storage:="_ANSWER", DbType:="VarChar(255) NOT NULL ",CanBeNull:=false)>  _
+        Public Property ANSWER() As String
+            Get
+                Return _ANSWER
+            End Get
+            Set(ByVal value As String)
+               _ANSWER = value
+            End Set
+        End Property 
+        <Column(Storage:="_QUESTION_NO", DbType:="Int NOT NULL ",CanBeNull:=false)>  _
+        Public Property QUESTION_NO() As Long
+            Get
+                Return _QUESTION_NO
+            End Get
+            Set(ByVal value As Long)
+               _QUESTION_NO = value
             End Set
         End Property 
 
@@ -140,10 +170,13 @@ Namespace TABLE
             _CREATED_DATE = New DateTime(1,1,1)
             _UPDATED_BY = ""
             _UPDATED_DATE = New DateTime(1,1,1)
-            _TB_USER_SESSION_ID = 0
-            _USER_ID = 0
-            _MESSAGE_NAME = ""
-            _MESSAGE_DESC = ""
+            _TB_TESTING_ID = 0
+            _TEST_ID = 0
+            _QUESTION_TITLE = ""
+            _ICON_URL = ""
+            _CHOICE = ""
+            _ANSWER = ""
+            _QUESTION_NO = 0
         End Sub
 
        'Define Public Method 
@@ -167,7 +200,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the current data is inserted into TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is inserted into TB_TESTING_QUESTION table successfully.
         '/// <param name=userID>The current user.</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if insert data successfully; otherwise, false.</returns>
@@ -187,7 +220,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the current data is updated to TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is updated to TB_TESTING_QUESTION table successfully.
         '/// <param name=userID>The current user.</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if update data successfully; otherwise, false.</returns>
@@ -217,7 +250,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the current data is updated to TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is updated to TB_TESTING_QUESTION table successfully.
         '/// <returns>true if update data successfully; otherwise, false.</returns>
         Public Function UpdateBySql(Sql As String, trans As SQLTransaction, cmbParm() As SQLParameter) As ExecuteDataInfo
             If trans IsNot Nothing Then 
@@ -232,7 +265,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the current data is deleted from TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is deleted from TB_TESTING_QUESTION table successfully.
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if delete data successfully; otherwise, false.</returns>
         Public Function DeleteByPK(cID As Long, trans As SQLTransaction) As ExecuteDataInfo
@@ -250,7 +283,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the record of TB_USER_MESSAGE by specified ID key is retrieved successfully.
+        '/// Returns an indication whether the record of TB_TESTING_QUESTION by specified ID key is retrieved successfully.
         '/// <param name=cID>The ID key.</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
@@ -261,42 +294,42 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the record and Mapping field to Data Class of TB_USER_MESSAGE by specified ID key is retrieved successfully.
+        '/// Returns an indication whether the record and Mapping field to Data Class of TB_TESTING_QUESTION by specified ID key is retrieved successfully.
         '/// <param name=cID>The ID key.</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
-        Public Function GetDataByPK(cID As Long, trans As SQLTransaction) As TbUserMessageLinqDB
+        Public Function GetDataByPK(cID As Long, trans As SQLTransaction) As TbTestingQuestionLinqDB
             Dim p(1) As SQLParameter
             p(0) = DB.SetBigInt("@_ID", cID)
             Return doGetData("ID = @_ID", trans, p)
         End Function
 
 
-        '/// Returns an indication whether the record of TB_USER_MESSAGE by specified MESSAGE_NAME_USER_ID key is retrieved successfully.
-        '/// <param name=cMESSAGE_NAME_USER_ID>The MESSAGE_NAME_USER_ID key.</param>
+        '/// Returns an indication whether the record of TB_TESTING_QUESTION by specified QUESTION_TITLE_TB_TESTING_ID key is retrieved successfully.
+        '/// <param name=cQUESTION_TITLE_TB_TESTING_ID>The QUESTION_TITLE_TB_TESTING_ID key.</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
-        Public Function ChkDataByMESSAGE_NAME_USER_ID(cMESSAGE_NAME As String, cUSER_ID As Integer, trans As SQLTransaction) As Boolean
+        Public Function ChkDataByQUESTION_TITLE_TB_TESTING_ID(cQUESTION_TITLE As String, cTB_TESTING_ID As Long, trans As SQLTransaction) As Boolean
             Dim cmdPara(3)  As SQLParameter
-            cmdPara(0) = DB.SetText("@_MESSAGE_NAME", cMESSAGE_NAME) 
-            cmdPara(1) = DB.SetText("@_USER_ID", cUSER_ID) 
-            Return doChkData("MESSAGE_NAME = @_MESSAGE_NAME AND USER_ID = @_USER_ID", trans, cmdPara)
+            cmdPara(0) = DB.SetText("@_QUESTION_TITLE", cQUESTION_TITLE) 
+            cmdPara(1) = DB.SetText("@_TB_TESTING_ID", cTB_TESTING_ID) 
+            Return doChkData("QUESTION_TITLE = @_QUESTION_TITLE AND TB_TESTING_ID = @_TB_TESTING_ID", trans, cmdPara)
         End Function
 
-        '/// Returns an duplicate data record of TB_USER_MESSAGE by specified MESSAGE_NAME_USER_ID key is retrieved successfully.
-        '/// <param name=cMESSAGE_NAME_USER_ID>The MESSAGE_NAME_USER_ID key.</param>
+        '/// Returns an duplicate data record of TB_TESTING_QUESTION by specified QUESTION_TITLE_TB_TESTING_ID key is retrieved successfully.
+        '/// <param name=cQUESTION_TITLE_TB_TESTING_ID>The QUESTION_TITLE_TB_TESTING_ID key.</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
-        Public Function ChkDuplicateByMESSAGE_NAME_USER_ID(cMESSAGE_NAME As String, cUSER_ID As Integer, cID As Long, trans As SQLTransaction) As Boolean
+        Public Function ChkDuplicateByQUESTION_TITLE_TB_TESTING_ID(cQUESTION_TITLE As String, cTB_TESTING_ID As Long, cID As Long, trans As SQLTransaction) As Boolean
             Dim cmdPara(3)  As SQLParameter
-            cmdPara(0) = DB.SetText("@_MESSAGE_NAME", cMESSAGE_NAME) 
-            cmdPara(1) = DB.SetText("@_USER_ID", cUSER_ID) 
+            cmdPara(0) = DB.SetText("@_QUESTION_TITLE", cQUESTION_TITLE) 
+            cmdPara(1) = DB.SetText("@_TB_TESTING_ID", cTB_TESTING_ID) 
             cmdPara(2) = DB.SetBigInt("@_ID", cID) 
-            Return doChkData("MESSAGE_NAME = @_MESSAGE_NAME AND USER_ID = @_USER_ID And ID <> @_ID", trans, cmdPara)
+            Return doChkData("QUESTION_TITLE = @_QUESTION_TITLE AND TB_TESTING_ID = @_TB_TESTING_ID And ID <> @_ID", trans, cmdPara)
         End Function
 
 
-        '/// Returns an indication whether the record of TB_USER_MESSAGE by specified condition is retrieved successfully.
+        '/// Returns an indication whether the record of TB_TESTING_QUESTION by specified condition is retrieved successfully.
         '/// <param name=whText>The condition specify the deleting record(s).</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
@@ -306,7 +339,7 @@ Namespace TABLE
 
 
 
-        '/// Returns an indication whether the current data is inserted into TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is inserted into TB_TESTING_QUESTION table successfully.
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if insert data successfully; otherwise, false.</returns>
         Private Function doInsert(trans As SQLTransaction) As ExecuteDataInfo
@@ -343,7 +376,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the current data is updated to TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is updated to TB_TESTING_QUESTION table successfully.
         '/// <param name=whText>The condition specify the updating record(s).</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if update data successfully; otherwise, false.</returns>
@@ -383,7 +416,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the current data is deleted from TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is deleted from TB_TESTING_QUESTION table successfully.
         '/// <param name=whText>The condition specify the deleting record(s).</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if delete data successfully; otherwise, false.</returns>
@@ -422,7 +455,7 @@ Namespace TABLE
         End Function
 
         Private Function SetParameterData() As SqlParameter()
-            Dim cmbParam(8) As SqlParameter
+            Dim cmbParam(11) As SqlParameter
             cmbParam(0) = New SqlParameter("@_ID", SqlDbType.BigInt)
             cmbParam(0).Value = _ID
 
@@ -454,23 +487,36 @@ Namespace TABLE
                 cmbParam(4).Value = DBNull.value
             End If
 
-            cmbParam(5) = New SqlParameter("@_TB_USER_SESSION_ID", SqlDbType.BigInt)
-            cmbParam(5).Value = _TB_USER_SESSION_ID
+            cmbParam(5) = New SqlParameter("@_TB_TESTING_ID", SqlDbType.BigInt)
+            cmbParam(5).Value = _TB_TESTING_ID
 
-            cmbParam(6) = New SqlParameter("@_USER_ID", SqlDbType.Int)
-            cmbParam(6).Value = _USER_ID
+            cmbParam(6) = New SqlParameter("@_TEST_ID", SqlDbType.BigInt)
+            cmbParam(6).Value = _TEST_ID
 
-            cmbParam(7) = New SqlParameter("@_MESSAGE_NAME", SqlDbType.VarChar)
-            cmbParam(7).Value = _MESSAGE_NAME.Trim
+            cmbParam(7) = New SqlParameter("@_QUESTION_TITLE", SqlDbType.VarChar)
+            cmbParam(7).Value = _QUESTION_TITLE.Trim
 
-            cmbParam(8) = New SqlParameter("@_MESSAGE_DESC", SqlDbType.VarChar)
-            cmbParam(8).Value = _MESSAGE_DESC.Trim
+            cmbParam(8) = New SqlParameter("@_ICON_URL", SqlDbType.VarChar)
+            If _ICON_URL.Trim <> "" Then 
+                cmbParam(8).Value = _ICON_URL.Trim
+            Else
+                cmbParam(8).Value = DBNull.value
+            End If
+
+            cmbParam(9) = New SqlParameter("@_CHOICE", SqlDbType.VarChar)
+            cmbParam(9).Value = _CHOICE.Trim
+
+            cmbParam(10) = New SqlParameter("@_ANSWER", SqlDbType.VarChar)
+            cmbParam(10).Value = _ANSWER.Trim
+
+            cmbParam(11) = New SqlParameter("@_QUESTION_NO", SqlDbType.Int)
+            cmbParam(11).Value = _QUESTION_NO
 
             Return cmbParam
         End Function
 
 
-        '/// Returns an indication whether the record of TB_USER_MESSAGE by specified condition is retrieved successfully.
+        '/// Returns an indication whether the record of TB_TESTING_QUESTION by specified condition is retrieved successfully.
         '/// <param name=whText>The condition specify the deleting record(s).</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
@@ -490,10 +536,13 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("created_date")) = False Then _created_date = Convert.ToDateTime(Rdr("created_date"))
                         If Convert.IsDBNull(Rdr("updated_by")) = False Then _updated_by = Rdr("updated_by").ToString()
                         If Convert.IsDBNull(Rdr("updated_date")) = False Then _updated_date = Convert.ToDateTime(Rdr("updated_date"))
-                        If Convert.IsDBNull(Rdr("tb_user_session_id")) = False Then _tb_user_session_id = Convert.ToInt64(Rdr("tb_user_session_id"))
-                        If Convert.IsDBNull(Rdr("user_id")) = False Then _user_id = Convert.ToInt32(Rdr("user_id"))
-                        If Convert.IsDBNull(Rdr("message_name")) = False Then _message_name = Rdr("message_name").ToString()
-                        If Convert.IsDBNull(Rdr("message_desc")) = False Then _message_desc = Rdr("message_desc").ToString()
+                        If Convert.IsDBNull(Rdr("tb_testing_id")) = False Then _tb_testing_id = Convert.ToInt64(Rdr("tb_testing_id"))
+                        If Convert.IsDBNull(Rdr("test_id")) = False Then _test_id = Convert.ToInt64(Rdr("test_id"))
+                        If Convert.IsDBNull(Rdr("question_title")) = False Then _question_title = Rdr("question_title").ToString()
+                        If Convert.IsDBNull(Rdr("icon_url")) = False Then _icon_url = Rdr("icon_url").ToString()
+                        If Convert.IsDBNull(Rdr("choice")) = False Then _choice = Rdr("choice").ToString()
+                        If Convert.IsDBNull(Rdr("answer")) = False Then _answer = Rdr("answer").ToString()
+                        If Convert.IsDBNull(Rdr("question_no")) = False Then _question_no = Convert.ToInt32(Rdr("question_no"))
                     Else
                         ret = False
                         _error = MessageResources.MSGEV002
@@ -514,11 +563,11 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the record of TB_USER_MESSAGE by specified condition is retrieved successfully.
+        '/// Returns an indication whether the record of TB_TESTING_QUESTION by specified condition is retrieved successfully.
         '/// <param name=whText>The condition specify the deleting record(s).</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
-        Private Function doGetData(whText As String, trans As SQLTransaction, cmdPara() As SQLParameter) As TbUserMessageLinqDB
+        Private Function doGetData(whText As String, trans As SQLTransaction, cmdPara() As SQLParameter) As TbTestingQuestionLinqDB
             ClearData()
             _haveData  = False
             If whText.Trim() <> "" Then
@@ -533,10 +582,13 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("created_date")) = False Then _created_date = Convert.ToDateTime(Rdr("created_date"))
                         If Convert.IsDBNull(Rdr("updated_by")) = False Then _updated_by = Rdr("updated_by").ToString()
                         If Convert.IsDBNull(Rdr("updated_date")) = False Then _updated_date = Convert.ToDateTime(Rdr("updated_date"))
-                        If Convert.IsDBNull(Rdr("tb_user_session_id")) = False Then _tb_user_session_id = Convert.ToInt64(Rdr("tb_user_session_id"))
-                        If Convert.IsDBNull(Rdr("user_id")) = False Then _user_id = Convert.ToInt32(Rdr("user_id"))
-                        If Convert.IsDBNull(Rdr("message_name")) = False Then _message_name = Rdr("message_name").ToString()
-                        If Convert.IsDBNull(Rdr("message_desc")) = False Then _message_desc = Rdr("message_desc").ToString()
+                        If Convert.IsDBNull(Rdr("tb_testing_id")) = False Then _tb_testing_id = Convert.ToInt64(Rdr("tb_testing_id"))
+                        If Convert.IsDBNull(Rdr("test_id")) = False Then _test_id = Convert.ToInt64(Rdr("test_id"))
+                        If Convert.IsDBNull(Rdr("question_title")) = False Then _question_title = Rdr("question_title").ToString()
+                        If Convert.IsDBNull(Rdr("icon_url")) = False Then _icon_url = Rdr("icon_url").ToString()
+                        If Convert.IsDBNull(Rdr("choice")) = False Then _choice = Rdr("choice").ToString()
+                        If Convert.IsDBNull(Rdr("answer")) = False Then _answer = Rdr("answer").ToString()
+                        If Convert.IsDBNull(Rdr("question_no")) = False Then _question_no = Convert.ToInt32(Rdr("question_no"))
                     Else
                         _error = MessageResources.MSGEV002
                     End If
@@ -557,42 +609,48 @@ Namespace TABLE
         ' SQL Statements
 
 
-        'Get Insert Statement for table TB_USER_MESSAGE
+        'Get Insert Statement for table TB_TESTING_QUESTION
         Private ReadOnly Property SqlInsert() As String 
             Get
                 Dim Sql As String=""
-                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_SESSION_ID, USER_ID, MESSAGE_NAME, MESSAGE_DESC)"
-                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_SESSION_ID, INSERTED.USER_ID, INSERTED.MESSAGE_NAME, INSERTED.MESSAGE_DESC"
+                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_TESTING_ID, TEST_ID, QUESTION_TITLE, ICON_URL, CHOICE, ANSWER, QUESTION_NO)"
+                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_TESTING_ID, INSERTED.TEST_ID, INSERTED.QUESTION_TITLE, INSERTED.ICON_URL, INSERTED.CHOICE, INSERTED.ANSWER, INSERTED.QUESTION_NO"
                 Sql += " VALUES("
                 sql += "@_CREATED_BY" & ", "
                 sql += "@_CREATED_DATE" & ", "
-                sql += "@_TB_USER_SESSION_ID" & ", "
-                sql += "@_USER_ID" & ", "
-                sql += "@_MESSAGE_NAME" & ", "
-                sql += "@_MESSAGE_DESC"
+                sql += "@_TB_TESTING_ID" & ", "
+                sql += "@_TEST_ID" & ", "
+                sql += "@_QUESTION_TITLE" & ", "
+                sql += "@_ICON_URL" & ", "
+                sql += "@_CHOICE" & ", "
+                sql += "@_ANSWER" & ", "
+                sql += "@_QUESTION_NO"
                 sql += ")"
                 Return sql
             End Get
         End Property
 
 
-        'Get update statement form table TB_USER_MESSAGE
+        'Get update statement form table TB_TESTING_QUESTION
         Private ReadOnly Property SqlUpdate() As String
             Get
                 Dim Sql As String = ""
                 Sql += "UPDATE " & tableName & " SET "
                 Sql += "UPDATED_BY = " & "@_UPDATED_BY" & ", "
                 Sql += "UPDATED_DATE = " & "@_UPDATED_DATE" & ", "
-                Sql += "TB_USER_SESSION_ID = " & "@_TB_USER_SESSION_ID" & ", "
-                Sql += "USER_ID = " & "@_USER_ID" & ", "
-                Sql += "MESSAGE_NAME = " & "@_MESSAGE_NAME" & ", "
-                Sql += "MESSAGE_DESC = " & "@_MESSAGE_DESC" + ""
+                Sql += "TB_TESTING_ID = " & "@_TB_TESTING_ID" & ", "
+                Sql += "TEST_ID = " & "@_TEST_ID" & ", "
+                Sql += "QUESTION_TITLE = " & "@_QUESTION_TITLE" & ", "
+                Sql += "ICON_URL = " & "@_ICON_URL" & ", "
+                Sql += "CHOICE = " & "@_CHOICE" & ", "
+                Sql += "ANSWER = " & "@_ANSWER" & ", "
+                Sql += "QUESTION_NO = " & "@_QUESTION_NO" + ""
                 Return Sql
             End Get
         End Property
 
 
-        'Get Delete Record in table TB_USER_MESSAGE
+        'Get Delete Record in table TB_TESTING_QUESTION
         Private ReadOnly Property SqlDelete() As String
             Get
                 Dim Sql As String = "DELETE FROM " & tableName
@@ -601,10 +659,10 @@ Namespace TABLE
         End Property
 
 
-        'Get Select Statement for table TB_USER_MESSAGE
+        'Get Select Statement for table TB_TESTING_QUESTION
         Private ReadOnly Property SqlSelect() As String
             Get
-                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_SESSION_ID, USER_ID, MESSAGE_NAME, MESSAGE_DESC FROM " & tableName
+                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_TESTING_ID, TEST_ID, QUESTION_TITLE, ICON_URL, CHOICE, ANSWER, QUESTION_NO FROM " & tableName
                 Return Sql
             End Get
         End Property

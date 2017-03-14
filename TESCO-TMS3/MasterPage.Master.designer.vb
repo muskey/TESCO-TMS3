@@ -32,6 +32,42 @@ Partial Public Class MasterPage
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
     
     '''<summary>
+    '''lblUsername control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblUsername As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''btnTesting control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnTesting As Global.System.Web.UI.WebControls.LinkButton
+    
+    '''<summary>
+    '''btnCourse control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCourse As Global.System.Web.UI.WebControls.LinkButton
+    
+    '''<summary>
+    '''btnLogout control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnLogout As Global.System.Web.UI.WebControls.LinkButton
+    
+    '''<summary>
     '''ContentPlaceHolder2 control.
     '''</summary>
     '''<remarks>

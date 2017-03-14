@@ -22,7 +22,14 @@ Public Class frmLogin
     Private Function Login(ByVal Username As String, ByVal Password As String) As Boolean
         Dim ret As Boolean = False
         Try
-            'Dim Capacity As Double = GetDriveInfoByDriveLetter("C")
+            If Asc(Username.Substring(0, 1)) >= 48 And Asc(Username.Substring(0, 1)) <= 57 Then
+                'ถ้ากรอก Username ตัวแรกเป็นตัวเลข ให้เติม 764 หน้าหน้า และเช็คว่าครบ 8 หลักหรือไม่ ถ้าไม่ครบ 8 หลักให้ใส่ 0 ข้างหน้าจนครบ 8 หลัก
+                If Username.Length < 8 Then
+                    Username = Username.PadLeft(8, "0")
+                End If
+
+                Username = "764" & Username
+            End If
 
             Dim info As String = ""
             info = GetStringDataFromURL(GetWebServiceURL() & "api/login", "username=" & Username & "&password=" & Password)
@@ -37,57 +44,18 @@ Public Class frmLogin
                 If data.Count = 12 Then
                     UserData = New UserProfileData
                     UserData.UserID = DirectCast(data(11), JProperty).First
+                    UserData.UserName = Username
                     UserData.TokenStr = DirectCast(data(9), JProperty).First
                     UserData.Token = "token=" & UserData.TokenStr
                     UserData.FullName = DirectCast(data(2), JProperty).First.ToString & " " & DirectCast(data(3), JProperty).First.ToString
 
-                    Session("UserData") = UserData
                     Dim re As ExecuteDataInfo = CreateUserSession(UserData.TokenStr, UserData.UserID, Username, data)
-                    ret = re.IsSuccess
+                    If re.IsSuccess = True Then
+                        UserData.UserSessionID = re.NewID
+                        Session("UserData") = UserData
+                        ret = re.IsSuccess
+                    End If
                 End If
-
-
-
-
-                'For Each item As JProperty In data
-                '    item.CreateReader()
-                '    Select Case item.Name
-                '        Case "token"
-                '            UserData.TokenStr = item.First
-                '            UserData.Token = "token=" & UserData.TokenStr
-                '            ret = True
-                '        Case "user"
-                '            For Each comment As JProperty In item.Values
-                '                UserData.FullName = comment.Value.ToString
-                '            Next
-                '        Case "user_id"
-                '            UserData.UserID = item.First
-                '        Case "data"
-                '            'UserData.UserFormat = New DataTable
-                '            'UserData.UserFormat.Columns.Add("format_id")
-                '            'UserData.UserFormat.Columns.Add("format_title")
-
-                '            'UserData.UserFunction = New DataTable
-                '            'UserData.UserFunction.Columns.Add("format_id")
-                '            'UserData.UserFunction.Columns.Add("function_id")
-                '            'UserData.UserFunction.Columns.Add("function_title")
-                '            'UserData.UserFunction.Columns.Add("function_cover")
-                '            'UserData.UserFunction.Columns.Add("function_cover_color")
-                '            'UserData.UserFunction.Columns.Add("function_subject")
-
-                '            'UserData.UserDepartment = New DataTable
-                '            'UserData.UserDepartment.Columns.Add("department_id")
-                '            'UserData.UserDepartment.Columns.Add("department_title")
-                '            'UserData.UserDepartment.Columns.Add("department_cover")
-                '            'UserData.UserDepartment.Columns.Add("function_id")
-
-
-
-                '            BuiltUserFormat(item.First)
-                '        Case "welcome"
-                '            'BuiltDatableTableUserMessage(item)
-                '    End Select
-                'Next
             End If
         Catch ex As Exception
             'MessageBox.Show(ex.Message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -113,6 +81,8 @@ Public Class frmLogin
             Dim trans As New TransactionDB
             ret = lnq.InsertData(Username, trans.Trans)
             If ret.IsSuccess = True Then
+                Dim _newID As Long = lnq.ID
+
                 Dim hLnq As New TbLoginHistoryLinqDB
                 hLnq.TOKEN = lnq.TOKEN
                 hLnq.USERNAME = lnq.USERNAME
@@ -129,7 +99,14 @@ Public Class frmLogin
                 If ret.IsSuccess = True Then
                     ret = BuiltUserFormat(lnq.ID, lnq.USER_ID, Username, DirectCast(data(7), JToken).First, trans)
                     If ret.IsSuccess = True Then
-                        trans.CommitTransaction()
+                        ret = BuiltDatableTableUserMessage(data(8), lnq.ID, UserData.UserID, Username, trans)
+
+                        If ret.IsSuccess = True Then
+                            ret.NewID = _newID
+                            trans.CommitTransaction()
+                        Else
+                            trans.RollbackTransaction()
+                        End If
                     Else
                         trans.RollbackTransaction()
                     End If
@@ -191,10 +168,17 @@ Public Class frmLogin
                                 ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
                                 If ret.IsSuccess = True Then
-                                    sql = "delete from TB_USER_SESSION where user_id=@_USER_ID"
+                                    sql = "delete from TB_USER_MESSAGE where user_id=@_USER_ID"
                                     ReDim p(1)
                                     p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
                                     ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+
+                                    If ret.IsSuccess = True Then
+                                        sql = "delete from TB_USER_SESSION where user_id=@_USER_ID"
+                                        ReDim p(1)
+                                        p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+                                        ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+                                    End If
                                 End If
                             End If
                         End If
@@ -209,8 +193,6 @@ Public Class frmLogin
             End If
         End If
         uLnq = Nothing
-
-
     End Sub
 
     Private Function BuiltUserFormat(UserSessionID As Long, UserID As Long, Username As String, data2 As JToken, trans As TransactionDB) As ExecuteDataInfo
@@ -237,11 +219,6 @@ Public Class frmLogin
                         Else
                             Exit For
                         End If
-
-                        'Dim dr As DataRow = UserData.UserFormat.NewRow
-                        'dr("format_id") = f("id").ToString
-                        'dr("format_title") = f("title").ToString
-                        'UserData.UserFormat.Rows.Add(dr)
                     Next
             End Select
         Next
@@ -258,15 +235,6 @@ Public Class frmLogin
             End If
             For Each comment As JObject In item.Value
                 comment.CreateReader()
-
-                'Dim dr As DataRow = UserData.UserFunction.NewRow
-                'dr("format_id") = FormatID
-                'dr("function_id") = comment("id").ToString
-                'dr("function_title") = comment("title").ToString
-                'dr("function_cover") = comment("cover").ToString
-                'dr("function_cover_color") = comment("color").ToString
-                'dr("function_subject") = comment("subject_type").ToString   'main subject / additional subject
-                'UserData.UserFunction.Rows.Add(dr)
 
                 Dim lnq As New TbUserFunctionLinqDB
                 lnq.TB_USER_FORMAT_ID = UserFormatID
@@ -308,13 +276,6 @@ Public Class frmLogin
             For Each desc As JObject In item.Values
                 desc.CreateReader()
 
-                'Dim dr As DataRow = UserData.UserDepartment.NewRow
-                'dr("department_id") = desc("id").ToString
-                'dr("department_title") = desc("title").ToString
-                'dr("department_cover") = desc("cover").ToString
-                'dr("function_id") = FunctionID
-                'UserData.UserDepartment.Rows.Add(dr)
-
                 Dim lnq As New TbUserDepartmentLinqDB
                 lnq.TB_USER_FUNCTION_ID = UserFunctionID
                 lnq.FUNCTION_ID = FunctionID
@@ -337,13 +298,6 @@ Public Class frmLogin
     End Function
 
     Private Function BindDatableTableFromCourse(UserDepartmentID As Long, UserID As Long, Username As String, data As JProperty, trans As TransactionDB) As ExecuteDataInfo
-        'Dim course_id As Int32 = 0
-        'Dim doc_id As Int32 = 0
-
-        'Dim sql As String = ""
-        'Dim CourseIconFolder As String = "CourseIcon"
-        'Dim CourseCoverFolder As String = "CourseCover"
-
         Dim ret As New ExecuteDataInfo
 
         Dim item As JProperty = data
@@ -372,24 +326,6 @@ Public Class frmLogin
                 If ret.IsSuccess = False Then
                     Exit For
                 End If
-
-                'course_id = comment("id")
-                'sql = "insert into TB_COURSE (id, department_id,title,description,icon_url,icon_file,cover_url,cover_file,sort,is_document_lock,document_detail,bind_document)"
-                'sql += " values('" & course_id & "'"
-                'sql += ", '" & comment("department_id").ToString & "'"
-                'sql += ", '" & comment("name").ToString & "'"
-                'sql += ", '" & comment("description").ToString & "'"
-                'sql += ", '" & comment("icon").ToString & "'"
-                'sql += ", '" & SaveCourseIcon(CourseIconFolder, comment("icon").ToString, course_id) & "'"
-                'sql += ", '" & comment("cover").ToString & "'"
-                'sql += ", '" & SaveCourseCover(CourseCoverFolder, comment("cover").ToString, course_id) & "'"
-                'sql += ", '" & ci & "' "
-                'sql += ", '" & IIf(comment("is_document_lock").ToString.ToLower = "true", "Y", "N") & "'"
-                'sql += ", '" & ("{""document"":" & comment("document").ToString & "}").Replace("'", "''") & "','N')"
-
-                'If ExecuteSqlNoneQuery(sql) = False Then
-                '    Dim aaa As String = ""
-                'End If
             Catch ex As Exception
                 ret.IsSuccess = False
                 ret.ErrorMessage = ex.Message
@@ -421,6 +357,40 @@ Public Class frmLogin
         '    Next
         'End If
         'fDt.Dispose()
+        Return ret
+    End Function
+
+    Private Function BuiltDatableTableUserMessage(data3 As JProperty, UserSessionID As Long, UserID As Long, Username As String, trans As TransactionDB) As ExecuteDataInfo
+        Dim ret As New ExecuteDataInfo
+
+        If data3.Values.Count = 0 Then
+            ret.IsSuccess = True
+            Return ret
+        End If
+
+        For Each desc As JObject In data3.Value
+            Try
+                Dim name As String = desc("name").ToString
+                Dim description As String = desc("description").ToString
+
+                Dim lnq As New TbUserMessageLinqDB
+                lnq.MESSAGE_NAME = name
+                lnq.MESSAGE_DESC = description
+                lnq.TB_USER_SESSION_ID = UserSessionID
+                lnq.USER_ID = UserID
+
+                ret = lnq.InsertData(Username, trans.Trans)
+                If ret.IsSuccess = False Then
+                    Exit For
+                End If
+                lnq = Nothing
+            Catch ex As Exception
+                ret.IsSuccess = False
+                ret.ErrorMessage = ex.Message
+                Exit For
+            End Try
+        Next
+
         Return ret
     End Function
 #End Region

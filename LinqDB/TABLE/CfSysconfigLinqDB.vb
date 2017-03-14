@@ -7,14 +7,14 @@ Imports DB = LinqDB.ConnectDB.SqlDB
 Imports LinqDB.ConnectDB
 
 Namespace TABLE
-    'Represents a transaction for TB_USER_MESSAGE table LinqDB.
+    'Represents a transaction for CF_SYSCONFIG table LinqDB.
     '[Create by  on March, 14 2017]
-    Public Class TbUserMessageLinqDB
-        Public sub TbUserMessageLinqDB()
+    Public Class CfSysconfigLinqDB
+        Public sub CfSysconfigLinqDB()
 
         End Sub 
-        ' TB_USER_MESSAGE
-        Const _tableName As String = "TB_USER_MESSAGE"
+        ' CF_SYSCONFIG
+        Const _tableName As String = "CF_SYSCONFIG"
 
         'Set Common Property
         Dim _error As String = ""
@@ -40,14 +40,11 @@ Namespace TABLE
 
         'Generate Field List
         Dim _ID As Long = 0
-        Dim _CREATED_BY As  String  = ""
-        Dim _CREATED_DATE As  System.Nullable(Of DateTime)  = New DateTime(1,1,1)
+        Dim _CREATED_BY As String = ""
+        Dim _CREATED_DATE As DateTime = New DateTime(1,1,1)
         Dim _UPDATED_BY As  String  = ""
         Dim _UPDATED_DATE As  System.Nullable(Of DateTime)  = New DateTime(1,1,1)
-        Dim _TB_USER_SESSION_ID As Long = 0
-        Dim _USER_ID As Long = 0
-        Dim _MESSAGE_NAME As String = ""
-        Dim _MESSAGE_DESC As String = ""
+        Dim _WEBSERVICE_URL As String = ""
 
         'Generate Field Property 
         <Column(Storage:="_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
@@ -59,21 +56,21 @@ Namespace TABLE
                _ID = value
             End Set
         End Property 
-        <Column(Storage:="_CREATED_BY", DbType:="VarChar(50)")>  _
-        Public Property CREATED_BY() As  String 
+        <Column(Storage:="_CREATED_BY", DbType:="VarChar(50) NOT NULL ",CanBeNull:=false)>  _
+        Public Property CREATED_BY() As String
             Get
                 Return _CREATED_BY
             End Get
-            Set(ByVal value As  String )
+            Set(ByVal value As String)
                _CREATED_BY = value
             End Set
         End Property 
-        <Column(Storage:="_CREATED_DATE", DbType:="DateTime")>  _
-        Public Property CREATED_DATE() As  System.Nullable(Of DateTime) 
+        <Column(Storage:="_CREATED_DATE", DbType:="DateTime NOT NULL ",CanBeNull:=false)>  _
+        Public Property CREATED_DATE() As DateTime
             Get
                 Return _CREATED_DATE
             End Get
-            Set(ByVal value As  System.Nullable(Of DateTime) )
+            Set(ByVal value As DateTime)
                _CREATED_DATE = value
             End Set
         End Property 
@@ -95,40 +92,13 @@ Namespace TABLE
                _UPDATED_DATE = value
             End Set
         End Property 
-        <Column(Storage:="_TB_USER_SESSION_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
-        Public Property TB_USER_SESSION_ID() As Long
+        <Column(Storage:="_WEBSERVICE_URL", DbType:="VarChar(500) NOT NULL ",CanBeNull:=false)>  _
+        Public Property WEBSERVICE_URL() As String
             Get
-                Return _TB_USER_SESSION_ID
-            End Get
-            Set(ByVal value As Long)
-               _TB_USER_SESSION_ID = value
-            End Set
-        End Property 
-        <Column(Storage:="_USER_ID", DbType:="Int NOT NULL ",CanBeNull:=false)>  _
-        Public Property USER_ID() As Long
-            Get
-                Return _USER_ID
-            End Get
-            Set(ByVal value As Long)
-               _USER_ID = value
-            End Set
-        End Property 
-        <Column(Storage:="_MESSAGE_NAME", DbType:="VarChar(255) NOT NULL ",CanBeNull:=false)>  _
-        Public Property MESSAGE_NAME() As String
-            Get
-                Return _MESSAGE_NAME
+                Return _WEBSERVICE_URL
             End Get
             Set(ByVal value As String)
-               _MESSAGE_NAME = value
-            End Set
-        End Property 
-        <Column(Storage:="_MESSAGE_DESC", DbType:="VarChar(500) NOT NULL ",CanBeNull:=false)>  _
-        Public Property MESSAGE_DESC() As String
-            Get
-                Return _MESSAGE_DESC
-            End Get
-            Set(ByVal value As String)
-               _MESSAGE_DESC = value
+               _WEBSERVICE_URL = value
             End Set
         End Property 
 
@@ -140,10 +110,7 @@ Namespace TABLE
             _CREATED_DATE = New DateTime(1,1,1)
             _UPDATED_BY = ""
             _UPDATED_DATE = New DateTime(1,1,1)
-            _TB_USER_SESSION_ID = 0
-            _USER_ID = 0
-            _MESSAGE_NAME = ""
-            _MESSAGE_DESC = ""
+            _WEBSERVICE_URL = ""
         End Sub
 
        'Define Public Method 
@@ -167,7 +134,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the current data is inserted into TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is inserted into CF_SYSCONFIG table successfully.
         '/// <param name=userID>The current user.</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if insert data successfully; otherwise, false.</returns>
@@ -187,7 +154,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the current data is updated to TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is updated to CF_SYSCONFIG table successfully.
         '/// <param name=userID>The current user.</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if update data successfully; otherwise, false.</returns>
@@ -217,7 +184,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the current data is updated to TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is updated to CF_SYSCONFIG table successfully.
         '/// <returns>true if update data successfully; otherwise, false.</returns>
         Public Function UpdateBySql(Sql As String, trans As SQLTransaction, cmbParm() As SQLParameter) As ExecuteDataInfo
             If trans IsNot Nothing Then 
@@ -232,7 +199,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the current data is deleted from TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is deleted from CF_SYSCONFIG table successfully.
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if delete data successfully; otherwise, false.</returns>
         Public Function DeleteByPK(cID As Long, trans As SQLTransaction) As ExecuteDataInfo
@@ -250,7 +217,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the record of TB_USER_MESSAGE by specified ID key is retrieved successfully.
+        '/// Returns an indication whether the record of CF_SYSCONFIG by specified ID key is retrieved successfully.
         '/// <param name=cID>The ID key.</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
@@ -261,42 +228,18 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the record and Mapping field to Data Class of TB_USER_MESSAGE by specified ID key is retrieved successfully.
+        '/// Returns an indication whether the record and Mapping field to Data Class of CF_SYSCONFIG by specified ID key is retrieved successfully.
         '/// <param name=cID>The ID key.</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
-        Public Function GetDataByPK(cID As Long, trans As SQLTransaction) As TbUserMessageLinqDB
+        Public Function GetDataByPK(cID As Long, trans As SQLTransaction) As CfSysconfigLinqDB
             Dim p(1) As SQLParameter
             p(0) = DB.SetBigInt("@_ID", cID)
             Return doGetData("ID = @_ID", trans, p)
         End Function
 
 
-        '/// Returns an indication whether the record of TB_USER_MESSAGE by specified MESSAGE_NAME_USER_ID key is retrieved successfully.
-        '/// <param name=cMESSAGE_NAME_USER_ID>The MESSAGE_NAME_USER_ID key.</param>
-        '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
-        '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
-        Public Function ChkDataByMESSAGE_NAME_USER_ID(cMESSAGE_NAME As String, cUSER_ID As Integer, trans As SQLTransaction) As Boolean
-            Dim cmdPara(3)  As SQLParameter
-            cmdPara(0) = DB.SetText("@_MESSAGE_NAME", cMESSAGE_NAME) 
-            cmdPara(1) = DB.SetText("@_USER_ID", cUSER_ID) 
-            Return doChkData("MESSAGE_NAME = @_MESSAGE_NAME AND USER_ID = @_USER_ID", trans, cmdPara)
-        End Function
-
-        '/// Returns an duplicate data record of TB_USER_MESSAGE by specified MESSAGE_NAME_USER_ID key is retrieved successfully.
-        '/// <param name=cMESSAGE_NAME_USER_ID>The MESSAGE_NAME_USER_ID key.</param>
-        '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
-        '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
-        Public Function ChkDuplicateByMESSAGE_NAME_USER_ID(cMESSAGE_NAME As String, cUSER_ID As Integer, cID As Long, trans As SQLTransaction) As Boolean
-            Dim cmdPara(3)  As SQLParameter
-            cmdPara(0) = DB.SetText("@_MESSAGE_NAME", cMESSAGE_NAME) 
-            cmdPara(1) = DB.SetText("@_USER_ID", cUSER_ID) 
-            cmdPara(2) = DB.SetBigInt("@_ID", cID) 
-            Return doChkData("MESSAGE_NAME = @_MESSAGE_NAME AND USER_ID = @_USER_ID And ID <> @_ID", trans, cmdPara)
-        End Function
-
-
-        '/// Returns an indication whether the record of TB_USER_MESSAGE by specified condition is retrieved successfully.
+        '/// Returns an indication whether the record of CF_SYSCONFIG by specified condition is retrieved successfully.
         '/// <param name=whText>The condition specify the deleting record(s).</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
@@ -306,7 +249,7 @@ Namespace TABLE
 
 
 
-        '/// Returns an indication whether the current data is inserted into TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is inserted into CF_SYSCONFIG table successfully.
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if insert data successfully; otherwise, false.</returns>
         Private Function doInsert(trans As SQLTransaction) As ExecuteDataInfo
@@ -343,7 +286,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the current data is updated to TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is updated to CF_SYSCONFIG table successfully.
         '/// <param name=whText>The condition specify the updating record(s).</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if update data successfully; otherwise, false.</returns>
@@ -383,7 +326,7 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the current data is deleted from TB_USER_MESSAGE table successfully.
+        '/// Returns an indication whether the current data is deleted from CF_SYSCONFIG table successfully.
         '/// <param name=whText>The condition specify the deleting record(s).</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if delete data successfully; otherwise, false.</returns>
@@ -422,23 +365,15 @@ Namespace TABLE
         End Function
 
         Private Function SetParameterData() As SqlParameter()
-            Dim cmbParam(8) As SqlParameter
+            Dim cmbParam(5) As SqlParameter
             cmbParam(0) = New SqlParameter("@_ID", SqlDbType.BigInt)
             cmbParam(0).Value = _ID
 
             cmbParam(1) = New SqlParameter("@_CREATED_BY", SqlDbType.VarChar)
-            If _CREATED_BY.Trim <> "" Then 
-                cmbParam(1).Value = _CREATED_BY.Trim
-            Else
-                cmbParam(1).Value = DBNull.value
-            End If
+            cmbParam(1).Value = _CREATED_BY.Trim
 
             cmbParam(2) = New SqlParameter("@_CREATED_DATE", SqlDbType.DateTime)
-            If _CREATED_DATE.Value.Year > 1 Then 
-                cmbParam(2).Value = _CREATED_DATE.Value
-            Else
-                cmbParam(2).Value = DBNull.value
-            End If
+            cmbParam(2).Value = _CREATED_DATE
 
             cmbParam(3) = New SqlParameter("@_UPDATED_BY", SqlDbType.VarChar)
             If _UPDATED_BY.Trim <> "" Then 
@@ -454,23 +389,14 @@ Namespace TABLE
                 cmbParam(4).Value = DBNull.value
             End If
 
-            cmbParam(5) = New SqlParameter("@_TB_USER_SESSION_ID", SqlDbType.BigInt)
-            cmbParam(5).Value = _TB_USER_SESSION_ID
-
-            cmbParam(6) = New SqlParameter("@_USER_ID", SqlDbType.Int)
-            cmbParam(6).Value = _USER_ID
-
-            cmbParam(7) = New SqlParameter("@_MESSAGE_NAME", SqlDbType.VarChar)
-            cmbParam(7).Value = _MESSAGE_NAME.Trim
-
-            cmbParam(8) = New SqlParameter("@_MESSAGE_DESC", SqlDbType.VarChar)
-            cmbParam(8).Value = _MESSAGE_DESC.Trim
+            cmbParam(5) = New SqlParameter("@_WEBSERVICE_URL", SqlDbType.VarChar)
+            cmbParam(5).Value = _WEBSERVICE_URL.Trim
 
             Return cmbParam
         End Function
 
 
-        '/// Returns an indication whether the record of TB_USER_MESSAGE by specified condition is retrieved successfully.
+        '/// Returns an indication whether the record of CF_SYSCONFIG by specified condition is retrieved successfully.
         '/// <param name=whText>The condition specify the deleting record(s).</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
@@ -490,10 +416,7 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("created_date")) = False Then _created_date = Convert.ToDateTime(Rdr("created_date"))
                         If Convert.IsDBNull(Rdr("updated_by")) = False Then _updated_by = Rdr("updated_by").ToString()
                         If Convert.IsDBNull(Rdr("updated_date")) = False Then _updated_date = Convert.ToDateTime(Rdr("updated_date"))
-                        If Convert.IsDBNull(Rdr("tb_user_session_id")) = False Then _tb_user_session_id = Convert.ToInt64(Rdr("tb_user_session_id"))
-                        If Convert.IsDBNull(Rdr("user_id")) = False Then _user_id = Convert.ToInt32(Rdr("user_id"))
-                        If Convert.IsDBNull(Rdr("message_name")) = False Then _message_name = Rdr("message_name").ToString()
-                        If Convert.IsDBNull(Rdr("message_desc")) = False Then _message_desc = Rdr("message_desc").ToString()
+                        If Convert.IsDBNull(Rdr("webservice_url")) = False Then _webservice_url = Rdr("webservice_url").ToString()
                     Else
                         ret = False
                         _error = MessageResources.MSGEV002
@@ -514,11 +437,11 @@ Namespace TABLE
         End Function
 
 
-        '/// Returns an indication whether the record of TB_USER_MESSAGE by specified condition is retrieved successfully.
+        '/// Returns an indication whether the record of CF_SYSCONFIG by specified condition is retrieved successfully.
         '/// <param name=whText>The condition specify the deleting record(s).</param>
         '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
         '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
-        Private Function doGetData(whText As String, trans As SQLTransaction, cmdPara() As SQLParameter) As TbUserMessageLinqDB
+        Private Function doGetData(whText As String, trans As SQLTransaction, cmdPara() As SQLParameter) As CfSysconfigLinqDB
             ClearData()
             _haveData  = False
             If whText.Trim() <> "" Then
@@ -533,10 +456,7 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("created_date")) = False Then _created_date = Convert.ToDateTime(Rdr("created_date"))
                         If Convert.IsDBNull(Rdr("updated_by")) = False Then _updated_by = Rdr("updated_by").ToString()
                         If Convert.IsDBNull(Rdr("updated_date")) = False Then _updated_date = Convert.ToDateTime(Rdr("updated_date"))
-                        If Convert.IsDBNull(Rdr("tb_user_session_id")) = False Then _tb_user_session_id = Convert.ToInt64(Rdr("tb_user_session_id"))
-                        If Convert.IsDBNull(Rdr("user_id")) = False Then _user_id = Convert.ToInt32(Rdr("user_id"))
-                        If Convert.IsDBNull(Rdr("message_name")) = False Then _message_name = Rdr("message_name").ToString()
-                        If Convert.IsDBNull(Rdr("message_desc")) = False Then _message_desc = Rdr("message_desc").ToString()
+                        If Convert.IsDBNull(Rdr("webservice_url")) = False Then _webservice_url = Rdr("webservice_url").ToString()
                     Else
                         _error = MessageResources.MSGEV002
                     End If
@@ -557,42 +477,36 @@ Namespace TABLE
         ' SQL Statements
 
 
-        'Get Insert Statement for table TB_USER_MESSAGE
+        'Get Insert Statement for table CF_SYSCONFIG
         Private ReadOnly Property SqlInsert() As String 
             Get
                 Dim Sql As String=""
-                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_SESSION_ID, USER_ID, MESSAGE_NAME, MESSAGE_DESC)"
-                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_SESSION_ID, INSERTED.USER_ID, INSERTED.MESSAGE_NAME, INSERTED.MESSAGE_DESC"
+                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, WEBSERVICE_URL)"
+                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.WEBSERVICE_URL"
                 Sql += " VALUES("
                 sql += "@_CREATED_BY" & ", "
                 sql += "@_CREATED_DATE" & ", "
-                sql += "@_TB_USER_SESSION_ID" & ", "
-                sql += "@_USER_ID" & ", "
-                sql += "@_MESSAGE_NAME" & ", "
-                sql += "@_MESSAGE_DESC"
+                sql += "@_WEBSERVICE_URL"
                 sql += ")"
                 Return sql
             End Get
         End Property
 
 
-        'Get update statement form table TB_USER_MESSAGE
+        'Get update statement form table CF_SYSCONFIG
         Private ReadOnly Property SqlUpdate() As String
             Get
                 Dim Sql As String = ""
                 Sql += "UPDATE " & tableName & " SET "
                 Sql += "UPDATED_BY = " & "@_UPDATED_BY" & ", "
                 Sql += "UPDATED_DATE = " & "@_UPDATED_DATE" & ", "
-                Sql += "TB_USER_SESSION_ID = " & "@_TB_USER_SESSION_ID" & ", "
-                Sql += "USER_ID = " & "@_USER_ID" & ", "
-                Sql += "MESSAGE_NAME = " & "@_MESSAGE_NAME" & ", "
-                Sql += "MESSAGE_DESC = " & "@_MESSAGE_DESC" + ""
+                Sql += "WEBSERVICE_URL = " & "@_WEBSERVICE_URL" + ""
                 Return Sql
             End Get
         End Property
 
 
-        'Get Delete Record in table TB_USER_MESSAGE
+        'Get Delete Record in table CF_SYSCONFIG
         Private ReadOnly Property SqlDelete() As String
             Get
                 Dim Sql As String = "DELETE FROM " & tableName
@@ -601,10 +515,10 @@ Namespace TABLE
         End Property
 
 
-        'Get Select Statement for table TB_USER_MESSAGE
+        'Get Select Statement for table CF_SYSCONFIG
         Private ReadOnly Property SqlSelect() As String
             Get
-                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_SESSION_ID, USER_ID, MESSAGE_NAME, MESSAGE_DESC FROM " & tableName
+                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, WEBSERVICE_URL FROM " & tableName
                 Return Sql
             End Get
         End Property

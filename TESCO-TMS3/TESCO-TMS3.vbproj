@@ -2352,6 +2352,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="frmLogin.aspx" />
+    <Content Include="frmTestingCourse.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -2631,6 +2632,13 @@
     </Compile>
     <Compile Include="frmLogin.aspx.vb">
       <DependentUpon>frmLogin.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmTestingCourse.aspx.designer.vb">
+      <DependentUpon>frmTestingCourse.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmTestingCourse.aspx.vb">
+      <DependentUpon>frmTestingCourse.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="MasterPage.Master.designer.vb">

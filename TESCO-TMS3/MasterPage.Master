@@ -123,16 +123,30 @@
             <a href="#" id="brand">FLAT</a>
 
             <div class="user">
-		        <div class="dropdown">
-			        <a href="#" class='dropdown-toggle' data-toggle="dropdown">John Doe |</a>
-		        </div>
-		        <ul class="icon-nav">
-			        <li class='dropdown'>
-				        <a href="#" class='dropdown-toggle' data-toggle="dropdown">
-                            <i class="icon-off"></i>&nbsp; &nbsp; <b>ออกจากระบบ</b>
-				        </a>
-			        </li>
-		        </ul>
+		            <div class="dropdown">
+                        <a href="#" class='dropdown-toggle' data-toggle="dropdown">
+                            <asp:Label ID="lblUsername" runat="server"  Text="John Doe |"></asp:Label>
+                        </a>
+		            </div>
+                    <div class='dropdown'>
+                        <asp:LinkButton CssClass="dropdown-toggle" ID="btnTesting" runat="server">
+                          <i class="fa fa-check"></i>
+                          <span><b>แบบทดสอบ</b> |</span>
+                        </asp:LinkButton>
+			        </div>
+		            <div class='dropdown'>
+                        <asp:LinkButton CssClass="dropdown-toggle" ID="btnCourse" runat="server">
+                          <i class="fa fa-check"></i>
+                          <span><b>บทเรียน</b> |</span>
+                        </asp:LinkButton>
+			        </div>
+			        <div class='dropdown'>
+                        <asp:LinkButton CssClass="dropdown-toggle" ID="btnLogout" runat="server">
+                          <i class="fa fa-check"></i>
+                          <span><b>ออกจากระบบ</b></span>
+                        </asp:LinkButton>
+			        </div>
+		        
 	        </div>
         </div>
     </div>

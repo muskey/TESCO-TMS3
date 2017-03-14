@@ -1,15 +1,24 @@
 ﻿Imports System.Net
 Imports System.IO
 Imports System.Drawing
+Imports LinqDB.ConnectDB
+Imports LinqDB.TABLE
 Module TescoModule
 
     Public UserData As New UserProfileData
 
     Public Function GetWebServiceURL() As String
-        Return "http://tescolotuslc.com/learningcenterstaging/"
+        'Return "http://tescolotuslc.com/learningcenterstaging/"
         'Return "https://tescolotuslc.com/learningcenterpreproduction/"
+
+        Dim cf As CfSysconfigLinqDB = GetSysconfig()
+        Return cf.WEBSERVICE_URL
     End Function
 
+    Private Function GetSysconfig() As CfSysconfigLinqDB
+        Dim lnq As New CfSysconfigLinqDB
+        Return lnq.GetDataByPK(1, Nothing)
+    End Function
 
     Private Function CheckInternetConnection(URL As String) As Boolean
         Dim ret = False
