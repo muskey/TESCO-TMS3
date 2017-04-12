@@ -135,6 +135,7 @@ Public Class frmLogin
             sql = "delete from TB_USER_COURSE_DOCUMENT_FILE where user_id=@_USER_ID "
             Dim p(1) As SqlParameter
             p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+
             ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
             If ret.IsSuccess = True Then
