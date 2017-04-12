@@ -14,7 +14,7 @@ Public Class frmLogin
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
         If Login(txtUsername.Text, txtPassword.Text) = True Then
             Session("Username") = txtUsername.Text
-            Response.Redirect("frmMain.aspx?rnd=" & DateTime.Now.Millisecond)
+            Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
         End If
     End Sub
 
@@ -48,6 +48,8 @@ Public Class frmLogin
                     UserData.TokenStr = DirectCast(data(9), JProperty).First
                     UserData.Token = "token=" & UserData.TokenStr
                     UserData.FullName = DirectCast(data(2), JProperty).First.ToString & " " & DirectCast(data(3), JProperty).First.ToString
+                    UserData.UserMassage = BuiltDatableTableUserMessage(DirectCast(data(8), JProperty))
+                    BuiltUser(data, UserData)
 
                     Dim re As ExecuteDataInfo = CreateUserSession(UserData.TokenStr, UserData.UserID, Username, data)
                     If re.IsSuccess = True Then
@@ -64,6 +66,235 @@ Public Class frmLogin
 
         Return ret
     End Function
+    Private Function BuiltDatableTableUserMessage(data3 As JProperty)
+        Dim dt = New DataTable
+        dt.Columns.Add("name")
+        dt.Columns.Add("description")
+
+        For Each desc As JObject In data3.Value
+            Dim name As String = desc("name").ToString
+            Dim description As String = desc("description").ToString
+
+            Dim dr As DataRow = dt.NewRow
+            dr("name") = name
+            dr("description") = description
+            dt.Rows.Add(dr)
+        Next
+
+        Return dt
+    End Function
+
+    Private Function BuiltUser(data As List(Of JToken), myUser As UserProfileData)
+
+        For Each item As JProperty In data
+            item.CreateReader()
+            Select Case item.Name
+                Case "data"
+
+                    myUser.UserFormat = New DataTable
+                    myUser.UserFormat.Columns.Add("format_id")
+                    myUser.UserFormat.Columns.Add("format_title")
+
+                    myUser.UserFunction = New DataTable
+                    myUser.UserFunction.Columns.Add("format_id")
+                    myUser.UserFunction.Columns.Add("format_title")
+                    myUser.UserFunction.Columns.Add("function_id")
+                    myUser.UserFunction.Columns.Add("function_title")
+                    myUser.UserFunction.Columns.Add("function_cover")
+                    myUser.UserFunction.Columns.Add("function_cover_color")
+                    myUser.UserFunction.Columns.Add("function_subject")
+
+                    myUser.UserDepartment = New DataTable
+                    myUser.UserDepartment.Columns.Add("department_id")
+                    myUser.UserDepartment.Columns.Add("department_title")
+                    myUser.UserDepartment.Columns.Add("department_cover")
+                    myUser.UserDepartment.Columns.Add("function_id")
+                    myUser.UserDepartment.Columns.Add("format_title")
+
+
+                    myUser.UserCourse = New DataTable
+                    myUser.UserCourse.Columns.Add("id")
+                    myUser.UserCourse.Columns.Add("tb_user_course_id")
+                    myUser.UserCourse.Columns.Add("document_title")
+                    myUser.UserCourse.Columns.Add("ms_document_icon_id")
+                    myUser.UserCourse.Columns.Add("document_version")
+                    myUser.UserCourse.Columns.Add("document_type")
+                    myUser.UserCourse.Columns.Add("order_by")
+                    myUser.UserCourse.Columns.Add("user_id")
+
+
+                    myUser.UserCourseFile = New DataTable
+                    myUser.UserCourseFile.Columns.Add("id")
+                    myUser.UserCourseFile.Columns.Add("tb_user_course_document_id")
+                    myUser.UserCourseFile.Columns.Add("file_title")
+                    myUser.UserCourseFile.Columns.Add("file_url")
+                    myUser.UserCourseFile.Columns.Add("order_by")
+                    myUser.UserCourseFile.Columns.Add("user_id")
+                    myUser.UserCourse.Columns.Add("next_id")
+
+
+                    BuiltUserFormat(item.First, myUser)
+
+
+            End Select
+        Next
+
+        'Dim dt = New DataTable
+        'dt.Columns.Add("format_id")
+        'dt.Columns.Add("format_title")
+        'For Each f As JObject In data2.Values
+        '    Dim dr As DataRow = dt.NewRow
+        '    dr("format_id") = f("format_id").ToString
+        '    dr("format_title") = f("format_title").ToString
+        '    dt.Rows.Add(dr)
+
+        'Next
+        'Return dt
+    End Function
+
+    Private Sub BuiltUserFormat(data As JToken, myUser As UserProfileData)
+
+
+        For Each comment As JProperty In data
+            comment.CreateReader()
+            Select Case comment.Name
+                Case "format"
+                    For Each f As JObject In comment.Values
+                        Dim dr As DataRow = myUser.UserFormat.NewRow
+                        dr("format_id") = f("id").ToString
+                        dr("format_title") = f("title").ToString
+
+                        myUser.UserFormat.Rows.Add(dr)
+
+
+                        Dim jProp As JObject = JObject.Parse("{""function"":" & f("function").ToString & "}")
+                        BuiltUserFunction(jProp, f("id").ToString, f("title").ToString, myUser)
+
+                        'f.CreateReader()
+                        'Select Case f.Name
+                        '    Case "title"
+                        '        myUser.UserFormat = f.Value.ToString.Trim
+                        '    Case "function"
+                        '        BuiltUserFunction(f)
+                        'End Select
+
+
+                    Next
+
+
+            End Select
+        Next
+    End Sub
+
+    Private Sub BuiltUserFunction(data_ser As JObject, FormatID As Integer, FormatTitle As String, myUser As UserProfileData)
+
+
+
+        Dim data As List(Of JToken) = data_ser.Children().ToList
+        For Each item As JProperty In data
+            For Each comment As JObject In item.Value
+                comment.CreateReader()
+
+                Dim dr As DataRow = myUser.UserFunction.NewRow
+                dr("format_id") = FormatID
+                dr("format_title") = FormatTitle
+                dr("function_id") = comment("id").ToString
+                dr("function_title") = comment("title").ToString
+                dr("function_cover") = comment("cover").ToString
+                dr("function_cover_color") = comment("color").ToString
+                dr("function_subject") = comment("subject_type").ToString   'main subject / additional subject
+
+                myUser.UserFunction.Rows.Add(dr)
+
+                Dim jProp As JObject = JObject.Parse("{""department"":" & comment("department").ToString & "}")
+
+                BuiltFuserDepartment(jProp, comment("id").ToString, FormatTitle, myUser)
+            Next
+        Next
+    End Sub
+
+    Private Sub BuiltFuserDepartment(data_ser As JObject, FunctionID As String, FormatTitle As String, myUser As UserProfileData)
+
+        Dim data As List(Of JToken) = data_ser.Children().ToList
+        For Each item As JProperty In data
+            For Each desc As JObject In item.Values
+                desc.CreateReader()
+
+                Dim dr As DataRow = myUser.UserDepartment.NewRow
+                dr("department_id") = desc("id").ToString
+                dr("department_title") = desc("title").ToString
+                dr("department_cover") = desc("cover").ToString
+                dr("function_id") = FunctionID
+                dr("format_title") = FormatTitle
+
+                myUser.UserDepartment.Rows.Add(dr)
+
+                'BindDatableTableFromCourse(desc.Last)
+            Next
+        Next
+
+    End Sub
+
+    'Private Sub BindDatableTableFromCourse(data As JProperty)
+    '    Dim course_id As Int32 = 0
+    '    Dim doc_id As Int32 = 0
+
+    '    Dim sql As String = ""
+    '    Dim CourseIconFolder As String = "CourseIcon"
+    '    Dim CourseCoverFolder As String = "CourseCover"
+
+    '    Dim item As JProperty = data
+    '    Dim ci As Integer = 1
+    '    For Each comment As JObject In item.Values
+    '        Try
+    '            course_id = comment("id")
+    '            sql = "insert into TB_COURSE (id, department_id,title,description,icon_url,icon_file,cover_url,cover_file,sort,is_document_lock,document_detail,bind_document)"
+    '            sql += " values('" & course_id & "'"
+    '            sql += ", '" & comment("department_id").ToString & "'"
+    '            sql += ", '" & comment("name").ToString & "'"
+    '            sql += ", '" & comment("description").ToString & "'"
+    '            sql += ", '" & comment("icon").ToString & "'"
+    '            sql += ", '" & SaveCourseIcon(CourseIconFolder, comment("icon").ToString, course_id) & "'"
+    '            sql += ", '" & comment("cover").ToString & "'"
+    '            sql += ", '" & SaveCourseCover(CourseCoverFolder, comment("cover").ToString, course_id) & "'"
+    '            sql += ", '" & ci & "' "
+    '            sql += ", '" & IIf(comment("is_document_lock").ToString.ToLower = "true", "Y", "N") & "'"
+    '            sql += ", '" & ("{""document"":" & comment("document").ToString & "}").Replace("'", "''") & "','N')"
+
+    '            If ExecuteSqlNoneQuery(sql) = False Then
+    '                Dim aaa As String = ""
+    '            End If
+    '        Catch ex As Exception
+
+    '        End Try
+
+    '        ci += 1
+    '    Next
+    '    'End If
+
+    '    'Clear Inactive File
+    '    'ถ้ามีไฟล์ที่เคยดาวน์โหลดมาแล้วในเครื่อง และเป็นไฟล์ที่ไม่มีอยู่ในบทเรียนแล้ว ก็ให้ลบไฟล์นั้นออกไปโลด
+
+    '    Dim fDt As DataTable = GetSqlDataTable("select * from TB_COURSE_DOCUMENT_FILE")
+    '    If fDt.Rows.Count > 0 Then
+    '        For Each f As String In Directory.GetFiles(FolderCourseDocumentFile)
+    '            Dim fInfo As New FileInfo(f)
+
+    '            Dim fFile As String = EnCripText(FolderCourseDocumentFile & "\" & DeCripText(fInfo.Name))
+    '            fDt.DefaultView.RowFilter = "file_path='" & fFile & "'"
+    '            If fDt.DefaultView.Count = 0 Then
+    '                Try
+    '                    File.SetAttributes(f, FileAttributes.Normal)
+    '                    File.Delete(f)
+    '                Catch ex As Exception
+
+    '                End Try
+    '            End If
+    '            fDt.DefaultView.RowFilter = ""
+    '        Next
+    '    End If
+    '    fDt.Dispose()
+    'End Sub
 
     Private Function CreateUserSession(Token As String, UserID As Long, Username As String, data As List(Of JToken)) As ExecuteDataInfo
         Dim ret As New ExecuteDataInfo
@@ -175,10 +406,23 @@ Public Class frmLogin
                                     ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
                                     If ret.IsSuccess = True Then
-                                        sql = "delete from TB_USER_SESSION where user_id=@_USER_ID"
+                                        sql = "delete from TB_TESTING_QUESTION where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))"
                                         ReDim p(1)
                                         p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
                                         ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+                                        If ret.IsSuccess = True Then
+                                            sql = "delete From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID)"
+                                            ReDim p(1)
+                                            p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+                                            ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+
+                                            If ret.IsSuccess = True Then
+                                                sql = "delete from TB_USER_SESSION where user_id=@_USER_ID"
+                                                ReDim p(1)
+                                                p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+                                                ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+                                            End If
+                                        End If
                                     End If
                                 End If
                             End If

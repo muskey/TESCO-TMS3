@@ -2328,6 +2328,7 @@
     <Content Include="Assets\js\plugins\plupload\plupload.flash.swf" />
     <Content Include="Assets\js\plugins\plupload\plupload.full.js" />
     <Content Include="Assets\js\plugins\plupload\plupload.silverlight.xap" />
+    <Content Include="Assets\js\plugins\responsiveiframe\responsiveiframe.js" />
     <Content Include="Assets\js\plugins\select2\select2.min.js" />
     <Content Include="Assets\js\plugins\slimscroll\jquery.slimscroll.js" />
     <Content Include="Assets\js\plugins\slimscroll\jquery.slimscroll.min.js" />
@@ -2347,14 +2348,37 @@
     <Content Include="Assets\js\plugins\xeditable\bootstrap-editable.min.js" />
     <Content Include="Assets\js\plugins\xeditable\demo.js" />
     <Content Include="Assets\js\plugins\xeditable\demo.min.js" />
+    <Content Include="Assets\PC\bgSelectFormatHeader.png" />
+    <Content Include="Assets\PC\btnCloseDoc.png" />
+    <Content Include="Assets\PC\btnNextDoc.png" />
+    <Content Include="Assets\PC\btnPreviousDoc.png" />
+    <Content Include="Assets\PC\index_icon.png" />
+    <Content Include="Assets\pdfdll\itextsharp.dll" />
+    <Content Include="Assets\pdfdll\itextsharp.pdfa.dll" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
+    <Content Include="frmDisplayHTML.aspx" />
+    <Content Include="frmDisplayImage.aspx" />
+    <Content Include="frmDisplayMain.aspx" />
+    <Content Include="frmDisplayPDF.aspx" />
+    <Content Include="frmDisplayTest.aspx" />
+    <Content Include="frmDisplayVDO.aspx" />
     <Content Include="frmLogin.aspx" />
+    <Content Include="frmSelectCourse.aspx" />
+    <Content Include="frmSelectCourseDetail.aspx" />
+    <Content Include="frmSelectCourseStudy.aspx" />
+    <Content Include="frmSelectDepartment.aspx" />
+    <Content Include="frmSelectFormat.aspx" />
+    <Content Include="frmSelectFunction.aspx" />
     <Content Include="frmTestingCourse.aspx" />
+    <Content Include="HtmlPage1.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="WebForm1.aspx" />
+    <Content Include="MasterPageIFRAME.Master" />
+    <Content Include="WebForm2.aspx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -2627,11 +2651,95 @@
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="frmDisplayHTML.aspx.designer.vb">
+      <DependentUpon>frmDisplayHTML.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDisplayHTML.aspx.vb">
+      <DependentUpon>frmDisplayHTML.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmDisplayImage.aspx.designer.vb">
+      <DependentUpon>frmDisplayImage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDisplayImage.aspx.vb">
+      <DependentUpon>frmDisplayImage.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmDisplayMain.aspx.designer.vb">
+      <DependentUpon>frmDisplayMain.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDisplayMain.aspx.vb">
+      <DependentUpon>frmDisplayMain.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmDisplayPDF.aspx.designer.vb">
+      <DependentUpon>frmDisplayPDF.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDisplayPDF.aspx.vb">
+      <DependentUpon>frmDisplayPDF.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmDisplayTest.aspx.designer.vb">
+      <DependentUpon>frmDisplayTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDisplayTest.aspx.vb">
+      <DependentUpon>frmDisplayTest.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmDisplayVDO.aspx.designer.vb">
+      <DependentUpon>frmDisplayVDO.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDisplayVDO.aspx.vb">
+      <DependentUpon>frmDisplayVDO.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="frmLogin.aspx.designer.vb">
       <DependentUpon>frmLogin.aspx</DependentUpon>
     </Compile>
     <Compile Include="frmLogin.aspx.vb">
       <DependentUpon>frmLogin.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmSelectCourse.aspx.designer.vb">
+      <DependentUpon>frmSelectCourse.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectCourse.aspx.vb">
+      <DependentUpon>frmSelectCourse.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmSelectCourseDetail.aspx.designer.vb">
+      <DependentUpon>frmSelectCourseDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectCourseDetail.aspx.vb">
+      <DependentUpon>frmSelectCourseDetail.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmSelectCourseStudy.aspx.designer.vb">
+      <DependentUpon>frmSelectCourseStudy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectCourseStudy.aspx.vb">
+      <DependentUpon>frmSelectCourseStudy.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmSelectDepartment.aspx.designer.vb">
+      <DependentUpon>frmSelectDepartment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectDepartment.aspx.vb">
+      <DependentUpon>frmSelectDepartment.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmSelectFormat.aspx.designer.vb">
+      <DependentUpon>frmSelectFormat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectFormat.aspx.vb">
+      <DependentUpon>frmSelectFormat.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmSelectFunction.aspx.designer.vb">
+      <DependentUpon>frmSelectFunction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectFunction.aspx.vb">
+      <DependentUpon>frmSelectFunction.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="frmTestingCourse.aspx.designer.vb">
@@ -2646,6 +2754,13 @@
     </Compile>
     <Compile Include="MasterPage.Master.vb">
       <DependentUpon>MasterPage.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPageIFRAME.Master.designer.vb">
+      <DependentUpon>MasterPageIFRAME.Master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPageIFRAME.Master.vb">
+      <DependentUpon>MasterPageIFRAME.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -2676,6 +2791,20 @@
     </Compile>
     <Compile Include="TescoModule.vb" />
     <Compile Include="UserProfileData.vb" />
+    <Compile Include="WebForm1.aspx.designer.vb">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.vb">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebForm2.aspx.designer.vb">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm2.aspx.vb">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -2697,6 +2826,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.4.4.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Assets\pdfdll\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Assets\pdfdll\itextsharp.pdfa.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Newtonsoft.Json.dll</HintPath>
@@ -2708,10 +2845,13 @@
     <Reference Include="System.Web.DataVisualization" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Extensions.Design" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\" />
     <Folder Include="Assets\js\plugins\elfinder\files\.quarantine\" />
+    <Folder Include="Document\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LinqDB\LinqDB.vbproj">

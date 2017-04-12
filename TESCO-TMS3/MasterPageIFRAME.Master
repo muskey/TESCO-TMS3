@@ -1,0 +1,89 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="MasterPageIFRAME.Master.vb" Inherits="TESCO_TMS3.MasterPageIFRAME" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<!-- Apple devices fullscreen -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<!-- Apple devices fullscreen -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+
+
+
+    <!-- Bootstrap 3.3.5 -->
+   <link href="Assets/dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <!-- Theme style -->
+   <link href="Assets/dist/dist/css/AdminLTE.min.css" rel="stylesheet" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+
+    <link href="Assets/dist/dist/css/skins/_all-skins.min.css" rel="stylesheet" />
+
+
+
+
+    <!-- jQuery 2.1.4 -->
+  
+<script src="Assets/dist/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+   
+<script src="Assets/dist/bootstrap/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+  
+    <script src="Assets/dist/plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+ 
+<script src="Assets/dist/dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="Assets/dist/dist/js/demo.js"></script>
+
+
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+
+<body  style="background:#29363f">
+    <style>
+      body {
+        font-family: 'Prompt', kit45;
+        font-size: 48px;
+      }
+      label {
+        font-family: 'Prompt', kit45;
+        font-size: 25px;
+      }
+      button {
+        font-family: 'Prompt', kit45;
+        font-size: 18px;
+      }
+       p {
+        font-family: 'Prompt', kit45;
+        font-size: 16px;
+      }
+        li {
+        font-family: 'Prompt', kit45;
+        font-size: 13px;
+      }
+
+       .btn.btn-larges{padding:20px 16px} 
+         
+    </style>
+    
+    <form id="form1" runat="server">
+
+
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+    </asp:ContentPlaceHolder>
+
+    </form>
+</body>
+</html>

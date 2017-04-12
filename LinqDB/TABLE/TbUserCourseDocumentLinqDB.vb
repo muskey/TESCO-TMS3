@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_USER_COURSE_DOCUMENT table LinqDB.
-    '[Create by  on Febuary, 28 2017]
+    '[Create by  on April, 12 2017]
     Public Class TbUserCourseDocumentLinqDB
         Public sub TbUserCourseDocumentLinqDB()
 
@@ -46,6 +46,7 @@ Namespace TABLE
         Dim _UPDATED_DATE As  System.Nullable(Of DateTime)  = New DateTime(1,1,1)
         Dim _TB_USER_COURSE_ID As Long = 0
         Dim _USER_ID As Long = 0
+        Dim _DOCUMENT_ID As Long = 0
         Dim _DOCUMENT_TITLE As String = ""
         Dim _MS_DOCUMENT_ICON_ID As Long = 0
         Dim _DOCUMENT_VERSION As  String  = ""
@@ -116,6 +117,15 @@ Namespace TABLE
                _USER_ID = value
             End Set
         End Property 
+        <Column(Storage:="_DOCUMENT_ID", DbType:="Int NOT NULL ",CanBeNull:=false)>  _
+        Public Property DOCUMENT_ID() As Long
+            Get
+                Return _DOCUMENT_ID
+            End Get
+            Set(ByVal value As Long)
+               _DOCUMENT_ID = value
+            End Set
+        End Property 
         <Column(Storage:="_DOCUMENT_TITLE", DbType:="VarChar(255) NOT NULL ",CanBeNull:=false)>  _
         Public Property DOCUMENT_TITLE() As String
             Get
@@ -172,6 +182,7 @@ Namespace TABLE
             _UPDATED_DATE = New DateTime(1,1,1)
             _TB_USER_COURSE_ID = 0
             _USER_ID = 0
+            _DOCUMENT_ID = 0
             _DOCUMENT_TITLE = ""
             _MS_DOCUMENT_ICON_ID = 0
             _DOCUMENT_VERSION = ""
@@ -455,7 +466,7 @@ Namespace TABLE
         End Function
 
         Private Function SetParameterData() As SqlParameter()
-            Dim cmbParam(11) As SqlParameter
+            Dim cmbParam(12) As SqlParameter
             cmbParam(0) = New SqlParameter("@_ID", SqlDbType.BigInt)
             cmbParam(0).Value = _ID
 
@@ -493,24 +504,27 @@ Namespace TABLE
             cmbParam(6) = New SqlParameter("@_USER_ID", SqlDbType.Int)
             cmbParam(6).Value = _USER_ID
 
-            cmbParam(7) = New SqlParameter("@_DOCUMENT_TITLE", SqlDbType.VarChar)
-            cmbParam(7).Value = _DOCUMENT_TITLE.Trim
+            cmbParam(7) = New SqlParameter("@_DOCUMENT_ID", SqlDbType.Int)
+            cmbParam(7).Value = _DOCUMENT_ID
 
-            cmbParam(8) = New SqlParameter("@_MS_DOCUMENT_ICON_ID", SqlDbType.BigInt)
-            cmbParam(8).Value = _MS_DOCUMENT_ICON_ID
+            cmbParam(8) = New SqlParameter("@_DOCUMENT_TITLE", SqlDbType.VarChar)
+            cmbParam(8).Value = _DOCUMENT_TITLE.Trim
 
-            cmbParam(9) = New SqlParameter("@_DOCUMENT_VERSION", SqlDbType.VarChar)
+            cmbParam(9) = New SqlParameter("@_MS_DOCUMENT_ICON_ID", SqlDbType.BigInt)
+            cmbParam(9).Value = _MS_DOCUMENT_ICON_ID
+
+            cmbParam(10) = New SqlParameter("@_DOCUMENT_VERSION", SqlDbType.VarChar)
             If _DOCUMENT_VERSION.Trim <> "" Then 
-                cmbParam(9).Value = _DOCUMENT_VERSION.Trim
+                cmbParam(10).Value = _DOCUMENT_VERSION.Trim
             Else
-                cmbParam(9).Value = DBNull.value
+                cmbParam(10).Value = DBNull.value
             End If
 
-            cmbParam(10) = New SqlParameter("@_DOCUMENT_TYPE", SqlDbType.VarChar)
-            cmbParam(10).Value = _DOCUMENT_TYPE.Trim
+            cmbParam(11) = New SqlParameter("@_DOCUMENT_TYPE", SqlDbType.VarChar)
+            cmbParam(11).Value = _DOCUMENT_TYPE.Trim
 
-            cmbParam(11) = New SqlParameter("@_ORDER_BY", SqlDbType.Int)
-            cmbParam(11).Value = _ORDER_BY
+            cmbParam(12) = New SqlParameter("@_ORDER_BY", SqlDbType.Int)
+            cmbParam(12).Value = _ORDER_BY
 
             Return cmbParam
         End Function
@@ -538,6 +552,7 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("updated_date")) = False Then _updated_date = Convert.ToDateTime(Rdr("updated_date"))
                         If Convert.IsDBNull(Rdr("tb_user_course_id")) = False Then _tb_user_course_id = Convert.ToInt64(Rdr("tb_user_course_id"))
                         If Convert.IsDBNull(Rdr("user_id")) = False Then _user_id = Convert.ToInt32(Rdr("user_id"))
+                        If Convert.IsDBNull(Rdr("document_id")) = False Then _document_id = Convert.ToInt32(Rdr("document_id"))
                         If Convert.IsDBNull(Rdr("document_title")) = False Then _document_title = Rdr("document_title").ToString()
                         If Convert.IsDBNull(Rdr("ms_document_icon_id")) = False Then _ms_document_icon_id = Convert.ToInt64(Rdr("ms_document_icon_id"))
                         If Convert.IsDBNull(Rdr("document_version")) = False Then _document_version = Rdr("document_version").ToString()
@@ -584,6 +599,7 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("updated_date")) = False Then _updated_date = Convert.ToDateTime(Rdr("updated_date"))
                         If Convert.IsDBNull(Rdr("tb_user_course_id")) = False Then _tb_user_course_id = Convert.ToInt64(Rdr("tb_user_course_id"))
                         If Convert.IsDBNull(Rdr("user_id")) = False Then _user_id = Convert.ToInt32(Rdr("user_id"))
+                        If Convert.IsDBNull(Rdr("document_id")) = False Then _document_id = Convert.ToInt32(Rdr("document_id"))
                         If Convert.IsDBNull(Rdr("document_title")) = False Then _document_title = Rdr("document_title").ToString()
                         If Convert.IsDBNull(Rdr("ms_document_icon_id")) = False Then _ms_document_icon_id = Convert.ToInt64(Rdr("ms_document_icon_id"))
                         If Convert.IsDBNull(Rdr("document_version")) = False Then _document_version = Rdr("document_version").ToString()
@@ -613,13 +629,14 @@ Namespace TABLE
         Private ReadOnly Property SqlInsert() As String 
             Get
                 Dim Sql As String=""
-                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_COURSE_ID, USER_ID, DOCUMENT_TITLE, MS_DOCUMENT_ICON_ID, DOCUMENT_VERSION, DOCUMENT_TYPE, ORDER_BY)"
-                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_COURSE_ID, INSERTED.USER_ID, INSERTED.DOCUMENT_TITLE, INSERTED.MS_DOCUMENT_ICON_ID, INSERTED.DOCUMENT_VERSION, INSERTED.DOCUMENT_TYPE, INSERTED.ORDER_BY"
+                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_COURSE_ID, USER_ID, DOCUMENT_ID, DOCUMENT_TITLE, MS_DOCUMENT_ICON_ID, DOCUMENT_VERSION, DOCUMENT_TYPE, ORDER_BY)"
+                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_COURSE_ID, INSERTED.USER_ID, INSERTED.DOCUMENT_ID, INSERTED.DOCUMENT_TITLE, INSERTED.MS_DOCUMENT_ICON_ID, INSERTED.DOCUMENT_VERSION, INSERTED.DOCUMENT_TYPE, INSERTED.ORDER_BY"
                 Sql += " VALUES("
                 sql += "@_CREATED_BY" & ", "
                 sql += "@_CREATED_DATE" & ", "
                 sql += "@_TB_USER_COURSE_ID" & ", "
                 sql += "@_USER_ID" & ", "
+                sql += "@_DOCUMENT_ID" & ", "
                 sql += "@_DOCUMENT_TITLE" & ", "
                 sql += "@_MS_DOCUMENT_ICON_ID" & ", "
                 sql += "@_DOCUMENT_VERSION" & ", "
@@ -640,6 +657,7 @@ Namespace TABLE
                 Sql += "UPDATED_DATE = " & "@_UPDATED_DATE" & ", "
                 Sql += "TB_USER_COURSE_ID = " & "@_TB_USER_COURSE_ID" & ", "
                 Sql += "USER_ID = " & "@_USER_ID" & ", "
+                Sql += "DOCUMENT_ID = " & "@_DOCUMENT_ID" & ", "
                 Sql += "DOCUMENT_TITLE = " & "@_DOCUMENT_TITLE" & ", "
                 Sql += "MS_DOCUMENT_ICON_ID = " & "@_MS_DOCUMENT_ICON_ID" & ", "
                 Sql += "DOCUMENT_VERSION = " & "@_DOCUMENT_VERSION" & ", "
@@ -662,7 +680,7 @@ Namespace TABLE
         'Get Select Statement for table TB_USER_COURSE_DOCUMENT
         Private ReadOnly Property SqlSelect() As String
             Get
-                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_COURSE_ID, USER_ID, DOCUMENT_TITLE, MS_DOCUMENT_ICON_ID, DOCUMENT_VERSION, DOCUMENT_TYPE, ORDER_BY FROM " & tableName
+                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_COURSE_ID, USER_ID, DOCUMENT_ID, DOCUMENT_TITLE, MS_DOCUMENT_ICON_ID, DOCUMENT_VERSION, DOCUMENT_TYPE, ORDER_BY FROM " & tableName
                 Return Sql
             End Get
         End Property

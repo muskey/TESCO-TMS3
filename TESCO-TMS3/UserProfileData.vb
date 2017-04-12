@@ -11,8 +11,65 @@
     Dim _TestingAttempt As Integer = 0
     Dim _TestingComplete As Integer = 0
     Dim _TestingTotal As Integer = 0
+    Dim _UserMassage As DataTable
+    Dim _UserFormat As DataTable
+    Dim _UserFunction As DataTable
+    Dim _UserDepartment As DataTable
+    Dim _UserCourse As DataTable
+    Dim _UserCourseFile As DataTable
 
 
+    Public Property UserMassage As DataTable
+        Get
+            Return _UserMassage
+        End Get
+        Set(value As DataTable)
+            _UserMassage = value
+        End Set
+    End Property
+
+    Public Property UserFormat As DataTable
+        Get
+            Return _UserFormat
+        End Get
+        Set(value As DataTable)
+            _UserFormat = value
+        End Set
+    End Property
+    Public Property UserFunction As DataTable
+        Get
+            Return _UserFunction
+        End Get
+        Set(value As DataTable)
+            _UserFunction = value
+        End Set
+    End Property
+    Public Property UserDepartment As DataTable
+        Get
+            Return _UserDepartment
+        End Get
+        Set(value As DataTable)
+            _UserDepartment = value
+        End Set
+    End Property
+
+    Public Property UserCourse As DataTable
+        Get
+            Return _UserCourse
+        End Get
+        Set(value As DataTable)
+            _UserCourse = value
+        End Set
+    End Property
+
+    Public Property UserCourseFile As DataTable
+        Get
+            Return _UserCourseFile
+        End Get
+        Set(value As DataTable)
+            _UserCourseFile = value
+        End Set
+    End Property
 
     Public Property UserSessionID As Long
         Get

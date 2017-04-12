@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_USER_COURSE_DOCUMENT_FILE table LinqDB.
-    '[Create by  on Febuary, 28 2017]
+    '[Create by  on April, 12 2017]
     Public Class TbUserCourseDocumentFileLinqDB
         Public sub TbUserCourseDocumentFileLinqDB()
 
@@ -46,6 +46,7 @@ Namespace TABLE
         Dim _UPDATED_DATE As  System.Nullable(Of DateTime)  = New DateTime(1,1,1)
         Dim _TB_USER_COURSE_DOCUMENT_ID As Long = 0
         Dim _USER_ID As Long = 0
+        Dim _DOCUMENT_FILE_ID As Long = 0
         Dim _FILE_TITLE As String = ""
         Dim _FILE_URL As String = ""
         Dim _ORDER_BY As Long = 0
@@ -114,6 +115,15 @@ Namespace TABLE
                _USER_ID = value
             End Set
         End Property 
+        <Column(Storage:="_DOCUMENT_FILE_ID", DbType:="Int NOT NULL ",CanBeNull:=false)>  _
+        Public Property DOCUMENT_FILE_ID() As Long
+            Get
+                Return _DOCUMENT_FILE_ID
+            End Get
+            Set(ByVal value As Long)
+               _DOCUMENT_FILE_ID = value
+            End Set
+        End Property 
         <Column(Storage:="_FILE_TITLE", DbType:="VarChar(255) NOT NULL ",CanBeNull:=false)>  _
         Public Property FILE_TITLE() As String
             Get
@@ -152,6 +162,7 @@ Namespace TABLE
             _UPDATED_DATE = New DateTime(1,1,1)
             _TB_USER_COURSE_DOCUMENT_ID = 0
             _USER_ID = 0
+            _DOCUMENT_FILE_ID = 0
             _FILE_TITLE = ""
             _FILE_URL = ""
             _ORDER_BY = 0
@@ -433,7 +444,7 @@ Namespace TABLE
         End Function
 
         Private Function SetParameterData() As SqlParameter()
-            Dim cmbParam(9) As SqlParameter
+            Dim cmbParam(10) As SqlParameter
             cmbParam(0) = New SqlParameter("@_ID", SqlDbType.BigInt)
             cmbParam(0).Value = _ID
 
@@ -471,14 +482,17 @@ Namespace TABLE
             cmbParam(6) = New SqlParameter("@_USER_ID", SqlDbType.Int)
             cmbParam(6).Value = _USER_ID
 
-            cmbParam(7) = New SqlParameter("@_FILE_TITLE", SqlDbType.VarChar)
-            cmbParam(7).Value = _FILE_TITLE.Trim
+            cmbParam(7) = New SqlParameter("@_DOCUMENT_FILE_ID", SqlDbType.Int)
+            cmbParam(7).Value = _DOCUMENT_FILE_ID
 
-            cmbParam(8) = New SqlParameter("@_FILE_URL", SqlDbType.VarChar)
-            cmbParam(8).Value = _FILE_URL.Trim
+            cmbParam(8) = New SqlParameter("@_FILE_TITLE", SqlDbType.VarChar)
+            cmbParam(8).Value = _FILE_TITLE.Trim
 
-            cmbParam(9) = New SqlParameter("@_ORDER_BY", SqlDbType.Int)
-            cmbParam(9).Value = _ORDER_BY
+            cmbParam(9) = New SqlParameter("@_FILE_URL", SqlDbType.VarChar)
+            cmbParam(9).Value = _FILE_URL.Trim
+
+            cmbParam(10) = New SqlParameter("@_ORDER_BY", SqlDbType.Int)
+            cmbParam(10).Value = _ORDER_BY
 
             Return cmbParam
         End Function
@@ -506,6 +520,7 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("updated_date")) = False Then _updated_date = Convert.ToDateTime(Rdr("updated_date"))
                         If Convert.IsDBNull(Rdr("tb_user_course_document_id")) = False Then _tb_user_course_document_id = Convert.ToInt64(Rdr("tb_user_course_document_id"))
                         If Convert.IsDBNull(Rdr("user_id")) = False Then _user_id = Convert.ToInt32(Rdr("user_id"))
+                        If Convert.IsDBNull(Rdr("document_file_id")) = False Then _document_file_id = Convert.ToInt32(Rdr("document_file_id"))
                         If Convert.IsDBNull(Rdr("file_title")) = False Then _file_title = Rdr("file_title").ToString()
                         If Convert.IsDBNull(Rdr("file_url")) = False Then _file_url = Rdr("file_url").ToString()
                         If Convert.IsDBNull(Rdr("order_by")) = False Then _order_by = Convert.ToInt32(Rdr("order_by"))
@@ -550,6 +565,7 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("updated_date")) = False Then _updated_date = Convert.ToDateTime(Rdr("updated_date"))
                         If Convert.IsDBNull(Rdr("tb_user_course_document_id")) = False Then _tb_user_course_document_id = Convert.ToInt64(Rdr("tb_user_course_document_id"))
                         If Convert.IsDBNull(Rdr("user_id")) = False Then _user_id = Convert.ToInt32(Rdr("user_id"))
+                        If Convert.IsDBNull(Rdr("document_file_id")) = False Then _document_file_id = Convert.ToInt32(Rdr("document_file_id"))
                         If Convert.IsDBNull(Rdr("file_title")) = False Then _file_title = Rdr("file_title").ToString()
                         If Convert.IsDBNull(Rdr("file_url")) = False Then _file_url = Rdr("file_url").ToString()
                         If Convert.IsDBNull(Rdr("order_by")) = False Then _order_by = Convert.ToInt32(Rdr("order_by"))
@@ -577,13 +593,14 @@ Namespace TABLE
         Private ReadOnly Property SqlInsert() As String 
             Get
                 Dim Sql As String=""
-                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_COURSE_DOCUMENT_ID, USER_ID, FILE_TITLE, FILE_URL, ORDER_BY)"
-                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_COURSE_DOCUMENT_ID, INSERTED.USER_ID, INSERTED.FILE_TITLE, INSERTED.FILE_URL, INSERTED.ORDER_BY"
+                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_COURSE_DOCUMENT_ID, USER_ID, DOCUMENT_FILE_ID, FILE_TITLE, FILE_URL, ORDER_BY)"
+                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_COURSE_DOCUMENT_ID, INSERTED.USER_ID, INSERTED.DOCUMENT_FILE_ID, INSERTED.FILE_TITLE, INSERTED.FILE_URL, INSERTED.ORDER_BY"
                 Sql += " VALUES("
                 sql += "@_CREATED_BY" & ", "
                 sql += "@_CREATED_DATE" & ", "
                 sql += "@_TB_USER_COURSE_DOCUMENT_ID" & ", "
                 sql += "@_USER_ID" & ", "
+                sql += "@_DOCUMENT_FILE_ID" & ", "
                 sql += "@_FILE_TITLE" & ", "
                 sql += "@_FILE_URL" & ", "
                 sql += "@_ORDER_BY"
@@ -602,6 +619,7 @@ Namespace TABLE
                 Sql += "UPDATED_DATE = " & "@_UPDATED_DATE" & ", "
                 Sql += "TB_USER_COURSE_DOCUMENT_ID = " & "@_TB_USER_COURSE_DOCUMENT_ID" & ", "
                 Sql += "USER_ID = " & "@_USER_ID" & ", "
+                Sql += "DOCUMENT_FILE_ID = " & "@_DOCUMENT_FILE_ID" & ", "
                 Sql += "FILE_TITLE = " & "@_FILE_TITLE" & ", "
                 Sql += "FILE_URL = " & "@_FILE_URL" & ", "
                 Sql += "ORDER_BY = " & "@_ORDER_BY" + ""
@@ -622,7 +640,7 @@ Namespace TABLE
         'Get Select Statement for table TB_USER_COURSE_DOCUMENT_FILE
         Private ReadOnly Property SqlSelect() As String
             Get
-                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_COURSE_DOCUMENT_ID, USER_ID, FILE_TITLE, FILE_URL, ORDER_BY FROM " & tableName
+                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_COURSE_DOCUMENT_ID, USER_ID, DOCUMENT_FILE_ID, FILE_TITLE, FILE_URL, ORDER_BY FROM " & tableName
                 Return Sql
             End Get
         End Property

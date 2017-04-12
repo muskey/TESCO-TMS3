@@ -11,10 +11,19 @@
 	<!-- Apple devices fullscreen -->
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <!-- Bootstrap -->
+       <!-- Bootstrap -->
 	<link rel="stylesheet" href="Assets/css/bootstrap.min.css" />
 	<!-- Bootstrap responsive -->
 	<link rel="stylesheet" href="Assets/css/bootstrap-responsive.min.css" />
+        <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+        <!-- Theme style -->
+    <link rel="stylesheet" href="Assets/dist/dist/css/AdminLTE.min.css"/>
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="Assets/dist/dist/css/skins/_all-skins.min.css"/>
 	<!-- jQuery UI -->
 	<link rel="stylesheet" href="Assets/css/plugins/jquery-ui/smoothness/jquery-ui.css" />
 	<link rel="stylesheet" href="Assets/css/plugins/jquery-ui/smoothness/jquery.ui.theme.css" />
@@ -83,6 +92,36 @@
 	
     <!-- Apple devices Homescreen icon -->
 	<link rel="apple-touch-icon-precomposed" href="Assets/img/apple-touch-icon-precomposed.png" />
+    <%-- <!-- Bootstrap 3.3.5 -->
+   <link href="Assets/dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <!-- Theme style -->
+   <link href="Assets/dist/dist/css/AdminLTE.min.css" rel="stylesheet" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+
+    <link href="Assets/dist/dist/css/skins/_all-skins.min.css" rel="stylesheet" />
+
+
+
+
+    <!-- jQuery 2.1.4 -->
+  
+<script src="Assets/dist/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+   
+<script src="Assets/dist/bootstrap/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+  
+    <script src="Assets/dist/plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+ 
+<script src="Assets/dist/dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="Assets/dist/dist/js/demo.js"></script>--%>
     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -150,6 +189,11 @@
 	        </div>
         </div>
     </div>
+
+
+            <div class="wrapper">
+                
+            </div>
     <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
         
     </asp:ContentPlaceHolder>
