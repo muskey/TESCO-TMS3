@@ -1,4 +1,7 @@
-﻿Public Class frmDisplayImage
+﻿Imports System.Data.SqlClient
+Imports LinqDB.ConnectDB
+
+Public Class frmDisplayImage
     Inherits System.Web.UI.Page
 
 #Region "Declare & Valiable"
@@ -12,7 +15,7 @@
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
-            UpdateLog()
+            UpdateLog(id, Session("ClassID"))
             SetContent()
             GetData()
             GetBotton()
@@ -20,11 +23,16 @@
     End Sub
 
     Private Sub GetData()
-        Dim sql As String = " select * from TB_USER_COURSE_DOCUMENT_File  where id=" & id
-        Dim dt As DataTable = GetSqlDataTable(sql)
-        If (dt.Rows.Count > 0) Then
-            imgShow.Attributes.Add("src", dt.Rows(0)("file_url"))
+        Dim sql As String = " select file_url from TB_USER_COURSE_DOCUMENT_File  where id=@_ID"
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_ID", id)
+        Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
+        If dt.Rows.Count > 0 Then
+            If Convert.IsDBNull(dt.Rows(0)("file_url")) = False Then
+                imgShow.Attributes.Add("src", dt.Rows(0)("file_url"))
+            End If
         End If
+        dt.Dispose()
     End Sub
 
     Private Sub SetContent()
@@ -133,40 +141,6 @@
 
 #End Region
 
-#Region "Log"
-    Private Sub UpdateLog()
-        Dim tb_user_course_document_id As String = "0"
-        Dim doc_id As String = "0"
-        Dim course_id As String = "0"
-        Dim cassid As Long = 0
-        Dim Sql As String
-        Sql = " select * from TB_USER_COURSE_DOCUMENT_FILE  where id=" & id
-        Dim dtCourseFile As DataTable = GetSqlDataTable(Sql)
-        If dtCourseFile.Rows.Count Then
-            doc_id = dtCourseFile.Rows(0)("tb_user_course_document_id")
 
-            Sql = " select *  from TB_USER_COURSE_DOCUMENT where id=" & doc_id
-            Dim dtCourse As DataTable = GetSqlDataTable(Sql)
-            If dtCourse.Rows.Count > 0 Then
-                course_id = dtCourse.Rows(0)("tb_user_course_id")
-
-            End If
-        End If
-
-        If Not IsNothing(Session("ClassID")) Then
-            cassid = Session("ClassID")
-        End If
-        Dim dtnext As DataTable = Session("UserDataCourseFile")
-        Dim strfillter As String = "id >" & id
-        dtnext.DefaultView.RowFilter = strfillter
-        If dtnext.DefaultView.Count = 0 Then
-            CallAPIUpdateLog(UserData.Token, 13, "complete", "class", "{" & Chr(34) & "class_id" & Chr(34) & ":" & cassid.ToString & "}")
-
-        Else
-            CallAPIUpdateLog(UserData.Token, 13, "complete", "document", "{" & Chr(34) & "class_id" & Chr(34) & ":" & cassid.ToString & "," & Chr(34) & "document_id" & Chr(34) & ":" & doc_id & "}")
-
-        End If
-    End Sub
-#End Region
 
 End Class

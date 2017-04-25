@@ -86,11 +86,48 @@ Module TescoModule
         Return im
     End Function
 
+#Region "Log"
     Public Sub CallAPIUpdateLog(token As String, ClientID As String, vAction As String, vModule As String, data As String)
         'เมื่อเรียนจบหลักสูตรให้บันทึก Log
         Dim info As String = ""
         info = GetStringDataFromURL(GetWebServiceURL() & "api/log", token & "&client_id=" & ClientID & "&action=" & vAction & "&module=" & vModule & "&data=" & data)
     End Sub
+
+
+
+    Public Sub UpdateLog(id As Long, ClassID As Long)
+        Dim tb_user_course_document_id As String = "0"
+        Dim doc_id As String = "0"
+        Dim course_id As String = "0"
+        Dim Sql As String
+        Sql = " select cdf.document_file_id,cd.document_id, c.id course_id "
+        Sql += " from TB_USER_COURSE_DOCUMENT_FILE cdf"
+        Sql += " inner join TB_USER_COURSE_DOCUMENT cd on cd.id=cdf.tb_user_course_document_id"
+        Sql += " inner join TB_USER_COURSE c on c.id=cd.tb_user_course_id"
+        Sql += " where cdf.id=@_ID"
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_ID", id)
+        Dim dtCourseFile As DataTable = SqlDB.ExecuteTable(Sql, p)
+        If dtCourseFile.Rows.Count Then
+            doc_id = dtCourseFile.Rows(0)("tb_user_course_document_id")
+            course_id = dtCourseFile.Rows(0)("course_id")
+        End If
+        dtCourseFile.Dispose()
+
+
+        '#### ตอน Update Log จะรู้ได้อย่างไรว่า Client ID เป็นอะไร
+        'Dim dtnext As DataTable = Session("UserDataCourseFile")
+        'Dim strfillter As String = "id >" & id
+        'dtnext.DefaultView.RowFilter = strfillter
+        'If dtnext.DefaultView.Count = 0 Then
+        '    CallAPIUpdateLog(UserData.Token, 13, "complete", "class", "{" & Chr(34) & "class_id" & Chr(34) & ":" & cassid.ToString & "}")
+
+        'Else
+        '    CallAPIUpdateLog(UserData.Token, 13, "complete", "document", "{" & Chr(34) & "class_id" & Chr(34) & ":" & cassid.ToString & "," & Chr(34) & "document_id" & Chr(34) & ":" & doc_id & "}")
+
+        'End If
+    End Sub
+#End Region
 
     Public Function CreateClass(token As String, stdID As String, ClientID As String, CourseID As String, UserID As String) As Long
         Dim ret As Long = 0
@@ -144,6 +181,32 @@ Module TescoModule
         End If
         Return ret
     End Function
+
+#Region "Testing"
+    Public Function GetTesting() As DataTable
+        Dim sql As String = " select * from TB_TESTING"
+        Dim dt As DataTable = LinqDB.ConnectDB.SqlDB.ExecuteTable(sql)
+
+        Return dt
+    End Function
+
+    Public Function GetTestQuestion(TestID As Long, QuestionNo As Integer)
+        Dim p(2) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_TESTING_ID", TestID)
+        p(1) = SqlDB.SetInt("@_QUESTION_ID", QuestionNo)
+        Dim lnq As New TbTestingQuestionLinqDB
+        Dim dt As DataTable = lnq.GetDataList("tb_testing_id=@_TESTING_ID and question_no=@_QUESTION_NO", "", Nothing, p)
+        Return dt
+    End Function
+
+    Public Function GetTestQuestion(TestID As Long)
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_TESTING_ID", TestID)
+        Dim lnq As New TbTestingQuestionLinqDB
+        Dim dt As DataTable = lnq.GetDataList("tb_testing_id=@_TESTING_ID ", "", Nothing, p)
+        Return dt
+    End Function
+#End Region
 #Region "File"
     Public Function GetURLFileExtension(URLFile As String) As String
         Dim ret As String = ""

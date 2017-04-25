@@ -1,4 +1,6 @@
-﻿Public Class frmSelectCourse
+﻿Imports System.Data.SqlClient
+Imports LinqDB.ConnectDB
+Public Class frmSelectCourse
     Inherits System.Web.UI.Page
 
 #Region "Declare & Valiable"
@@ -44,9 +46,11 @@
         Dim strMain As String = "<ul class=""tiles"">"
         Dim sql As String = "select * "
         sql += " from tb_user_course "
-        sql += " where 1=1 and department_id=" & Department_id
+        sql += " where 1=1 and department_id=@_DEPARTMENT_ID"
         sql += " order by sort"
-        Dim dt As DataTable = GetSqlDataTable(sql)
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_DEPARTMENT_ID", Department_id)
+        Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
         For Each dr As DataRowView In dt.DefaultView
 
             strMain += " <li  onclick=""ShowPopup('" + dr("id").ToString + "','" + dr("course_title").ToString + "','" + dr("course_title").ToString + "');"" id=" + dr("id").ToString + " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 170px auto;background-repeat: no-repeat;height:170px"">" '+ " style=""background-image:url(" + dr("cover_url").ToString + ")"">"

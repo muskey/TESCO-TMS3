@@ -35,43 +35,43 @@
             'Me.txtQuestion_Count.Style.Add("display", "none")
             'Me.txtCourse_id.Style.Add("display", "none")
             SetStartTest()
-            SetTestQuestionCount()
+            'SetTestQuestionCount()
             SetTestQuestion(1)
         End If
 
     End Sub
     Private Sub SetStartTest()
-        UserData.TestSubject.DefaultView.RowFilter = "id='" & test_id & "'"
-        If UserData.TestSubject.DefaultView.Count > 0 Then
-            Me.txtCourse_id.Text = UserData.TestSubject.DefaultView.Table.Rows(0)("course_id")
+        Dim dt As DataTable = GetTesting()
+        dt.DefaultView.RowFilter = "id='" & test_id & "'"
+        If dt.DefaultView.Count > 0 Then
+            Me.txtCourse_id.Text = dt.DefaultView.Table.Rows(0)("course_id")
+            Me.txtQuestion_Count.Text = dt.DefaultView(0)("question_qty")
         End If
         Session("teststarttime") = Date.Now
 
-        For i As Integer = 0 To UserData.TestQuestion.Rows.Count - 1
-            UserData.TestQuestion.Rows(i)("answer_id") = DBNull.Value
-            UserData.TestQuestion.Rows(i)("answer_result") = DBNull.Value
-            UserData.TestQuestion.Rows(i)("time_spent") = DBNull.Value
-            UserData.TestQuestion.Rows(i)("answer_choice") = DBNull.Value
-        Next
-        Session("UserData") = UserData
+        'For i As Integer = 0 To UserData.TestQuestion.Rows.Count - 1
+        '    UserData.TestQuestion.Rows(i)("answer_id") = DBNull.Value
+        '    UserData.TestQuestion.Rows(i)("answer_result") = DBNull.Value
+        '    UserData.TestQuestion.Rows(i)("time_spent") = DBNull.Value
+        '    UserData.TestQuestion.Rows(i)("answer_choice") = DBNull.Value
+        'Next
+        'Session("UserData") = UserData
     End Sub
-    Private Sub SetTestQuestionCount()
+    'Private Sub SetTestQuestionCount()
 
-        UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "'"
-        If UserData.TestQuestion.DefaultView.Count > 0 Then
-            Me.txtQuestion_Count.Text = UserData.TestQuestion.DefaultView.Count
-        End If
-
-
-    End Sub
+    '    UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "'"
+    '    If UserData.TestQuestion.DefaultView.Count > 0 Then
+    '        Me.txtQuestion_Count.Text = UserData.TestQuestion.DefaultView.Count
+    '    End If
+    'End Sub
     Private Sub SetTestQuestion(no As Integer)
         Try
             ' Dim test_id_test As String = "1"
             Me.txtQuestion_no.Text = no.ToString
             ' Dim sql As String = " select * from TB_TESTING_QUESTION where test_id=" + test_id + " and question_no=" + no.ToString
-            UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "' and question_no=" + no.ToString
+            'UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "' and question_no=" + no.ToString
 
-            Dim dt As DataTable = UserData.TestQuestion.DefaultView.ToTable 'GetSqlDataTable(sql)
+            Dim dt As DataTable = GetTestQuestion(test_id, no) 'UserData.TestQuestion.DefaultView.ToTable 'GetSqlDataTable(sql)
 
             Dim str As String = ""
             If no = 1 Then
@@ -117,10 +117,11 @@
     End Sub
 
     Private Sub SetTestQuestionBefor(no As Integer)
-        UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "' and question_no=" + no.ToString
+        'UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "' and question_no=" + no.ToString
 
-        Dim dt As DataTable = UserData.TestQuestion.DefaultView.ToTable 'GetSqlDataTable(sql)
-        If (dt.Rows.Count > 0) Then
+        'Dim dt As DataTable = UserData.TestQuestion.DefaultView.ToTable 'GetSqlDataTable(sql)
+        Dim dt As DataTable = GetTestQuestion(test_id, no)
+        If dt.Rows.Count > 0 Then
             Me.lblQNumber.Text = "ข้อ " + no.ToString + "/" + Me.txtQuestion_Count.Text
             Me.lblQDetail.Text = dt.Rows(0)("question") & ""
             If dt.Rows(0)("icon_url") & "" <> "" Then
@@ -175,8 +176,10 @@
 
         'Dim test_id_test As String = "1"
         If Me.txtQuestion_no.Text <> "" Then
-            UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "' and question_no=" + Me.txtQuestion_no.Text
-            Dim dt As DataTable = UserData.TestQuestion.DefaultView.ToTable 'GetSqlDataTable(sql)
+            'UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "' and question_no=" + Me.txtQuestion_no.Text
+            'Dim dt As DataTable = UserData.TestQuestion.DefaultView.ToTable 'GetSqlDataTable(sql)
+
+            Dim dt As DataTable = GetTestQuestion(test_id)
             If dt.Rows.Count > 0 Then
                 Dim ret As Boolean = False
                 Dim retTrue As String = ""
@@ -220,32 +223,26 @@
                 End If
 
                 Dim StartTime As DateTime = Session("teststarttime")
-                For i As Integer = 0 To UserData.TestQuestion.Rows.Count - 1
-                    If UserData.TestQuestion.Rows(i)("question_no") = Me.txtQuestion_no.Text And UserData.TestQuestion.Rows(i)("tb_test_id") = test_id Then
-                        UserData.TestQuestion.Rows(i)("answer_id") = retId
-                        UserData.TestQuestion.Rows(i)("answer_result") = ret.ToString.ToLower
-                        UserData.TestQuestion.Rows(i)("time_spent") = DateDiff(DateInterval.Second, StartTime, DateTime.Now)
-                        UserData.TestQuestion.Rows(i)("answer_choice") = retChoice
+
+                dt.Columns.Add("answer_id")
+                dt.Columns.Add("answer_result")
+                dt.Columns.Add("time_spent")
+                dt.Columns.Add("answer_choice")
+
+                For i As Integer = 0 To dt.Rows.Count - 1
+                    If dt.Rows(i)("question_no") = Me.txtQuestion_no.Text And dt.Rows(i)("tb_test_id") = test_id Then
+                        dt.Rows(i)("answer_id") = retId
+                        dt.Rows(i)("answer_result") = ret.ToString.ToLower
+                        dt.Rows(i)("time_spent") = DateDiff(DateInterval.Second, StartTime, DateTime.Now)
+                        dt.Rows(i)("answer_choice") = retChoice
                     End If
                 Next
 
                 Session("UserData") = UserData
-
-                'ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "onConfirmTest('" + ret.ToString + "','" & retTrue & "','" & Me.txtQuestion_no.Text & "');", True)
-
-                'ckbA.Checked = False
-                'ckbB.Checked = False
-                'ckbC.Checked = False
-                'ckbD.Checked = False
-
                 Me.txtQuestion_no.Text = Val(Me.txtQuestion_no.Text) + 1
-
-
-
                 Dim lastchoice As Integer = 0
                 If Val(Me.txtQuestion_no.Text) <= Val(Me.txtQuestion_Count.Text) Then
                     SetTestQuestion(Val(Me.txtQuestion_no.Text))
-
                 Else
                     Sumnary()
                     SetTestQuestionBefor(Val(Me.txtQuestion_Count.Text))
@@ -260,106 +257,25 @@
         End If
     End Sub
 
-    'Private Sub btnAnswer_Click(sender As Object, e As EventArgs) Handles btnAnswer.Click
-    '    If ckbA.Checked = False And ckbB.Checked = False And ckbC.Checked = False And ckbD.Checked = False Then
-    '        ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "onCheckSelect();", True)
-    '        Exit Sub
-    '    End If
-
-    '    'Dim test_id_test As String = "1"
-    '    If Me.txtQuestion_no.Text <> "" Then
-    '        UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "' and question_no=" + Me.txtQuestion_no.Text
-    '        Dim dt As DataTable = UserData.TestQuestion.DefaultView.ToTable 'GetSqlDataTable(sql)
-    '        If dt.Rows.Count > 0 Then
-    '            Dim ret As Boolean = False
-    '            Dim retTrue As String = ""
-    '            Dim retId As String = ""
-    '            Dim tmpAnswer() As String = Split(dt.Rows(0)("answer"), "##")
-    '            retId = dt.Rows(0)("id")
-    '            If tmpAnswer.Length = 4 Then
-    '                If ckbA.Checked Then
-    '                    If tmpAnswer(0) = "True" Then
-    '                        ret = True
-    '                    End If
-    '                ElseIf ckbB.Checked Then
-    '                    If tmpAnswer(1) = "True" Then
-    '                        ret = True
-    '                    End If
-    '                ElseIf ckbC.Checked Then
-    '                    If tmpAnswer(2) = "True" Then
-    '                        ret = True
-    '                    End If
-    '                ElseIf ckbD.Checked Then
-    '                    If tmpAnswer(3) = "True" Then
-    '                        ret = True
-    '                    End If
-    '                End If
-
-    '                If tmpAnswer(0) = "True" Then
-    '                    retTrue = lblA.InnerText
-    '                ElseIf tmpAnswer(1) = "True" Then
-    '                    retTrue = lblB.InnerText
-    '                ElseIf tmpAnswer(2) = "True" Then
-    '                    retTrue = lblC.InnerText
-    '                ElseIf tmpAnswer(3) = "True" Then
-    '                    retTrue = lblD.InnerText
-    '                End If
-    '            End If
-
-    '            Dim StartTime As DateTime = Session("teststarttime")
-    '            For i As Integer = 0 To UserData.TestQuestion.Rows.Count - 1
-    '                If UserData.TestQuestion.Rows(i)("question_no") = Me.txtQuestion_no.Text And UserData.TestQuestion.Rows(i)("tb_test_id") = test_id Then
-    '                    UserData.TestQuestion.Rows(i)("answer_id") = retId
-    '                    UserData.TestQuestion.Rows(i)("answer_result") = ret.ToString.ToLower
-    '                    UserData.TestQuestion.Rows(i)("time_spent") = DateDiff(DateInterval.Second, StartTime, DateTime.Now)
-    '                End If
-    '            Next
-
-    '            Session("UserData") = UserData
-
-
-    '            ckbA.Checked = False
-    '            ckbB.Checked = False
-    '            ckbC.Checked = False
-    '            ckbD.Checked = False
-
-    '            Me.txtQuestion_no.Text = Val(Me.txtQuestion_no.Text) + 1
-
-
-
-
-    '            If Val(Me.txtQuestion_no.Text) <= Val(Me.txtQuestion_Count.Text) Then
-    '                SetTestQuestion(Val(Me.txtQuestion_no.Text))
-    '            Else
-    '                btnOK.Visible = False
-    '                btnSummary.Visible = True
-    '            End If
-
-    '            ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "onConfirmTest('" + ret.ToString + "','" & retTrue & "');", True)
-
-    '        End If
-    '    End If
-    'End Sub
     Private Sub Sumnary()
         'To Summary Screen
+        Dim dt As DataTable = GetTesting()
         Dim _TargetPercent As Integer = 0
-        UserData.TestSubject.DefaultView.RowFilter = "id='" & test_id & "'"
-        If UserData.TestSubject.DefaultView.Count > 0 Then
-            _TargetPercent = UserData.TestSubject.DefaultView.Table.Rows(0)("target_percentage")
+        dt.DefaultView.RowFilter = "id='" & test_id & "'"
+        If dt.DefaultView.Count > 0 Then
+            _TargetPercent = dt.DefaultView.Table.Rows(0)("target_percentage")
         End If
+        dt.DefaultView.RowFilter = ""
 
         Dim countall As Integer
-        UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "'"
-        countall = UserData.TestQuestion.DefaultView.Count
+        Dim qDT As DataTable = GetTestQuestion(test_id)
+        countall = qDT.Rows.Count
 
         Dim countScore As Integer
-        UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "' and answer_result='true'"
-        countScore = UserData.TestQuestion.DefaultView.Count
-
-
+        qDT.DefaultView.RowFilter = "tb_test_id='" & test_id & "' and answer_result='true'"
+        countScore = qDT.DefaultView.Count
 
         Dim _ScorePercent As Integer = (countScore * 100) / countall
-
         Dim strdialogid As String = ""
 
         If _ScorePercent >= _TargetPercent Then
@@ -384,8 +300,8 @@
         AnswerData += Chr(34) & "target_percentage" & Chr(34) & ":" & _TargetPercent & ", "
         AnswerData += Chr(34) + "answer_data" + Chr(34) & ":[" & Environment.NewLine
 
-        UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "'"
-        Dim dtAPI As DataTable = UserData.TestQuestion.DefaultView.ToTable 'GetSqlDataTable(sql)
+        'UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "'"
+        Dim dtAPI As DataTable = GetTestQuestion(test_id) 'UserData.TestQuestion.DefaultView.ToTable 'GetSqlDataTable(sql)
 
         For Each qDr As DataRow In dtAPI.Rows
             If qDr("question_no") > 1 Then
@@ -401,8 +317,6 @@
         AnswerData += "]"
         AnswerData += "}"
 
-        'ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "onSummary('" + strdialogid + "');", True)
-
         Dim info As String = ""
         Dim strAction As String = "complete"
         Dim strModule As String = "testing"
@@ -416,21 +330,23 @@
         If Me.txtQuestion_no.Text <> "" Then
 
             'To Summary Screen
+            Dim dt As DataTable = GetTesting()
             Dim _TargetPercent As Integer = 0
-            UserData.TestSubject.DefaultView.RowFilter = "id='" & test_id & "'"
-            If UserData.TestSubject.DefaultView.Count > 0 Then
-                _TargetPercent = UserData.TestSubject.DefaultView.Table.Rows(0)("target_percentage")
+            dt.DefaultView.RowFilter = "id='" & test_id & "'"
+            If dt.DefaultView.Count > 0 Then
+                _TargetPercent = dt.DefaultView.Table.Rows(0)("target_percentage")
             End If
+            dt.DefaultView.RowFilter = ""
 
             Dim countall As Integer
-            UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "'"
-            countall = UserData.TestQuestion.DefaultView.Count
+            Dim qDt As DataTable = GetTestQuestion(test_id)
+            countall = qDt.DefaultView.Count
 
             Dim countScore As Integer
-            UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "' and answer_result='true'"
-            countScore = UserData.TestQuestion.DefaultView.Count
 
-
+            'มันต้อง Error แน่ๆ
+            qDt.DefaultView.RowFilter = "tb_test_id='" & test_id & "' and answer_result='true'"
+            countScore = qDt.DefaultView.Count
 
             Dim _ScorePercent As Integer = (countScore * 100) / countall
 
@@ -458,8 +374,9 @@
             AnswerData += Chr(34) & "target_percentage" & Chr(34) & ":" & _TargetPercent & ", "
             AnswerData += Chr(34) + "answer_data" + Chr(34) & ":[" & Environment.NewLine
 
-            UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "'"
-            Dim dtAPI As DataTable = UserData.TestQuestion.DefaultView.ToTable 'GetSqlDataTable(sql)
+            'UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "'"
+            qDt.DefaultView.RowFilter = ""
+            Dim dtAPI As DataTable = dt.DefaultView.ToTable 'GetSqlDataTable(sql)
 
             For Each qDr As DataRow In dtAPI.Rows
                 If qDr("question_no") > 1 Then

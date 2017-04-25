@@ -1,4 +1,7 @@
-﻿Public Class frmDisplayHTML1
+﻿Imports System.Data.SqlClient
+Imports LinqDB.ConnectDB
+
+Public Class frmDisplayHTML1
     Inherits System.Web.UI.Page
 
 #Region "Declare & Valiable"
@@ -17,11 +20,16 @@
     End Sub
 
     Private Sub GetData()
-        Dim sql As String = " select * from TB_USER_COURSE_DOCUMENT_File  where id=" & id
-        Dim dt As DataTable = GetSqlDataTable(sql)
-        If (dt.Rows.Count > 0) Then
-            myIframe.Attributes.Add("src", dt.Rows(0)("file_url"))
+        Dim sql As String = " select file_url from TB_USER_COURSE_DOCUMENT_File  where id=@_ID"
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_ID", id)
+        Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
+        If dt.Rows.Count > 0 Then
+            If Convert.IsDBNull(dt.Rows(0)("file_url")) = False Then
+                myIframe.Attributes.Add("src", dt.Rows(0)("file_url"))
+            End If
         End If
+        dt.Dispose()
     End Sub
 #End Region
 

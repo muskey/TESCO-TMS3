@@ -73,23 +73,23 @@
         End Set
     End Property
 
-    Public Property TestSubject As DataTable
-        Get
-            Return _TestSubject
-        End Get
-        Set(value As DataTable)
-            _TestSubject = value
-        End Set
-    End Property
+    'Public Property TestSubject As DataTable
+    '    Get
+    '        Return _TestSubject
+    '    End Get
+    '    Set(value As DataTable)
+    '        _TestSubject = value
+    '    End Set
+    'End Property
 
-    Public Property TestQuestion As DataTable
-        Get
-            Return _TestQuestion
-        End Get
-        Set(value As DataTable)
-            _TestQuestion = value
-        End Set
-    End Property
+    'Public Property TestQuestion As DataTable
+    '    Get
+    '        Return _TestQuestion
+    '    End Get
+    '    Set(value As DataTable)
+    '        _TestQuestion = value
+    '    End Set
+    'End Property
 
     Public Property UserSessionID As Long
         Get

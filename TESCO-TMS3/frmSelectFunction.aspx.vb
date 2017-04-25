@@ -1,4 +1,6 @@
-﻿Imports System.Web.Services
+﻿Imports System.Data.SqlClient
+Imports LinqDB.ConnectDB
+Imports System.Web.Services
 
 Public Class frmSelectFunction
     Inherits System.Web.UI.Page
@@ -53,8 +55,10 @@ Public Class frmSelectFunction
                 For Each dr As DataRowView In UserData.UserFunction.DefaultView
 
                     Dim bgColor As String = ""
-                    Dim sql As String = "select id from TB_USER_DEPARTMENT where function_id=" & dr("function_id").ToString
-                    Dim cdt As DataTable = GetSqlDataTable(sql)
+                    Dim sql As String = "select id from TB_USER_DEPARTMENT where function_id=@_FUNCTION_ID"
+                    Dim p(1) As SqlParameter
+                    p(0) = SqlDB.SetBigInt("@_FUNCTION_ID", dr("function_id").ToString)
+                    Dim cdt As DataTable = SqlDB.ExecuteTable(sql, p)
                     If cdt.Rows.Count = 0 Then
                         bgColor = "Gray"
                         strLink = 0

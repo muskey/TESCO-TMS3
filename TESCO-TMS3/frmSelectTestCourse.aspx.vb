@@ -40,16 +40,13 @@
 
     Private Sub SetTestSubject()
         Try
-
-            'Dim sql As String = " select * from TB_TESTING"
-            Dim dt As DataTable = UserData.TestSubject 'GetSqlDataTable(sql)
+            Dim dt As DataTable = GetTesting()
             Dim str As String = ""
             If (dt.Rows.Count > 0) Then
                 For i As Int32 = 0 To dt.Rows.Count - 1
                     Dim dr As DataRow = dt.Rows(i)
                     str += " <p> <button class=""btn-block btn btn-larges"" id=" + dr("id").ToString + " onclick=""onConfirmTest('" + dr("id").ToString + "','" + dr("title").ToString + "','" + dr("target_percentage").ToString + "','" + dr("question_qty").ToString + "');return false;"" >" + dr("title").ToString + "</button></p>"
                 Next
-
             End If
             lblBotton.Text = str
         Catch ex As Exception

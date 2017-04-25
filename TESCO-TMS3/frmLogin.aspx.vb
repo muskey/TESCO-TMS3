@@ -55,7 +55,7 @@ Public Class frmLogin
                     If re.IsSuccess = True Then
                         UserData.UserSessionID = re.NewID
                         Session("UserData") = UserData
-                        GetDatableTableFromTesting(UserData)
+                        'GetDatableTableFromTesting(UserData)
                         ret = re.IsSuccess
                     End If
                 End If
@@ -67,150 +67,150 @@ Public Class frmLogin
 
         Return ret
     End Function
-    Public Function GetDatableTableFromTesting(UserData As UserProfileData) As Boolean
-        Dim ret As Boolean = False
-        Try
-            DT_TEST = New DataTable
-            DT_TEST.Columns.Add("id", GetType(Integer))
-            DT_TEST.Columns.Add("title")
-            DT_TEST.Columns.Add("description")
-            DT_TEST.Columns.Add("target_percentage", GetType(Integer))
-            DT_TEST.Columns.Add("course_id", GetType(Integer))
-            DT_TEST.Columns.Add("question_qty", GetType(Integer))
+    'Public Function GetDatableTableFromTesting(UserData As UserProfileData) As Boolean
+    '    Dim ret As Boolean = False
+    '    Try
+    '        DT_TEST = New DataTable
+    '        DT_TEST.Columns.Add("id", GetType(Integer))
+    '        DT_TEST.Columns.Add("title")
+    '        DT_TEST.Columns.Add("description")
+    '        DT_TEST.Columns.Add("target_percentage", GetType(Integer))
+    '        DT_TEST.Columns.Add("course_id", GetType(Integer))
+    '        DT_TEST.Columns.Add("question_qty", GetType(Integer))
 
-            DT_TEST_QUESTION = New DataTable
-            DT_TEST_QUESTION.Columns.Add("id", GetType(Integer))
-            DT_TEST_QUESTION.Columns.Add("tb_test_id", GetType(Integer))
-            DT_TEST_QUESTION.Columns.Add("question")
-            DT_TEST_QUESTION.Columns.Add("icon_url")
-            DT_TEST_QUESTION.Columns.Add("icon_file")
-            DT_TEST_QUESTION.Columns.Add("choice")
-            DT_TEST_QUESTION.Columns.Add("answer")
-            DT_TEST_QUESTION.Columns.Add("question_no", GetType(Integer))
+    '        DT_TEST_QUESTION = New DataTable
+    '        DT_TEST_QUESTION.Columns.Add("id", GetType(Integer))
+    '        DT_TEST_QUESTION.Columns.Add("tb_test_id", GetType(Integer))
+    '        DT_TEST_QUESTION.Columns.Add("question")
+    '        DT_TEST_QUESTION.Columns.Add("icon_url")
+    '        DT_TEST_QUESTION.Columns.Add("icon_file")
+    '        DT_TEST_QUESTION.Columns.Add("choice")
+    '        DT_TEST_QUESTION.Columns.Add("answer")
+    '        DT_TEST_QUESTION.Columns.Add("question_no", GetType(Integer))
 
-            DT_TEST_QUESTION.Columns.Add("answer_id")
-            DT_TEST_QUESTION.Columns.Add("answer_result")
-            DT_TEST_QUESTION.Columns.Add("time_spent", GetType(Int16))
-            DT_TEST_QUESTION.Columns.Add("answer_choice")
+    '        DT_TEST_QUESTION.Columns.Add("answer_id")
+    '        DT_TEST_QUESTION.Columns.Add("answer_result")
+    '        DT_TEST_QUESTION.Columns.Add("time_spent", GetType(Int16))
+    '        DT_TEST_QUESTION.Columns.Add("answer_choice")
 
 
 
-            Dim info As String = ""
-            info = GetStringDataFromURL(GetWebServiceURL() & "api/testing/get", UserData.Token & "&client_id=" & 13 & "&user_id=" & UserData.UserID)
-            If info.Trim = "" Then Return False
+    '        Dim info As String = ""
+    '        info = GetStringDataFromURL(GetWebServiceURL() & "api/testing/get", UserData.Token & "&client_id=" & 13 & "&user_id=" & UserData.UserID)
+    '        If info.Trim = "" Then Return False
 
-            Dim json As String = info
-            Dim ser As JObject = JObject.Parse(json)
-            Dim data As List(Of JToken) = ser.Children().ToList
-            Dim output As String = ""
+    '        Dim json As String = info
+    '        Dim ser As JObject = JObject.Parse(json)
+    '        Dim data As List(Of JToken) = ser.Children().ToList
+    '        Dim output As String = ""
 
-            For Each item As JProperty In data
-                item.CreateReader()
-                Select Case item.Name
-                    Case "testing"
-                        Dim question_id As Int32 = 0
+    '        For Each item As JProperty In data
+    '            item.CreateReader()
+    '            Select Case item.Name
+    '                Case "testing"
+    '                    Dim question_id As Int32 = 0
 
-                        For Each comment As JObject In item.Values
-                            Dim test_id As Int32 = comment("id")
+    '                    For Each comment As JObject In item.Values
+    '                        Dim test_id As Int32 = comment("id")
 
-                            Dim tDr As DataRow = DT_TEST.NewRow
-                            tDr("id") = test_id
-                            tDr("title") = comment("title").ToString
-                            tDr("description") = comment("description").ToString
-                            tDr("target_percentage") = Convert.ToInt32(comment("target_percentage"))
-                            tDr("course_id") = Convert.ToInt32(comment("course_id"))
-                            DT_TEST.Rows.Add(tDr)
+    '                        Dim tDr As DataRow = DT_TEST.NewRow
+    '                        tDr("id") = test_id
+    '                        tDr("title") = comment("title").ToString
+    '                        tDr("description") = comment("description").ToString
+    '                        tDr("target_percentage") = Convert.ToInt32(comment("target_percentage"))
+    '                        tDr("course_id") = Convert.ToInt32(comment("course_id"))
+    '                        DT_TEST.Rows.Add(tDr)
 
-                            Dim question_qty As Integer = 0
-                            Dim question_txt As String = "{""question"":" & comment("question").ToString & "}"
-                            Dim question_ser As JObject = JObject.Parse(question_txt)
-                            Dim question_data As List(Of JToken) = question_ser.Children().ToList
-                            For Each question_item As JProperty In question_data
-                                For Each question_comment As JObject In question_item.Values
-                                    question_id = question_id + 1
-                                    question_qty = question_qty + 1
-                                    question_item.CreateReader()
+    '                        Dim question_qty As Integer = 0
+    '                        Dim question_txt As String = "{""question"":" & comment("question").ToString & "}"
+    '                        Dim question_ser As JObject = JObject.Parse(question_txt)
+    '                        Dim question_data As List(Of JToken) = question_ser.Children().ToList
+    '                        For Each question_item As JProperty In question_data
+    '                            For Each question_comment As JObject In question_item.Values
+    '                                question_id = question_id + 1
+    '                                question_qty = question_qty + 1
+    '                                question_item.CreateReader()
 
-                                    Dim vChoice As String = ""
-                                    Dim vAnswer As String = ""
-                                    'Dim vAnswerID As String = ""
-                                    Dim answer_txt As String = "{""answer"":" & question_comment("answer").ToString & "}"
-                                    Dim answer_ser As JObject = JObject.Parse(answer_txt)
-                                    Dim answer_data As List(Of JToken) = answer_ser.Children().ToList
-                                    For Each answer_item As JProperty In answer_data
-                                        For Each answer_comment As JObject In answer_item.Values
-                                            answer_item.CreateReader()
+    '                                Dim vChoice As String = ""
+    '                                Dim vAnswer As String = ""
+    '                                'Dim vAnswerID As String = ""
+    '                                Dim answer_txt As String = "{""answer"":" & question_comment("answer").ToString & "}"
+    '                                Dim answer_ser As JObject = JObject.Parse(answer_txt)
+    '                                Dim answer_data As List(Of JToken) = answer_ser.Children().ToList
+    '                                For Each answer_item As JProperty In answer_data
+    '                                    For Each answer_comment As JObject In answer_item.Values
+    '                                        answer_item.CreateReader()
 
-                                            If vChoice = "" Then
-                                                vChoice = answer_comment("text").ToString
-                                            Else
-                                                vChoice += "##" + answer_comment("text").ToString
-                                            End If
+    '                                        If vChoice = "" Then
+    '                                            vChoice = answer_comment("text").ToString
+    '                                        Else
+    '                                            vChoice += "##" + answer_comment("text").ToString
+    '                                        End If
 
-                                            If vAnswer = "" Then
-                                                vAnswer = answer_comment("is_correct").ToString
-                                            Else
-                                                vAnswer += "##" + answer_comment("is_correct").ToString
-                                            End If
+    '                                        If vAnswer = "" Then
+    '                                            vAnswer = answer_comment("is_correct").ToString
+    '                                        Else
+    '                                            vAnswer += "##" + answer_comment("is_correct").ToString
+    '                                        End If
 
-                                            'If vAnswerID = "" Then
-                                            '    vAnswer = answer_comment("id").ToString
-                                            'Else
-                                            '    vAnswer += "##" + answer_comment("id").ToString
-                                            'End If
-                                        Next
-                                    Next
+    '                                        'If vAnswerID = "" Then
+    '                                        '    vAnswer = answer_comment("id").ToString
+    '                                        'Else
+    '                                        '    vAnswer += "##" + answer_comment("id").ToString
+    '                                        'End If
+    '                                    Next
+    '                                Next
 
-                                    Dim qDr As DataRow = DT_TEST_QUESTION.NewRow
-                                    qDr("id") = question_id
-                                    qDr("tb_test_id") = test_id
-                                    qDr("question") = question_comment("description").ToString
-                                    qDr("icon_url") = question_comment("cover").ToString
-                                    'qDr("icon_file") = SaveQuestionIcon(QuestionIconFolder, question_comment("cover").ToString, question_id)
-                                    qDr("icon_file") = question_comment("cover").ToString
-                                    qDr("choice") = vChoice
-                                    qDr("answer") = vAnswer
-                                    qDr("question_no") = question_qty
-                                    DT_TEST_QUESTION.Rows.Add(qDr)
-                                Next
-                            Next
+    '                                Dim qDr As DataRow = DT_TEST_QUESTION.NewRow
+    '                                qDr("id") = question_id
+    '                                qDr("tb_test_id") = test_id
+    '                                qDr("question") = question_comment("description").ToString
+    '                                qDr("icon_url") = question_comment("cover").ToString
+    '                                'qDr("icon_file") = SaveQuestionIcon(QuestionIconFolder, question_comment("cover").ToString, question_id)
+    '                                qDr("icon_file") = question_comment("cover").ToString
+    '                                qDr("choice") = vChoice
+    '                                qDr("answer") = vAnswer
+    '                                qDr("question_no") = question_qty
+    '                                DT_TEST_QUESTION.Rows.Add(qDr)
+    '                            Next
+    '                        Next
 
-                            'จำนวนคำถามในแบบทดสอบ
-                            DT_TEST.Rows(DT_TEST.Rows.Count - 1)("question_qty") = question_qty
-                        Next
-                    Case "course_data"
-                        For Each comment As JProperty In item.Values
-                            Select Case comment.Name
-                                Case "complete"
-                                    UserData.CourseComplete = comment.First
-                                Case "total"
-                                    UserData.CourseTotal = comment.Last
-                            End Select
-                        Next
-                    Case "testing_data"
-                        For Each comment As JProperty In item.Values
-                            Select Case comment.Name
-                                Case "attempt"
-                                    UserData.TestingAttempt = comment.First
-                                Case "complete"
-                                    UserData.TestingComplete = comment.First
-                                Case "total"
-                                    UserData.TestingTotal = comment.Last
-                            End Select
-                        Next
-                End Select
-            Next
+    '                        'จำนวนคำถามในแบบทดสอบ
+    '                        DT_TEST.Rows(DT_TEST.Rows.Count - 1)("question_qty") = question_qty
+    '                    Next
+    '                Case "course_data"
+    '                    For Each comment As JProperty In item.Values
+    '                        Select Case comment.Name
+    '                            Case "complete"
+    '                                UserData.CourseComplete = comment.First
+    '                            Case "total"
+    '                                UserData.CourseTotal = comment.Last
+    '                        End Select
+    '                    Next
+    '                Case "testing_data"
+    '                    For Each comment As JProperty In item.Values
+    '                        Select Case comment.Name
+    '                            Case "attempt"
+    '                                UserData.TestingAttempt = comment.First
+    '                            Case "complete"
+    '                                UserData.TestingComplete = comment.First
+    '                            Case "total"
+    '                                UserData.TestingTotal = comment.Last
+    '                        End Select
+    '                    Next
+    '            End Select
+    '        Next
 
-            UserData.TestSubject = DT_TEST
-            UserData.TestQuestion = DT_TEST_QUESTION
-            Session("UserData") = UserData
-            ret = True
-        Catch ex As Exception
-            'MessageBox.Show(ex.Message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            ret = False
-        End Try
-        Return ret
-    End Function
+    '        UserData.TestSubject = DT_TEST
+    '        UserData.TestQuestion = DT_TEST_QUESTION
+    '        Session("UserData") = UserData
+    '        ret = True
+    '    Catch ex As Exception
+    '        'MessageBox.Show(ex.Message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    '        ret = False
+    '    End Try
+    '    Return ret
+    'End Function
     Private Function BuiltDatableTableUserMessage(data3 As JProperty)
         Dim dt = New DataTable
         dt.Columns.Add("name")

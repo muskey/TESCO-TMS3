@@ -1,8 +1,10 @@
-﻿Imports System.Drawing
-Imports System.Net
-Imports iTextSharp.text
-Imports iTextSharp.text.pdf
-Imports iTextSharp.text.pdf.parser
+﻿'Imports System.Drawing
+'Imports System.Net
+'Imports iTextSharp.text
+'Imports iTextSharp.text.pdf
+'Imports iTextSharp.text.pdf.parser
+Imports System.Data.SqlClient
+Imports LinqDB.ConnectDB
 Imports System.IO
 'Imports Spire.Pdf
 'Imports Spire.Pdf.Graphics
@@ -37,9 +39,11 @@ Public Class frmDisplayPDF1
     End Sub
 
     Private Sub GetData()
-        Dim UserID As String = "3"
-        Dim sql As String = " select * from TB_USER_COURSE_DOCUMENT_File  where id=" & id
-        Dim dt As DataTable = GetSqlDataTable(sql)
+        'Dim UserID As String = "3"
+        Dim sql As String = " select * from TB_USER_COURSE_DOCUMENT_File  where id=@_ID"
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_ID", id)
+        Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
         If (dt.Rows.Count > 0) Then
 
             Dim frompath = dt.Rows(0)("file_url") & ""
@@ -53,6 +57,7 @@ Public Class frmDisplayPDF1
 
             splitpdf(frompath, topath)
         End If
+        dt.Dispose()
     End Sub
 
     Sub DeleteFilesFromFolder(Folder As String)

@@ -1,4 +1,6 @@
 ﻿Imports System.Web.Services
+Imports System.Data.SqlClient
+Imports LinqDB.ConnectDB
 
 Public Class frmSelectDepartment
     Inherits System.Web.UI.Page
@@ -58,8 +60,10 @@ Public Class frmSelectDepartment
                 dt = UserData.UserDepartment.DefaultView.ToTable().Copy
                 For Each dr As DataRow In dt.Rows
                     Dim bgColor As String = color
-                    Dim sql As String = "select id from TB_USER_COURSE where department_id=" & dr("department_id")
-                    Dim cdt As DataTable = GetSqlDataTable(sql)
+                    Dim sql As String = "select id from TB_USER_COURSE where department_id=@_DEPARTMENT_ID"
+                    Dim p(1) As SqlParameter
+                    p(0) = SqlDB.SetBigInt("@_DEPARTMENT_ID", dr("department_id"))
+                    Dim cdt As DataTable = SqlDB.ExecuteTable(sql, p)
                     If cdt.Rows.Count = 0 Then
                         bgColor = "Gray"
                     End If

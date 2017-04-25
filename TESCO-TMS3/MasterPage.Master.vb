@@ -12,10 +12,10 @@ Public Class MasterPage
     End Sub
 
     Private Sub btnTesting_Click(sender As Object, e As EventArgs) Handles btnTesting.Click
-        'If GetDatableTableFromTesting.IsSuccess = True Then
-        '    Response.Redirect("frmSelectTestCourse.aspx?rnd=" & DateTime.Now.Millisecond)
-        'End If
-        Response.Redirect("frmSelectTestCourse.aspx?rnd=" & DateTime.Now.Millisecond)
+        If GetDatableTableFromTesting.IsSuccess = True Then
+            Response.Redirect("frmSelectTestCourse.aspx?rnd=" & DateTime.Now.Millisecond)
+        End If
+        'Response.Redirect("frmSelectTestCourse.aspx?rnd=" & DateTime.Now.Millisecond)
     End Sub
     Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
         Session.Abandon()

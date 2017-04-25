@@ -1,5 +1,8 @@
-﻿Imports System.IO
+﻿Imports System.Data.SqlClient
+Imports LinqDB.ConnectDB
+Imports System.IO
 Imports Newtonsoft.Json.Linq
+
 
 Public Class frmSelectCourseDetail
     Inherits System.Web.UI.Page
@@ -39,12 +42,14 @@ Public Class frmSelectCourseDetail
 
 
     Private Sub DisplayCourseDetail()
-        Dim sql As String = "select * "
+        Dim sql As String = "select top 1 course_desc "
         sql += " from tb_user_course "
-        sql += " where id=" & Course_id
-        Dim dt As DataTable = GetSqlDataTable(sql)
+        sql += " where id=@_ID"
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_ID", Course_id)
 
-        If (dt.Rows.Count > 0) Then
+        Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
+        If dt.Rows.Count > 0 Then
             Me.lblMain.Text = "<h2><font color=""#019b79""><u> " + Course_title + "</u> </font></h2>"
             Me.lblMain.Text += "<h3><font color=""#019b79"">" + dt.Rows(0)("course_desc").ToString + "</font></h3>"
         End If
@@ -66,21 +71,39 @@ Public Class frmSelectCourseDetail
 
     Sub BindDocumentData(CourseID As String)
         Try
+            Dim ret As New ExecuteDataInfo
             Dim document_txt As String = ""
-            Dim sql As String = " select document_detail from TB_USER_COURSE where id=" & CourseID '& " and bind_document='N'"
-            Dim dt As DataTable = GetSqlDataTable(sql)
+            Dim sql As String = " select document_detail from TB_USER_COURSE where id=@_ID"  '& " and bind_document='N'"
+            Dim p(1) As SqlParameter
+            p(0) = SqlDB.SetBigInt("@_ID", CourseID)
+
+            Dim trans As New LinqDB.ConnectDB.TransactionDB
+            Dim dt As DataTable = SqlDB.ExecuteTable(sql, p) ' GetSqlDataTable(sql)
             If dt.Rows.Count > 0 Then
-                sql = "delete from TB_USER_COURSE_DOCUMENT_FILE where tb_user_course_document_id in (select id from TB_USER_COURSE_DOCUMENT where tb_user_course_id=" & CourseID & ") "
-                ExecuteSqlNoneQuery(sql)
+                sql = "delete from TB_USER_COURSE_DOCUMENT_FILE where tb_user_course_document_id in (select id from TB_USER_COURSE_DOCUMENT where tb_user_course_id=@_COURSE_ID) "
+                ReDim p(1)
+                p(0) = SqlDB.SetBigInt("@_COURSE_ID", CourseID)
+                ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p) ' ExecuteSqlNoneQuery(sql)
 
-                sql = " delete from TB_USER_COURSE_DOCUMENT  where tb_user_course_id=" & CourseID
-                ExecuteSqlNoneQuery(sql)
+                If ret.IsSuccess = True Then
+                    sql = " delete from TB_USER_COURSE_DOCUMENT  where tb_user_course_id=" & CourseID
+                    ReDim p(1)
+                    p(0) = SqlDB.SetBigInt("@_COURSE_ID", CourseID)
+                    ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+                End If
 
-                If Convert.IsDBNull(dt.Rows(0)("document_detail")) = False Then
-                    document_txt = dt.Rows(0)("document_detail")
+                If ret.IsSuccess = True Then
+                    If Convert.IsDBNull(dt.Rows(0)("document_detail")) = False Then
+                        document_txt = dt.Rows(0)("document_detail")
+                    End If
                 End If
             End If
             dt.Dispose()
+
+            If ret.IsSuccess = False Then
+                trans.RollbackTransaction()
+                Exit Sub
+            End If
 
             If document_txt.Trim <> "" Then
 
@@ -103,22 +126,9 @@ Public Class frmSelectCourseDetail
                         sql += ", '" & document_comment("order").ToString & "'"
                         sql += ", '" & UserData.UserID & "')"
 
+                        ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, Nothing)
 
-                        'Dim dr As DataRow = UserData.UserCourse.NewRow
-                        'dr("id") = document_comment("id").ToString
-                        'dr("tb_user_course_id") = CourseID
-                        'dr("document_title") = document_comment("title").ToString
-                        'dr("ms_document_icon_id") = document_comment("icon_id").ToString
-                        'dr("document_version") = document_comment("version").ToString
-                        'dr("document_type") = document_comment("type").ToString
-                        'dr("order_by") = document_comment("order").ToString
-                        'dr("user_id") = "3"
-                        'UserData.UserCourse.Rows.Add(dr)
-
-
-
-
-                        If ExecuteSqlNoneQuery(sql) = True Then
+                        If ret.IsSuccess = True Then
                             Dim doc_id As Object = document_comment("id")
                             Dim file_txt As String = "{""file"":" & document_comment("file").ToString & "}"
                             Dim file_ser As JObject = JObject.Parse(file_txt)
@@ -145,34 +155,38 @@ Public Class frmSelectCourseDetail
                                     sql += ", '" & file_comment("file").ToString & "'"
                                     sql += ", '" & file_comment("order").ToString & "'"
                                     sql += ", '" & UserData.UserID & "')"
-                                    ExecuteSqlNoneQuery(sql)
+                                    ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, Nothing)
 
-                                    'Dim drfile As DataRow = UserData.UserCourseFile.NewRow
-                                    'drfile("id") = file_comment("id").ToString
-                                    'drfile("tb_user_course_document_id") = doc_id
-                                    'drfile("file_title") = file_comment("title").ToString
-                                    'drfile("file_url") = file_comment("file").ToString
-                                    'drfile("order_by") = file_comment("order").ToString
-                                    'drfile("user_id") = "3"
-                                    'UserData.UserCourseFile.Rows.Add(drfile)
-
-
+                                    If ret.IsSuccess = False Then
+                                        Exit For
+                                    End If
                                     cdfi += 1
-
                                 Next
+                                If ret.IsSuccess = False Then
+                                    Exit For
+                                End If
                             Next
+                        Else
+                            Exit For
                         End If
                         cdi += 1
-
-
                     Next
+
+                    If ret.IsSuccess = False Then
+                        Exit For
+                    End If
                 Next
 
-                '  sql = " update TB_USER_COURSE set bind_document='Y' where id=" & CourseID
-                ExecuteSqlNoneQuery(sql)
+                sql = " update TB_USER_COURSE set bind_document='Y' where id=@_ID" & CourseID
+                ReDim p(1)
+                p(0) = SqlDB.SetBigInt("@_ID", CourseID)
 
-                'Session("UserData") = UserData
-
+                ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+                If ret.IsSuccess = True Then
+                    trans.CommitTransaction()
+                Else
+                    trans.RollbackTransaction()
+                End If
             End If
         Catch ex As Exception
 
