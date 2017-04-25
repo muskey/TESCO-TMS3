@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class frmDisplayHTML
     
     '''<summary>
+    '''lblContent control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblContent As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
     '''myIframe control.
     '''</summary>
     '''<remarks>
@@ -21,4 +30,85 @@ Partial Public Class frmDisplayHTML
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents myIframe As Global.System.Web.UI.HtmlControls.HtmlIframe
+    
+    '''<summary>
+    '''btnBack control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnBack As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''btnNext control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnNext As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''txtPre control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtPre As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtCurrent control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCurrent As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtNext control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtNext As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtMax control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtMax As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''btnHome control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnHome As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''btnContent control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnContent As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''btnCloseContent control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCloseContent As Global.System.Web.UI.WebControls.Button
 End Class

@@ -1,4 +1,6 @@
-﻿Public Class frmSelectDepartment
+﻿Imports System.Web.Services
+
+Public Class frmSelectDepartment
     Inherits System.Web.UI.Page
 
 #Region "Declare & Valiable"
@@ -32,12 +34,19 @@
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
-            Me.lblTitle.Text = "<h3><font color=""#019b79"">&nbsp; &nbsp; &nbsp;" + function_title + "</font></h3>"
+            Me.lblTitle.Text = "<h3>&nbsp>&nbsp<a href=""frmSelectFormat.aspx""><font color=""#019b79"">" + Session("backpathname1") + "&nbsp>&nbsp</font></a><a href=" + Session("backpath2") + "><font color=""#019b79"">" + Session("backpathname2") + "&nbsp>&nbsp</font></a><font color=""#019b79"">" + function_title + "</font></h3>"
             DisplayDepartmentList()
         End If
 
     End Sub
 
+    <WebMethod()>
+    Public Shared Function SetBackPath(strpath As String, strtitlename As String)
+        Dim objp = New Page()
+        objp.Session("backpath3") = strpath
+        objp.Session("backpathname3") = strtitlename
+        Return strpath
+    End Function
 
     Private Sub DisplayDepartmentList()
         Try
@@ -49,12 +58,8 @@
                 dt = UserData.UserDepartment.DefaultView.ToTable().Copy
                 For Each dr As DataRow In dt.Rows
                     Dim bgColor As String = color
-                    Dim sql As String = "select id from TB_USER_COURSE where department_id=@_DEPARTMENT_ID"
-                    'Dim cdt As DataTable = GetSqlDataTable(sql)
-
-                    Dim p(1) As System.Data.SqlClient.SqlParameter
-                    p(0) = LinqDB.ConnectDB.SqlDB.SetBigInt("@_DEPARTMENT_ID", dr("department_id"))
-                    Dim cdt As DataTable = LinqDB.ConnectDB.SqlDB.ExecuteTable(sql, p)
+                    Dim sql As String = "select id from TB_USER_COURSE where department_id=" & dr("department_id")
+                    Dim cdt As DataTable = GetSqlDataTable(sql)
                     If cdt.Rows.Count = 0 Then
                         bgColor = "Gray"
                     End If
@@ -71,7 +76,10 @@
         End Try
     End Sub
 
-
+    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+        Dim strurl As String = Session("backpath2")
+        Response.Redirect(strurl)
+    End Sub
 #End Region
 
 

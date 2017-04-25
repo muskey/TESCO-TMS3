@@ -170,16 +170,16 @@ Public Class frmDisplayMain
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
 
         Dim dtback As DataTable = Session("UserDataCourseFile")
-        Dim foundRows() As DataRow
-        Dim strfillter As String = "next_id=" & Me.txtPre.Text
-        foundRows = dtback.Select(strfillter)
+            Dim foundRows() As DataRow
+            Dim strfillter As String = "next_id=" & Me.txtPre.Text
+            foundRows = dtback.Select(strfillter)
 
-        Dim i As Integer
-        For i = 0 To foundRows.GetUpperBound(0)
-            SetIniPage(foundRows(i))
-        Next i
-        Me.txtPre.Text = Val(Me.txtPre.Text) - 1
-        Me.txtCurrent.Text = Val(Me.txtCurrent.Text) - 1
+            Dim i As Integer
+            For i = 0 To foundRows.GetUpperBound(0)
+                SetIniPage(foundRows(i))
+            Next i
+            Me.txtPre.Text = Val(Me.txtPre.Text) - 1
+            Me.txtCurrent.Text = Val(Me.txtCurrent.Text) - 1
         Me.txtNext.Text = Val(Me.txtNext.Text) - 1
         GetBotton()
     End Sub
@@ -187,17 +187,17 @@ Public Class frmDisplayMain
     Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
 
         Dim dtnext As DataTable = Session("UserDataCourseFile")
-        Dim foundRows() As DataRow
-        Dim strfillter As String = "next_id=" & Me.txtNext.Text
-        foundRows = dtnext.Select(strfillter)
+            Dim foundRows() As DataRow
+            Dim strfillter As String = "next_id=" & Me.txtNext.Text
+            foundRows = dtnext.Select(strfillter)
 
-        Dim i As Integer
-        For i = 0 To foundRows.GetUpperBound(0)
-            SetIniPage(foundRows(i))
-        Next i
+            Dim i As Integer
+            For i = 0 To foundRows.GetUpperBound(0)
+                SetIniPage(foundRows(i))
+            Next i
 
         Me.txtPre.Text = Val(Me.txtPre.Text) + 1
-        Me.txtCurrent.Text = Val(Me.txtCurrent.Text) + 1
+            Me.txtCurrent.Text = Val(Me.txtCurrent.Text) + 1
         Me.txtNext.Text = Val(Me.txtNext.Text) + 1
         GetBotton()
     End Sub

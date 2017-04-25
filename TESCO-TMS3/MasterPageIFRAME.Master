@@ -11,39 +11,83 @@
 	<!-- Apple devices fullscreen -->
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
+        <!-- Bootstrap -->
+	<link rel="stylesheet" href="Assets/css/bootstrap.min.css">
+	<!-- Bootstrap responsive -->
+	<link rel="stylesheet" href="Assets/css/bootstrap-responsive.min.css">
+	<!-- jQuery UI -->
+	<link rel="stylesheet" href="Assets/css/plugins/jquery-ui/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="Assets/css/plugins/jquery-ui/smoothness/jquery.ui.theme.css">
+	<!-- Notify -->
+	<link rel="stylesheet" href="Assets/css/plugins/gritter/jquery.gritter.css">
+	<!-- Theme CSS -->
+	<link rel="stylesheet" href="Assets/css/style.css">
+	<!-- Color CSS -->
+	<link rel="stylesheet" href="Assets/css/themes.css">
+	<!-- select2 -->
+	<link rel="stylesheet" href="Assets/css/plugins/select2/select2.css">
+	<!-- icheck -->
+	<link rel="stylesheet" href="Assets/css/plugins/icheck/all.css">
+	<!-- chosen -->
+	<link rel="stylesheet" href="Assets/css/plugins/chosen/chosen.css">
+	<!-- multi select -->
+	<link rel="stylesheet" href="Assets/css/plugins/multiselect/multi-select.css">
+
+	<!-- jQuery -->
+	<script src="Assets/js/jquery.min.js"></script>
+	
+	<!-- Notify -->
+	<script src="Assets/js/plugins/gritter/jquery.gritter.min.js"></script>
+	<!-- Nice Scroll -->
+	<script src="Assets/js/plugins/nicescroll/jquery.nicescroll.min.js"></script>
+	<!-- imagesLoaded -->
+	<script src="Assets/js/plugins/imagesLoaded/jquery.imagesloaded.min.js"></script>
+	<!-- jQuery UI -->
+	<script src="Assets/js/plugins/jquery-ui/jquery.ui.core.min.js"></script>
+	<script src="Assets/js/plugins/jquery-ui/jquery.ui.widget.min.js"></script>
+	<script src="Assets/js/plugins/jquery-ui/jquery.ui.mouse.min.js"></script>
+	<script src="Assets/js/plugins/jquery-ui/jquery.ui.resizable.min.js"></script>
+	<script src="Assets/js/plugins/jquery-ui/jquery.ui.sortable.min.js"></script>
+	<!-- slimScroll -->
+	<script src="Assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="Assets/js/bootstrap.min.js"></script>
+	<!-- Bootbox -->
+	<script src="Assets/js/plugins/bootbox/jquery.bootbox.js"></script>
+	<!-- Bootbox -->
+	<script src="Assets/js/plugins/form/jquery.form.min.js"></script>
+	<!-- Validation -->
+	<script src="Assets/js/plugins/validation/jquery.validate.min.js"></script>
+	<script src="Assets/js/plugins/validation/additional-methods.min.js"></script>
+	<!-- Chosen -->
+	<script src="Assets/js/plugins/chosen/chosen.jquery.min.js"></script>
+	<!-- MultiSelect -->
+	<script src="Assets/js/plugins/multiselect/jquery.multi-select.js"></script>
+	<!-- select2 -->
+	<script src="Assets/js/plugins/select2/select2.min.js"></script>
+	<!-- icheck -->
+	<script src="Assets/js/plugins/icheck/jquery.icheck.min.js"></script>
+	<!-- complexify -->
+	<script src="Assets/js/plugins/complexify/jquery.complexify-banlist.min.js"></script>
+	<script src="Assets/js/plugins/complexify/jquery.complexify.min.js"></script>
+	<!-- Mockjax -->
+	<script src="Assets/js/plugins/mockjax/jquery.mockjax.js"></script>
+
+	<!-- Theme framework -->
+	<script src="Assets/js/eakroko.min.js"></script>
+	<!-- Theme scripts -->
+	<script src="Assets/js/application.min.js"></script>
+	<!-- Just for demonstration -->
+	<script src="Assets/js/demonstration.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Kanit">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+	
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="Assets/img/favicon.ico" />
+	<!-- Apple devices Homescreen icon -->
+	<link rel="apple-touch-icon-precomposed" href="Assets/img/apple-touch-icon-precomposed.png" />
 
 
-
-    <!-- Bootstrap 3.3.5 -->
-   <link href="Assets/dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
-    <!-- Theme style -->
-   <link href="Assets/dist/dist/css/AdminLTE.min.css" rel="stylesheet" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-
-    <link href="Assets/dist/dist/css/skins/_all-skins.min.css" rel="stylesheet" />
-
-
-
-
-    <!-- jQuery 2.1.4 -->
-  
-<script src="Assets/dist/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <!-- Bootstrap 3.3.5 -->
-   
-<script src="Assets/dist/bootstrap/js/bootstrap.min.js"></script>
-    <!-- FastClick -->
-  
-    <script src="Assets/dist/plugins/fastclick/fastclick.min.js"></script>
-    <!-- AdminLTE App -->
- 
-<script src="Assets/dist/dist/js/app.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="Assets/dist/dist/js/demo.js"></script>
 
 
     <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">

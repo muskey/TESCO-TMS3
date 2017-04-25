@@ -1478,6 +1478,22 @@
     <Content Include="Assets\font\kit46p-webfont.svg" />
     <Content Include="Assets\font\specimen_files\grid_12-825-55-15.css" />
     <Content Include="Assets\font\specimen_files\specimen_stylesheet.css" />
+    <Content Include="Assets\img\font\font.css" />
+    <Content Include="Assets\img\font\generator_config.txt" />
+    <Content Include="Assets\img\font\kit45-demo.html" />
+    <Content Include="Assets\img\font\kit45-webfont.svg" />
+    <Content Include="Assets\img\font\kit45f-demo.html" />
+    <Content Include="Assets\img\font\kit45f-webfont.svg" />
+    <Content Include="Assets\img\font\kit45p-demo.html" />
+    <Content Include="Assets\img\font\kit45p-webfont.svg" />
+    <Content Include="Assets\img\font\kit46-demo.html" />
+    <Content Include="Assets\img\font\kit46-webfont.svg" />
+    <Content Include="Assets\img\font\kit46f-demo.html" />
+    <Content Include="Assets\img\font\kit46f-webfont.svg" />
+    <Content Include="Assets\img\font\kit46p-demo.html" />
+    <Content Include="Assets\img\font\kit46p-webfont.svg" />
+    <Content Include="Assets\img\font\specimen_files\grid_12-825-55-15.css" />
+    <Content Include="Assets\img\font\specimen_files\specimen_stylesheet.css" />
     <Content Include="Assets\img\apple-touch-icon-precomposed.png" />
     <Content Include="Assets\img\collapsed-group.jpg" />
     <Content Include="Assets\img\delete-icon.png" />
@@ -1807,6 +1823,7 @@
     <Content Include="Assets\img\logo-big%402x.png" />
     <Content Include="Assets\img\logo-big.png" />
     <Content Include="Assets\img\logo.png" />
+    <Content Include="Assets\img\logo\Login_Logo.png" />
     <Content Include="Assets\img\logo\logo_tesco.png" />
     <Content Include="Assets\img\navigation-bg-small.png" />
     <Content Include="Assets\img\navigation-bg.png" />
@@ -2349,22 +2366,33 @@
     <Content Include="Assets\js\plugins\xeditable\demo.js" />
     <Content Include="Assets\js\plugins\xeditable\demo.min.js" />
     <Content Include="Assets\PC\bgSelectFormatHeader.png" />
+    <Content Include="Assets\PC\bgSelectTestCourseHeader.png" />
+    <Content Include="Assets\PC\btnButtonBack.png" />
     <Content Include="Assets\PC\btnCloseDoc.png" />
+    <Content Include="Assets\PC\btnNextDisable.png" />
     <Content Include="Assets\PC\btnNextDoc.png" />
+    <Content Include="Assets\PC\btnPreviousDidable.png" />
     <Content Include="Assets\PC\btnPreviousDoc.png" />
+    <Content Include="Assets\PC\icon_course_book.png" />
     <Content Include="Assets\PC\index_icon.png" />
+    <Content Include="Assets\PC\Logo.png" />
+    <Content Include="Assets\PC\noimagefound.jpg" />
     <Content Include="Assets\pdfdll\itextsharp.dll" />
     <Content Include="Assets\pdfdll\itextsharp.pdfa.dll" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
+    <Content Include="frmDisplayHTML1.aspx" />
     <Content Include="frmDisplayHTML.aspx" />
-    <Content Include="frmDisplayImage.aspx" />
-    <Content Include="frmDisplayMain.aspx" />
-    <Content Include="frmDisplayPDF.aspx" />
-    <Content Include="frmDisplayTest.aspx" />
     <Content Include="frmDisplayVDO.aspx" />
+    <Content Include="frmDisplayPDF.aspx" />
+    <Content Include="frmDisplayImage.aspx" />
+    <Content Include="frmDisplayCenter.aspx" />
+    <Content Include="frmDisplayMain.aspx" />
+    <Content Include="frmDisplayPDF1.aspx" />
+    <Content Include="frmDisplayTest.aspx" />
+    <Content Include="frmDisplayVDO1.aspx" />
     <Content Include="frmLogin.aspx" />
     <Content Include="frmSelectCourse.aspx" />
     <Content Include="frmSelectCourseDetail.aspx" />
@@ -2372,6 +2400,8 @@
     <Content Include="frmSelectDepartment.aspx" />
     <Content Include="frmSelectFormat.aspx" />
     <Content Include="frmSelectFunction.aspx" />
+    <Content Include="frmSelectTestQuestion.aspx" />
+    <Content Include="frmSelectTestCourse.aspx" />
     <Content Include="frmTestingCourse.aspx" />
     <Content Include="HtmlPage1.html" />
     <Content Include="Scripts\bootstrap.js" />
@@ -2379,6 +2409,29 @@
     <Content Include="WebForm1.aspx" />
     <Content Include="MasterPageIFRAME.Master" />
     <Content Include="WebForm2.aspx" />
+    <Content Include="WebService\WebService.asmx" />
+    <Content Include="kit65f.TTF" />
+    <Content Include="kit65p.TTF" />
+    <Content Include="Assets\font\kit45-webfont.eot" />
+    <Content Include="Assets\font\kit45-webfont.woff" />
+    <Content Include="Assets\font\kit45-webfont.woff2" />
+    <Content Include="Assets\font\kit45f-webfont.eot" />
+    <Content Include="Assets\font\kit45f-webfont.woff" />
+    <Content Include="Assets\font\kit45f-webfont.woff2" />
+    <Content Include="Assets\font\kit45p-webfont.eot" />
+    <Content Include="Assets\font\kit45p-webfont.woff" />
+    <Content Include="Assets\font\kit45p-webfont.woff2" />
+    <Content Include="Assets\font\kit46-webfont.eot" />
+    <Content Include="Assets\font\kit46-webfont.woff" />
+    <Content Include="Assets\font\kit46-webfont.woff2" />
+    <Content Include="Assets\font\kit46f-webfont.eot" />
+    <Content Include="Assets\font\kit46f-webfont.woff" />
+    <Content Include="Assets\font\kit46f-webfont.woff2" />
+    <Content Include="Assets\font\kit46p-webfont.eot" />
+    <Content Include="Assets\font\kit46p-webfont.woff" />
+    <Content Include="Assets\font\kit46p-webfont.woff2" />
+    <Content Include="Assets\font\webfontkit.zip" />
+    <None Include="My Project\PublishProfiles\TESCO-TMS3.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -2527,25 +2580,25 @@
     <Content Include="Assets\dist\plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="Assets\dist\plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="Assets\dist\README.md" />
-    <Content Include="Assets\font\kit45-webfont.eot" />
-    <Content Include="Assets\font\kit45-webfont.woff" />
-    <Content Include="Assets\font\kit45-webfont.woff2" />
-    <Content Include="Assets\font\kit45f-webfont.eot" />
-    <Content Include="Assets\font\kit45f-webfont.woff" />
-    <Content Include="Assets\font\kit45f-webfont.woff2" />
-    <Content Include="Assets\font\kit45p-webfont.eot" />
-    <Content Include="Assets\font\kit45p-webfont.woff" />
-    <Content Include="Assets\font\kit45p-webfont.woff2" />
-    <Content Include="Assets\font\kit46-webfont.eot" />
-    <Content Include="Assets\font\kit46-webfont.woff" />
-    <Content Include="Assets\font\kit46-webfont.woff2" />
-    <Content Include="Assets\font\kit46f-webfont.eot" />
-    <Content Include="Assets\font\kit46f-webfont.woff" />
-    <Content Include="Assets\font\kit46f-webfont.woff2" />
-    <Content Include="Assets\font\kit46p-webfont.eot" />
-    <Content Include="Assets\font\kit46p-webfont.woff" />
-    <Content Include="Assets\font\kit46p-webfont.woff2" />
-    <Content Include="Assets\font\webfontkit.zip" />
+    <Content Include="Assets\img\font\kit45-webfont.eot" />
+    <Content Include="Assets\img\font\kit45-webfont.woff" />
+    <Content Include="Assets\img\font\kit45-webfont.woff2" />
+    <Content Include="Assets\img\font\kit45f-webfont.eot" />
+    <Content Include="Assets\img\font\kit45f-webfont.woff" />
+    <Content Include="Assets\img\font\kit45f-webfont.woff2" />
+    <Content Include="Assets\img\font\kit45p-webfont.eot" />
+    <Content Include="Assets\img\font\kit45p-webfont.woff" />
+    <Content Include="Assets\img\font\kit45p-webfont.woff2" />
+    <Content Include="Assets\img\font\kit46-webfont.eot" />
+    <Content Include="Assets\img\font\kit46-webfont.woff" />
+    <Content Include="Assets\img\font\kit46-webfont.woff2" />
+    <Content Include="Assets\img\font\kit46f-webfont.eot" />
+    <Content Include="Assets\img\font\kit46f-webfont.woff" />
+    <Content Include="Assets\img\font\kit46f-webfont.woff2" />
+    <Content Include="Assets\img\font\kit46p-webfont.eot" />
+    <Content Include="Assets\img\font\kit46p-webfont.woff" />
+    <Content Include="Assets\img\font\kit46p-webfont.woff2" />
+    <Content Include="Assets\img\font\webfontkit.zip" />
     <Content Include="Assets\js\plugins\ckeditor\CHANGES.md" />
     <Content Include="Assets\js\plugins\ckeditor\LICENSE.md" />
     <Content Include="Assets\js\plugins\ckeditor\plugins\scayt\LICENSE.md" />
@@ -2651,6 +2704,13 @@
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="frmDisplayHTML1.aspx.designer.vb">
+      <DependentUpon>frmDisplayHTML1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDisplayHTML1.aspx.vb">
+      <DependentUpon>frmDisplayHTML1.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="frmDisplayHTML.aspx.designer.vb">
       <DependentUpon>frmDisplayHTML.aspx</DependentUpon>
     </Compile>
@@ -2658,18 +2718,11 @@
       <DependentUpon>frmDisplayHTML.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="frmDisplayImage.aspx.designer.vb">
-      <DependentUpon>frmDisplayImage.aspx</DependentUpon>
+    <Compile Include="frmDisplayVDO.aspx.designer.vb">
+      <DependentUpon>frmDisplayVDO.aspx</DependentUpon>
     </Compile>
-    <Compile Include="frmDisplayImage.aspx.vb">
-      <DependentUpon>frmDisplayImage.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="frmDisplayMain.aspx.designer.vb">
-      <DependentUpon>frmDisplayMain.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="frmDisplayMain.aspx.vb">
-      <DependentUpon>frmDisplayMain.aspx</DependentUpon>
+    <Compile Include="frmDisplayVDO.aspx.vb">
+      <DependentUpon>frmDisplayVDO.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="frmDisplayPDF.aspx.designer.vb">
@@ -2679,6 +2732,34 @@
       <DependentUpon>frmDisplayPDF.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="frmDisplayImage.aspx.designer.vb">
+      <DependentUpon>frmDisplayImage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDisplayImage.aspx.vb">
+      <DependentUpon>frmDisplayImage.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmDisplayCenter.aspx.designer.vb">
+      <DependentUpon>frmDisplayCenter.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDisplayCenter.aspx.vb">
+      <DependentUpon>frmDisplayCenter.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmDisplayMain.aspx.designer.vb">
+      <DependentUpon>frmDisplayMain.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDisplayMain.aspx.vb">
+      <DependentUpon>frmDisplayMain.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmDisplayPDF1.aspx.designer.vb">
+      <DependentUpon>frmDisplayPDF1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDisplayPDF1.aspx.vb">
+      <DependentUpon>frmDisplayPDF1.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="frmDisplayTest.aspx.designer.vb">
       <DependentUpon>frmDisplayTest.aspx</DependentUpon>
     </Compile>
@@ -2686,11 +2767,11 @@
       <DependentUpon>frmDisplayTest.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="frmDisplayVDO.aspx.designer.vb">
-      <DependentUpon>frmDisplayVDO.aspx</DependentUpon>
+    <Compile Include="frmDisplayVDO1.aspx.designer.vb">
+      <DependentUpon>frmDisplayVDO1.aspx</DependentUpon>
     </Compile>
-    <Compile Include="frmDisplayVDO.aspx.vb">
-      <DependentUpon>frmDisplayVDO.aspx</DependentUpon>
+    <Compile Include="frmDisplayVDO1.aspx.vb">
+      <DependentUpon>frmDisplayVDO1.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="frmLogin.aspx.designer.vb">
@@ -2740,6 +2821,20 @@
     </Compile>
     <Compile Include="frmSelectFunction.aspx.vb">
       <DependentUpon>frmSelectFunction.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmSelectTestQuestion.aspx.designer.vb">
+      <DependentUpon>frmSelectTestQuestion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectTestQuestion.aspx.vb">
+      <DependentUpon>frmSelectTestQuestion.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmSelectTestCourse.aspx.designer.vb">
+      <DependentUpon>frmSelectTestCourse.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectTestCourse.aspx.vb">
+      <DependentUpon>frmSelectTestCourse.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="frmTestingCourse.aspx.designer.vb">
@@ -2804,6 +2899,10 @@
     <Compile Include="WebForm2.aspx.vb">
       <DependentUpon>WebForm2.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="WebService\WebService.asmx.vb">
+      <DependentUpon>WebService.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>

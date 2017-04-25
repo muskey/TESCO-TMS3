@@ -1,7 +1,5 @@
 ﻿Imports System.IO
 Imports Newtonsoft.Json.Linq
-Imports LinqDB.TABLE
-Imports LinqDB.ConnectDB
 
 Public Class frmSelectCourseDetail
     Inherits System.Web.UI.Page
@@ -43,11 +41,9 @@ Public Class frmSelectCourseDetail
     Private Sub DisplayCourseDetail()
         Dim sql As String = "select * "
         sql += " from tb_user_course "
-        sql += " where id=@_COURSE_ID"
+        sql += " where id=" & Course_id
+        Dim dt As DataTable = GetSqlDataTable(sql)
 
-        Dim p(1) As System.Data.SqlClient.SqlParameter
-        p(0) = LinqDB.ConnectDB.SqlDB.SetBigInt("@_COURSE_ID", Course_id)
-        Dim dt As DataTable = LinqDB.ConnectDB.SqlDB.ExecuteTable(sql, p)
         If (dt.Rows.Count > 0) Then
             Me.lblMain.Text = "<h2><font color=""#019b79""><u> " + Course_title + "</u> </font></h2>"
             Me.lblMain.Text += "<h3><font color=""#019b79"">" + dt.Rows(0)("course_desc").ToString + "</font></h3>"
@@ -60,28 +56,25 @@ Public Class frmSelectCourseDetail
 
 #Region "Event & Handle"
     Private Sub btnRegisterClick(sender As Object, e As EventArgs) Handles btnRegister.Click
-        If Me.txtCoursetID.Text <> "" Then
-            BindDocumentData(Me.txtCoursetID.Text)
-            Response.Redirect("frmDisplayMain.aspx?rnd=" & DateTime.Now.Millisecond & "&id=" & Me.txtCoursetID.Text & "&title=" + Me.txtCourseTitle.Text)
-        End If
+        ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "ShowPopup('xxxxxxxxxxxx');", True)
+
+        'If Me.txtCoursetID.Text <> "" Then
+        '    BindDocumentData(Me.txtCoursetID.Text)
+        '    Response.Redirect("frmDisplayMain.aspx?rnd=" & DateTime.Now.Millisecond & "&id=" & Me.txtCoursetID.Text & "&title=" + Me.txtCourseTitle.Text)
+        'End If
     End Sub
 
     Sub BindDocumentData(CourseID As String)
         Try
             Dim document_txt As String = ""
-            Dim sql As String = " select document_detail from TB_USER_COURSE where id=@_COURSE_ID" '& " and bind_document='N'"
-            Dim p(1) As System.Data.SqlClient.SqlParameter
-            p(0) = LinqDB.ConnectDB.SqlDB.SetBigInt("@_COURSE_ID", CourseID)
-            Dim dt As DataTable = LinqDB.ConnectDB.SqlDB.ExecuteTable(sql, p)
-
-
-            'Dim dt As DataTable = GetSqlDataTable(sql)
+            Dim sql As String = " select document_detail from TB_USER_COURSE where id=" & CourseID '& " and bind_document='N'"
+            Dim dt As DataTable = GetSqlDataTable(sql)
             If dt.Rows.Count > 0 Then
                 sql = "delete from TB_USER_COURSE_DOCUMENT_FILE where tb_user_course_document_id in (select id from TB_USER_COURSE_DOCUMENT where tb_user_course_id=" & CourseID & ") "
-                LinqDB.ConnectDB.SqlDB.ExecuteNonQuery(sql)
+                ExecuteSqlNoneQuery(sql)
 
                 sql = " delete from TB_USER_COURSE_DOCUMENT  where tb_user_course_id=" & CourseID
-                LinqDB.ConnectDB.SqlDB.ExecuteNonQuery(sql)
+                ExecuteSqlNoneQuery(sql)
 
                 If Convert.IsDBNull(dt.Rows(0)("document_detail")) = False Then
                     document_txt = dt.Rows(0)("document_detail")
@@ -110,7 +103,22 @@ Public Class frmSelectCourseDetail
                         sql += ", '" & document_comment("order").ToString & "'"
                         sql += ", '" & UserData.UserID & "')"
 
-                        If LinqDB.ConnectDB.SqlDB.ExecuteNonQuery(sql).IsSuccess = True Then
+
+                        'Dim dr As DataRow = UserData.UserCourse.NewRow
+                        'dr("id") = document_comment("id").ToString
+                        'dr("tb_user_course_id") = CourseID
+                        'dr("document_title") = document_comment("title").ToString
+                        'dr("ms_document_icon_id") = document_comment("icon_id").ToString
+                        'dr("document_version") = document_comment("version").ToString
+                        'dr("document_type") = document_comment("type").ToString
+                        'dr("order_by") = document_comment("order").ToString
+                        'dr("user_id") = "3"
+                        'UserData.UserCourse.Rows.Add(dr)
+
+
+
+
+                        If ExecuteSqlNoneQuery(sql) = True Then
                             Dim doc_id As Object = document_comment("id")
                             Dim file_txt As String = "{""file"":" & document_comment("file").ToString & "}"
                             Dim file_ser As JObject = JObject.Parse(file_txt)
@@ -130,9 +138,6 @@ Public Class frmSelectCourseDetail
                                         DocFileName = "'" & EnCripText(FolderCourseDocumentFile & "\" & FileName) & "'"
                                     End If
 
-                                    'Dim lnq As New TbUserCourseDocumentFileLinqDB
-
-
                                     sql = "insert into TB_USER_COURSE_DOCUMENT_FILE (id,tb_user_course_document_id,file_title,file_url,order_by,user_id)"
                                     sql += " values('" & file_comment("id").ToString & "'"
                                     sql += ", '" & doc_id & "'"
@@ -140,7 +145,7 @@ Public Class frmSelectCourseDetail
                                     sql += ", '" & file_comment("file").ToString & "'"
                                     sql += ", '" & file_comment("order").ToString & "'"
                                     sql += ", '" & UserData.UserID & "')"
-                                    SqlDB.ExecuteNonQuery(sql)
+                                    ExecuteSqlNoneQuery(sql)
 
                                     'Dim drfile As DataRow = UserData.UserCourseFile.NewRow
                                     'drfile("id") = file_comment("id").ToString
@@ -164,7 +169,7 @@ Public Class frmSelectCourseDetail
                 Next
 
                 '  sql = " update TB_USER_COURSE set bind_document='Y' where id=" & CourseID
-                SqlDB.ExecuteNonQuery(sql)
+                ExecuteSqlNoneQuery(sql)
 
                 'Session("UserData") = UserData
 

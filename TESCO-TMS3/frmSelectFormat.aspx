@@ -9,10 +9,12 @@
             $.each($("button"), function (key, value) {
                 //alert(key + ":" + value)
                 $(value).css("background-color", "");
+                $(value).css("color", "");
             });
 
             var control = $("#" + id);
-            $(control).css("background-color", "aquamarine");
+            $(control).css("background-color", "#2B4354");
+            $(control).css("color", "#FFFFFF");
 
             //$("#txtFormatID").val = id;
            
@@ -28,15 +30,18 @@
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
 <div class="container-fluid nav-hidden" id="content">
-		<font color="#019b79"><h1 class="text-center">ยินดีต้อนรับเข้าสู่</h1></font>
-        <font color="#fff"><h3 class="text-center">ศูนย์การเรียนรู้ เทศโก้โลตัส</h3></font> 
+<%--		<font color="#019b79"><h1 class="text-center">ยินดีต้อนรับเข้าสู่</h1></font>
+        <font color="#fff"><h3 class="text-center">ศูนย์การเรียนรู้ เทศโก้โลตัส</h3></font> --%>
+    <div class="text-center">
+        <img src="Assets/PC/bgSelectFormatHeader.png" width="250" height="250" />
+    </div>
 		<div id="main" style="background:#29363f">
-			<div class="container-fluid"><br /><br /><br />
+			<div class="container-fluid"><br />
 				<div class="box-content">
 				      <div class="row-fluid">
 						<div class="span2"></div>
 						<div class="span3">
-                          <div class="box-content">
+                          <div class="box-content" >
                             <font color="#fff"><h4 class="text-center">เลือกฟอร์แมท (Format) ของคุณ</h4></font>
                             <a href="#modal-1" data-toggle="modal"></a>
                                 <asp:Label runat="server" ID="lblBotton"></asp:Label>
@@ -50,14 +55,14 @@
                         
 						<div class="span1"></div>
 						<div class="span3">
-                            <div class="box box-bordered">
+                            <div class="box">
 								<font color="#019b79"><h4 class="text-center">ความเคลื่อนไหววันนี้....</h4></font>
                                <div style="width: 350px; height: 340px; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">
 								<div class="box-content" style="background:#29363f">
-                                    <font color="#fff">
-                                        
+                                   
+                                    
                                     <asp:Label runat="server" ID="lblNEWS"></asp:Label>
-								</font></div></div>
+								</div></div>
 							</div>
 						</div>
 						<div class="span3"></div>
@@ -67,7 +72,7 @@
                       <div class="span5"></div>
                       <div class="span2 text-center">
 						
-                            <asp:Button ID="btnFormat" runat="server" CssClass="btn-block btn btn-large btn-green" Text="หลักสูตร" />
+                            <asp:Button ID="btnFormat" runat="server" CssClass="btn-block btn btn-large btn-green" Text="หลักสูตร"  />
                           <asp:TextBox ID="txtFormatID" runat="server"  ></asp:TextBox>
                           <asp:TextBox ID="txtFormatTitle" runat="server"></asp:TextBox>
                       </div>

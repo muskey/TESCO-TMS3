@@ -10,39 +10,30 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<!-- Apple devices fullscreen -->
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-       <!-- Bootstrap -->
-	<link rel="stylesheet" href="Assets/css/bootstrap.min.css" />
+    <!-- Bootstrap -->
+	<link rel="stylesheet" href="Assets/css/bootstrap.min.css">
 	<!-- Bootstrap responsive -->
-	<link rel="stylesheet" href="Assets/css/bootstrap-responsive.min.css" />
-        <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
-        <!-- Theme style -->
-    <link rel="stylesheet" href="Assets/dist/dist/css/AdminLTE.min.css"/>
-        <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="Assets/dist/dist/css/skins/_all-skins.min.css"/>
+	<link rel="stylesheet" href="Assets/css/bootstrap-responsive.min.css">
 	<!-- jQuery UI -->
-	<link rel="stylesheet" href="Assets/css/plugins/jquery-ui/smoothness/jquery-ui.css" />
-	<link rel="stylesheet" href="Assets/css/plugins/jquery-ui/smoothness/jquery.ui.theme.css" />
+	<link rel="stylesheet" href="Assets/css/plugins/jquery-ui/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="Assets/css/plugins/jquery-ui/smoothness/jquery.ui.theme.css">
 	<!-- Notify -->
-	<link rel="stylesheet" href="Assets/css/plugins/gritter/jquery.gritter.css" />
+	<link rel="stylesheet" href="Assets/css/plugins/gritter/jquery.gritter.css">
 	<!-- Theme CSS -->
-	<link rel="stylesheet" href="Assets/css/style.css" />
+	<link rel="stylesheet" href="Assets/css/style.css">
 	<!-- Color CSS -->
-	<link rel="stylesheet" href="Assets/css/themes.css" />
+	<link rel="stylesheet" href="Assets/css/themes.css">
 	<!-- select2 -->
-	<link rel="stylesheet" href="Assets/css/plugins/select2/select2.css" />
+	<link rel="stylesheet" href="Assets/css/plugins/select2/select2.css">
 	<!-- icheck -->
-	<link rel="stylesheet" href="Assets/css/plugins/icheck/all.css" />
+	<link rel="stylesheet" href="Assets/css/plugins/icheck/all.css">
 	<!-- chosen -->
-	<link rel="stylesheet" href="Assets/css/plugins/chosen/chosen.css" />
+	<link rel="stylesheet" href="Assets/css/plugins/chosen/chosen.css">
 	<!-- multi select -->
-	<link rel="stylesheet" href="Assets/css/plugins/multiselect/multi-select.css" />
+	<link rel="stylesheet" href="Assets/css/plugins/multiselect/multi-select.css">
 
-    <!-- jQuery -->
+
+	<!-- jQuery -->
 	<script src="Assets/js/jquery.min.js"></script>
 	
 	<!-- Notify -->
@@ -88,65 +79,55 @@
 	<script src="Assets/js/application.min.js"></script>
 	<!-- Just for demonstration -->
 	<script src="Assets/js/demonstration.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="Assets/font/font.css" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Kanit">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
 	
-    <!-- Apple devices Homescreen icon -->
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="Assets/img/favicon.ico" />
+	<!-- Apple devices Homescreen icon -->
 	<link rel="apple-touch-icon-precomposed" href="Assets/img/apple-touch-icon-precomposed.png" />
-    <%-- <!-- Bootstrap 3.3.5 -->
-   <link href="Assets/dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
-    <!-- Theme style -->
-   <link href="Assets/dist/dist/css/AdminLTE.min.css" rel="stylesheet" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-
-    <link href="Assets/dist/dist/css/skins/_all-skins.min.css" rel="stylesheet" />
 
 
 
-
-    <!-- jQuery 2.1.4 -->
-  
-<script src="Assets/dist/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <!-- Bootstrap 3.3.5 -->
-   
-<script src="Assets/dist/bootstrap/js/bootstrap.min.js"></script>
-    <!-- FastClick -->
-  
-    <script src="Assets/dist/plugins/fastclick/fastclick.min.js"></script>
-    <!-- AdminLTE App -->
- 
-<script src="Assets/dist/dist/js/app.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="Assets/dist/dist/js/demo.js"></script>--%>
     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
     </asp:ContentPlaceHolder>
+
 </head>
 
-
 <body  style="background:#29363f">
+
+
     <style>
+
+        @font-face {
+          font-family: 'MyWebFont';
+          src: url('kit65f.TTF'); /* IE9 Compat Modes */
+          src: url('kit65f.TTF?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+               url('kit65f.TTF')  format('truetype'), /* Safari, Android, iOS */
+        }
+      * {
+         font-size: 100%;
+         font-family: 'MyWebFont';
+        }
+
       body {
-        font-family: 'Prompt', kit45;
+        font-family: 'MyWebFont', Tahoma;
         font-size: 48px;
       }
       label {
-        font-family: 'Prompt', kit45;
+        font-family: 'MyWebFont', Tahoma;
         font-size: 25px;
       }
       button {
-        font-family: 'Prompt', kit45;
+        font-family: 'MyWebFont', Tahoma;
         font-size: 18px;
       }
        p {
-        font-family: 'Prompt', kit45;
+        font-family: 'MyWebFont', Tahoma;
         font-size: 16px;
       }
         li {
-        font-family: 'Prompt', kit45;
+        font-family: 'MyWebFont', Tahoma;
         font-size: 13px;
       }
 
@@ -159,26 +140,28 @@
     
     <div id="navigation" style="background:#019b79">
         <div class="container-fluid">
-            <a href="#" id="brand">FLAT</a>
-
+           
+           <%-- <a href="#" id="brand">FLAT</a>--%>
+            <img src="Assets/PC/Logo.png" style="width:70px;height:20px" />
             <div class="user">
 		            <div class="dropdown">
                         <a href="#" class='dropdown-toggle' data-toggle="dropdown">
                             <asp:Label ID="lblUsername" runat="server"  Text="John Doe |"></asp:Label>
                         </a>
 		            </div>
-                    <div class='dropdown'>
-                        <asp:LinkButton CssClass="dropdown-toggle" ID="btnTesting" runat="server">
-                          <i class="fa fa-check"></i>
-                          <span><b>แบบทดสอบ</b> |</span>
-                        </asp:LinkButton>
-			        </div>
 		            <div class='dropdown'>
                         <asp:LinkButton CssClass="dropdown-toggle" ID="btnCourse" runat="server">
                           <i class="fa fa-check"></i>
                           <span><b>บทเรียน</b> |</span>
                         </asp:LinkButton>
 			        </div>
+                    <div class='dropdown'>
+                        <asp:LinkButton CssClass="dropdown-toggle" ID="btnTesting" runat="server" >
+                          <i class="fa fa-check"></i>
+                          <span><b>แบบทดสอบ</b> |</span>
+                        </asp:LinkButton>
+			        </div>
+
 			        <div class='dropdown'>
                         <asp:LinkButton CssClass="dropdown-toggle" ID="btnLogout" runat="server">
                           <i class="fa fa-check"></i>

@@ -17,6 +17,7 @@
             Me.txtFormatTitle.Style.Add("display", "none")
             SetFormat()
             SetWelcomeMessage()
+
         End If
 
     End Sub
@@ -27,8 +28,8 @@
             If (UserData.UserMassage.Rows.Count > 0) Then
                 For i As Int32 = 0 To UserData.UserMassage.Rows.Count - 1
                     Dim dr As DataRow = UserData.UserMassage.Rows(i)
-                    str += " <h4 class=""group inner list-group-item-heading"">" + dr("name").ToString + " </h4>"
-                    str += " <p class=""group inner list-group-item-text"">" + dr("description").ToString + " </p>"
+                    str += " <font color=""#019b79""> <h4 class=""group inner list-group-item-heading"">" + dr("name").ToString + " </h4></font>"
+                    str += " <font color=""#FFFFFF""> <p class=""group inner list-group-item-text"">" + dr("description").ToString + " </p></font>"
                 Next
 
             End If
@@ -56,6 +57,7 @@
 
     Private Sub btnFormat_Click(sender As Object, e As EventArgs) Handles btnFormat.Click
         If Me.txtFormatID.Text <> "" Then
+            Session("backpathname1") = "Format"
             Response.Redirect("frmSelectFunction.aspx?rnd=" & DateTime.Now.Millisecond & "&format_id=" & Me.txtFormatID.Text & "&formar_title=" + Me.txtFormatTitle.Text)
         End If
     End Sub

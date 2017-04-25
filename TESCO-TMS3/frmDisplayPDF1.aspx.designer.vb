@@ -11,16 +11,16 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class frmSelectCourse
+Partial Public Class frmDisplayPDF1
     
     '''<summary>
-    '''lblTitle control.
+    '''myIframe control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblTitle As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents myIframe As Global.System.Web.UI.HtmlControls.HtmlIframe
     
     '''<summary>
     '''btnBack control.
@@ -29,41 +29,50 @@ Partial Public Class frmSelectCourse
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnBack As Global.System.Web.UI.WebControls.ImageButton
+    Protected WithEvents btnBack As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
-    '''lblMain control.
+    '''txtPre control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblMain As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents txtPre As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''btnRegister control.
+    '''txtCurrent control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnRegister As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents txtCurrent As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''txtCoursetID control.
+    '''txtNext control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtCoursetID As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtNext As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''txtCourseTitle control.
+    '''txtMax control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtCourseTitle As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtMax As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''btnNext control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnNext As Global.System.Web.UI.WebControls.Button
 End Class

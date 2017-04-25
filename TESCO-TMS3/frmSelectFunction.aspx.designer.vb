@@ -12,7 +12,25 @@ Option Explicit On
 
 
 Partial Public Class frmSelectFunction
-
+    
+    '''<summary>
+    '''MainSM control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents MainSM As Global.System.Web.UI.ScriptManager
+    
+    '''<summary>
+    '''btnBack control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnBack As Global.System.Web.UI.WebControls.ImageButton
+    
     '''<summary>
     '''lblTitle control.
     '''</summary>
@@ -21,7 +39,7 @@ Partial Public Class frmSelectFunction
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblTitle As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''lblMain control.
     '''</summary>
@@ -30,7 +48,7 @@ Partial Public Class frmSelectFunction
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblMain As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''lblSub control.
     '''</summary>
@@ -39,7 +57,7 @@ Partial Public Class frmSelectFunction
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblSub As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''txtFunctionID control.
     '''</summary>
@@ -48,7 +66,7 @@ Partial Public Class frmSelectFunction
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtFunctionID As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''txtFunctionTitle control.
     '''</summary>

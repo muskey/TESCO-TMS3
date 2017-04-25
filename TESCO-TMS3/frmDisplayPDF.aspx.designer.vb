@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class frmDisplayPDF
     
     '''<summary>
+    '''lblContent control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblContent As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
     '''myIframe control.
     '''</summary>
     '''<remarks>
@@ -29,7 +38,52 @@ Partial Public Class frmDisplayPDF
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnBack As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnBack As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''btnPDFBack control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnPDFBack As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''ddlPage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlPage As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
+    '''lblPDFPage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblPDFPage As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''btnPDFNext control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnPDFNext As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''btnNext control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnNext As Global.System.Web.UI.WebControls.ImageButton
     
     '''<summary>
     '''txtPre control.
@@ -68,11 +122,29 @@ Partial Public Class frmDisplayPDF
     Protected WithEvents txtMax As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''btnNext control.
+    '''btnHome control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnNext As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnHome As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''btnContent control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnContent As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''btnCloseContent control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCloseContent As Global.System.Web.UI.WebControls.Button
 End Class

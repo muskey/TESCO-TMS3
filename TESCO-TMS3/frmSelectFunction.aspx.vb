@@ -1,4 +1,6 @@
-﻿Public Class frmSelectFunction
+﻿Imports System.Web.Services
+
+Public Class frmSelectFunction
     Inherits System.Web.UI.Page
 
 #Region "Declare & Valiable"
@@ -27,12 +29,19 @@
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
-            Me.lblTitle.Text = "<h3><font color=""#019b79"">&nbsp; &nbsp; &nbsp;" + formar_title + "</font></h3>"
+            Me.lblTitle.Text = "<h3>&nbsp>&nbsp<a href=""frmSelectFormat.aspx""><font color=""#019b79"">" + Session("backpathname1") + "&nbsp>&nbsp</font></a><font color=""#019b79"">" + formar_title + "</font></h3>"
             SetFuntion()
         End If
-
+        ' &nbsp; &nbsp; &nbsp;<a href=""frmSelectFormat.aspx"">" + Session("backpathname1") + "</a>
     End Sub
 
+    <WebMethod()>
+    Public Shared Function SetBackPath(strpath As String, strtitlename As String)
+        Dim objp = New Page()
+        objp.Session("backpath2") = strpath
+        objp.Session("backpathname2") = strtitlename
+        Return strpath
+    End Function
 
     Private Sub SetFuntion()
         Try
@@ -44,12 +53,8 @@
                 For Each dr As DataRowView In UserData.UserFunction.DefaultView
 
                     Dim bgColor As String = ""
-                    Dim sql As String = "select id from TB_USER_DEPARTMENT where function_id=@_FUNCTION_ID"
-                    'Dim cdt As DataTable = GetSqlDataTable(sql)
-
-                    Dim p(1) As System.Data.SqlClient.SqlParameter
-                    p(0) = LinqDB.ConnectDB.SqlDB.SetBigInt("@_FUNCTION_ID", dr("function_id"))
-                    Dim cdt As DataTable = LinqDB.ConnectDB.SqlDB.ExecuteTable(sql, p)
+                    Dim sql As String = "select id from TB_USER_DEPARTMENT where function_id=" & dr("function_id").ToString
+                    Dim cdt As DataTable = GetSqlDataTable(sql)
                     If cdt.Rows.Count = 0 Then
                         bgColor = "Gray"
                         strLink = 0
@@ -78,6 +83,12 @@
 
         End Try
     End Sub
+    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+
+        Response.Redirect("frmSelectFormat.aspx")
+
+    End Sub
+
 #End Region
 
 

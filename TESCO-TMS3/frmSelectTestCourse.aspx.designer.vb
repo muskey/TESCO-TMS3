@@ -11,59 +11,59 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class frmSelectCourse
+Partial Public Class frmSelectTestCourse
     
     '''<summary>
-    '''lblTitle control.
+    '''ScriptManager1 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblTitle As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents ScriptManager1 As Global.System.Web.UI.ScriptManager
     
     '''<summary>
-    '''btnBack control.
+    '''lblBotton control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnBack As Global.System.Web.UI.WebControls.ImageButton
+    Protected WithEvents lblBotton As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
-    '''lblMain control.
+    '''lblNEWS control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblMain As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblNEWS As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
-    '''btnRegister control.
+    '''btnFormat control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnRegister As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnFormat As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
-    '''txtCoursetID control.
+    '''txtFormatID control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtCoursetID As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtFormatID As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''txtCourseTitle control.
+    '''txtFormatTitle control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtCourseTitle As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtFormatTitle As Global.System.Web.UI.WebControls.TextBox
 End Class

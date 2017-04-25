@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class frmSelectDepartment
     
     '''<summary>
+    '''MainSM control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents MainSM As Global.System.Web.UI.ScriptManager
+    
+    '''<summary>
     '''lblTitle control.
     '''</summary>
     '''<remarks>
@@ -21,6 +30,15 @@ Partial Public Class frmSelectDepartment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblTitle As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''btnBack control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnBack As Global.System.Web.UI.WebControls.ImageButton
     
     '''<summary>
     '''lblMain control.

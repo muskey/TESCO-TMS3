@@ -57,4 +57,13 @@ Partial Public Class frmSelectCourseDetail
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtCourseTitle As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''lblShow control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblShow As Global.System.Web.UI.WebControls.Label
 End Class

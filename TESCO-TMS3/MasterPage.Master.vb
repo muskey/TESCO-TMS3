@@ -7,14 +7,24 @@ Public Class MasterPage
     Inherits System.Web.UI.MasterPage
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-
+        Dim UserData As UserProfileData = Session("UserData")
+        Me.lblUsername.Text = UserData.FullName & ""
     End Sub
 
     Private Sub btnTesting_Click(sender As Object, e As EventArgs) Handles btnTesting.Click
-        If GetDatableTableFromTesting.IsSuccess = True Then
-            Response.Redirect("frmTestingCourse.aspx?rnd=" & DateTime.Now.Millisecond)
-        End If
+        'If GetDatableTableFromTesting.IsSuccess = True Then
+        '    Response.Redirect("frmSelectTestCourse.aspx?rnd=" & DateTime.Now.Millisecond)
+        'End If
+        Response.Redirect("frmSelectTestCourse.aspx?rnd=" & DateTime.Now.Millisecond)
     End Sub
+    Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
+        Session.Abandon()
+        Response.Redirect("frmLogin.aspx?rnd=" & DateTime.Now.Millisecond)
+    End Sub
+    Private Sub btnCourse_Click(sender As Object, e As EventArgs) Handles btnCourse.Click
+        Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
+    End Sub
+
 
     Public Function GetDatableTableFromTesting() As ExecuteDataInfo
         Dim ret As New ExecuteDataInfo
@@ -133,6 +143,7 @@ Public Class MasterPage
                         Next
                 End Select
             Next
+
         Catch ex As Exception
             ret.IsSuccess = False
             ret.ErrorMessage = ex.Message

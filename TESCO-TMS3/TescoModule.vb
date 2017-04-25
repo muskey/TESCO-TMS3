@@ -5,6 +5,7 @@ Imports LinqDB.ConnectDB
 Imports LinqDB.TABLE
 Imports System.Data.OleDb
 Imports System.Data.SqlClient
+Imports Newtonsoft.Json.Linq
 Module TescoModule
 
     Public UserData As New UserProfileData
@@ -85,6 +86,64 @@ Module TescoModule
         Return im
     End Function
 
+    Public Sub CallAPIUpdateLog(token As String, ClientID As String, vAction As String, vModule As String, data As String)
+        'เมื่อเรียนจบหลักสูตรให้บันทึก Log
+        Dim info As String = ""
+        info = GetStringDataFromURL(GetWebServiceURL() & "api/log", token & "&client_id=" & ClientID & "&action=" & vAction & "&module=" & vModule & "&data=" & data)
+    End Sub
+
+    Public Function CreateClass(token As String, stdID As String, ClientID As String, CourseID As String, UserID As String) As Long
+        Dim ret As Long = 0
+        Try
+            Dim info As String = ""
+            info = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", token & "&client_id=" & ClientID & "&course_id=" & CourseID & "&user_id=" & UserID & "&student_id_list=" & stdID)
+
+            Dim json As String = info
+            Dim ser As JObject = JObject.Parse(json)
+            Dim data As List(Of JToken) = ser.Children().ToList
+
+            If data.Count = 3 Then
+                If DirectCast(data(0), JProperty).Value.ToString.ToLower = "true" Then
+                    ret = DirectCast(data(2), JProperty).Value
+                End If
+            End If
+        Catch ex As Exception
+            ret = 0
+        End Try
+    End Function
+
+    Public Function AddUser(ByVal Token As String, ByVal UserID As String, CourseID As String) As String()
+        Dim ret(3) As String
+        Dim info As String = ""
+        info = GetStringDataFromURL(GetWebServiceURL() & "api/user/get", Token & "&user_company_id=" & UserID & "&course_id=" & CourseID)
+        If info.Trim <> "" Then
+            Dim json As String = info
+            Dim ser As JObject = JObject.Parse(json)
+            Dim data As List(Of JToken) = ser.Children().ToList
+            Dim output As String = ""
+
+            For Each item As JProperty In data
+                item.CreateReader()
+                Select Case item.Name
+                    Case "user"
+                        For Each comment As JProperty In item.Values
+                            Select Case comment.Name
+                                Case "id"
+                                    ret(0) = comment.Value.ToString
+                                Case "firstname"
+                                    ret(1) = comment.Value.ToString
+                                Case "lastname"
+                                    ret(2) = comment.Value.ToString
+                                Case "company_id"
+                                    ret(3) = comment.Value.ToString
+                            End Select
+                        Next
+
+                End Select
+            Next
+        End If
+        Return ret
+    End Function
 #Region "File"
     Public Function GetURLFileExtension(URLFile As String) As String
         Dim ret As String = ""

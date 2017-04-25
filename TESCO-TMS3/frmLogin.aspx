@@ -14,12 +14,12 @@
 <body style="background:#29363f">
     <form id="form1" runat="server">
     <div>
-        <div class="span4">
+        <div class="span6">
             <div class="login-form1" style="background:#29363f">
-                <img src="assets/img/logo/Login_Logo.png" width="279" />
+                <img src="assets/img/logo/Login_Logo.png" width="100%" />
             </div>
         </div>
-        <div class="span4">
+        <div class="span6">
             <div class="login-form2" style="background:#29363f">
                 <div class="form-group ">
                     <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" placeholder="Username" required></asp:TextBox>
@@ -33,18 +33,6 @@
                 <asp:Button ID="btnLogin" runat="server" CssClass="log-btn" Text="Login" />
             </div>
         </div>
-
-          <div class="span4">
-            <div class="login-form3" style="background:#29363f">
-                <div class="form-group log-status">
-                    <input type="password" class="form-control" placeholder="Password" id="Passwod1">
-                    <i class="fa fa-lock"></i>
-                </div>
-                <span class="alert">Invalid Credentials</span>
-                <button type="button" class="log-btn">Log in</button>
-            </div>
-           </div>
-            <script src="login/js/index.js"></script>
     </div>
     </form>
 </body>
