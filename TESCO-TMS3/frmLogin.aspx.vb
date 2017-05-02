@@ -7,6 +7,8 @@ Imports LinqDB.TABLE
 Public Class frmLogin
     Inherits System.Web.UI.Page
 
+    Dim Env As String = "Staging"
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
     End Sub
@@ -22,15 +24,6 @@ Public Class frmLogin
     Private Function Login(ByVal Username As String, ByVal Password As String) As Boolean
         Dim ret As Boolean = False
         Try
-            If Asc(Username.Substring(0, 1)) >= 48 And Asc(Username.Substring(0, 1)) <= 57 Then
-                'ถ้ากรอก Username ตัวแรกเป็นตัวเลข ให้เติม 764 หน้าหน้า และเช็คว่าครบ 8 หลักหรือไม่ ถ้าไม่ครบ 8 หลักให้ใส่ 0 ข้างหน้าจนครบ 8 หลัก
-                If Username.Length < 8 Then
-                    Username = Username.PadLeft(8, "0")
-                End If
-
-                Username = "764" & Username
-            End If
-
             Dim info As String = ""
             info = GetStringDataFromURL(GetWebServiceURL() & "api/login", "username=" & Username & "&password=" & Password)
             If info.Trim <> "" Then
@@ -41,24 +34,48 @@ Public Class frmLogin
                 Dim data As List(Of JToken) = ser.Children().ToList
                 Dim output As String = ""
 
-                If data.Count = 12 Then
-                    UserData = New UserProfileData
-                    UserData.UserID = DirectCast(data(11), JProperty).First
-                    UserData.UserName = Username
-                    UserData.TokenStr = DirectCast(data(9), JProperty).First
-                    UserData.Token = "token=" & UserData.TokenStr
-                    UserData.FullName = DirectCast(data(2), JProperty).First.ToString & " " & DirectCast(data(3), JProperty).First.ToString
-                    UserData.UserMassage = BuiltDatableTableUserMessage(DirectCast(data(8), JProperty))
-                    BuiltUser(data, UserData)
+                If Env = "Production" Then
+                    If data.Count = 12 Then
+                        UserData = New UserProfileData
+                        UserData.UserID = DirectCast(data(11), JProperty).First
+                        UserData.UserName = Username
+                        UserData.TokenStr = DirectCast(data(9), JProperty).First
+                        UserData.Token = "token=" & UserData.TokenStr
+                        UserData.FullName = DirectCast(data(2), JProperty).First.ToString & " " & DirectCast(data(3), JProperty).First.ToString
+                        UserData.UserMassage = BuiltDatableTableUserMessage(DirectCast(data(8), JProperty))
+                        BuiltUser(data, UserData)
 
-                    Dim re As ExecuteDataInfo = CreateUserSession(UserData.TokenStr, UserData.UserID, Username, data)
-                    If re.IsSuccess = True Then
-                        UserData.UserSessionID = re.NewID
-                        Session("UserData") = UserData
-                        'GetDatableTableFromTesting(UserData)
-                        ret = re.IsSuccess
+                        Dim re As ExecuteDataInfo = CreateUserSession(UserData.TokenStr, UserData.UserID, Username, data)
+                        If re.IsSuccess = True Then
+                            UserData.UserSessionID = re.NewID
+                            Session("UserData") = UserData
+                            'GetDatableTableFromTesting(UserData)
+                            ret = re.IsSuccess
+                        End If
                     End If
+                ElseIf Env = "Staging" Then
+                    If data.Count = 13 Then
+                        UserData = New UserProfileData
+                        UserData.UserID = DirectCast(data(12), JProperty).First
+                        UserData.UserName = Username
+                        UserData.TokenStr = DirectCast(data(10), JProperty).First
+                        UserData.Token = "token=" & UserData.TokenStr
+                        UserData.FullName = DirectCast(data(3), JProperty).First.ToString & " " & DirectCast(data(4), JProperty).First.ToString
+                        UserData.UserMassage = BuiltDatableTableUserMessage(DirectCast(data(9), JProperty))
+                        BuiltUser(data, UserData)
+
+                        Dim re As ExecuteDataInfo = CreateUserSession(UserData.TokenStr, UserData.UserID, Username, data)
+                        If re.IsSuccess = True Then
+                            UserData.UserSessionID = re.NewID
+                            Session("UserData") = UserData
+                            'GetDatableTableFromTesting(UserData)
+                            ret = re.IsSuccess
+                        End If
+                    End If
+
                 End If
+
+
             End If
         Catch ex As Exception
             'MessageBox.Show(ex.Message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -279,8 +296,6 @@ Public Class frmLogin
 
 
                     BuiltUserFormat(item.First, myUser)
-
-
             End Select
         Next
 
@@ -379,67 +394,6 @@ Public Class frmLogin
         Next
 
     End Sub
-
-    'Private Sub BindDatableTableFromCourse(data As JProperty)
-    '    Dim course_id As Int32 = 0
-    '    Dim doc_id As Int32 = 0
-
-    '    Dim sql As String = ""
-    '    Dim CourseIconFolder As String = "CourseIcon"
-    '    Dim CourseCoverFolder As String = "CourseCover"
-
-    '    Dim item As JProperty = data
-    '    Dim ci As Integer = 1
-    '    For Each comment As JObject In item.Values
-    '        Try
-    '            course_id = comment("id")
-    '            sql = "insert into TB_COURSE (id, department_id,title,description,icon_url,icon_file,cover_url,cover_file,sort,is_document_lock,document_detail,bind_document)"
-    '            sql += " values('" & course_id & "'"
-    '            sql += ", '" & comment("department_id").ToString & "'"
-    '            sql += ", '" & comment("name").ToString & "'"
-    '            sql += ", '" & comment("description").ToString & "'"
-    '            sql += ", '" & comment("icon").ToString & "'"
-    '            sql += ", '" & SaveCourseIcon(CourseIconFolder, comment("icon").ToString, course_id) & "'"
-    '            sql += ", '" & comment("cover").ToString & "'"
-    '            sql += ", '" & SaveCourseCover(CourseCoverFolder, comment("cover").ToString, course_id) & "'"
-    '            sql += ", '" & ci & "' "
-    '            sql += ", '" & IIf(comment("is_document_lock").ToString.ToLower = "true", "Y", "N") & "'"
-    '            sql += ", '" & ("{""document"":" & comment("document").ToString & "}").Replace("'", "''") & "','N')"
-
-    '            If ExecuteSqlNoneQuery(sql) = False Then
-    '                Dim aaa As String = ""
-    '            End If
-    '        Catch ex As Exception
-
-    '        End Try
-
-    '        ci += 1
-    '    Next
-    '    'End If
-
-    '    'Clear Inactive File
-    '    'ถ้ามีไฟล์ที่เคยดาวน์โหลดมาแล้วในเครื่อง และเป็นไฟล์ที่ไม่มีอยู่ในบทเรียนแล้ว ก็ให้ลบไฟล์นั้นออกไปโลด
-
-    '    Dim fDt As DataTable = GetSqlDataTable("select * from TB_COURSE_DOCUMENT_FILE")
-    '    If fDt.Rows.Count > 0 Then
-    '        For Each f As String In Directory.GetFiles(FolderCourseDocumentFile)
-    '            Dim fInfo As New FileInfo(f)
-
-    '            Dim fFile As String = EnCripText(FolderCourseDocumentFile & "\" & DeCripText(fInfo.Name))
-    '            fDt.DefaultView.RowFilter = "file_path='" & fFile & "'"
-    '            If fDt.DefaultView.Count = 0 Then
-    '                Try
-    '                    File.SetAttributes(f, FileAttributes.Normal)
-    '                    File.Delete(f)
-    '                Catch ex As Exception
-
-    '                End Try
-    '            End If
-    '            fDt.DefaultView.RowFilter = ""
-    '        Next
-    '    End If
-    '    fDt.Dispose()
-    'End Sub
 
     Private Function CreateUserSession(Token As String, UserID As Long, Username As String, data As List(Of JToken)) As ExecuteDataInfo
         Dim ret As New ExecuteDataInfo
