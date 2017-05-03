@@ -31,7 +31,7 @@ Public Class frmSelectFunction
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
-            Me.lblTitle.Text = "<h3>&nbsp>&nbsp<a href=""frmSelectFormat.aspx""><font color=""#019b79"">" + Session("backpathname1") + "&nbsp>&nbsp</font></a><font color=""#019b79"">" + formar_title + "</font></h3>"
+            Me.lblTitle.Text = "<h3>&nbsp>&nbsp<a href=""frmSelectFormat.aspx""><font color=""#019b79"" style=""font-size:30px"">" + Session("backpathname1") + "&nbsp>&nbsp</font></a><font color=""#019b79"" style=""font-size:30px"">" + formar_title + "</font></h3>"
             SetFuntion()
         End If
         ' &nbsp; &nbsp; &nbsp;<a href=""frmSelectFormat.aspx"">" + Session("backpathname1") + "</a>
@@ -47,16 +47,22 @@ Public Class frmSelectFunction
 
     Private Sub SetFuntion()
         Try
+            Dim UserData As UserProfileData = Session("UserData")
             Dim strMain As String = "<ul class=""tiles"">"
             Dim strsub As String = "<ul class=""tiles"">"
             Dim strLink As Int16 = 0
-            If (UserData.UserFunction.Rows.Count > 0) Then
-                UserData.UserFunction.DefaultView.RowFilter = "format_id='" & Format_Id & "'"
-                For Each dr As DataRowView In UserData.UserFunction.DefaultView
+            Dim sql As String = " select * from TB_USER_FUNCTION  where user_id=@_USER_ID and format_id=@_FORMAT_ID"
+            Dim p(2) As SqlParameter
+            p(0) = SqlDB.SetText("@_USER_ID", UserData.UserID)
+            p(1) = SqlDB.SetText("@_FORMAT_ID", Format_Id)
+
+            Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
+            If dt.Rows.Count > 0 Then
+                For Each dr As DataRowView In dt.DefaultView
 
                     Dim bgColor As String = ""
-                    Dim sql As String = "select id from TB_USER_DEPARTMENT where function_id=@_FUNCTION_ID"
-                    Dim p(1) As SqlParameter
+                    sql = "select id from TB_USER_DEPARTMENT where function_id=@_FUNCTION_ID"
+                    ReDim p(1)
                     p(0) = SqlDB.SetBigInt("@_FUNCTION_ID", dr("function_id").ToString)
                     Dim cdt As DataTable = SqlDB.ExecuteTable(sql, p)
                     If cdt.Rows.Count = 0 Then
@@ -67,18 +73,29 @@ Public Class frmSelectFunction
                         strLink = 1
                     End If
 
-                    If dr("function_subject") = "main subject" Then
-                        strMain += " <li  onclick=""fselect('" + dr("function_id").ToString + "','" + strLink.ToString() + "','" + dr("function_title") + "','" + bgColor.Replace("#", "") + "');"" id=" + dr("function_id") + " style=""background-color:" + bgColor + """>"
-                        strMain += " <a href=""#""><span><img src=" + dr("function_cover") + " height=""50"" width=""50""></span><h5 Class=""text-center"">" + dr("function_title") + "(" + cdt.Rows.Count.ToString + ")</h5></a>"
-                        strMain += "  </li>"
-                    ElseIf dr("function_subject") = "additional subject" Then
-                        strsub += " <li  onclick=""fselect('" + dr("function_id").ToString + "','" + strLink.ToString() + "','" + dr("function_title") + "','" + bgColor.Replace("#", "") + "');"" id=" + dr("function_id") + " style=""background-color:" + bgColor + """>"
-                        strsub += " <a href=""#""><span><img src=" + dr("function_cover") + " height=""50"" width=""50""></span><h5 Class=""text-center"">" + dr("function_title") + "(" + cdt.Rows.Count.ToString + ")</h5></a>"
-                        strsub += "  </li>"
+                    If dr("function_subject_type") = "m" Then
+                        strMain += " <li  onclick=""fselect('" + dr("function_id").ToString + "','" + strLink.ToString() + "','" + dr("function_title").ToString + "','" + bgColor.Replace("#", "") + "');"" id=" + dr("function_id").ToString + " style=""background-color:" + bgColor + """>"
+                        strMain += " <a href=""#"">"
+                        strMain += "    <span>"
+                        strMain += "        <img src=" + dr("function_cover_url").ToString + " height=""60"" width=""60"" />"
+                        strMain += "    </span>"
+                        strMain += "    <span class=""text-center"" style=""font-size:24px;"" >" + dr("function_title") + "(" + cdt.Rows.Count.ToString + ")</span>"
+                        strMain += " </a>"
+                        strMain += " </li>"
+                    ElseIf dr("function_subject_type") = "a" Then
+                        strsub += " <li  onclick=""fselect('" + dr("function_id").ToString + "','" + strLink.ToString() + "','" + dr("function_title").ToString + "','" + bgColor.Replace("#", "") + "');"" id=" + dr("function_id").ToString + " style=""background-color:" + bgColor + """>"
+                        strsub += " <a href=""#"">"
+                        strsub += "     <span>"
+                        strsub += "         <img src=" + dr("function_cover_url").ToString + " height=""60"" width=""60"" />"
+                        strsub += "     </span>"
+                        strsub += "     <span class=""text-center"" style=""font-size:24px;"" >" + dr("function_title") + "(" + cdt.Rows.Count.ToString + ")</span>"
+                        strsub += " </a>"
+                        strsub += " </li>"
                     End If
                 Next
 
             End If
+            dt.Dispose()
             strMain += "</ul>"
             strsub += "</ul>"
             lblMain.Text = strMain

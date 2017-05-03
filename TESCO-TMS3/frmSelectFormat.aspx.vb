@@ -1,4 +1,7 @@
-﻿Public Class frmSelectFormat
+﻿Imports System.Data.SqlClient
+Imports LinqDB.ConnectDB
+
+Public Class frmSelectFormat
     Inherits System.Web.UI.Page
 
 #Region "Declare & Valiable"
@@ -24,15 +27,26 @@
 
     Private Sub SetWelcomeMessage()
         Try
-            Dim str As String = ""
-            If (UserData.UserMassage.Rows.Count > 0) Then
-                For i As Int32 = 0 To UserData.UserMassage.Rows.Count - 1
-                    Dim dr As DataRow = UserData.UserMassage.Rows(i)
-                    str += " <font color=""#019b79""> <h4 class=""group inner list-group-item-heading"">" + dr("name").ToString + " </h4></font>"
-                    str += " <font color=""#FFFFFF""> <p class=""group inner list-group-item-text"">" + dr("description").ToString + " </p></font>"
-                Next
+            Dim sql As String = "select message_name, message_desc "
+            sql += " from TB_USER_MESSAGE "
+            sql += " where tb_user_session_id=@_USER_SESSION_ID"
+            sql += " order by id"
 
+            Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
+            Dim p(1) As SqlParameter
+            p(0) = SqlDB.SetBigInt("@_USER_SESSION_ID", UserData.UserSessionID)
+            Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
+
+            Dim str As String = ""
+            If (dt.Rows.Count > 0) Then
+                For i As Int32 = 0 To dt.Rows.Count - 1
+                    Dim dr As DataRow = dt.Rows(i)
+                    str += " <font color=""#019b79""> <h4 class=""group inner list-group-item-heading"">" + dr("message_name").ToString + " </h4></font>"
+                    str += " <font color=""#FFFFFF""> <p class=""group inner list-group-item-text"">" + dr("message_desc").ToString + " </p></font>"
+                Next
             End If
+            dt.Dispose()
+
             lblNEWS.Text = str
         Catch ex As Exception
 
@@ -41,14 +55,24 @@
 
     Private Sub SetFormat()
         Try
+            Dim sql As String = "select format_id, format_title "
+            sql += " from TB_USER_FORMAT "
+            sql += " where tb_user_session_id=@_USER_SESSION_ID"
+            sql += " order by format_id "
+
+            Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
+            Dim p(1) As SqlParameter
+            p(0) = SqlDB.SetBigInt("@_USER_SESSION_ID", UserData.UserSessionID)
+
+            Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
             Dim str As String = ""
-            If (UserData.UserFormat.Rows.Count > 0) Then
-                For i As Int32 = 0 To UserData.UserFormat.Rows.Count - 1
-                    Dim dr As DataRow = UserData.UserFormat.Rows(i)
+            If dt.Rows.Count Then
+                For i As Int32 = 0 To dt.Rows.Count - 1
+                    Dim dr As DataRow = dt.Rows(i)
                     str += " <p> <button class=""btn-block btn btn-larges"" id=" + dr("format_id").ToString + " onclick=""fselect('" + dr("format_id").ToString + "','" + dr("format_title").ToString + "');return false;"" >" + dr("format_title").ToString + "</button></p>"
                 Next
-
             End If
+            dt.Dispose()
             lblBotton.Text = str
         Catch ex As Exception
 

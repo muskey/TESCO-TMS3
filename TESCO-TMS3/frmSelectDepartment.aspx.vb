@@ -52,27 +52,41 @@ Public Class frmSelectDepartment
 
     Private Sub DisplayDepartmentList()
         Try
-            Dim strMain As String = "<ul class=""tiles"">"
-            If (UserData.UserDepartment.Rows.Count > 0) Then
-                UserData.UserDepartment.DefaultView.RowFilter = "function_id=" & Function_id
+            Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
 
-                Dim dt As New DataTable
-                dt = UserData.UserDepartment.DefaultView.ToTable().Copy
+            Dim sql As String = "select department_id, department_title, department_cover_url "
+            sql += " from TB_USER_DEPARTMENT "
+            sql += " where function_id=@_FUNCTION_ID and user_id=@_USER_ID"
+            sql += " order by id "
+            Dim p(2) As SqlParameter
+            p(0) = SqlDB.SetText("@_FUNCTION_ID", Function_id)
+            p(1) = SqlDB.SetText("@_USER_ID", UserData.UserID)
+
+            Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
+            Dim strMain As String = "<ul class=""tiles"">"
+            If dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
                     Dim bgColor As String = color
-                    Dim sql As String = "select id from TB_USER_COURSE where department_id=@_DEPARTMENT_ID"
-                    Dim p(1) As SqlParameter
+                    sql = "select id from TB_USER_COURSE where department_id=@_DEPARTMENT_ID"
+                    ReDim p(1)
                     p(0) = SqlDB.SetBigInt("@_DEPARTMENT_ID", dr("department_id"))
                     Dim cdt As DataTable = SqlDB.ExecuteTable(sql, p)
                     If cdt.Rows.Count = 0 Then
                         bgColor = "Gray"
                     End If
 
-                    strMain += " <li  onclick=""fselect('" + dr("department_id").ToString + "','" + dr("department_title").ToString + "','" + cdt.Rows.Count.ToString + "','" + Page.Request.QueryString("color") + "');"" id=" + dr("department_id") + " style=""background-color:" + bgColor + """>"
-                    strMain += " <a href=""#""><span><img src=" + dr("department_cover") + " height=""50"" width=""50""></span><h5 Class=""text-center"">" + dr("department_title") + "(" + cdt.Rows.Count.ToString + ")</h5></a>"
-                    strMain += "  </li>"
+                    strMain += " <li  onclick=""fselect('" & dr("department_id").ToString & "','" & dr("department_title").ToString & "','" & cdt.Rows.Count.ToString & "','" & Page.Request.QueryString("color") & "');"" id=" & dr("department_id") & " style=""background-color:" & bgColor & """>"
+                    strMain += "    <a href=""#"">"
+                    strMain += "        <span>"
+                    strMain += "            <img src=" + dr("department_cover_url") + " height=""60"" width=""60"">"
+                    strMain += "        </span>"
+                    strMain += "        <span class=""text-center"" style=""font-size:24px;"" >" + dr("department_title") + "(" + cdt.Rows.Count.ToString + ")</span>"
+                    strMain += "    </a>"
+                    strMain += " </li>"
                 Next
             End If
+            dt.Dispose()
+
             strMain += "</ul>"
             lblMain.Text = strMain
         Catch ex As Exception

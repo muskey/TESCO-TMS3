@@ -1,4 +1,6 @@
-﻿Public Class UserProfileData
+﻿Imports LinqDB.TABLE
+
+Public Class UserProfileData
 
     Dim _UserSessionID As Long = 0
     Dim _UserID As String = ""
@@ -6,90 +8,13 @@
     Dim _FullName As String = ""
     Dim _Token As String = ""
     Dim _TokenStr As String = ""
+    Dim _CurrentClassID As Long = 0
     Dim _CourseComplete As Integer = 0
     Dim _CourseTotal As Integer = 0
     Dim _TestingAttempt As Integer = 0
     Dim _TestingComplete As Integer = 0
     Dim _TestingTotal As Integer = 0
-    Dim _UserMassage As DataTable
-    Dim _UserFormat As DataTable
-    Dim _UserFunction As DataTable
-    Dim _UserDepartment As DataTable
-    Dim _UserCourse As DataTable
-    Dim _UserCourseFile As DataTable
-    Dim _TestSubject As DataTable
-    Dim _TestQuestion As DataTable
 
-
-    Public Property UserMassage As DataTable
-        Get
-            Return _UserMassage
-        End Get
-        Set(value As DataTable)
-            _UserMassage = value
-        End Set
-    End Property
-
-    Public Property UserFormat As DataTable
-        Get
-            Return _UserFormat
-        End Get
-        Set(value As DataTable)
-            _UserFormat = value
-        End Set
-    End Property
-    Public Property UserFunction As DataTable
-        Get
-            Return _UserFunction
-        End Get
-        Set(value As DataTable)
-            _UserFunction = value
-        End Set
-    End Property
-    Public Property UserDepartment As DataTable
-        Get
-            Return _UserDepartment
-        End Get
-        Set(value As DataTable)
-            _UserDepartment = value
-        End Set
-    End Property
-
-    Public Property UserCourse As DataTable
-        Get
-            Return _UserCourse
-        End Get
-        Set(value As DataTable)
-            _UserCourse = value
-        End Set
-    End Property
-
-    Public Property UserCourseFile As DataTable
-        Get
-            Return _UserCourseFile
-        End Get
-        Set(value As DataTable)
-            _UserCourseFile = value
-        End Set
-    End Property
-
-    'Public Property TestSubject As DataTable
-    '    Get
-    '        Return _TestSubject
-    '    End Get
-    '    Set(value As DataTable)
-    '        _TestSubject = value
-    '    End Set
-    'End Property
-
-    'Public Property TestQuestion As DataTable
-    '    Get
-    '        Return _TestQuestion
-    '    End Get
-    '    Set(value As DataTable)
-    '        _TestQuestion = value
-    '    End Set
-    'End Property
 
     Public Property UserSessionID As Long
         Get
@@ -140,6 +65,14 @@
             _TokenStr = value
         End Set
     End Property
+    Public Property CurrentClassID As Long
+        Get
+            Return _CurrentClassID
+        End Get
+        Set(value As Long)
+            _CurrentClassID = value
+        End Set
+    End Property
     Public Property CourseComplete As Integer
         Get
             Return _CourseComplete
@@ -181,4 +114,36 @@
             _TestingTotal = value
         End Set
     End Property
+
+    Public Sub GetUserSessionData(LoginSessionID As Long)
+        Dim lnq As New TbUserSessionLinqDB
+        lnq.GetDataByPK(LoginSessionID, Nothing)
+
+        If lnq.ID > 0 Then
+            _UserSessionID = lnq.ID
+            _UserName = lnq.USERNAME
+            _UserID = lnq.USER_ID
+
+            Dim FirstName As String = ""
+            If lnq.FIRST_NAME_THAI.Trim <> "" Then
+                FirstName = lnq.FIRST_NAME_THAI
+            Else
+                FirstName = lnq.FIRST_NAME_ENG
+            End If
+
+            Dim LastName As String = ""
+            If lnq.LAST_NAME_THAI.Trim <> "" Then
+                LastName = lnq.LAST_NAME_THAI
+            Else
+                LastName = lnq.LAST_NAME_ENG
+            End If
+
+            _FullName = FirstName & " " & LastName
+            _TokenStr = lnq.TOKEN
+            _Token = "token=" & lnq.TOKEN
+            _CurrentClassID = lnq.CURRENT_CLASS_ID
+        End If
+        lnq = Nothing
+
+    End Sub
 End Class

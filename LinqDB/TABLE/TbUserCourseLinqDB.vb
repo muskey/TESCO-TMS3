@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_USER_COURSE table LinqDB.
-    '[Create by  on Febuary, 28 2017]
+    '[Create by  on May, 3 2017]
     Public Class TbUserCourseLinqDB
         Public sub TbUserCourseLinqDB()
 
@@ -47,6 +47,7 @@ Namespace TABLE
         Dim _TB_USER_DEPARTMENT_ID As Long = 0
         Dim _USER_ID As Long = 0
         Dim _DEPARTMENT_ID As Long = 0
+        Dim _COURSE_ID As  System.Nullable(Of Long) 
         Dim _COURSE_TITLE As String = ""
         Dim _COURSE_DESC As String = ""
         Dim _ICON_URL As  String  = ""
@@ -127,6 +128,15 @@ Namespace TABLE
             End Get
             Set(ByVal value As Long)
                _DEPARTMENT_ID = value
+            End Set
+        End Property 
+        <Column(Storage:="_COURSE_ID", DbType:="BigInt")>  _
+        Public Property COURSE_ID() As  System.Nullable(Of Long) 
+            Get
+                Return _COURSE_ID
+            End Get
+            Set(ByVal value As  System.Nullable(Of Long) )
+               _COURSE_ID = value
             End Set
         End Property 
         <Column(Storage:="_COURSE_TITLE", DbType:="VarChar(100) NOT NULL ",CanBeNull:=false)>  _
@@ -213,6 +223,7 @@ Namespace TABLE
             _TB_USER_DEPARTMENT_ID = 0
             _USER_ID = 0
             _DEPARTMENT_ID = 0
+            _COURSE_ID = Nothing
             _COURSE_TITLE = ""
             _COURSE_DESC = ""
             _ICON_URL = ""
@@ -501,7 +512,7 @@ Namespace TABLE
         End Function
 
         Private Function SetParameterData() As SqlParameter()
-            Dim cmbParam(15) As SqlParameter
+            Dim cmbParam(16) As SqlParameter
             cmbParam(0) = New SqlParameter("@_ID", SqlDbType.BigInt)
             cmbParam(0).Value = _ID
 
@@ -534,37 +545,44 @@ Namespace TABLE
             cmbParam(7) = New SqlParameter("@_DEPARTMENT_ID", SqlDbType.BigInt)
             cmbParam(7).Value = _DEPARTMENT_ID
 
-            cmbParam(8) = New SqlParameter("@_COURSE_TITLE", SqlDbType.VarChar)
-            cmbParam(8).Value = _COURSE_TITLE.Trim
-
-            cmbParam(9) = New SqlParameter("@_COURSE_DESC", SqlDbType.VarChar)
-            cmbParam(9).Value = _COURSE_DESC.Trim
-
-            cmbParam(10) = New SqlParameter("@_ICON_URL", SqlDbType.VarChar)
-            If _ICON_URL.Trim <> "" Then 
-                cmbParam(10).Value = _ICON_URL.Trim
+            cmbParam(8) = New SqlParameter("@_COURSE_ID", SqlDbType.BigInt)
+            If _COURSE_ID IsNot Nothing Then 
+                cmbParam(8).Value = _COURSE_ID.Value
             Else
-                cmbParam(10).Value = DBNull.value
-            End If
+                cmbParam(8).Value = DBNull.value
+            End IF
 
-            cmbParam(11) = New SqlParameter("@_COVER_URL", SqlDbType.VarChar)
-            If _COVER_URL.Trim <> "" Then 
-                cmbParam(11).Value = _COVER_URL.Trim
+            cmbParam(9) = New SqlParameter("@_COURSE_TITLE", SqlDbType.VarChar)
+            cmbParam(9).Value = _COURSE_TITLE.Trim
+
+            cmbParam(10) = New SqlParameter("@_COURSE_DESC", SqlDbType.VarChar)
+            cmbParam(10).Value = _COURSE_DESC.Trim
+
+            cmbParam(11) = New SqlParameter("@_ICON_URL", SqlDbType.VarChar)
+            If _ICON_URL.Trim <> "" Then 
+                cmbParam(11).Value = _ICON_URL.Trim
             Else
                 cmbParam(11).Value = DBNull.value
             End If
 
-            cmbParam(12) = New SqlParameter("@_SORT", SqlDbType.Int)
-            cmbParam(12).Value = _SORT
+            cmbParam(12) = New SqlParameter("@_COVER_URL", SqlDbType.VarChar)
+            If _COVER_URL.Trim <> "" Then 
+                cmbParam(12).Value = _COVER_URL.Trim
+            Else
+                cmbParam(12).Value = DBNull.value
+            End If
 
-            cmbParam(13) = New SqlParameter("@_IS_DOCUMENT_LOCK", SqlDbType.Char)
-            cmbParam(13).Value = _IS_DOCUMENT_LOCK
+            cmbParam(13) = New SqlParameter("@_SORT", SqlDbType.Int)
+            cmbParam(13).Value = _SORT
 
-            cmbParam(14) = New SqlParameter("@_DOCUMENT_DETAIL", SqlDbType.Text)
-            cmbParam(14).Value = _DOCUMENT_DETAIL.Trim
+            cmbParam(14) = New SqlParameter("@_IS_DOCUMENT_LOCK", SqlDbType.Char)
+            cmbParam(14).Value = _IS_DOCUMENT_LOCK
 
-            cmbParam(15) = New SqlParameter("@_BIND_DOCUMENT", SqlDbType.Char)
-            cmbParam(15).Value = _BIND_DOCUMENT
+            cmbParam(15) = New SqlParameter("@_DOCUMENT_DETAIL", SqlDbType.Text)
+            cmbParam(15).Value = _DOCUMENT_DETAIL.Trim
+
+            cmbParam(16) = New SqlParameter("@_BIND_DOCUMENT", SqlDbType.Char)
+            cmbParam(16).Value = _BIND_DOCUMENT
 
             Return cmbParam
         End Function
@@ -593,6 +611,7 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("tb_user_department_id")) = False Then _tb_user_department_id = Convert.ToInt64(Rdr("tb_user_department_id"))
                         If Convert.IsDBNull(Rdr("user_id")) = False Then _user_id = Convert.ToInt32(Rdr("user_id"))
                         If Convert.IsDBNull(Rdr("department_id")) = False Then _department_id = Convert.ToInt64(Rdr("department_id"))
+                        If Convert.IsDBNull(Rdr("course_id")) = False Then _course_id = Convert.ToInt64(Rdr("course_id"))
                         If Convert.IsDBNull(Rdr("course_title")) = False Then _course_title = Rdr("course_title").ToString()
                         If Convert.IsDBNull(Rdr("course_desc")) = False Then _course_desc = Rdr("course_desc").ToString()
                         If Convert.IsDBNull(Rdr("icon_url")) = False Then _icon_url = Rdr("icon_url").ToString()
@@ -643,6 +662,7 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("tb_user_department_id")) = False Then _tb_user_department_id = Convert.ToInt64(Rdr("tb_user_department_id"))
                         If Convert.IsDBNull(Rdr("user_id")) = False Then _user_id = Convert.ToInt32(Rdr("user_id"))
                         If Convert.IsDBNull(Rdr("department_id")) = False Then _department_id = Convert.ToInt64(Rdr("department_id"))
+                        If Convert.IsDBNull(Rdr("course_id")) = False Then _course_id = Convert.ToInt64(Rdr("course_id"))
                         If Convert.IsDBNull(Rdr("course_title")) = False Then _course_title = Rdr("course_title").ToString()
                         If Convert.IsDBNull(Rdr("course_desc")) = False Then _course_desc = Rdr("course_desc").ToString()
                         If Convert.IsDBNull(Rdr("icon_url")) = False Then _icon_url = Rdr("icon_url").ToString()
@@ -675,14 +695,15 @@ Namespace TABLE
         Private ReadOnly Property SqlInsert() As String 
             Get
                 Dim Sql As String=""
-                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_DEPARTMENT_ID, USER_ID, DEPARTMENT_ID, COURSE_TITLE, COURSE_DESC, ICON_URL, COVER_URL, SORT, IS_DOCUMENT_LOCK, DOCUMENT_DETAIL, BIND_DOCUMENT)"
-                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_DEPARTMENT_ID, INSERTED.USER_ID, INSERTED.DEPARTMENT_ID, INSERTED.COURSE_TITLE, INSERTED.COURSE_DESC, INSERTED.ICON_URL, INSERTED.COVER_URL, INSERTED.SORT, INSERTED.IS_DOCUMENT_LOCK, INSERTED.DOCUMENT_DETAIL, INSERTED.BIND_DOCUMENT"
+                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_DEPARTMENT_ID, USER_ID, DEPARTMENT_ID, COURSE_ID, COURSE_TITLE, COURSE_DESC, ICON_URL, COVER_URL, SORT, IS_DOCUMENT_LOCK, DOCUMENT_DETAIL, BIND_DOCUMENT)"
+                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_DEPARTMENT_ID, INSERTED.USER_ID, INSERTED.DEPARTMENT_ID, INSERTED.COURSE_ID, INSERTED.COURSE_TITLE, INSERTED.COURSE_DESC, INSERTED.ICON_URL, INSERTED.COVER_URL, INSERTED.SORT, INSERTED.IS_DOCUMENT_LOCK, INSERTED.DOCUMENT_DETAIL, INSERTED.BIND_DOCUMENT"
                 Sql += " VALUES("
                 sql += "@_CREATED_BY" & ", "
                 sql += "@_CREATED_DATE" & ", "
                 sql += "@_TB_USER_DEPARTMENT_ID" & ", "
                 sql += "@_USER_ID" & ", "
                 sql += "@_DEPARTMENT_ID" & ", "
+                sql += "@_COURSE_ID" & ", "
                 sql += "@_COURSE_TITLE" & ", "
                 sql += "@_COURSE_DESC" & ", "
                 sql += "@_ICON_URL" & ", "
@@ -707,6 +728,7 @@ Namespace TABLE
                 Sql += "TB_USER_DEPARTMENT_ID = " & "@_TB_USER_DEPARTMENT_ID" & ", "
                 Sql += "USER_ID = " & "@_USER_ID" & ", "
                 Sql += "DEPARTMENT_ID = " & "@_DEPARTMENT_ID" & ", "
+                Sql += "COURSE_ID = " & "@_COURSE_ID" & ", "
                 Sql += "COURSE_TITLE = " & "@_COURSE_TITLE" & ", "
                 Sql += "COURSE_DESC = " & "@_COURSE_DESC" & ", "
                 Sql += "ICON_URL = " & "@_ICON_URL" & ", "
@@ -732,7 +754,7 @@ Namespace TABLE
         'Get Select Statement for table TB_USER_COURSE
         Private ReadOnly Property SqlSelect() As String
             Get
-                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_DEPARTMENT_ID, USER_ID, DEPARTMENT_ID, COURSE_TITLE, COURSE_DESC, ICON_URL, COVER_URL, SORT, IS_DOCUMENT_LOCK, DOCUMENT_DETAIL, BIND_DOCUMENT FROM " & tableName
+                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_DEPARTMENT_ID, USER_ID, DEPARTMENT_ID, COURSE_ID, COURSE_TITLE, COURSE_DESC, ICON_URL, COVER_URL, SORT, IS_DOCUMENT_LOCK, DOCUMENT_DETAIL, BIND_DOCUMENT FROM " & tableName
                 Return Sql
             End Get
         End Property

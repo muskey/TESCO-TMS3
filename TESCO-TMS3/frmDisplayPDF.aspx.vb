@@ -18,6 +18,7 @@ Public Class frmDisplayPDF
     End Property
     Public ReadOnly Property User_Folder As String
         Get
+            Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
             Return UserData.UserID
         End Get
     End Property
@@ -26,7 +27,8 @@ Public Class frmDisplayPDF
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
-            UpdateLog(id, Session("ClassID"))
+            Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
+            UpdateLog(id, UserData.CurrentClassID, UserData.Token, DirectCast(Session("UserDataCourseFile"), DataTable))
             SetContent()
             GetData()
             GetBotton()

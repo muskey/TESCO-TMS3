@@ -82,23 +82,13 @@
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Kanit">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
 	
-	<!-- Favicon -->
-	<link rel="shortcut icon" href="Assets/img/favicon.ico" />
-	<!-- Apple devices Homescreen icon -->
-	<link rel="apple-touch-icon-precomposed" href="Assets/img/apple-touch-icon-precomposed.png" />
-
-
-
     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
     </asp:ContentPlaceHolder>
 
 </head>
 
 <body  style="background:#29363f">
-
-
     <style>
-
         @font-face {
           font-family: 'MyWebFont';
           src: url('kit65f.TTF'); /* IE9 Compat Modes */
@@ -106,7 +96,7 @@
                url('kit65f.TTF')  format('truetype'), /* Safari, Android, iOS */
         }
       * {
-         font-size: 100%;
+         font-size: 24px;
          font-family: 'MyWebFont';
         }
 
@@ -120,7 +110,7 @@
       }
       button {
         font-family: 'MyWebFont', Tahoma;
-        font-size: 18px;
+        /*font-size: 24px;*/
       }
        p {
         font-family: 'MyWebFont', Tahoma;
@@ -130,53 +120,50 @@
         font-family: 'MyWebFont', Tahoma;
         font-size: 13px;
       }
-
-       .btn.btn-larges{padding:20px 16px} 
+       .btn.btn-larges{padding:10px 10px} 
          
     </style>
     
     <form id="form1" runat="server">
-
-    
     <div id="navigation" style="background:#019b79">
         <div class="container-fluid">
-           
-           <%-- <a href="#" id="brand">FLAT</a>--%>
-            <img src="Assets/PC/Logo.png" style="width:70px;height:20px" />
-            <div class="user">
-		            <div class="dropdown">
-                        <a href="#" class='dropdown-toggle' data-toggle="dropdown">
-                            <asp:Label ID="lblUsername" runat="server"  Text="John Doe |"></asp:Label>
-                        </a>
-		            </div>
-		            <div class='dropdown'>
-                        <asp:LinkButton CssClass="dropdown-toggle" ID="btnCourse" runat="server">
-                          <i class="fa fa-check"></i>
-                          <span><b>บทเรียน</b> |</span>
-                        </asp:LinkButton>
-			        </div>
-                    <div class='dropdown'>
-                        <asp:LinkButton CssClass="dropdown-toggle" ID="btnTesting" runat="server" >
-                          <i class="fa fa-check"></i>
-                          <span><b>แบบทดสอบ</b> |</span>
-                        </asp:LinkButton>
-			        </div>
-
-			        <div class='dropdown'>
-                        <asp:LinkButton CssClass="dropdown-toggle" ID="btnLogout" runat="server">
-                          <i class="fa fa-check"></i>
-                          <span><b>ออกจากระบบ</b></span>
-                        </asp:LinkButton>
-			        </div>
-		        
-	        </div>
+            <div class="box-content">
+                <div class="row-fluid" style="vertical-align:middle;">
+                    <div class="span4">
+                        <div class="text-left">
+                           <img src="Assets/PC/Logo.png" style="width:70px;" />
+                       </div>
+                    </div>
+                    <div class="span8">
+                        <div class="user">
+		                    <div class="dropdown">
+                                <a href="#" class='dropdown-toggle' data-toggle="dropdown">
+                                    <asp:Label ID="lblUsername" runat="server"  Text="John Doe"></asp:Label>&nbsp;|&nbsp;
+                                </a>
+                                
+		                    </div>
+		                    <div class='dropdown'>
+                                <asp:LinkButton CssClass="dropdown-toggle" ID="btnCourse" runat="server">
+                                  <span>บทเรียน |</span>
+                                </asp:LinkButton>
+			                </div>
+                            <div class='dropdown'>
+                                <asp:LinkButton CssClass="dropdown-toggle" ID="btnTesting" runat="server" >
+                                  <span>แบบทดสอบ |</span>
+                                </asp:LinkButton>
+			                </div>
+			                <div class='dropdown'>
+                                <asp:LinkButton CssClass="dropdown-toggle" ID="btnLogout" runat="server">
+                                  <i class="fa fa-check"></i>
+                                  <span>ออกจากระบบ</span>
+                                </asp:LinkButton>
+			                </div>
+	                    </div>
+                    </div>
+                </div>
+            </div>          
         </div>
     </div>
-
-
-            <div class="wrapper">
-                
-            </div>
     <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
         
     </asp:ContentPlaceHolder>

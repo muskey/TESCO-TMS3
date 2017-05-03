@@ -8,13 +8,13 @@ Imports System.Data.SqlClient
 Imports Newtonsoft.Json.Linq
 Module TescoModule
 
-    Public UserData As New UserProfileData
     Public TempPath As String = "D:\" & "TMS"
     Public FolderCourseDocumentFile As String = TempPath & "\CourseDocumentFile"
 
     Public Function GetWebServiceURL() As String
         'Return "http://tescolotuslc.com/learningcenterstaging/"
         'Return "https://tescolotuslc.com/learningcenterpreproduction/"
+        'Return "https://tescolotuslc.com/learningcenter/
 
         Dim cf As CfSysconfigLinqDB = GetSysconfig()
         Return cf.WEBSERVICE_URL
@@ -87,20 +87,20 @@ Module TescoModule
     End Function
 
 #Region "Log"
-    Public Sub CallAPIUpdateLog(token As String, ClientID As String, vAction As String, vModule As String, data As String)
+    Public Sub CallAPIUpdateLog(token As String, vAction As String, vModule As String, data As String)
         'เมื่อเรียนจบหลักสูตรให้บันทึก Log
         Dim info As String = ""
-        info = GetStringDataFromURL(GetWebServiceURL() & "api/log", token & "&client_id=" & ClientID & "&action=" & vAction & "&module=" & vModule & "&data=" & data)
+        info = GetStringDataFromURL(GetWebServiceURL() & "api/log", token & "&action=" & vAction & "&module=" & vModule & "&data=" & data)
     End Sub
 
 
 
-    Public Sub UpdateLog(id As Long, ClassID As Long)
+    Public Sub UpdateLog(id As Long, ClassID As Long, Token As String, UserDataCourseFile As DataTable)
         Dim tb_user_course_document_id As String = "0"
         Dim doc_id As String = "0"
         Dim course_id As String = "0"
         Dim Sql As String
-        Sql = " select cdf.document_file_id,cd.document_id, c.id course_id "
+        Sql = " select cdf.id, cdf.document_file_id,cd.document_id, c.id course_id "
         Sql += " from TB_USER_COURSE_DOCUMENT_FILE cdf"
         Sql += " inner join TB_USER_COURSE_DOCUMENT cd on cd.id=cdf.tb_user_course_document_id"
         Sql += " inner join TB_USER_COURSE c on c.id=cd.tb_user_course_id"
@@ -109,23 +109,19 @@ Module TescoModule
         p(0) = SqlDB.SetBigInt("@_ID", id)
         Dim dtCourseFile As DataTable = SqlDB.ExecuteTable(Sql, p)
         If dtCourseFile.Rows.Count Then
-            doc_id = dtCourseFile.Rows(0)("tb_user_course_document_id")
+            doc_id = dtCourseFile.Rows(0)("document_id")
             course_id = dtCourseFile.Rows(0)("course_id")
         End If
         dtCourseFile.Dispose()
 
-
-        '#### ตอน Update Log จะรู้ได้อย่างไรว่า Client ID เป็นอะไร
-        'Dim dtnext As DataTable = Session("UserDataCourseFile")
-        'Dim strfillter As String = "id >" & id
-        'dtnext.DefaultView.RowFilter = strfillter
-        'If dtnext.DefaultView.Count = 0 Then
-        '    CallAPIUpdateLog(UserData.Token, 13, "complete", "class", "{" & Chr(34) & "class_id" & Chr(34) & ":" & cassid.ToString & "}")
-
-        'Else
-        '    CallAPIUpdateLog(UserData.Token, 13, "complete", "document", "{" & Chr(34) & "class_id" & Chr(34) & ":" & cassid.ToString & "," & Chr(34) & "document_id" & Chr(34) & ":" & doc_id & "}")
-
-        'End If
+        Dim strfillter As String = "id >" & id
+        UserDataCourseFile.DefaultView.RowFilter = strfillter
+        If UserDataCourseFile.DefaultView.Count = 0 Then
+            CallAPIUpdateLog(Token, "complete", "class", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "}")
+        Else
+            CallAPIUpdateLog(Token, "complete", "document", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "," & Chr(34) & "document_id" & Chr(34) & ":" & doc_id & "}")
+        End If
+        UserDataCourseFile.DefaultView.RowFilter = ""
     End Sub
 #End Region
 

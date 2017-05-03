@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/MasterPage.Master" CodeBehind="frmSelectFormat.aspx.vb" Inherits="TESCO_TMS3.frmSelectFormat" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <title>FLAT - Tiles</title>
+    <title></title>
     <script>
 
         function fselect(id,title) {
@@ -33,7 +33,7 @@
 <%--		<font color="#019b79"><h1 class="text-center">ยินดีต้อนรับเข้าสู่</h1></font>
         <font color="#fff"><h3 class="text-center">ศูนย์การเรียนรู้ เทศโก้โลตัส</h3></font> --%>
     <div class="text-center">
-        <img src="Assets/PC/bgSelectFormatHeader.png" width="250" height="250" />
+        <img src="Assets/PC/bgSelectFormatHeader.png" height="250" />
     </div>
 		<div id="main" style="background:#29363f">
 			<div class="container-fluid"><br />
@@ -41,24 +41,19 @@
 				      <div class="row-fluid">
 						<div class="span2"></div>
 						<div class="span3">
-                          <div class="box-content" >
-                            <font color="#fff"><h4 class="text-center">เลือกฟอร์แมท (Format) ของคุณ</h4></font>
+                          <div class="box-content" style="text-align:center" >
+                            <span class="text-center" style="color:#fff;font-size:26px;">เลือกฟอร์แมท (Format) ของคุณ</span>
                             <a href="#modal-1" data-toggle="modal"></a>
                                 <asp:Label runat="server" ID="lblBotton"></asp:Label>
-<%--                            <p> <button class="btn-block btn btn-larges" Name="btnformat" id="1" onclick="fselect(1);return false;" style="background-color:aquamarine">Block level</button></p>
-                            <p> <button class="btn-block btn btn-larges" Name="btnformat" id="2" onclick="fselect(2);return false;" style="background-color:aquamarine">Block level</button></p>
-                            <p> <button class="btn-block btn btn-larges">Block level</button></p>
-                            <p> <button class="btn-block btn btn-larges">Block level</button></p>
-                            <p> <button class="btn-block btn btn-larges">Block level</button></p>--%>
                           </div>
 						</div>
                         
 						<div class="span1"></div>
 						<div class="span3">
-                            <div class="box">
-								<font color="#019b79"><h4 class="text-center">ความเคลื่อนไหววันนี้....</h4></font>
+                            <div class="box" style="text-align:center">
+                                <span class="text-center" style="color:#019b79;font-size:26px;" >ความเคลื่อนไหววันนี้...</span>
                                <div style="width: 350px; height: 340px; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">
-								<div class="box-content" style="background:#29363f">
+								<div class="box-content"  style="background:#29363f;text-align:left;">
                                    
                                     
                                     <asp:Label runat="server" ID="lblNEWS"></asp:Label>
@@ -82,6 +77,4 @@
 			</div>
 		</div>
     </div>
-
-    
 </asp:Content>

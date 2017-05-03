@@ -7,8 +7,12 @@ Public Class MasterPage
     Inherits System.Web.UI.MasterPage
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Dim UserData As UserProfileData = Session("UserData")
-        Me.lblUsername.Text = UserData.FullName & ""
+        If Session("UserData") IsNot Nothing Then
+            Dim UserData As UserProfileData = Session("UserData")
+            Me.lblUsername.Text = UserData.FullName & ""
+        Else
+            Response.Redirect("frmLogin.aspx?rnd=" & DateTime.Now.Millisecond)
+        End If
     End Sub
 
     Private Sub btnTesting_Click(sender As Object, e As EventArgs) Handles btnTesting.Click

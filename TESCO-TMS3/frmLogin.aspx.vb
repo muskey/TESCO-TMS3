@@ -7,7 +7,7 @@ Imports LinqDB.TABLE
 Public Class frmLogin
     Inherits System.Web.UI.Page
 
-    Dim Env As String = "Staging"
+    Dim Env As String = "Production"
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -27,52 +27,74 @@ Public Class frmLogin
             Dim info As String = ""
             info = GetStringDataFromURL(GetWebServiceURL() & "api/login", "username=" & Username & "&password=" & Password)
             If info.Trim <> "" Then
-                ClearUserSession(Username)
-
                 Dim json As String = info
                 Dim ser As JObject = JObject.Parse(json)
                 Dim data As List(Of JToken) = ser.Children().ToList
                 Dim output As String = ""
 
-                If Env = "Production" Then
-                    If data.Count = 12 Then
-                        UserData = New UserProfileData
-                        UserData.UserID = DirectCast(data(11), JProperty).First
-                        UserData.UserName = Username
-                        UserData.TokenStr = DirectCast(data(9), JProperty).First
-                        UserData.Token = "token=" & UserData.TokenStr
-                        UserData.FullName = DirectCast(data(2), JProperty).First.ToString & " " & DirectCast(data(3), JProperty).First.ToString
-                        UserData.UserMassage = BuiltDatableTableUserMessage(DirectCast(data(8), JProperty))
-                        BuiltUser(data, UserData)
+                Dim FirstNameThai As String = ""
+                Dim LastNameThai As String = ""
+                Dim FirstNameEng As String = ""
+                Dim LastNameEng As String = ""
+                Dim IsTeacher As String = ""
+                Dim FormatData As JToken
+                Dim MessageData As JProperty
 
-                        Dim re As ExecuteDataInfo = CreateUserSession(UserData.TokenStr, UserData.UserID, Username, data)
-                        If re.IsSuccess = True Then
-                            UserData.UserSessionID = re.NewID
-                            Session("UserData") = UserData
-                            'GetDatableTableFromTesting(UserData)
-                            ret = re.IsSuccess
-                        End If
-                    End If
-                ElseIf Env = "Staging" Then
-                    If data.Count = 13 Then
-                        UserData = New UserProfileData
-                        UserData.UserID = DirectCast(data(12), JProperty).First
-                        UserData.UserName = Username
-                        UserData.TokenStr = DirectCast(data(10), JProperty).First
-                        UserData.Token = "token=" & UserData.TokenStr
-                        UserData.FullName = DirectCast(data(3), JProperty).First.ToString & " " & DirectCast(data(4), JProperty).First.ToString
-                        UserData.UserMassage = BuiltDatableTableUserMessage(DirectCast(data(9), JProperty))
-                        BuiltUser(data, UserData)
+                Dim UserData = New UserProfileData
+                UserData.UserName = Username
+                For Each item As JProperty In data
+                    item.CreateReader()
 
-                        Dim re As ExecuteDataInfo = CreateUserSession(UserData.TokenStr, UserData.UserID, Username, data)
-                        If re.IsSuccess = True Then
-                            UserData.UserSessionID = re.NewID
-                            Session("UserData") = UserData
-                            'GetDatableTableFromTesting(UserData)
-                            ret = re.IsSuccess
-                        End If
-                    End If
+                    Select Case item.Name
+                        Case "token"
+                            UserData.TokenStr = item.First
+                            UserData.Token = "token=" & UserData.TokenStr
+                        Case "firstname"
+                            If item.First.ToString <> "" Then FirstNameEng = item.First.ToString
+                        Case "lastname"
+                            If item.First.ToString <> "" Then LastNameEng = item.First.ToString
+                        Case "firstname_thai"
+                            If item.First.ToString <> "" Then FirstNameThai = item.First.ToString
+                        Case "lastname_thai"
+                            If item.First.ToString <> "" Then LastNameThai = item.First.ToString
+                        Case "user_id"
+                            UserData.UserID = item.First
+                        Case "is_teacher"
+                            IsTeacher = item.First.ToString
+                        Case "data"
 
+                            ClearUserSession(Username)
+                            FormatData = item.First
+                        Case "welcome"
+                            'BuiltDatableTableUserMessage(item)
+                            MessageData = item
+                    End Select
+                Next
+
+                Dim FirstName As String = ""
+                Dim LastName As String = ""
+                If FirstNameThai.Trim = "" Then
+                    FirstName = FirstNameEng
+                Else
+                    FirstName = FirstNameThai
+                End If
+
+                If LastNameThai.Trim = "" Then
+                    LastName = LastNameEng
+                Else
+                    LastName = LastNameThai
+                End If
+
+                UserData.FullName = FirstName & " " & LastName
+
+
+
+                Dim re As ExecuteDataInfo = CreateUserSession(UserData.TokenStr, UserData.UserID, Username, FirstNameEng, LastNameEng, FirstNameThai, LastNameThai, IsTeacher, FormatData, MessageData)
+                If re.IsSuccess = True Then
+                    UserData.UserSessionID = re.NewID
+                    Session("UserData") = UserData
+                    'GetDatableTableFromTesting(UserData)
+                    ret = re.IsSuccess
                 End If
 
 
@@ -84,329 +106,19 @@ Public Class frmLogin
 
         Return ret
     End Function
-    'Public Function GetDatableTableFromTesting(UserData As UserProfileData) As Boolean
-    '    Dim ret As Boolean = False
-    '    Try
-    '        DT_TEST = New DataTable
-    '        DT_TEST.Columns.Add("id", GetType(Integer))
-    '        DT_TEST.Columns.Add("title")
-    '        DT_TEST.Columns.Add("description")
-    '        DT_TEST.Columns.Add("target_percentage", GetType(Integer))
-    '        DT_TEST.Columns.Add("course_id", GetType(Integer))
-    '        DT_TEST.Columns.Add("question_qty", GetType(Integer))
 
-    '        DT_TEST_QUESTION = New DataTable
-    '        DT_TEST_QUESTION.Columns.Add("id", GetType(Integer))
-    '        DT_TEST_QUESTION.Columns.Add("tb_test_id", GetType(Integer))
-    '        DT_TEST_QUESTION.Columns.Add("question")
-    '        DT_TEST_QUESTION.Columns.Add("icon_url")
-    '        DT_TEST_QUESTION.Columns.Add("icon_file")
-    '        DT_TEST_QUESTION.Columns.Add("choice")
-    '        DT_TEST_QUESTION.Columns.Add("answer")
-    '        DT_TEST_QUESTION.Columns.Add("question_no", GetType(Integer))
-
-    '        DT_TEST_QUESTION.Columns.Add("answer_id")
-    '        DT_TEST_QUESTION.Columns.Add("answer_result")
-    '        DT_TEST_QUESTION.Columns.Add("time_spent", GetType(Int16))
-    '        DT_TEST_QUESTION.Columns.Add("answer_choice")
-
-
-
-    '        Dim info As String = ""
-    '        info = GetStringDataFromURL(GetWebServiceURL() & "api/testing/get", UserData.Token & "&client_id=" & 13 & "&user_id=" & UserData.UserID)
-    '        If info.Trim = "" Then Return False
-
-    '        Dim json As String = info
-    '        Dim ser As JObject = JObject.Parse(json)
-    '        Dim data As List(Of JToken) = ser.Children().ToList
-    '        Dim output As String = ""
-
-    '        For Each item As JProperty In data
-    '            item.CreateReader()
-    '            Select Case item.Name
-    '                Case "testing"
-    '                    Dim question_id As Int32 = 0
-
-    '                    For Each comment As JObject In item.Values
-    '                        Dim test_id As Int32 = comment("id")
-
-    '                        Dim tDr As DataRow = DT_TEST.NewRow
-    '                        tDr("id") = test_id
-    '                        tDr("title") = comment("title").ToString
-    '                        tDr("description") = comment("description").ToString
-    '                        tDr("target_percentage") = Convert.ToInt32(comment("target_percentage"))
-    '                        tDr("course_id") = Convert.ToInt32(comment("course_id"))
-    '                        DT_TEST.Rows.Add(tDr)
-
-    '                        Dim question_qty As Integer = 0
-    '                        Dim question_txt As String = "{""question"":" & comment("question").ToString & "}"
-    '                        Dim question_ser As JObject = JObject.Parse(question_txt)
-    '                        Dim question_data As List(Of JToken) = question_ser.Children().ToList
-    '                        For Each question_item As JProperty In question_data
-    '                            For Each question_comment As JObject In question_item.Values
-    '                                question_id = question_id + 1
-    '                                question_qty = question_qty + 1
-    '                                question_item.CreateReader()
-
-    '                                Dim vChoice As String = ""
-    '                                Dim vAnswer As String = ""
-    '                                'Dim vAnswerID As String = ""
-    '                                Dim answer_txt As String = "{""answer"":" & question_comment("answer").ToString & "}"
-    '                                Dim answer_ser As JObject = JObject.Parse(answer_txt)
-    '                                Dim answer_data As List(Of JToken) = answer_ser.Children().ToList
-    '                                For Each answer_item As JProperty In answer_data
-    '                                    For Each answer_comment As JObject In answer_item.Values
-    '                                        answer_item.CreateReader()
-
-    '                                        If vChoice = "" Then
-    '                                            vChoice = answer_comment("text").ToString
-    '                                        Else
-    '                                            vChoice += "##" + answer_comment("text").ToString
-    '                                        End If
-
-    '                                        If vAnswer = "" Then
-    '                                            vAnswer = answer_comment("is_correct").ToString
-    '                                        Else
-    '                                            vAnswer += "##" + answer_comment("is_correct").ToString
-    '                                        End If
-
-    '                                        'If vAnswerID = "" Then
-    '                                        '    vAnswer = answer_comment("id").ToString
-    '                                        'Else
-    '                                        '    vAnswer += "##" + answer_comment("id").ToString
-    '                                        'End If
-    '                                    Next
-    '                                Next
-
-    '                                Dim qDr As DataRow = DT_TEST_QUESTION.NewRow
-    '                                qDr("id") = question_id
-    '                                qDr("tb_test_id") = test_id
-    '                                qDr("question") = question_comment("description").ToString
-    '                                qDr("icon_url") = question_comment("cover").ToString
-    '                                'qDr("icon_file") = SaveQuestionIcon(QuestionIconFolder, question_comment("cover").ToString, question_id)
-    '                                qDr("icon_file") = question_comment("cover").ToString
-    '                                qDr("choice") = vChoice
-    '                                qDr("answer") = vAnswer
-    '                                qDr("question_no") = question_qty
-    '                                DT_TEST_QUESTION.Rows.Add(qDr)
-    '                            Next
-    '                        Next
-
-    '                        'จำนวนคำถามในแบบทดสอบ
-    '                        DT_TEST.Rows(DT_TEST.Rows.Count - 1)("question_qty") = question_qty
-    '                    Next
-    '                Case "course_data"
-    '                    For Each comment As JProperty In item.Values
-    '                        Select Case comment.Name
-    '                            Case "complete"
-    '                                UserData.CourseComplete = comment.First
-    '                            Case "total"
-    '                                UserData.CourseTotal = comment.Last
-    '                        End Select
-    '                    Next
-    '                Case "testing_data"
-    '                    For Each comment As JProperty In item.Values
-    '                        Select Case comment.Name
-    '                            Case "attempt"
-    '                                UserData.TestingAttempt = comment.First
-    '                            Case "complete"
-    '                                UserData.TestingComplete = comment.First
-    '                            Case "total"
-    '                                UserData.TestingTotal = comment.Last
-    '                        End Select
-    '                    Next
-    '            End Select
-    '        Next
-
-    '        UserData.TestSubject = DT_TEST
-    '        UserData.TestQuestion = DT_TEST_QUESTION
-    '        Session("UserData") = UserData
-    '        ret = True
-    '    Catch ex As Exception
-    '        'MessageBox.Show(ex.Message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
-    '        ret = False
-    '    End Try
-    '    Return ret
-    'End Function
-    Private Function BuiltDatableTableUserMessage(data3 As JProperty)
-        Dim dt = New DataTable
-        dt.Columns.Add("name")
-        dt.Columns.Add("description")
-
-        For Each desc As JObject In data3.Value
-            Dim name As String = desc("name").ToString
-            Dim description As String = desc("description").ToString
-
-            Dim dr As DataRow = dt.NewRow
-            dr("name") = name
-            dr("description") = description
-            dt.Rows.Add(dr)
-        Next
-
-        Return dt
-    End Function
-
-    Private Function BuiltUser(data As List(Of JToken), myUser As UserProfileData)
-
-        For Each item As JProperty In data
-            item.CreateReader()
-            Select Case item.Name
-                Case "data"
-
-                    myUser.UserFormat = New DataTable
-                    myUser.UserFormat.Columns.Add("format_id")
-                    myUser.UserFormat.Columns.Add("format_title")
-
-                    myUser.UserFunction = New DataTable
-                    myUser.UserFunction.Columns.Add("format_id")
-                    myUser.UserFunction.Columns.Add("format_title")
-                    myUser.UserFunction.Columns.Add("function_id")
-                    myUser.UserFunction.Columns.Add("function_title")
-                    myUser.UserFunction.Columns.Add("function_cover")
-                    myUser.UserFunction.Columns.Add("function_cover_color")
-                    myUser.UserFunction.Columns.Add("function_subject")
-
-                    myUser.UserDepartment = New DataTable
-                    myUser.UserDepartment.Columns.Add("department_id")
-                    myUser.UserDepartment.Columns.Add("department_title")
-                    myUser.UserDepartment.Columns.Add("department_cover")
-                    myUser.UserDepartment.Columns.Add("function_id")
-                    myUser.UserDepartment.Columns.Add("format_title")
-
-
-                    myUser.UserCourse = New DataTable
-                    myUser.UserCourse.Columns.Add("id")
-                    myUser.UserCourse.Columns.Add("tb_user_course_id")
-                    myUser.UserCourse.Columns.Add("document_title")
-                    myUser.UserCourse.Columns.Add("ms_document_icon_id")
-                    myUser.UserCourse.Columns.Add("document_version")
-                    myUser.UserCourse.Columns.Add("document_type")
-                    myUser.UserCourse.Columns.Add("order_by")
-                    myUser.UserCourse.Columns.Add("user_id")
-
-
-                    myUser.UserCourseFile = New DataTable
-                    myUser.UserCourseFile.Columns.Add("id")
-                    myUser.UserCourseFile.Columns.Add("tb_user_course_document_id")
-                    myUser.UserCourseFile.Columns.Add("file_title")
-                    myUser.UserCourseFile.Columns.Add("file_url")
-                    myUser.UserCourseFile.Columns.Add("order_by")
-                    myUser.UserCourseFile.Columns.Add("user_id")
-                    myUser.UserCourse.Columns.Add("next_id")
-
-
-                    BuiltUserFormat(item.First, myUser)
-            End Select
-        Next
-
-        'Dim dt = New DataTable
-        'dt.Columns.Add("format_id")
-        'dt.Columns.Add("format_title")
-        'For Each f As JObject In data2.Values
-        '    Dim dr As DataRow = dt.NewRow
-        '    dr("format_id") = f("format_id").ToString
-        '    dr("format_title") = f("format_title").ToString
-        '    dt.Rows.Add(dr)
-
-        'Next
-        'Return dt
-    End Function
-
-    Private Sub BuiltUserFormat(data As JToken, myUser As UserProfileData)
-
-
-        For Each comment As JProperty In data
-            comment.CreateReader()
-            Select Case comment.Name
-                Case "format"
-                    For Each f As JObject In comment.Values
-                        Dim dr As DataRow = myUser.UserFormat.NewRow
-                        dr("format_id") = f("id").ToString
-                        dr("format_title") = f("title").ToString
-
-                        myUser.UserFormat.Rows.Add(dr)
-
-
-                        Dim jProp As JObject = JObject.Parse("{""function"":" & f("function").ToString & "}")
-                        BuiltUserFunction(jProp, f("id").ToString, f("title").ToString, myUser)
-
-                        'f.CreateReader()
-                        'Select Case f.Name
-                        '    Case "title"
-                        '        myUser.UserFormat = f.Value.ToString.Trim
-                        '    Case "function"
-                        '        BuiltUserFunction(f)
-                        'End Select
-
-
-                    Next
-
-
-            End Select
-        Next
-    End Sub
-
-    Private Sub BuiltUserFunction(data_ser As JObject, FormatID As Integer, FormatTitle As String, myUser As UserProfileData)
-
-
-
-        Dim data As List(Of JToken) = data_ser.Children().ToList
-        For Each item As JProperty In data
-            For Each comment As JObject In item.Value
-                comment.CreateReader()
-
-                Dim dr As DataRow = myUser.UserFunction.NewRow
-                dr("format_id") = FormatID
-                dr("format_title") = FormatTitle
-                dr("function_id") = comment("id").ToString
-                dr("function_title") = comment("title").ToString
-                dr("function_cover") = comment("cover").ToString
-                dr("function_cover_color") = comment("color").ToString
-                dr("function_subject") = comment("subject_type").ToString   'main subject / additional subject
-
-                myUser.UserFunction.Rows.Add(dr)
-
-                Dim jProp As JObject = JObject.Parse("{""department"":" & comment("department").ToString & "}")
-
-                BuiltFuserDepartment(jProp, comment("id").ToString, FormatTitle, myUser)
-            Next
-        Next
-    End Sub
-
-    Private Sub BuiltFuserDepartment(data_ser As JObject, FunctionID As String, FormatTitle As String, myUser As UserProfileData)
-
-        Dim data As List(Of JToken) = data_ser.Children().ToList
-        For Each item As JProperty In data
-            For Each desc As JObject In item.Values
-                desc.CreateReader()
-
-                Dim dr As DataRow = myUser.UserDepartment.NewRow
-                dr("department_id") = desc("id").ToString
-                dr("department_title") = desc("title").ToString
-                dr("department_cover") = desc("cover").ToString
-                dr("function_id") = FunctionID
-                dr("format_title") = FormatTitle
-
-                myUser.UserDepartment.Rows.Add(dr)
-
-                'BindDatableTableFromCourse(desc.Last)
-            Next
-        Next
-
-    End Sub
-
-    Private Function CreateUserSession(Token As String, UserID As Long, Username As String, data As List(Of JToken)) As ExecuteDataInfo
+    Private Function CreateUserSession(TokenStr As String, UserID As Long, Username As String, FirstNameEng As String, LastNameEng As String, FirstNameThai As String, LastNameThai As String, IsTeacher As String, FormatData As JToken, MessageData As JProperty) As ExecuteDataInfo
         Dim ret As New ExecuteDataInfo
         Try
             Dim lnq As New TbUserSessionLinqDB
-            lnq.TOKEN = Token
+            lnq.TOKEN = TokenStr
             lnq.USER_ID = UserID
             lnq.USERNAME = Username
-            lnq.FIRST_NAME_ENG = DirectCast(data(2), JProperty).First
-            lnq.LAST_NAME_ENG = DirectCast(data(3), JProperty).First
-            lnq.FIRST_NAME_THAI = DirectCast(data(4), JProperty).First.ToString
-            lnq.LAST_NAME_THAI = DirectCast(data(5), JProperty).First.ToString
-            lnq.IS_TEACHER = DirectCast(data(6), JProperty).First
+            lnq.FIRST_NAME_ENG = FirstNameEng
+            lnq.LAST_NAME_ENG = LastNameEng
+            lnq.FIRST_NAME_THAI = FirstNameThai
+            lnq.LAST_NAME_THAI = LastNameThai
+            lnq.IS_TEACHER = IsTeacher
 
             Dim trans As New TransactionDB
             ret = lnq.InsertData(Username, trans.Trans)
@@ -427,9 +139,9 @@ Public Class frmLogin
 
                 ret = hLnq.InsertData(Username, trans.Trans)
                 If ret.IsSuccess = True Then
-                    ret = BuiltUserFormat(lnq.ID, lnq.USER_ID, Username, DirectCast(data(7), JToken).First, trans)
+                    ret = BuiltUserFormat(lnq.ID, lnq.USER_ID, Username, FormatData, trans)
                     If ret.IsSuccess = True Then
-                        ret = BuiltDatableTableUserMessage(data(8), lnq.ID, UserData.UserID, Username, trans)
+                        ret = BuiltDatableTableUserMessage(MessageData, lnq.ID, UserID, Username, trans)
 
                         If ret.IsSuccess = True Then
                             ret.NewID = _newID
@@ -657,6 +369,7 @@ Public Class frmLogin
                 lnq.TB_USER_DEPARTMENT_ID = UserDepartmentID
                 lnq.USER_ID = UserID
                 lnq.DEPARTMENT_ID = comment("department_id").ToString
+                lnq.COURSE_ID = comment("id").ToString
                 lnq.COURSE_TITLE = comment("name").ToString
                 lnq.COURSE_DESC = comment("description").ToString
                 lnq.ICON_URL = comment("icon").ToString

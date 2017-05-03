@@ -69,7 +69,7 @@
 
         <div id="main" style="background: #29363f">
             <div class="breadcrumbs" style="background: #29363f">
-                <asp:Label runat="server" ID="lblTitle"></asp:Label>
+                <asp:Label runat="server" ID="lblTitle" ></asp:Label>
             </div>
             <div class="container-fluid">
 
@@ -78,9 +78,6 @@
                         <div class="span1">
                             <div>
                             </div>
-
-
-
                         </div>
                         <div class="span10">
                             <ul>

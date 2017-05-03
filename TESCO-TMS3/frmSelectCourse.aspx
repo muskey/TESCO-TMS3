@@ -16,7 +16,7 @@
             return false;
         }
 
-        function ShowPopup(id, name, desc) {
+        function ShowPopup(id, name, desc, UserSessionID) {
             onEdit(id);
 
             $(function () {
@@ -36,7 +36,7 @@
                               "class": 'saveButtonClass',
                               click: function () {
                                   $("#dialog").dialog("close");
-                                  onDocumentData(id, name);
+                                  onDocumentData(id, name, UserSessionID);
 
                               }
                           }
@@ -72,9 +72,9 @@
 
         }
 
-        function onDocumentData(id, name) {
+        function onDocumentData(id, name, UserSessionID) {
 
-            var param = "{'id':" + JSON.stringify(id) + "}";
+            var param = "{'id':" + JSON.stringify(id) + ",'UserSessionID':" + JSON.stringify(UserSessionID) +  "}";
             $.ajax({
                 type: "POST",
                 url: "WebService/WebService.asmx/SetDocumentData",
@@ -129,21 +129,10 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <div class="container-fluid nav-hidden" id="content">
-
+        
         <div id="main" style="background: #29363f">
-            <div class="breadcrumbs" style="background: #29363f">
+            <div  style="background: #29363f">
                 <asp:Label runat="server" ID="lblTitle"></asp:Label>
-                <%--					<ul>
-							<li><i class="icon icon-home"></i>
-								<a href="more-login.html"><font color="#019b79">EXTRA</font></a>
-							</li>
-							<li>
-								<a href="components-messages.html"><font color="#019b79">|&nbsp; &nbsp; HYPER</font></a>
-							</li>
-							<li>
-								<a href="components-elements.html"><font color="#019b79">|&nbsp; &nbsp; DEPT</font></a>
-							</li>
-						</ul>--%>
             </div>
             <div class="container-fluid">
  

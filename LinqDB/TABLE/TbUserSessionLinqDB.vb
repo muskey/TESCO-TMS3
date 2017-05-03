@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_USER_SESSION table LinqDB.
-    '[Create by  on Febuary, 28 2017]
+    '[Create by  on May, 3 2017]
     Public Class TbUserSessionLinqDB
         Public sub TbUserSessionLinqDB()
 
@@ -52,6 +52,7 @@ Namespace TABLE
         Dim _FIRST_NAME_THAI As  String  = ""
         Dim _LAST_NAME_THAI As  String  = ""
         Dim _IS_TEACHER As String = ""
+        Dim _CURRENT_CLASS_ID As Long = 0
 
         'Generate Field Property 
         <Column(Storage:="_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
@@ -171,6 +172,15 @@ Namespace TABLE
                _IS_TEACHER = value
             End Set
         End Property 
+        <Column(Storage:="_CURRENT_CLASS_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
+        Public Property CURRENT_CLASS_ID() As Long
+            Get
+                Return _CURRENT_CLASS_ID
+            End Get
+            Set(ByVal value As Long)
+               _CURRENT_CLASS_ID = value
+            End Set
+        End Property 
 
 
         'Clear All Data
@@ -188,6 +198,7 @@ Namespace TABLE
             _FIRST_NAME_THAI = ""
             _LAST_NAME_THAI = ""
             _IS_TEACHER = ""
+            _CURRENT_CLASS_ID = 0
         End Sub
 
        'Define Public Method 
@@ -508,7 +519,7 @@ Namespace TABLE
         End Function
 
         Private Function SetParameterData() As SqlParameter()
-            Dim cmbParam(12) As SqlParameter
+            Dim cmbParam(13) As SqlParameter
             cmbParam(0) = New SqlParameter("@_ID", SqlDbType.BigInt)
             cmbParam(0).Value = _ID
 
@@ -572,6 +583,9 @@ Namespace TABLE
             cmbParam(12) = New SqlParameter("@_IS_TEACHER", SqlDbType.VarChar)
             cmbParam(12).Value = _IS_TEACHER.Trim
 
+            cmbParam(13) = New SqlParameter("@_CURRENT_CLASS_ID", SqlDbType.BigInt)
+            cmbParam(13).Value = _CURRENT_CLASS_ID
+
             Return cmbParam
         End Function
 
@@ -604,6 +618,7 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("first_name_thai")) = False Then _first_name_thai = Rdr("first_name_thai").ToString()
                         If Convert.IsDBNull(Rdr("last_name_thai")) = False Then _last_name_thai = Rdr("last_name_thai").ToString()
                         If Convert.IsDBNull(Rdr("is_teacher")) = False Then _is_teacher = Rdr("is_teacher").ToString()
+                        If Convert.IsDBNull(Rdr("current_class_id")) = False Then _current_class_id = Convert.ToInt64(Rdr("current_class_id"))
                     Else
                         ret = False
                         _error = MessageResources.MSGEV002
@@ -651,6 +666,7 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("first_name_thai")) = False Then _first_name_thai = Rdr("first_name_thai").ToString()
                         If Convert.IsDBNull(Rdr("last_name_thai")) = False Then _last_name_thai = Rdr("last_name_thai").ToString()
                         If Convert.IsDBNull(Rdr("is_teacher")) = False Then _is_teacher = Rdr("is_teacher").ToString()
+                        If Convert.IsDBNull(Rdr("current_class_id")) = False Then _current_class_id = Convert.ToInt64(Rdr("current_class_id"))
                     Else
                         _error = MessageResources.MSGEV002
                     End If
@@ -675,8 +691,8 @@ Namespace TABLE
         Private ReadOnly Property SqlInsert() As String 
             Get
                 Dim Sql As String=""
-                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TOKEN, USER_ID, USERNAME, FIRST_NAME_ENG, LAST_NAME_ENG, FIRST_NAME_THAI, LAST_NAME_THAI, IS_TEACHER)"
-                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TOKEN, INSERTED.USER_ID, INSERTED.USERNAME, INSERTED.FIRST_NAME_ENG, INSERTED.LAST_NAME_ENG, INSERTED.FIRST_NAME_THAI, INSERTED.LAST_NAME_THAI, INSERTED.IS_TEACHER"
+                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TOKEN, USER_ID, USERNAME, FIRST_NAME_ENG, LAST_NAME_ENG, FIRST_NAME_THAI, LAST_NAME_THAI, IS_TEACHER, CURRENT_CLASS_ID)"
+                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TOKEN, INSERTED.USER_ID, INSERTED.USERNAME, INSERTED.FIRST_NAME_ENG, INSERTED.LAST_NAME_ENG, INSERTED.FIRST_NAME_THAI, INSERTED.LAST_NAME_THAI, INSERTED.IS_TEACHER, INSERTED.CURRENT_CLASS_ID"
                 Sql += " VALUES("
                 sql += "@_CREATED_BY" & ", "
                 sql += "@_CREATED_DATE" & ", "
@@ -687,7 +703,8 @@ Namespace TABLE
                 sql += "@_LAST_NAME_ENG" & ", "
                 sql += "@_FIRST_NAME_THAI" & ", "
                 sql += "@_LAST_NAME_THAI" & ", "
-                sql += "@_IS_TEACHER"
+                sql += "@_IS_TEACHER" & ", "
+                sql += "@_CURRENT_CLASS_ID"
                 sql += ")"
                 Return sql
             End Get
@@ -708,7 +725,8 @@ Namespace TABLE
                 Sql += "LAST_NAME_ENG = " & "@_LAST_NAME_ENG" & ", "
                 Sql += "FIRST_NAME_THAI = " & "@_FIRST_NAME_THAI" & ", "
                 Sql += "LAST_NAME_THAI = " & "@_LAST_NAME_THAI" & ", "
-                Sql += "IS_TEACHER = " & "@_IS_TEACHER" + ""
+                Sql += "IS_TEACHER = " & "@_IS_TEACHER" & ", "
+                Sql += "CURRENT_CLASS_ID = " & "@_CURRENT_CLASS_ID" + ""
                 Return Sql
             End Get
         End Property
@@ -726,7 +744,7 @@ Namespace TABLE
         'Get Select Statement for table TB_USER_SESSION
         Private ReadOnly Property SqlSelect() As String
             Get
-                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TOKEN, USER_ID, USERNAME, FIRST_NAME_ENG, LAST_NAME_ENG, FIRST_NAME_THAI, LAST_NAME_THAI, IS_TEACHER FROM " & tableName
+                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TOKEN, USER_ID, USERNAME, FIRST_NAME_ENG, LAST_NAME_ENG, FIRST_NAME_THAI, LAST_NAME_THAI, IS_TEACHER, CURRENT_CLASS_ID FROM " & tableName
                 Return Sql
             End Get
         End Property

@@ -44,12 +44,13 @@ Public Class WebService
     End Function
 
     <WebMethod()>
-    Public Function SetDocumentData(id) As String
+    Public Function SetDocumentData(id As String, UserSessionID As String) As String
         Try
             Dim trans As New TransactionDB
             Dim ret As New ExecuteDataInfo
             Dim document_txt As String = ""
-            Dim sql As String = " select document_detail from TB_USER_COURSE where id=@_ID"
+            Dim CourseID As Long = 0
+            Dim sql As String = " select document_detail, course_id from TB_USER_COURSE where id=@_ID"
             Dim p(1) As SqlParameter
             p(0) = SqlDB.SetBigInt("@_ID", id)
 
@@ -70,6 +71,7 @@ Public Class WebService
                         If Convert.IsDBNull(dt.Rows(0)("document_detail")) = False Then
                             document_txt = dt.Rows(0)("document_detail")
                         End If
+                        CourseID = dt.Rows(0)("course_id")
                     End If
                 End If
             End If
@@ -79,6 +81,9 @@ Public Class WebService
                 trans.RollbackTransaction()
                 Return "False"
             End If
+
+            Dim UserData As New UserProfileData
+            UserData.GetUserSessionData(UserSessionID)
 
             If document_txt.Trim <> "" Then
                 Dim document_ser As JObject = JObject.Parse(document_txt)
@@ -92,6 +97,7 @@ Public Class WebService
                         Dim cdLnq As New LinqDB.TABLE.TbUserCourseDocumentLinqDB
                         cdLnq.DOCUMENT_ID = Convert.ToInt64(document_comment("id").ToString)
                         cdLnq.TB_USER_COURSE_ID = id
+                        cdLnq.USER_ID = UserData.UserID
                         cdLnq.DOCUMENT_TITLE = document_comment("title").ToString
                         cdLnq.MS_DOCUMENT_ICON_ID = document_comment("icon_id").ToString
                         cdLnq.DOCUMENT_VERSION = document_comment("version").ToString
@@ -100,8 +106,6 @@ Public Class WebService
 
                         ret = cdLnq.InsertData(UserData.UserName, trans.Trans)
                         If ret.IsSuccess = True Then
-                            'Dim docnewid As String = cdLnq.ID
-                            'Dim doc_id As Object = docnewid 'document_comment("id")
                             Dim file_txt As String = "{""file"":" & document_comment("file").ToString & "}"
                             Dim file_ser As JObject = JObject.Parse(file_txt)
                             Dim file_data As List(Of JToken) = file_ser.Children().ToList
@@ -118,11 +122,12 @@ Public Class WebService
                                     Dim cfLnq As New LinqDB.TABLE.TbUserCourseDocumentFileLinqDB
                                     cfLnq.DOCUMENT_FILE_ID = file_comment("id").ToString
                                     cfLnq.TB_USER_COURSE_DOCUMENT_ID = cdLnq.ID
+                                    cfLnq.USER_ID = UserData.UserID
                                     cfLnq.FILE_TITLE = file_comment("title").ToString
                                     cfLnq.FILE_URL = file_comment("file").ToString
                                     cfLnq.ORDER_BY = file_comment("order").ToString
 
-                                    ret = cfLnq.InsertData(UserData.UserID, trans.Trans)
+                                    ret = cfLnq.InsertData(UserData.UserName, trans.Trans)
                                     If ret.IsSuccess = False Then
                                         trans.RollbackTransaction()
                                         Return "False"
@@ -142,6 +147,9 @@ Public Class WebService
 
                 If ret.IsSuccess = True Then
                     trans.CommitTransaction()
+
+                    CreateUserClass(UserSessionID, UserData.UserName, UserData.UserID, CourseID, UserData.Token)
+
                     Return "True"
                 Else
                     trans.RollbackTransaction()
@@ -152,6 +160,104 @@ Public Class WebService
             Return "False"
         End Try
     End Function
+
+
+#Region "Create Class"
+    'Private Function CreateClass(stdID As String) As Long
+    '    Dim ret As Long = 0
+    '    Try
+    '        Dim info As String = ""
+    '        info = GetStringDataFromURL(WebServiceURL & "api/class/create", Token & "&client_id=" & myUser.ClientID & "&course_id=" & CourseID & "&user_id=" & myUser.UserID & "&student_id_list=" & stdID)
+
+    '        Dim json As String = info
+    '        Dim ser As JObject = JObject.Parse(json)
+    '        Dim data As List(Of JToken) = ser.Children().ToList
+
+    '        If data.Count = 3 Then
+    '            If DirectCast(data(0), JProperty).Value.ToString.ToLower = "true" Then
+    '                ret = DirectCast(data(2), JProperty).Value
+    '            End If
+    '        End If
+    '    Catch ex As Exception
+    '        ret = 0
+    '    End Try
+    '    Return ret
+    'End Function
+
+
+
+    Private Sub CreateUserClass(UserSessionID As Long, UserName As String, ByVal UserID As String, CourseID As String, Token As String)
+
+        Try
+            Dim info As String = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", Token & "&course_id=" & CourseID & "&user_id=" & UserID & "&student_id_list=" & UserID)
+            Dim json As String = info
+            Dim ser As JObject = JObject.Parse(json)
+            Dim data As List(Of JToken) = ser.Children().ToList
+
+            If Data.Count = 3 Then
+                If DirectCast(Data(0), JProperty).Value.ToString.ToLower = "true" Then
+                    'ret = DirectCast(data(2), JProperty).Value
+
+                    Dim lnq As New LinqDB.TABLE.TbUserSessionLinqDB
+                    lnq.GetDataByPK(UserSessionID, Nothing)
+                    If lnq.ID > 0 Then
+                        lnq.CURRENT_CLASS_ID = Convert.ToInt64(DirectCast(Data(2), JProperty).Value)
+
+                        Dim trans As New LinqDB.ConnectDB.TransactionDB
+                        If lnq.UpdateData(UserName, trans.Trans).IsSuccess = True Then
+                            trans.CommitTransaction()
+                        Else
+                            trans.RollbackTransaction()
+                        End If
+                    End If
+                    lnq = Nothing
+                End If
+            End If
+        Catch ex As Exception
+
+        End Try
+
+
+
+
+
+
+
+
+        'info = GetStringDataFromURL(GetWebServiceURL() & "api/user/get", Token & "&user_company_id=" & UserID & "&course_id=" & CourseID)
+        'If info.Trim <> "" Then
+        '    Dim json As String = info
+        '    Dim ser As JObject = JObject.Parse(json)
+        '    Dim data As List(Of JToken) = ser.Children().ToList
+        '    Dim output As String = ""
+
+        '    For Each item As JProperty In data
+        '        item.CreateReader()
+        '        Select Case item.Name
+        '            Case "user"
+        '                For Each comment As JProperty In item.Values
+        '                    Select Case comment.Name
+        '                        Case "id"
+        '                            UserID = comment.Value.ToString
+        '                            Exit For
+        '                            'Case "firstname"
+        '                            '    ret(1) = comment.Value.ToString
+        '                            'Case "lastname"
+        '                            '    ret(2) = comment.Value.ToString
+        '                            'Case "company_id"
+        '                            '    ret(3) = comment.Value.ToString
+        '                    End Select
+        '                Next
+        '        End Select
+        '    Next
+
+        '    If UserID.Trim <> "" Then
+
+        '    End If
+        'End If
+    End Sub
+
+#End Region
 
 #Region "Convert DataTable To Json"
     Public Function ConvertDataTableToJson(ByVal dt As DataTable) As String
