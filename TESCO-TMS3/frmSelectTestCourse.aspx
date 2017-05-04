@@ -9,10 +9,7 @@
         rel="stylesheet" type="text/css" />
 
     <script>
-
         function fselect(id, title, percent, qty) {
-
-
             $.each($("button"), function (key, value) {
                 //alert(key + ":" + value)
                 $(value).css("background-color", "");
@@ -21,18 +18,13 @@
             var control = $("#" + id);
             $(control).css("background-color", "aquamarine");
 
-            //$("#txtFormatID").val = id;
-
             $('#<%=txtFormatID.ClientID %>').val(id);
             $('#<%=txtFormatTitle.ClientID %>').val(title);
 
             onConfirmTest(id, title, percent, qty);
-
         }
 
         function onConfirmTest(id, title , percent,qty) {
-
-
             var msg = 'จำนวนคำถาม ' + qty + ' ข้อ เกณฑ์คะแนน ' + percent  + '%';
             var div = $("<div><h4>" + msg + "<h4></div>");
             div.dialog({
@@ -96,8 +88,6 @@
     </div>
         <div id="main" style="background: #29363f">
             <div class="container-fluid">
-    
-    
                 <div class="box-content">
                     <div class="row-fluid">
                         <div class="span2"></div>
@@ -106,24 +96,18 @@
                                 <font color="#fff"><h4 class="text-center">กรุณาเลือกบททดสอบ</h4></font>
                                 <a href="#modal-1" data-toggle="modal"></a>
                                 <asp:Label runat="server" ID="lblBotton"></asp:Label>
-                                <%--                            <p> <button class="btn-block btn btn-larges" Name="btnformat" id="1" onclick="fselect(1);return false;" style="background-color:aquamarine">Block level</button></p>
-                            <p> <button class="btn-block btn btn-larges" Name="btnformat" id="2" onclick="fselect(2);return false;" style="background-color:aquamarine">Block level</button></p>
-                            <p> <button class="btn-block btn btn-larges">Block level</button></p>
-                            <p> <button class="btn-block btn btn-larges">Block level</button></p>
-                            <p> <button class="btn-block btn btn-larges">Block level</button></p>--%>
                             </div>
                         </div>
 
                         <div class="span1"></div>
                         <div class="span4">
-                            <div class="box ">
-                                <font color="#019b79"><h4 class="text-center">สถิติเบื้องต้นของคุณ</h4></font>
+                            <div class="box " style="text-align:center">
+                                <span class="text-center" style="color:#019b79;font-size:32px;" >สถิติเบื้องต้นของคุณ</span>
                                 <div style="width: 100%; height: 340px;">
-                                    <div class="box-content" style="background: #29363f">
+                                    <div class="box-content" style="background: #29363f;text-align:left;">
                                         <font color="#fff">
-                                        
-                                    <asp:Label runat="server" ID="lblNEWS"></asp:Label>
-								</font>
+                                            <asp:Label runat="server" ID="lblNEWS"></asp:Label>
+								        </font>
                                     </div>
                                 </div>
                             </div>

@@ -372,6 +372,7 @@ Public Class frmLogin
                 lnq.COURSE_ID = comment("id").ToString
                 lnq.COURSE_TITLE = comment("name").ToString
                 lnq.COURSE_DESC = comment("description").ToString
+                lnq.COURSE_TYPE = comment("type").ToString
                 lnq.ICON_URL = comment("icon").ToString
                 lnq.COVER_URL = comment("cover").ToString
                 lnq.SORT = ci

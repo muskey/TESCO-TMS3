@@ -25,13 +25,28 @@
     Private Sub SetStatistict()
         Try
             Dim str As String = ""
+            str += " <div class=""row-fluid"">"
+            str += "    <span class=""text-center"" style=""font-size:28px;"">คุณเรียนจบหลักสูตรแล้วทั้งหมด <span style=""color:#019b79"">" + UserData.CourseTotal.ToString + "</span> หลักสูตร</span>"
+            str += " </div>"
+            str += " <div class=""row-fluid"">"
+            str += "    <span class=""text-center"" style=""font-size:22px;"">จากทั้งหมด <span style=""color:#019b79"">" + UserData.CourseTotal.ToString + "</span> หลักสูตร</span>"
+            str += " </div>"
 
-            str += " <h4 class=""group inner list-group-item-heading"">คุณเรียนจบหลักสูตรแล้วทั้งหมด <font color=""#019b79"">" + UserData.CourseTotal.ToString + "</font> หลักสูตร</h4>"
-            str += " <p class=""group inner list-group-item-text"">จากทั้งหมด <font color=""#019b79"">" + UserData.CourseTotal.ToString + "</font> หลักสูตร</p>"
-            str += " <h4 class=""group inner list-group-item-heading"">คุณได้ทำบททดสอบแล้วทั้งหมด <font color=""#019b79"">" + UserData.TestingAttempt.ToString + "</font> หลักสูตร</h4>"
-            str += " <p class=""group inner list-group-item-text"">จากทั้งหมด <font color=""#019b79"">" + UserData.TestingComplete.ToString + "</font> หลักสูตร</p>"
-            str += " <h4 class=""group inner list-group-item-heading"">คุณได้ทำบททดสอบผ่านแล้วทั้งหมด <font color=""#019b79"">" + UserData.TestingTotal.ToString + "</font> หลักสูตร</h4>"
-            str += " <p class=""group inner list-group-item-text"">จากทั้งหมด <font color=""#019b79"">" + UserData.TestingTotal.ToString + "</font> หลักสูตร</p>"
+            str += " <div class=""row-fluid"">&nbsp;</div>"
+            str += " <div class=""row-fluid"">"
+            str += "    <span class=""text-center"" style=""font-size:28px;"">คุณได้ทำบททดสอบแล้วทั้งหมด <span style=""color:#019b79"">" + UserData.TestingAttempt.ToString + "</span> หลักสูตร</span>"
+            str += " </div>"
+            str += " <div class=""row-fluid"">"
+            str += "    <span class=""text-center"" style=""font-size:22px;"">จากทั้งหมด <span style=""color:#019b79"">" + UserData.TestingComplete.ToString + "</span> หลักสูตร</span>"
+            str += " </div>"
+
+            str += " <div class=""row-fluid"">&nbsp;</div>"
+            str += " <div class=""row-fluid"">"
+            str += "    <span class=""text-center"" style=""font-size:28px;"">คุณได้ทำบททดสอบผ่านแล้วทั้งหมด <span style=""color:#019b79"">" + UserData.TestingTotal.ToString + "</span> หลักสูตร</span>"
+            str += " </div>"
+            str += " <div class=""row-fluid"">"
+            str += "    <span class=""text-center"" style=""font-size:22px;"">จากทั้งหมด <span style=""color:#019b79"">" + UserData.TestingTotal.ToString + "</span> หลักสูตร</span>"
+            str += " </div>"
             lblNEWS.Text = str
         Catch ex As Exception
 

@@ -17,6 +17,7 @@ Public Class MasterPage
 
     Private Sub btnTesting_Click(sender As Object, e As EventArgs) Handles btnTesting.Click
         If GetDatableTableFromTesting.IsSuccess = True Then
+
             Response.Redirect("frmSelectTestCourse.aspx?rnd=" & DateTime.Now.Millisecond)
         End If
         'Response.Redirect("frmSelectTestCourse.aspx?rnd=" & DateTime.Now.Millisecond)
@@ -148,6 +149,7 @@ Public Class MasterPage
                 End Select
             Next
 
+            Session("UserData") = UserData
         Catch ex As Exception
             ret.IsSuccess = False
             ret.ErrorMessage = ex.Message
