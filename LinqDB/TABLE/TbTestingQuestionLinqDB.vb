@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_TESTING_QUESTION table LinqDB.
-    '[Create by  on March, 14 2017]
+    '[Create by  on May, 5 2017]
     Public Class TbTestingQuestionLinqDB
         Public sub TbTestingQuestionLinqDB()
 
@@ -116,7 +116,7 @@ Namespace TABLE
                _TEST_ID = value
             End Set
         End Property 
-        <Column(Storage:="_QUESTION_TITLE", DbType:="VarChar(255) NOT NULL ",CanBeNull:=false)>  _
+        <Column(Storage:="_QUESTION_TITLE", DbType:="VarChar(500) NOT NULL ",CanBeNull:=false)>  _
         Public Property QUESTION_TITLE() As String
             Get
                 Return _QUESTION_TITLE
@@ -134,7 +134,7 @@ Namespace TABLE
                _ICON_URL = value
             End Set
         End Property 
-        <Column(Storage:="_CHOICE", DbType:="VarChar(500) NOT NULL ",CanBeNull:=false)>  _
+        <Column(Storage:="_CHOICE", DbType:="Text NOT NULL ",CanBeNull:=false)>  _
         Public Property CHOICE() As String
             Get
                 Return _CHOICE
@@ -503,7 +503,7 @@ Namespace TABLE
                 cmbParam(8).Value = DBNull.value
             End If
 
-            cmbParam(9) = New SqlParameter("@_CHOICE", SqlDbType.VarChar)
+            cmbParam(9) = New SqlParameter("@_CHOICE", SqlDbType.Text)
             cmbParam(9).Value = _CHOICE.Trim
 
             cmbParam(10) = New SqlParameter("@_ANSWER", SqlDbType.VarChar)

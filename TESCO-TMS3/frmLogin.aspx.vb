@@ -87,8 +87,6 @@ Public Class frmLogin
 
                 UserData.FullName = FirstName & " " & LastName
 
-
-
                 Dim re As ExecuteDataInfo = CreateUserSession(UserData.TokenStr, UserData.UserID, Username, FirstNameEng, LastNameEng, FirstNameThai, LastNameThai, IsTeacher, FormatData, MessageData)
                 If re.IsSuccess = True Then
                     UserData.UserSessionID = re.NewID
@@ -96,8 +94,6 @@ Public Class frmLogin
                     'GetDatableTableFromTesting(UserData)
                     ret = re.IsSuccess
                 End If
-
-
             End If
         Catch ex As Exception
             'MessageBox.Show(ex.Message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -217,21 +213,28 @@ Public Class frmLogin
                                     ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
                                     If ret.IsSuccess = True Then
-                                        sql = "delete from TB_TESTING_QUESTION where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))"
+                                        sql = "delete from TB_TESTING_ANSWER where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))"
                                         ReDim p(1)
                                         p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
                                         ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+
                                         If ret.IsSuccess = True Then
-                                            sql = "delete From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID)"
+                                            sql = "delete from TB_TESTING_QUESTION where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))"
                                             ReDim p(1)
                                             p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
                                             ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
-
                                             If ret.IsSuccess = True Then
-                                                sql = "delete from TB_USER_SESSION where user_id=@_USER_ID"
+                                                sql = "delete From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID)"
                                                 ReDim p(1)
                                                 p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
                                                 ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+
+                                                If ret.IsSuccess = True Then
+                                                    sql = "delete from TB_USER_SESSION where user_id=@_USER_ID"
+                                                    ReDim p(1)
+                                                    p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+                                                    ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+                                                End If
                                             End If
                                         End If
                                     End If

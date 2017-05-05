@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/MasterPage.Master" CodeBehind="frmSelectTestCourse.aspx.vb" Inherits="TESCO_TMS3.frmSelectTestCourse" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <title>FLAT - Tiles</title>
+    <title></title>
 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
@@ -24,8 +24,10 @@
             onConfirmTest(id, title, percent, qty);
         }
 
-        function onConfirmTest(id, title , percent,qty) {
-            var msg = 'จำนวนคำถาม ' + qty + ' ข้อ เกณฑ์คะแนน ' + percent  + '%';
+        function onConfirmTest(id, title, desc, percent,qty) {
+            var msg = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            msg += desc + '<br /><br /><br />';
+            msg += 'จำนวนคำถาม ' + qty + ' ข้อ เกณฑ์คะแนน ' + percent + '%';
             var div = $("<div><h4>" + msg + "<h4></div>");
             div.dialog({
                 title: title,
@@ -37,7 +39,7 @@
                                 click: function () {
                                     div.dialog("close");
 
-                                    var url = "frmSelectTestQuestion.aspx?id=" + id + '&title=' + title;
+                                    var url = "frmSelectTestQuestion.aspx?id=" + id;
                                     //alert(url);
                                     window.location = url;
                                     // onDelete(id);

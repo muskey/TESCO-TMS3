@@ -198,31 +198,11 @@
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <asp:UpdatePanel runat="server" ID="updatepanel1">
         <ContentTemplate>
-
-
-
-
-            <%--						<ul>
-							<li><i class="icon icon-home"></i>
-								<a href="more-login.html"><font color="#019b79">EXTRA</font></a>
-							</li>
-							<li>
-								<a href="components-messages.html"><font color="#019b79">|&nbsp; &nbsp; HYPER</font></a>
-							</li>
-							<li>
-								<a href="components-elements.html"><font color="#019b79">|&nbsp; &nbsp; DEPT</font></a>
-							</li>
-							<li>
-								<a href="components-messages.html"><font color="#fff">>&nbsp; &nbsp; FAESH FOOD</font></a>
-							</li>
-						</ul>--%>
-
             <div class="breadcrumbs" style="background: #29363f">
                 <asp:Label runat="server" ID="lblTitle" Font-Size="Larger"></asp:Label>
             </div>
 
             <div class="container-fluid">
-
                 <br />
                 <br />
                 <div class="box-content">

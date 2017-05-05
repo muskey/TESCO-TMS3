@@ -179,9 +179,12 @@ Module TescoModule
     End Function
 
 #Region "Testing"
-    Public Function GetTesting() As DataTable
-        Dim sql As String = " select * from TB_TESTING"
-        Dim dt As DataTable = LinqDB.ConnectDB.SqlDB.ExecuteTable(sql)
+    Public Function GetTesting(UserSessionID As Long) As DataTable
+        Dim sql As String = " select * from TB_TESTING where tb_user_session_id=@_USER_SESSION_ID"
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_USER_SESSION_ID", UserSessionID)
+
+        Dim dt As DataTable = LinqDB.ConnectDB.SqlDB.ExecuteTable(sql, p)
 
         Return dt
     End Function
@@ -189,7 +192,7 @@ Module TescoModule
     Public Function GetTestQuestion(TestID As Long, QuestionNo As Integer)
         Dim p(2) As SqlParameter
         p(0) = SqlDB.SetBigInt("@_TESTING_ID", TestID)
-        p(1) = SqlDB.SetInt("@_QUESTION_ID", QuestionNo)
+        p(1) = SqlDB.SetInt("@_QUESTION_NO", QuestionNo)
         Dim lnq As New TbTestingQuestionLinqDB
         Dim dt As DataTable = lnq.GetDataList("tb_testing_id=@_TESTING_ID and question_no=@_QUESTION_NO", "", Nothing, p)
         Return dt

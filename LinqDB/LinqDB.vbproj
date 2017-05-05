@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="TABLE\CfSysconfigLinqDB.vb" />
     <Compile Include="TABLE\TbLoginHistoryLinqDB.vb" />
+    <Compile Include="TABLE\TbTestingAnswerLinqDB.vb" />
     <Compile Include="TABLE\TbTestingLinqDB.vb" />
     <Compile Include="TABLE\TbTestingQuestionLinqDB.vb" />
     <Compile Include="TABLE\TbUserCourseDocumentFileLinqDB.vb" />
