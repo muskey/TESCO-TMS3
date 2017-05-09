@@ -5940,7 +5940,7 @@ a.badge:focus {
 }
 
 .accordion {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 .accordion-group {
@@ -5953,6 +5953,7 @@ a.badge:focus {
 
 .accordion-heading {
   border-bottom: 0;
+  text-align:left;
 }
 
 .accordion-heading .accordion-toggle {
@@ -5966,7 +5967,9 @@ a.badge:focus {
 
 .accordion-inner {
   padding: 9px 15px;
-  border-top: 1px solid #e5e5e5;
+  color:#FFFFFF;
+  text-align:left;
+  font-size:20px;
 }
 
 .carousel {
