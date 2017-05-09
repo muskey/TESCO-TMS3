@@ -67,13 +67,23 @@ Public Class frmSelectFormat
             Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
             Dim str As String = ""
             If dt.Rows.Count Then
+                str = "<select  data-plugin=""selectpicker"" class=""select2-success"" onchange=""fselectDDL(this)"" >"
                 For i As Int32 = 0 To dt.Rows.Count - 1
                     Dim dr As DataRow = dt.Rows(i)
-                    str += " <p> <button class=""btn-block btn btn-larges"" id=" + dr("format_id").ToString + " onclick=""fselect('" + dr("format_id").ToString + "','" + dr("format_title").ToString + "');return false;"" >" + dr("format_title").ToString + "</button></p>"
+                    Dim Sel As String = ""
+                    If i = 0 Then
+                        Sel = "selected='selected'"
+                        txtFormatID.Text = dr("format_id")
+                        txtFormatTitle.Text = dr("format_title")
+                    End If
+
+                    'str += " < p <> Button Class=""btn-block btn btn-larges"" id=" + dr("format_id").ToString + " onclick=""fselect('" + dr("format_id").ToString + "','" + dr("format_title").ToString + "');return false;"" >" + dr("format_title").ToString + "</button></p>"
+                    str += "<option value=" & dr("format_id") & " " & Sel & " >" & dr("format_title") & "</option>"
                 Next
+                str += "</select>"
             End If
             dt.Dispose()
-            lblBotton.Text = str
+            lblDropdownListFormat.Text = str
         Catch ex As Exception
 
         End Try

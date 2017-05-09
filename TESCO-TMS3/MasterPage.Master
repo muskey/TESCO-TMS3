@@ -32,6 +32,9 @@
 	<!-- multi select -->
 	<link rel="stylesheet" href="Assets/css/plugins/multiselect/multi-select.css">
 
+    <link rel="stylesheet" href="Assets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="Assets/css/plugins/slick-carousel/slick.css">
+    <link rel="stylesheet" href="Assets/css/plugins/slidepanel/slidePanel.css">
 
 	<!-- jQuery -->
 	<script src="Assets/js/jquery.min.js"></script>
@@ -72,6 +75,10 @@
 	<script src="Assets/js/plugins/complexify/jquery.complexify.min.js"></script>
 	<!-- Mockjax -->
 	<script src="Assets/js/plugins/mockjax/jquery.mockjax.js"></script>
+
+    <script src="Assets/css/plugins/slidepanel/jquery-slidePanel.js"></script>
+    <script src="Assets/css/plugins/owl-carousel/owl.carousel.js"></script>
+    <script src="Assets/css/plugins/slick-carousel/slick.js"></script>
 
 	<!-- Theme framework -->
 	<script src="Assets/js/eakroko.min.js"></script>
@@ -127,47 +134,63 @@
     <form id="form1" runat="server">
     <div id="navigation" style="background:#019b79">
         <div class="container-fluid">
+            <img src="Assets/PC/Logo.png" style="width:70px;padding: 10px 10px 10px 10px" />
+
+            <div class="user">
+                <div class="dropdown">
+                    <a href="#" class='dropdown-toggle' data-toggle="dropdown">
+                        <asp:Label ID="lblUsername" runat="server" Text="John Doe"></asp:Label>
+                    </a>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class='dropdown-toggle' data-toggle="dropdown">
+                        <img src="Assets/img/Hamburger.png" />
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <asp:LinkButton  ID="btnCourse" runat="server">
+                                <span>บทเรียน</span>
+                            </asp:LinkButton>
+                        </li>
+                        <li>
+                            <asp:LinkButton  ID="btnTesting" runat="server">
+                                <span>แบบทดสอบ</span>
+                            </asp:LinkButton>
+                        </li>
+                        <li>
+                            <asp:LinkButton  ID="btnLogout" runat="server">
+                                <i class="fa fa-check"></i>
+                                <span>ออกจากระบบ</span>
+                            </asp:LinkButton>
+                        </li>
+                    </ul>
+                </div>
+	        </div>
+        </div>
+
+
+
+        <%--<div class="container-fluid">
             <div class="box-content">
                 <div class="row-fluid" style="vertical-align:middle;">
                     <div class="span4">
                         <div class="text-left">
-                           <img src="Assets/PC/Logo.png" style="width:70px;" />
+                           <img src="Assets/PC/Logo.png" style="width:70px;padding: 10px 10px 10px 10px" />
                        </div>
                     </div>
                     <div class="span8">
-                        <div class="user">
-		                    <div class="dropdown">
-                                <a href="#" class='dropdown-toggle' data-toggle="dropdown">
-                                    <asp:Label ID="lblUsername" runat="server"  Text="John Doe"></asp:Label>&nbsp;|&nbsp;
-                                </a>
-                                
-		                    </div>
-		                    <div class='dropdown'>
-                                <asp:LinkButton CssClass="dropdown-toggle" ID="btnCourse" runat="server">
-                                  <span>บทเรียน |</span>
-                                </asp:LinkButton>
-			                </div>
-                            <div class='dropdown'>
-                                <asp:LinkButton CssClass="dropdown-toggle" ID="btnTesting" runat="server" >
-                                  <span>แบบทดสอบ |</span>
-                                </asp:LinkButton>
-			                </div>
-			                <div class='dropdown'>
-                                <asp:LinkButton CssClass="dropdown-toggle" ID="btnLogout" runat="server">
-                                  <i class="fa fa-check"></i>
-                                  <span>ออกจากระบบ</span>
-                                </asp:LinkButton>
-			                </div>
-	                    </div>
+                        
                     </div>
                 </div>
             </div>          
-        </div>
+        </div>--%>
     </div>
     <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
         
     </asp:ContentPlaceHolder>
 
     </form>
+
+
 </body>
 </html>

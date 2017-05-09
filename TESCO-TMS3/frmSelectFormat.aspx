@@ -24,6 +24,14 @@
         }
 
 
+        function fselectDDL(ddl) {
+
+            $('#<%=txtFormatID.ClientID %>').val(ddl.value);
+            $('#<%=txtFormatTitle.ClientID %>').val(ddl.options[ddl.selectedIndex].text);
+          
+        }
+
+
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
@@ -39,23 +47,41 @@
 				      <div class="row-fluid">
 						<div class="span2"></div>
 						<div class="span3">
-                          <div class="box-content" style="text-align:center" >
-                            <span class="text-center" style="color:#fff;font-size:26px;">เลือกฟอร์แมท (Format) ของคุณ</span>
-                            <a href="#modal-1" data-toggle="modal"></a>
-                                <asp:Label runat="server" ID="lblBotton"></asp:Label>
-                          </div>
+                            <div class="box-content" style="text-align: center">
+                                <span class="text-center" style="color: #fff; font-size: 26px;">เลือกฟอร์แมท (Format) ของคุณ</span>
+                                <asp:Label runat="server" ID="lblDropdownListFormat"></asp:Label>
+                            </div>
 						</div>
                         
 						<div class="span1"></div>
 						<div class="span3">
-                            <div class="box" style="text-align:center">
-                                <span class="text-center" style="color:#019b79;font-size:26px;" >ความเคลื่อนไหววันนี้...</span>
-                                <div style="width: 350px; height: 340px; overflow-y: scroll; scrollbar-arrow-color:blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color:#888888">
-								    <div class="box-content"  style="background:#29363f;text-align:left;">
+                            <div class="box" style="text-align: center">
+                                <span class="text-center" style="color: #019b79; font-size: 26px;">ความเคลื่อนไหววันนี้...</span>
+                                <div style="width: 350px; height: 340px; overflow-y: scroll; scrollbar-arrow-color: blue; scrollbar-face-color: #e7e7e7; scrollbar-3dlight-color: #a0a0a0; scrollbar-darkshadow-color: #888888">
+                                    <div class="box-content" style="background: #29363f; text-align: left;">
                                         <asp:Label runat="server" ID="lblNEWS"></asp:Label>
-								    </div>
+                                    </div>
                                 </div>
-							</div>
+
+
+
+
+
+                                <div class="slider" id="exampleFade">
+                                    <div>
+                                        <img class="img-responsive" alt="..." data-lazy="../../../global/photos/placeholder.png" />
+                                    </div>
+                                    <div>
+                                        <img class="img-responsive" alt="..." data-lazy="../../../global/photos/placeholder.png" />
+                                    </div>
+                                    <div>
+                                        <img class="img-responsive" alt="..." data-lazy="../../../global/photos/placeholder.png" />
+                                    </div>
+                                    <div>
+                                        <img class="img-responsive" alt="..." data-lazy="../../../global/photos/placeholder.png" />
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 						<div class="span3"></div>
 				      </div>
