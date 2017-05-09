@@ -32,10 +32,6 @@
 	<!-- multi select -->
 	<link rel="stylesheet" href="Assets/css/plugins/multiselect/multi-select.css">
 
-    <link rel="stylesheet" href="Assets/css/plugins/owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="Assets/css/plugins/slick-carousel/slick.css">
-    <link rel="stylesheet" href="Assets/css/plugins/slidepanel/slidePanel.css">
-
 	<!-- jQuery -->
 	<script src="Assets/js/jquery.min.js"></script>
 	
@@ -75,10 +71,6 @@
 	<script src="Assets/js/plugins/complexify/jquery.complexify.min.js"></script>
 	<!-- Mockjax -->
 	<script src="Assets/js/plugins/mockjax/jquery.mockjax.js"></script>
-
-    <script src="Assets/css/plugins/slidepanel/jquery-slidePanel.js"></script>
-    <script src="Assets/css/plugins/owl-carousel/owl.carousel.js"></script>
-    <script src="Assets/css/plugins/slick-carousel/slick.js"></script>
 
 	<!-- Theme framework -->
 	<script src="Assets/js/eakroko.min.js"></script>
@@ -167,23 +159,6 @@
                 </div>
 	        </div>
         </div>
-
-
-
-        <%--<div class="container-fluid">
-            <div class="box-content">
-                <div class="row-fluid" style="vertical-align:middle;">
-                    <div class="span4">
-                        <div class="text-left">
-                           <img src="Assets/PC/Logo.png" style="width:70px;padding: 10px 10px 10px 10px" />
-                       </div>
-                    </div>
-                    <div class="span8">
-                        
-                    </div>
-                </div>
-            </div>          
-        </div>--%>
     </div>
     <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
         

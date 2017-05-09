@@ -27,7 +27,7 @@ Public Class frmSelectFormat
 
     Private Sub SetWelcomeMessage()
         Try
-            Dim sql As String = "select message_name, message_desc "
+            Dim sql As String = "select id, message_name, message_desc "
             sql += " from TB_USER_MESSAGE "
             sql += " where tb_user_session_id=@_USER_SESSION_ID"
             sql += " order by id"
@@ -39,11 +39,44 @@ Public Class frmSelectFormat
 
             Dim str As String = ""
             If (dt.Rows.Count > 0) Then
+                str = "<div class=""box-content"">"
+                str += "    <div class=""accordion"" id=""accordion2"">"
                 For i As Int32 = 0 To dt.Rows.Count - 1
                     Dim dr As DataRow = dt.Rows(i)
-                    str += " <font color=""#019b79""> <h4 class=""group inner list-group-item-heading"">" + dr("message_name").ToString + " </h4></font>"
-                    str += " <font color=""#FFFFFF""> <p class=""group inner list-group-item-text"">" + dr("message_desc").ToString + " </p></font>"
+                    'str += " <font color=""#019b79""> <h4 class=""group inner list-group-item-heading"">" + dr("message_name").ToString + " </h4></font>"
+                    'str += " <font color=""#FFFFFF""> <p class=""group inner list-group-item-text"">" + dr("message_desc").ToString + " </p></font>"
+
+                    str += "    <div class=""accordion-group"">"
+                    str += "        <div class=""accordion-heading"" >"
+                    str += "            <a class=""accordion-toggle"" data-toggle=""collapse"" data-parent=""#accordion2"" href=""#collapse" & dr("id") & """ style=""color:#019b79"" >"
+                    str += "                " & dr("message_name").ToString
+                    str += "            </a>"
+                    str += "        </div>"
+                    str += "        <div id = ""collapse" & dr("id") & """ class=""accordion-body collapse"">"
+                    str += "            <div class=""accordion-inner"">"
+                    str += "                " & dr("message_desc").ToString
+                    str += "            </div>"
+                    str += "        </div>"
+                    str += "    </div>"
+
+
+
+
+                    '<div Class="accordion-group">
+                    '	<div Class="accordion-heading" >
+                    '		<a Class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne" style="color:#019b79" >
+                    '			Collapsible Group Item #1
+                    '		</a>
+                    '	</div>
+                    '	<div id = "collapseOne" Class="accordion-body collapse">
+                    '		<div Class="accordion-inner">
+                    '			Anim pariatur cliche...Lorem ipsum dolore dolor occaecat dolore elit deserunt incididunt ex sed nostrud aute aliquip ut elit sed nisi. 
+                    '		</div>
+                    '	</div>
+                    '</div>
                 Next
+                str += "    </div>"
+                str += "</div>"
             End If
             dt.Dispose()
 
