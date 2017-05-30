@@ -66,7 +66,7 @@ Partial Class GenerateCode
         Me.GroupBox3.Controls.Add(Me.Label5)
         Me.GroupBox3.Controls.Add(Me.Label4)
         Me.GroupBox3.Controls.Add(Me.Label3)
-        Me.GroupBox3.Location = New System.Drawing.Point(12, 9)
+        Me.GroupBox3.Location = New System.Drawing.Point(12, 7)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(886, 80)
         Me.GroupBox3.TabIndex = 2

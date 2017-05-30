@@ -36,33 +36,73 @@
     <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' />
 
 </head>
-<body style="background:#29363f;">
+<body  style="background:#29363f;">
     <form id="form1" runat="server">
         <div>
-            <div class="container-fluid">
+            <div class="container-fluid wrapper">
                 <div class="box-content">
-                    <div class="row-fluid">
-                        <div class="span3"></div>
-                        <div class="span3" style="background:#29363f;text-align:center">
-                            <img src="assets/img/logo/Login_Logo.png" style="width:100%"   />
-                        </div>
-                        <div class="span3" style="background:#29363f">
-                            <div class="form-group ">
-                                <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" placeholder="Username" required></asp:TextBox>
-                                <i class="fa fa-user"></i>
+
+                        <div class="row-fluid">
+                            <div class="span3"></div>
+                            <div class="span3" style="background:#29363f;text-align:center">
+                                <img src="assets/img/logo/Login_Logo.png" style="width:100%"   />
                             </div>
-                            <div class="form-group log-status">
-                                <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="Password" required></asp:TextBox>
-                                <i class="fa fa-lock"></i>
+                            <div class="span3" style="background:#29363f">
+                                <asp:Panel ID="pnlLogin" runat="server" CssClass="row-fluid">
+                                    <div class="form-group ">
+                                        <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" placeholder="Username" AutoComplete="off" required></asp:TextBox>
+                                        <i class="fa fa-user fa-2x"></i>
+                                    </div>
+                                    <div class="form-group log-status">
+                                        <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="Password" AutoComplete="off" required></asp:TextBox>
+                                        <i class="fa fa-lock fa-2x"></i>
+                                    </div>
+                                    <div class="form-group ">
+                                        <span class="alert">Invalid Credentials</span>
+                                        <asp:Button ID="btnLogin" runat="server" CssClass="log-btn" Text="Login" />
+                                    </div>
+                                    <div class="form-group" style="text-align: center;">
+                                        <asp:LinkButton ID="btnForgetPassword" runat="server" style="text-decoration:none;" >
+                                            <span class="text-center" style="color:white;font-weight:bold;font-size: 16px;">FORGET PASSWORD</span>
+                                        </asp:LinkButton>
+                                    </div>
+                                </asp:Panel>
+                                <asp:Panel ID="pnlRequestOTP" runat="server" CssClass="row-fluid" Visible="false">
+                                    <div class="form-group ">
+                                        <asp:TextBox ID="txtReqestOTPSendUsername" runat="server" CssClass="form-control" placeholder="Username" AutoComplete="off" required></asp:TextBox>
+                                        <i class="fa fa-user fa-2x"></i>
+                                    </div>
+                                    <div class="form-group ">
+                                        <asp:Button ID="btnSendOTP" runat="server" CssClass="log-btn" Text="SEND OTP" />
+                                    </div>
+                                </asp:Panel>
+                                <asp:Panel ID="pnlLoginOTP" runat="server" CssClass="row-fluid" Visible="false">
+                                    <div class="form-group ">
+                                        <asp:TextBox ID="txtOTPUserLogin" runat="server" CssClass="form-control" placeholder="User Login" AutoComplete="off" required></asp:TextBox>
+                                        <i class="fa fa-user fa-2x"></i>
+                                    </div>
+                                    <div class="form-group ">
+                                        <asp:TextBox ID="txtOTPCode" runat="server" CssClass="form-control" placeholder="OTP Code" AutoComplete="off" required></asp:TextBox>
+                                        <i class="fa fa-mobile fa-2x"></i>
+                                    </div>
+                                    <div class="form-group ">
+                                        <asp:TextBox ID="txtOTPPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="PASSWORD" AutoComplete="off" required></asp:TextBox>
+                                        <i class="fa fa-lock fa-2x"></i>
+                                    </div>
+                                    <div class="form-group ">
+                                        <asp:TextBox ID="txtOTPConfirmPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="CONFIRM PASSWORD" AutoComplete="off" required></asp:TextBox>
+                                        <i class="fa fa-lock fa-2x"></i>
+                                    </div>
+                                    <div class="form-group ">
+                                        <asp:Button ID="btnOTPLogin" runat="server" CssClass="log-btn" Text="SEND OTP" />
+                                    </div>
+                                </asp:Panel>
                             </div>
-                            <span class="alert">Invalid Credentials</span>
-                            <asp:Button ID="btnLogin" runat="server" CssClass="log-btn" Text="Login" />
+                            <div class="span3"></div>
                         </div>
-                        <div class="span3"></div>
-                    </div>
                 </div>
             </div>
         </div>
     </form>
 </body>
-</html>
+

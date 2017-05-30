@@ -23,6 +23,15 @@ Partial Public Class frmLogin
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
     
     '''<summary>
+    '''pnlLogin control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlLogin As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
     '''txtUsername control.
     '''</summary>
     '''<remarks>
@@ -48,4 +57,94 @@ Partial Public Class frmLogin
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnLogin As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''btnForgetPassword control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnForgetPassword As Global.System.Web.UI.WebControls.LinkButton
+    
+    '''<summary>
+    '''pnlRequestOTP control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlRequestOTP As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''txtReqestOTPSendUsername control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtReqestOTPSendUsername As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''btnSendOTP control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSendOTP As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''pnlLoginOTP control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlLoginOTP As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''txtOTPUserLogin control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtOTPUserLogin As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtOTPCode control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtOTPCode As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtOTPPassword control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtOTPPassword As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtOTPConfirmPassword control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtOTPConfirmPassword As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''btnOTPLogin control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnOTPLogin As Global.System.Web.UI.WebControls.Button
 End Class

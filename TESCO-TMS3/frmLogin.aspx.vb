@@ -455,4 +455,15 @@ Public Class frmLogin
         Return ret
     End Function
 #End Region
+
+    Private Sub btnForgetPassword_Click(sender As Object, e As EventArgs) Handles btnForgetPassword.Click
+        pnlLogin.Visible = False
+        pnlRequestOTP.Visible = True
+    End Sub
+
+    Private Sub btnSendOTP_Click(sender As Object, e As EventArgs) Handles btnSendOTP.Click
+        pnlRequestOTP.Visible = False
+        pnlLoginOTP.Visible = True
+
+    End Sub
 End Class
