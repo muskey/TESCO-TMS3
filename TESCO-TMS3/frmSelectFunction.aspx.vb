@@ -79,7 +79,7 @@ Public Class frmSelectFunction
                         strMain += "    <span>"
                         strMain += "        <img src=" + dr("function_cover_url").ToString + " height=""60"" width=""60"" />"
                         strMain += "    </span>"
-                        strMain += "    <span class=""text-center"" style=""font-size:22px;"" >" + dr("function_title") + "(" + cdt.Rows.Count.ToString + ")</span>"
+                        strMain += "    <span class=""text-center"" style=""font-size:22px;padding-top:25px;"" >" + dr("function_title") + "(" + cdt.Rows.Count.ToString + ")</span>"
                         strMain += " </a>"
                         strMain += " </li>"
                     ElseIf dr("function_subject_type") = "a" Then
@@ -88,7 +88,7 @@ Public Class frmSelectFunction
                         strsub += "     <span>"
                         strsub += "         <img src=" + dr("function_cover_url").ToString + " height=""60"" width=""60"" />"
                         strsub += "     </span>"
-                        strsub += "     <span class=""text-center"" style=""font-size:22px;"" >" + dr("function_title") + "(" + cdt.Rows.Count.ToString + ")</span>"
+                        strsub += "     <span class=""text-center"" style=""font-size:22px;padding-top:25px;vertical-align:middle;"" >" + dr("function_title") + "(" + cdt.Rows.Count.ToString + ")</span>"
                         strsub += " </a>"
                         strsub += " </li>"
                     End If

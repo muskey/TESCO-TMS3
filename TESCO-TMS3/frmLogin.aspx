@@ -50,11 +50,11 @@
                             <div class="span3" style="background:#29363f">
                                 <asp:Panel ID="pnlLogin" runat="server" CssClass="row-fluid">
                                     <div class="form-group ">
-                                        <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" placeholder="Username" AutoComplete="off" required></asp:TextBox>
+                                        <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" placeholder="รหัสพนักงาน" AutoComplete="off" required AutoPostBack="true" ></asp:TextBox>
                                         <i class="fa fa-user fa-2x"></i>
                                     </div>
                                     <div class="form-group log-status">
-                                        <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="Password" AutoComplete="off" required></asp:TextBox>
+                                        <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="รหัสผ่าน" AutoComplete="off" required></asp:TextBox>
                                         <i class="fa fa-lock fa-2x"></i>
                                     </div>
                                     <div class="form-group ">
@@ -63,13 +63,13 @@
                                     </div>
                                     <div class="form-group" style="text-align: center;">
                                         <asp:LinkButton ID="btnForgetPassword" runat="server" style="text-decoration:none;" >
-                                            <span class="text-center" style="color:white;font-weight:bold;font-size: 16px;">FORGET PASSWORD</span>
+                                            <span class="text-center" style="color:white;font-weight:bold;font-size: 16px;">ลืมรหัสผ่าน</span>
                                         </asp:LinkButton>
                                     </div>
                                 </asp:Panel>
                                 <asp:Panel ID="pnlRequestOTP" runat="server" CssClass="row-fluid" Visible="false">
                                     <div class="form-group ">
-                                        <asp:TextBox ID="txtReqestOTPSendUsername" runat="server" CssClass="form-control" placeholder="Username" AutoComplete="off" required></asp:TextBox>
+                                        <asp:TextBox ID="txtReqestOTPSendUsername" runat="server" CssClass="form-control" placeholder="รหัสพนักงาน" AutoComplete="off" required></asp:TextBox>
                                         <i class="fa fa-user fa-2x"></i>
                                     </div>
                                     <div class="form-group ">
@@ -78,7 +78,7 @@
                                 </asp:Panel>
                                 <asp:Panel ID="pnlLoginOTP" runat="server" CssClass="row-fluid" Visible="false">
                                     <div class="form-group ">
-                                        <asp:TextBox ID="txtOTPUserLogin" runat="server" CssClass="form-control" placeholder="User Login" AutoComplete="off" required></asp:TextBox>
+                                        <asp:TextBox ID="txtOTPUserLogin" runat="server" CssClass="form-control" placeholder="รหัสพนักงาน" AutoComplete="off" required></asp:TextBox>
                                         <i class="fa fa-user fa-2x"></i>
                                     </div>
                                     <div class="form-group ">
@@ -86,15 +86,15 @@
                                         <i class="fa fa-mobile fa-2x"></i>
                                     </div>
                                     <div class="form-group ">
-                                        <asp:TextBox ID="txtOTPPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="PASSWORD" AutoComplete="off" required></asp:TextBox>
+                                        <asp:TextBox ID="txtOTPPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="รหัสผ่านใหม่" AutoComplete="off" required></asp:TextBox>
                                         <i class="fa fa-lock fa-2x"></i>
                                     </div>
                                     <div class="form-group ">
-                                        <asp:TextBox ID="txtOTPConfirmPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="CONFIRM PASSWORD" AutoComplete="off" required></asp:TextBox>
+                                        <asp:TextBox ID="txtOTPConfirmPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="ยืนยันรหัสผ่าน" AutoComplete="off" required></asp:TextBox>
                                         <i class="fa fa-lock fa-2x"></i>
                                     </div>
                                     <div class="form-group ">
-                                        <asp:Button ID="btnOTPLogin" runat="server" CssClass="log-btn" Text="SEND OTP" />
+                                        <asp:Button ID="btnOTPLogin" runat="server" CssClass="log-btn" Text="Login" />
                                     </div>
                                 </asp:Panel>
                             </div>

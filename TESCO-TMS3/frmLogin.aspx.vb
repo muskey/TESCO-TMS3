@@ -7,10 +7,12 @@ Imports LinqDB.TABLE
 Public Class frmLogin
     Inherits System.Web.UI.Page
 
-    Dim Env As String = "Production"
-
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
+    End Sub
+
+    Private Sub txtUsername_TextChanged(sender As Object, e As EventArgs) Handles txtUsername.TextChanged
+        'Call Backend เพื่อเช็คว่าเป็นการ Login ครั้งแรก หรือเช็คว่ามีเบอร์โทรหรือไม่มี
     End Sub
 
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
@@ -262,6 +264,8 @@ Public Class frmLogin
             Select Case comment.Name
                 Case "format"
                     For Each f As JObject In comment.Values
+                        If f("id").ToString = "1" Then Continue For   'ถ้าเป็น Format Notset ก็ไม่ต้องให้แสดง
+
                         Dim lnq As New TbUserFormatLinqDB
                         lnq.TB_USER_SESSION_ID = UserSessionID
                         lnq.USER_ID = UserID
@@ -466,4 +470,6 @@ Public Class frmLogin
         pnlLoginOTP.Visible = True
 
     End Sub
+
+
 End Class

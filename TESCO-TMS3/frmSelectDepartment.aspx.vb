@@ -80,7 +80,7 @@ Public Class frmSelectDepartment
                     strMain += "        <span>"
                     strMain += "            <img src=" + dr("department_cover_url") + " height=""60"" width=""60"">"
                     strMain += "        </span>"
-                    strMain += "        <span class=""text-center"" style=""font-size:22px;"" >" + dr("department_title") + "(" + cdt.Rows.Count.ToString + ")</span>"
+                    strMain += "        <span class=""text-center"" style=""font-size:22px;padding-top:25px;"" >" + dr("department_title") + "(" + cdt.Rows.Count.ToString + ")</span>"
                     strMain += "    </a>"
                     strMain += " </li>"
                 Next
