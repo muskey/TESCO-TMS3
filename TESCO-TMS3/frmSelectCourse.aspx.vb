@@ -5,7 +5,7 @@ Public Class frmSelectCourse
 
 #Region "Declare & Valiable"
     ' Public myUser As User
-    Public ReadOnly Property UserData As UserProfileData
+    Private ReadOnly Property UserData As UserProfileData
         Get
             Return Session("UserData")
         End Get
@@ -42,17 +42,18 @@ Public Class frmSelectCourse
 
 
     Private Sub DisplayCourseList()
+
         Dim strURlImage As String = Request.Url.GetLeftPart(UriPartial.Authority) + Request.ApplicationPath & "Assets/PC/icon_course_book.png"
 
         Dim sql As String = "select * "
         sql += " from tb_user_course "
         sql += " where 1=1 and department_id=@_DEPARTMENT_ID"
-        sql += " order by sort"
-        Dim p(1) As SqlParameter
+        sql += " and user_id=@_USER_ID"
+        sql += " order by course_title"
+        Dim p(2) As SqlParameter
         p(0) = SqlDB.SetBigInt("@_DEPARTMENT_ID", Department_id)
+        p(1) = SqlDB.SetBigInt("@_USER_ID", UserData.UserID)
         Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
-
-        Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
 
         Dim strMain As String = "<ul class=""tiles"">"
         For Each dr As DataRowView In dt.DefaultView

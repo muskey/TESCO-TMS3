@@ -37,17 +37,19 @@ Public Class frmSelectTestQuestion
                 Me.ckbC.Attributes.Add("onclick", "onConfirmCheck(2)")
                 Me.ckbD.Attributes.Add("onclick", "onConfirmCheck(3)")
 
-                'Me.txtQuestion_no.Style.Add("display", "none")
-                'Me.txtQuestion_Count.Style.Add("display", "none")
-                'Me.txtCourse_id.Style.Add("display", "none")
-                SetStartTest()
-                'SetTestQuestionCount()
-                SetTestQuestion(1)
+                SetStartTest1()
+                SetTestQuestion1(1)
+
+                SetTestQuestion2()
+                SetTestQuestion3()
+                SetTestQuestion4()
             End If
             dt.DefaultView.RowFilter = ""
         End If
     End Sub
-    Private Sub SetStartTest()
+
+#Region "Test Question 1"
+    Private Sub SetStartTest1()
         Dim dt As DataTable = GetTesting(UserData.UserSessionID)
         dt.DefaultView.RowFilter = "id='" & test_id & "'"
         If dt.DefaultView.Count > 0 Then
@@ -69,26 +71,12 @@ Public Class frmSelectTestQuestion
         Else
             trans.RollbackTransaction()
         End If
-
-        'For i As Integer = 0 To UserData.TestQuestion.Rows.Count - 1
-        '    UserData.TestQuestion.Rows(i)("answer_id") = DBNull.Value
-        '    UserData.TestQuestion.Rows(i)("answer_result") = DBNull.Value
-        '    UserData.TestQuestion.Rows(i)("time_spent") = DBNull.Value
-        '    UserData.TestQuestion.Rows(i)("answer_choice") = DBNull.Value
-        'Next
-        'Session("UserData") = UserData
     End Sub
-    'Private Sub SetTestQuestionCount()
 
-    '    UserData.TestQuestion.DefaultView.RowFilter = "tb_test_id='" & test_id & "'"
-    '    If UserData.TestQuestion.DefaultView.Count > 0 Then
-    '        Me.txtQuestion_Count.Text = UserData.TestQuestion.DefaultView.Count
-    '    End If
-    'End Sub
-    Private Sub SetTestQuestion(no As Integer)
+    Private Sub SetTestQuestion1(no As Integer)
         Try
             Me.txtQuestion_no.Text = no.ToString
-            Dim dt As DataTable = GetTestQuestion(test_id, no) 'UserData.TestQuestion.DefaultView.ToTable 'GetSqlDataTable(sql)
+            Dim dt As DataTable = GetTestQuestion(test_id, no)
 
             Dim str As String = ""
             If no = 1 Then
@@ -110,7 +98,7 @@ Public Class frmSelectTestQuestion
                     End If
                 End If
             Else
-                SetTestQuestionBefor(no - 1)
+                SetTestQuestionBefor1(no - 1)
 
                 Me.lblQNumber2.Text = "ข้อ " + no.ToString + "/" + Me.txtQuestion_Count.Text
                 Me.lblQDetail2.Text = dt.Rows(0)("question_title") & ""
@@ -132,7 +120,7 @@ Public Class frmSelectTestQuestion
         End Try
     End Sub
 
-    Private Sub SetTestQuestionBefor(no As Integer)
+    Private Sub SetTestQuestionBefor1(no As Integer)
         Dim dt As DataTable = GetTestQuestion(test_id, no)
         If dt.Rows.Count > 0 Then
             Me.lblQNumber.Text = "ข้อ " + no.ToString + "/" + Me.txtQuestion_Count.Text
@@ -189,6 +177,52 @@ Public Class frmSelectTestQuestion
             aDt.Dispose()
         End If
     End Sub
+#End Region
+
+#Region "Test Question 2"
+
+    Private Sub SetTestQuestion2()
+        Dim dt As New DataTable
+        dt.Columns.Add("question_title")
+        dt.Columns.Add("answer_text")
+
+
+        For i As Integer = 0 To 9
+            Dim dr As DataRow = dt.NewRow
+            dr("question_title") = (i + 1) & ". XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+            dr("answer_text") = Chr(65 + i) & ". xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+            dt.Rows.Add(dr)
+        Next
+
+        rptQuestion2.DataSource = dt
+        rptQuestion2.DataBind()
+
+    End Sub
+
+    Private Sub rptQuestion2_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptQuestion2.ItemDataBound
+        If e.Item.ItemType <> ListItemType.Item And e.Item.ItemType <> ListItemType.AlternatingItem Then Exit Sub
+        Dim txtAnswer As TextBox = e.Item.FindControl("txtAnswer")
+        Dim lblQuestion As Label = e.Item.FindControl("lblQuestion")
+        Dim lblAnswer As Label = e.Item.FindControl("lblAnswer")
+
+        lblQuestion.Text = e.Item.DataItem("question_title")
+        lblAnswer.Text = e.Item.DataItem("answer_text")
+    End Sub
+#End Region
+
+#Region "Test Question 3"
+    Private Sub SetTestQuestion3()
+        lblQ3AnsA.InnerText = "ใช่"
+        lblQ3AnsB.InnerText = "ไม่ใช่"
+    End Sub
+#End Region
+
+#Region "Test Question 4"
+    Private Sub SetTestQuestion4()
+
+    End Sub
+#End Region
 
     Private Sub btnOK_Click(sender As Object, e As EventArgs) Handles btnOK.ServerClick
         If ckbA.Checked = False And ckbB.Checked = False And ckbC.Checked = False And ckbD.Checked = False Then
@@ -260,10 +294,10 @@ Public Class frmSelectTestQuestion
                 Me.txtQuestion_no.Text = Val(Me.txtQuestion_no.Text) + 1
                 Dim lastchoice As Integer = 0
                 If Val(Me.txtQuestion_no.Text) <= Val(Me.txtQuestion_Count.Text) Then
-                    SetTestQuestion(Val(Me.txtQuestion_no.Text))
+                    SetTestQuestion1(Val(Me.txtQuestion_no.Text))
                 Else
                     Sumnary()
-                    SetTestQuestionBefor(Val(Me.txtQuestion_Count.Text))
+                    SetTestQuestionBefor1(Val(Me.txtQuestion_Count.Text))
                     btnOK.Visible = False
                     btnSummary.Visible = True
                     lastchoice = 1
@@ -441,6 +475,9 @@ Public Class frmSelectTestQuestion
 
 
     End Sub
+
+
+
 
 #End Region
 

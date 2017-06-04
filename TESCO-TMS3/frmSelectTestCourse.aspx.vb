@@ -108,19 +108,28 @@ Public Class frmSelectTestCourse
                                         Dim answer_ser As JObject = JObject.Parse(answer_txt)
                                         Dim answer_data As List(Of JToken) = answer_ser.Children().ToList
                                         For Each answer_item As JProperty In answer_data
+                                            Dim PreAlphabet As Integer = Asc("ก")
+
                                             For Each answer_comment As JObject In answer_item.Values
                                                 answer_item.CreateReader()
 
                                                 If vChoice = "" Then
-                                                    vChoice = answer_comment("text").ToString
+                                                    vChoice = Chr(PreAlphabet) & ". " & answer_comment("text").ToString
                                                 Else
-                                                    vChoice += "##" + answer_comment("text").ToString
+                                                    vChoice += "##" & Chr(PreAlphabet) & ". " & answer_comment("text").ToString
                                                 End If
 
                                                 If vAnswer = "" Then
                                                     vAnswer = answer_comment("is_correct").ToString
                                                 Else
                                                     vAnswer += "##" + answer_comment("is_correct").ToString
+                                                End If
+
+                                                PreAlphabet += 1
+                                                If PreAlphabet = 163 Then   '163=ตัว ฃ ขวด
+                                                    PreAlphabet += 1
+                                                ElseIf PreAlphabet = 165 Then  ' 165= ฅ คน
+                                                    PreAlphabet += 2
                                                 End If
                                             Next
                                         Next

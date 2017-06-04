@@ -59,6 +59,15 @@ Partial Public Class frmSelectTestQuestion
     Protected WithEvents lblQDetail As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''pnlQuestion1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlQuestion1 As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
     '''imgQ control.
     '''</summary>
     '''<remarks>
@@ -138,6 +147,96 @@ Partial Public Class frmSelectTestQuestion
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblD As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''pnlQuestion2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlQuestion2 As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''img1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents img1 As Global.System.Web.UI.HtmlControls.HtmlImage
+    
+    '''<summary>
+    '''rptQuestion2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rptQuestion2 As Global.System.Web.UI.WebControls.Repeater
+    
+    '''<summary>
+    '''pnlQuestion3 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlQuestion3 As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''chkQ3AnsA control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkQ3AnsA As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
+    '''lblQ3AnsA control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblQ3AnsA As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''chkQ3AndB control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkQ3AndB As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
+    '''lblQ3AnsB control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblQ3AnsB As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''pnlQuestion4 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlQuestion4 As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''txtAnsQuestion4 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtAnsQuestion4 As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtQuestion_no control.

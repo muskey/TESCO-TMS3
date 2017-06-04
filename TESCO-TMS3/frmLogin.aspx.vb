@@ -382,7 +382,6 @@ Public Class frmLogin
                 lnq.COURSE_TYPE = comment("type").ToString
                 lnq.ICON_URL = comment("icon").ToString
                 lnq.COVER_URL = comment("cover").ToString
-                lnq.SORT = ci
                 lnq.IS_DOCUMENT_LOCK = IIf(comment("is_document_lock").ToString.ToLower = "true", "Y", "N")
                 lnq.DOCUMENT_DETAIL = "{""document"":" & comment("document").ToString & "}"
                 lnq.BIND_DOCUMENT = "N"
