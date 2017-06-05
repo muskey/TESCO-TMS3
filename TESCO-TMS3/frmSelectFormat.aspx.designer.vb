@@ -50,13 +50,13 @@ Partial Public Class frmSelectFormat
     Protected WithEvents btnFormat As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
-    '''txtFormatID control.
+    '''txUsertFormatID control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtFormatID As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txUsertFormatID As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtFormatTitle control.

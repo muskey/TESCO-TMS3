@@ -180,6 +180,8 @@ Public Class frmDisplayPDF
         Me.txtPre.Text = Val(Me.txtCurrent.Text) - 1
         Me.txtCurrent.Text = Val(Me.txtCurrent.Text)
         Me.txtNext.Text = Val(Me.txtCurrent.Text) + 1
+
+        GetBottonPDF()
     End Sub
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click

@@ -13,9 +13,9 @@ Public Class frmSelectFunction
         End Get
     End Property
 
-    Public ReadOnly Property Format_Id As String
+    Public ReadOnly Property User_Format_Id As String
         Get
-            Return Page.Request.QueryString("format_id") & ""
+            Return Page.Request.QueryString("user_format_id") & ""
         End Get
     End Property
 
@@ -47,23 +47,22 @@ Public Class frmSelectFunction
 
     Private Sub SetFuntion()
         Try
-            Dim UserData As UserProfileData = Session("UserData")
+            'Dim UserData As UserProfileData = Session("UserData")
             Dim strMain As String = "<ul class=""tiles"">"
             Dim strsub As String = "<ul class=""tiles"">"
             Dim strLink As Int16 = 0
-            Dim sql As String = " select * from TB_USER_FUNCTION  where user_id=@_USER_ID and format_id=@_FORMAT_ID"
-            Dim p(2) As SqlParameter
-            p(0) = SqlDB.SetText("@_USER_ID", UserData.UserID)
-            p(1) = SqlDB.SetText("@_FORMAT_ID", Format_Id)
+            Dim sql As String = " select * from TB_USER_FUNCTION  where tb_user_format_id=@_USER_FORMAT_ID "
+            Dim p(1) As SqlParameter
+            p(0) = SqlDB.SetText("@_USER_FORMAT_ID", User_Format_Id)
 
             Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
             If dt.Rows.Count > 0 Then
                 For Each dr As DataRowView In dt.DefaultView
 
                     Dim bgColor As String = ""
-                    sql = "select id from TB_USER_DEPARTMENT where function_id=@_FUNCTION_ID"
+                    sql = "select id from TB_USER_DEPARTMENT where tb_user_function_id=@_USER_FUNCTION_ID"
                     ReDim p(1)
-                    p(0) = SqlDB.SetBigInt("@_FUNCTION_ID", dr("function_id").ToString)
+                    p(0) = SqlDB.SetText("@_USER_FUNCTION_ID", dr("id").ToString)
                     Dim cdt As DataTable = SqlDB.ExecuteTable(sql, p)
                     If cdt.Rows.Count = 0 Then
                         bgColor = "Gray"
@@ -74,7 +73,7 @@ Public Class frmSelectFunction
                     End If
 
                     If dr("function_subject_type") = "m" Then
-                        strMain += " <li  onclick=""fselect('" + dr("function_id").ToString + "','" + strLink.ToString() + "','" + dr("function_title").ToString + "','" + bgColor.Replace("#", "") + "');"" id=" + dr("function_id").ToString + " style=""background-color:" + bgColor + """>"
+                        strMain += " <li  onclick=""fselect('" + dr("id").ToString + "','" + strLink.ToString() + "','" + dr("function_title").ToString + "','" + bgColor.Replace("#", "") + "');"" id=" + dr("id").ToString + " style=""background-color:" + bgColor + """>"
                         strMain += " <a href=""#"">"
                         strMain += "    <span>"
                         strMain += "        <img src=" + dr("function_cover_url").ToString + " height=""60"" width=""60"" />"
@@ -83,7 +82,7 @@ Public Class frmSelectFunction
                         strMain += " </a>"
                         strMain += " </li>"
                     ElseIf dr("function_subject_type") = "a" Then
-                        strsub += " <li  onclick=""fselect('" + dr("function_id").ToString + "','" + strLink.ToString() + "','" + dr("function_title").ToString + "','" + bgColor.Replace("#", "") + "');"" id=" + dr("function_id").ToString + " style=""background-color:" + bgColor + """>"
+                        strsub += " <li  onclick=""fselect('" + dr("id").ToString + "','" + strLink.ToString() + "','" + dr("function_title").ToString + "','" + bgColor.Replace("#", "") + "');"" id=" + dr("id").ToString + " style=""background-color:" + bgColor + """>"
                         strsub += " <a href=""#"">"
                         strsub += "     <span>"
                         strsub += "         <img src=" + dr("function_cover_url").ToString + " height=""60"" width=""60"" />"

@@ -11,7 +11,7 @@ Public Class frmSelectCourse
         End Get
     End Property
 
-    Public ReadOnly Property Department_id As String
+    Public ReadOnly Property User_Department_id As String
         Get
             Return Page.Request.QueryString("id") & ""
         End Get
@@ -47,12 +47,10 @@ Public Class frmSelectCourse
 
         Dim sql As String = "select * "
         sql += " from tb_user_course "
-        sql += " where 1=1 and department_id=@_DEPARTMENT_ID"
-        sql += " and user_id=@_USER_ID"
+        sql += " where 1=1 and tb_user_department_id=@_USER_DEPARTMENT_ID"
         sql += " order by course_title"
-        Dim p(2) As SqlParameter
-        p(0) = SqlDB.SetBigInt("@_DEPARTMENT_ID", Department_id)
-        p(1) = SqlDB.SetBigInt("@_USER_ID", UserData.UserID)
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_USER_DEPARTMENT_ID", User_Department_id)
         Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
 
         Dim strMain As String = "<ul class=""tiles"">"

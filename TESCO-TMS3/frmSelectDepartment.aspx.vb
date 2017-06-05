@@ -13,9 +13,9 @@ Public Class frmSelectDepartment
         End Get
     End Property
 
-    Public ReadOnly Property Function_id As String
+    Public ReadOnly Property User_Function_id As String
         Get
-            Return Page.Request.QueryString("id") & ""
+            Return Page.Request.QueryString("user_function_id") & ""
         End Get
     End Property
 
@@ -54,28 +54,27 @@ Public Class frmSelectDepartment
         Try
             Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
 
-            Dim sql As String = "select department_id, department_title, department_cover_url "
+            Dim sql As String = "select id, department_id, department_title, department_cover_url "
             sql += " from TB_USER_DEPARTMENT "
-            sql += " where function_id=@_FUNCTION_ID and user_id=@_USER_ID"
+            sql += " where tb_user_function_id=@_USER_FUNCTION_ID "
             sql += " order by id "
-            Dim p(2) As SqlParameter
-            p(0) = SqlDB.SetText("@_FUNCTION_ID", Function_id)
-            p(1) = SqlDB.SetText("@_USER_ID", UserData.UserID)
+            Dim p(1) As SqlParameter
+            p(0) = SqlDB.SetText("@_USER_FUNCTION_ID", User_Function_id)
 
             Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
             Dim strMain As String = "<ul class=""tiles"">"
             If dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
                     Dim bgColor As String = color
-                    sql = "select id from TB_USER_COURSE where department_id=@_DEPARTMENT_ID"
+                    sql = "select id from TB_USER_COURSE where tb_user_department_id=@_USER_DEPARTMENT_ID"
                     ReDim p(1)
-                    p(0) = SqlDB.SetBigInt("@_DEPARTMENT_ID", dr("department_id"))
+                    p(0) = SqlDB.SetBigInt("@_USER_DEPARTMENT_ID", dr("id"))
                     Dim cdt As DataTable = SqlDB.ExecuteTable(sql, p)
                     If cdt.Rows.Count = 0 Then
                         bgColor = "Gray"
                     End If
 
-                    strMain += " <li  onclick=""fselect('" & dr("department_id").ToString & "','" & dr("department_title").ToString & "','" & cdt.Rows.Count.ToString & "','" & Page.Request.QueryString("color") & "');"" id=" & dr("department_id") & " style=""background-color:" & bgColor & """>"
+                    strMain += " <li  onclick=""fselect('" & dr("id").ToString & "','" & dr("department_title").ToString & "','" & cdt.Rows.Count.ToString & "','" & Page.Request.QueryString("color") & "');"" id=" & dr("id") & " style=""background-color:" & bgColor & """>"
                     strMain += "    <a href=""#"">"
                     strMain += "        <span>"
                     strMain += "            <img src=" + dr("department_cover_url") + " height=""60"" width=""60"">"

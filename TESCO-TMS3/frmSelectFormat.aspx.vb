@@ -16,8 +16,8 @@ Public Class frmSelectFormat
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
-            Me.txtFormatID.Style.Add("display", "none")
-            Me.txtFormatTitle.Style.Add("display", "none")
+            'Me.txUsertFormatID.Style.Add("display", "none")
+            'Me.txtFormatTitle.Style.Add("display", "none")
             SetFormat()
             SetWelcomeMessage()
 
@@ -88,7 +88,7 @@ Public Class frmSelectFormat
 
     Private Sub SetFormat()
         Try
-            Dim sql As String = "select format_id, format_title "
+            Dim sql As String = "select id, format_title "
             sql += " from TB_USER_FORMAT "
             sql += " where tb_user_session_id=@_USER_SESSION_ID"
             sql += " order by format_id "
@@ -106,12 +106,12 @@ Public Class frmSelectFormat
                     Dim Sel As String = ""
                     If i = 0 Then
                         Sel = "selected='selected'"
-                        txtFormatID.Text = dr("format_id")
+                        txUsertFormatID.Text = dr("id")
                         txtFormatTitle.Text = dr("format_title")
                     End If
 
                     'str += " < p <> Button Class=""btn-block btn btn-larges"" id=" + dr("format_id").ToString + " onclick=""fselect('" + dr("format_id").ToString + "','" + dr("format_title").ToString + "');return false;"" >" + dr("format_title").ToString + "</button></p>"
-                    str += "<option value=" & dr("format_id") & " " & Sel & " >" & dr("format_title") & "</option>"
+                    str += "<option value=" & dr("id") & " " & Sel & " >" & dr("format_title") & "</option>"
                 Next
                 str += "</select>"
             End If
@@ -123,9 +123,9 @@ Public Class frmSelectFormat
     End Sub
 
     Private Sub btnFormat_Click(sender As Object, e As EventArgs) Handles btnFormat.Click
-        If Me.txtFormatID.Text <> "" Then
+        If Me.txUsertFormatID.Text <> "" Then
             Session("backpathname1") = "Format"
-            Response.Redirect("frmSelectFunction.aspx?rnd=" & DateTime.Now.Millisecond & "&format_id=" & Me.txtFormatID.Text & "&formar_title=" + Me.txtFormatTitle.Text)
+            Response.Redirect("frmSelectFunction.aspx?rnd=" & DateTime.Now.Millisecond & "&user_format_id=" & Me.txUsertFormatID.Text & "&formar_title=" + Me.txtFormatTitle.Text)
         End If
     End Sub
 #End Region

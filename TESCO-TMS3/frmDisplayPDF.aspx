@@ -191,13 +191,7 @@
     <div class="footer">
         <div class="row">
             <div class="span4"></div>
-            <div class="span4">
-                <%--            <asp:Button ID="btnBack" runat="server" CssClass="btn btn-Normal btn-green" Text="เอกสารก่อนหน้า" />
-            <asp:Button ID="btnNext" runat="server" CssClass="btn btn-Normal btn-green" Text="เอกสารก่อนถัดไป" />
-            <asp:Button ID="btnContent" runat="server" CssClass="btn btn-Normal btn-green" Text="สารบัญ"/>
-            
-            <asp:Button ID="btnHome" runat="server" CssClass="btn btn-Normal btn-green" Text="หน้าหลัก" />
-            <asp:Button ID="btnCloseContent" runat="server" CssClass="btn btn-Normal btn-green" Text="ปิด" Width="" />--%>
+            <div class="span4 text-center" >
                 <asp:ImageButton ID="btnBack" runat="server" ImageUrl="~/Assets/PC/btnPreviousDoc.png" Height="40px" Width="100px" />
                 <asp:ImageButton ID="btnPDFBack" runat="server" ImageUrl="~/Assets/PC/btnPreviousDidable.png" Height="40px" Width="40px" />
                 <asp:DropDownList CssClass="form-control" ID="ddlPage" runat="server" Width="50px" Height="23px" AutoPostBack="true"  Font-Size="Smaller" ></asp:DropDownList><asp:Label ID="lblPDFPage" runat="server" Text="1/99"></asp:Label>

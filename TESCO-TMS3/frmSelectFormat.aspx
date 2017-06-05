@@ -16,12 +16,12 @@
 
             //$("#txtFormatID").val = id;
            
-            $('#<%=txtFormatID.ClientID %>').val(id);
+            $('#<%=txUsertFormatID.ClientID %>').val(id);
             $('#<%=txtFormatTitle.ClientID %>').val(title);
         }
 
         function fselectDDL(ddl) {
-            $('#<%=txtFormatID.ClientID %>').val(ddl.value);
+            $('#<%=txUsertFormatID.ClientID %>').val(ddl.value);
             $('#<%=txtFormatTitle.ClientID %>').val(ddl.options[ddl.selectedIndex].text);
         }
     </script>
@@ -59,7 +59,7 @@
                       <div class="span3 text-center">
 						
                           <asp:Button ID="btnFormat" runat="server" CssClass="btn-block btn btn-large btn-green" Text="ถัดไป"  />
-                          <asp:TextBox ID="txtFormatID" runat="server"  ></asp:TextBox>
+                          <asp:TextBox ID="txUsertFormatID" runat="server"  ></asp:TextBox>
                           <asp:TextBox ID="txtFormatTitle" runat="server"></asp:TextBox>
                       </div>
                       <div class="span3"></div>

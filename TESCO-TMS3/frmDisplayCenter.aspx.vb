@@ -96,25 +96,6 @@ Public Class frmDisplayCenter
             inext = inext + 1
         Next
 
-        'Dim DT_USER As New DataTable
-        'Dim User(3) As String
-        'User = AddUser(UserData.Token, UserData.UserID, id)
-        'If User.Length = 3 Then
-        '    Dim DR = DT_USER.NewRow
-        '    DR("id") = User(0)
-        '    DR("firstname") = User(1)
-        '    DR("lastname") = User(2)
-        '    DR("company_id") = User(3)
-        '    DR("cb") = "T"
-        '    DT_USER.Rows.Add(DR)
-        '    Session("UserDataUser") = DT_USER
-
-        '    Dim ClassID As Long = CreateClass(UserData.Token, User(0), 13, id, UserData.UserID)
-
-        '    Session("ClassID") = ClassID
-        'End If
-
-
         'Set ClassID to Session
         Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
         UserData.GetUserSessionData(UserData.UserSessionID)

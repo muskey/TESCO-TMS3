@@ -11,7 +11,7 @@
 
                 InitializeRequest();
                 // var control = $("#" + id);
-                var url = "frmSelectDepartment.aspx?id=" + id + '&title=' + name + '&color=' + color;
+                var url = "frmSelectDepartment.aspx?user_function_id=" + id + '&title=' + name + '&color=' + color;
                 //alert(url);
                 window.location = url;
 
@@ -80,13 +80,7 @@
                             </div>
                         </div>
                         <div class="span10">
-                            <ul>
-
-                                <%--       <li style="background-image:url('Assets/PC/icon_course_book.png');background-size: 170px auto;background-repeat: no-repeat;height:170px"></li>--%>
-                            </ul>
                             <asp:Label runat="server" ID="lblMain"></asp:Label>
-
-
                         </div>
                         <div class="span1">
                         </div>
@@ -98,9 +92,6 @@
                         </div>
                         <div class="span10">
                             <asp:Label runat="server" ID="lblSub"></asp:Label>
-                            <asp:TextBox ID="txtFunctionID" runat="server" Visible="false"></asp:TextBox>
-
-                            <asp:TextBox ID="txtFunctionTitle" runat="server" Visible="false"></asp:TextBox>
                         </div>
                         <div class="span1"></div>
                     </div>

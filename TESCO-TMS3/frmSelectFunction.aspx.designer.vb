@@ -57,22 +57,4 @@ Partial Public Class frmSelectFunction
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblSub As Global.System.Web.UI.WebControls.Label
-    
-    '''<summary>
-    '''txtFunctionID control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtFunctionID As Global.System.Web.UI.WebControls.TextBox
-    
-    '''<summary>
-    '''txtFunctionTitle control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtFunctionTitle As Global.System.Web.UI.WebControls.TextBox
 End Class
