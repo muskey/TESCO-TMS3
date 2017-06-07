@@ -49,8 +49,7 @@
 	<script src="Assets/js/plugins/jquery-ui/jquery.ui.sortable.min.js"></script>
 	<!-- slimScroll -->
 	<script src="Assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<!-- Bootstrap -->
-	<script src="Assets/js/bootstrap.min.js"></script>
+
 	<!-- Bootbox -->
 	<script src="Assets/js/plugins/bootbox/jquery.bootbox.js"></script>
 	<!-- Bootbox -->
@@ -73,6 +72,8 @@
 	<script src="Assets/js/plugins/mockjax/jquery.mockjax.js"></script>
 
 	<!-- Theme framework -->
+    <!-- Bootstrap -->
+	<script src="Assets/js/bootstrap.min.js"></script>
 	<script src="Assets/js/eakroko.min.js"></script>
 	<!-- Theme scripts -->
 	<script src="Assets/js/application.min.js"></script>

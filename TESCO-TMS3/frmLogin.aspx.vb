@@ -1,5 +1,4 @@
-﻿'Imports Newtonsoft.Json
-Imports System.Data.SqlClient
+﻿Imports System.Data.SqlClient
 Imports Newtonsoft.Json.Linq
 Imports LinqDB.ConnectDB
 Imports LinqDB.TABLE
@@ -469,6 +468,5 @@ Public Class frmLogin
         pnlLoginOTP.Visible = True
 
     End Sub
-
 
 End Class
