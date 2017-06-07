@@ -12,9 +12,11 @@ Module TescoModule
     Public FolderCourseDocumentFile As String = TempPath & "\CourseDocumentFile"
 
     Public Function GetWebServiceURL() As String
-        'Return "http://tescolotuslc.com/learningcenterstaging/"
-        'Return "https://tescolotuslc.com/learningcenterpreproduction/"
-        'Return "https://tescolotuslc.com/learningcenter/
+        'Return "https://tescolotuslc.com/learningcenterdev/auth/login   " Dev
+        'Return "http://tescolotuslc.com/learningcenterstaging/"         "Staging"
+        'Return "https://tescolotuslc.com/learningcenterpreproduction/"  "ProProduction"
+        'Return "https://tescolotuslc.com/learningcenter/                "Produciton"
+
 
         Dim cf As CfSysconfigLinqDB = GetSysconfig()
         Return cf.WEBSERVICE_URL

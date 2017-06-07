@@ -102,46 +102,67 @@ Public Class frmSelectTestCourse
 
                                         question_item.CreateReader()
 
-                                        Dim vChoice As String = ""
-                                        Dim vAnswer As String = ""
-                                        Dim answer_txt As String = "{""answer"":" & question_comment("answer").ToString & "}"
-                                        Dim answer_ser As JObject = JObject.Parse(answer_txt)
-                                        Dim answer_data As List(Of JToken) = answer_ser.Children().ToList
-                                        For Each answer_item As JProperty In answer_data
-                                            Dim PreAlphabet As Integer = Asc("ก")
-
-                                            For Each answer_comment As JObject In answer_item.Values
-                                                answer_item.CreateReader()
-
-                                                If vChoice = "" Then
-                                                    vChoice = Chr(PreAlphabet) & ". " & answer_comment("text").ToString
-                                                Else
-                                                    vChoice += "##" & Chr(PreAlphabet) & ". " & answer_comment("text").ToString
-                                                End If
-
-                                                If vAnswer = "" Then
-                                                    vAnswer = answer_comment("is_correct").ToString
-                                                Else
-                                                    vAnswer += "##" + answer_comment("is_correct").ToString
-                                                End If
-
-                                                PreAlphabet += 1
-                                                If PreAlphabet = 163 Then   '163=ตัว ฃ ขวด
-                                                    PreAlphabet += 1
-                                                ElseIf PreAlphabet = 165 Then  ' 165= ฅ คน
-                                                    PreAlphabet += 2
-                                                End If
-                                            Next
-                                        Next
-
                                         Dim qLnq As New TbTestingQuestionLinqDB
                                         qLnq.TB_TESTING_ID = lnq.ID
                                         qLnq.TEST_ID = lnq.TEST_ID
-                                        qLnq.QUESTION_TITLE = question_comment("description").ToString
+                                        qLnq.QUIZ_ID = question_comment("quiz_id").ToString
+                                        If question_comment("title") IsNot Nothing Then qLnq.QUESTION_TITLE = question_comment("title").ToString
                                         qLnq.ICON_URL = question_comment("cover").ToString
-                                        qLnq.CHOICE = vChoice
-                                        qLnq.ANSWER = vAnswer
                                         qLnq.QUESTION_NO = question_qty
+                                        qLnq.WEIGHT = question_comment("weight").ToString
+                                        qLnq.STATUS = question_comment("status").ToString
+                                        qLnq.QUESTION_TYPE = question_comment("type").ToString
+
+                                        Select Case question_comment("type").ToString.ToLower
+                                            Case "abcd"
+                                                Dim vChoice As String = ""
+                                                Dim vAnswer As String = ""
+
+                                                Dim answer_txt As String = "{""answer"":" & question_comment("answer").ToString & "}"
+                                                Dim answer_ser As JObject = JObject.Parse(answer_txt)
+                                                Dim answer_data As List(Of JToken) = answer_ser.Children().ToList
+                                                For Each answer_item As JProperty In answer_data
+                                                    Dim PreAlphabet As Integer = Asc("ก")
+
+                                                    For Each answer_comment As JObject In answer_item.Values
+                                                        answer_item.CreateReader()
+
+                                                        If vChoice = "" Then
+                                                            vChoice = Chr(PreAlphabet) & ". " & answer_comment("text").ToString
+                                                        Else
+                                                            vChoice += "##" & Chr(PreAlphabet) & ". " & answer_comment("text").ToString
+                                                        End If
+
+                                                        If vAnswer = "" Then
+                                                            vAnswer = answer_comment("is_correct").ToString
+                                                        Else
+                                                            vAnswer += "##" + answer_comment("is_correct").ToString
+                                                        End If
+
+                                                        PreAlphabet += 1
+                                                        If PreAlphabet = 163 Then   '163=ตัว ฃ ขวด
+                                                            PreAlphabet += 1
+                                                        ElseIf PreAlphabet = 165 Then  ' 165= ฅ คน
+                                                            PreAlphabet += 2
+                                                        End If
+                                                    Next
+                                                Next
+
+                                                qLnq.CHOICE = vChoice
+                                                qLnq.ANSWER = vAnswer
+
+                                            Case "yes/no"
+                                                qLnq.YESNO_CORRECT_ANSWER = question_comment("correct_answer").ToString
+                                            Case "writing"
+
+                                            Case "matching"
+                                                qLnq.MATCHING_LEFTTEXT = question_comment("leftText").ToString
+                                                qLnq.MATCHING_RIGHTTEXT = question_comment("rightText").ToString
+                                                qLnq.MATCHING_CORRECT_ANSWER = question_comment("correct_answer_id_list").ToString.Replace("[", "").Replace("]", "").Trim
+                                            Case "picture"
+                                                qLnq.PICTURE_TEXT = question_comment("text").ToString
+                                                qLnq.MATCHING_CORRECT_ANSWER = question_comment("correct_answer_id_list").ToString.Replace("[", "").Replace("]", "").Trim
+                                        End Select
 
                                         ret = qLnq.InsertData(UserData.UserName, trans.Trans)
                                         If ret.IsSuccess = False Then

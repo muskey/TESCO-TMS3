@@ -38,12 +38,20 @@ Public Class frmSelectTestQuestion
                 Me.ckbD.Attributes.Add("onclick", "onConfirmCheck(3)")
 
                 SetStartTest1()
-                SetTestQuestion1(1)
 
-                SetTestQuestion2()
-                SetTestQuestion3()
-                SetTestQuestion4()
-                SetTestQuestion5()
+                Dim qDt As DataTable = GetTestQuestion(test_id, 1)
+                Select Case qDt.Rows(0)("question_type")
+                    Case "abcd"
+                        SetTestQuestionABCD(1, qDt)
+                    Case "yes/no"
+                        SetTestQuestionYESNO(1, qDt)
+                    Case "matching"
+                        SetTestQuestionMatching(1, qDt)
+                    Case "writing"
+                        SetTestQuestionWriting(1, qDt)
+                    Case "picture"
+                        SetTestQuestionPicture(1, qDt)
+                End Select
             End If
             dt.DefaultView.RowFilter = ""
         End If
@@ -74,11 +82,10 @@ Public Class frmSelectTestQuestion
         End If
     End Sub
 
-    Private Sub SetTestQuestion1(no As Integer)
+    Private Sub SetTestQuestionABCD(no As Integer, dt As DataTable)
         Try
             Me.txtQuestion_no.Text = no.ToString
-            Dim dt As DataTable = GetTestQuestion(test_id, no)
-
+            pnlQuestionABCD.Visible = True
             Dim str As String = ""
             If no = 1 Then
                 If (dt.Rows.Count > 0) Then
@@ -182,26 +189,48 @@ Public Class frmSelectTestQuestion
 
 #Region "Test Question 2"
 
-    Private Sub SetTestQuestion2()
-        Dim dt As New DataTable
-        dt.Columns.Add("question_title")
-        dt.Columns.Add("answer_text")
+    Private Sub SetTestQuestionMatching(no As Integer, qDt As DataTable)
+        pnlQuestionMatching.Visible = True
+        Me.txtQuestion_no.Text = no.ToString
 
+        If no = 1 Then
+            Dim dt As New DataTable
+            dt.Columns.Add("question_title")
+            dt.Columns.Add("answer_text")
 
-        For i As Integer = 0 To 9
-            Dim dr As DataRow = dt.NewRow
-            dr("question_title") = (i + 1) & ". XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-            dr("answer_text") = Chr(65 + i) & ". xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            For i As Integer = 0 To 9
+                Dim dr As DataRow = dt.NewRow
+                dr("question_title") = (i + 1) & ". XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                dr("answer_text") = Chr(65 + i) & ". xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-            dt.Rows.Add(dr)
-        Next
+                dt.Rows.Add(dr)
+            Next
 
-        rptQuestion2.DataSource = dt
-        rptQuestion2.DataBind()
+            rptQuestionMatching.DataSource = dt
+            rptQuestionMatching.DataBind()
+        Else
+            SetTestQuestionBefor1(no - 1)
+
+            Me.lblQNumber2.Text = "ข้อ " + no.ToString + "/" + Me.txtQuestion_Count.Text
+            Me.lblQDetail2.Text = qDt.Rows(0)("question_title") & ""
+            If qDt.Rows(0)("icon_url") & "" <> "" Then
+                lblImage2.Text = qDt.Rows(0)("icon_url") & ""
+            End If
+            Dim tmpAnswer2() As String = Split(qDt.Rows(0)("answer"), "##")
+            Dim tmpChoice2() As String = Split(qDt.Rows(0)("choice"), "##")
+            If tmpChoice2.Length = 4 And tmpAnswer2.Length = 4 Then
+                lblA2.InnerText = tmpChoice2(0)
+                lblB2.InnerText = tmpChoice2(1)
+                lblC2.InnerText = tmpChoice2(2)
+                lblD2.InnerText = tmpChoice2(3)
+            End If
+
+        End If
+
 
     End Sub
 
-    Private Sub rptQuestion2_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptQuestion2.ItemDataBound
+    Private Sub rptQuestion2_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptQuestionMatching.ItemDataBound
         If e.Item.ItemType <> ListItemType.Item And e.Item.ItemType <> ListItemType.AlternatingItem Then Exit Sub
         Dim txtAnswer As TextBox = e.Item.FindControl("txtAnswer")
         Dim lblQuestion As Label = e.Item.FindControl("lblQuestion")
@@ -213,37 +242,106 @@ Public Class frmSelectTestQuestion
 #End Region
 
 #Region "Test Question 3"
-    Private Sub SetTestQuestion3()
+    Private Sub SetTestQuestionYESNO(no As Integer, dt As DataTable)
+        pnlQuestionYesNo.Visible = True
+        Me.txtQuestion_no.Text = no.ToString
+        If no = 1 Then
+            Me.lblQNumber.Text = "ข้อ " + no.ToString + "/" + Me.txtQuestion_Count.Text
+            Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
+            If dt.Rows(0)("icon_url") & "" <> "" Then
+                Me.imgQ.Src = dt.Rows(0)("icon_url") & ""
+            End If
+        Else
+            SetTestQuestionBefor1(no - 1)
+
+            Me.lblQNumber2.Text = "ข้อ " + no.ToString + "/" + Me.txtQuestion_Count.Text
+            Me.lblQDetail2.Text = dt.Rows(0)("question_title") & ""
+            If dt.Rows(0)("icon_url") & "" <> "" Then
+                lblImage2.Text = dt.Rows(0)("icon_url") & ""
+            End If
+            Dim tmpAnswer2() As String = Split(dt.Rows(0)("answer"), "##")
+            Dim tmpChoice2() As String = Split(dt.Rows(0)("choice"), "##")
+            If tmpChoice2.Length = 4 And tmpAnswer2.Length = 4 Then
+                lblA2.InnerText = tmpChoice2(0)
+                lblB2.InnerText = tmpChoice2(1)
+                lblC2.InnerText = tmpChoice2(2)
+                lblD2.InnerText = tmpChoice2(3)
+            End If
+        End If
+
         lblQ3AnsA.InnerText = "ใช่"
         lblQ3AnsB.InnerText = "ไม่ใช่"
     End Sub
 #End Region
 
 #Region "Test Question 4"
-    Private Sub SetTestQuestion4()
+    Private Sub SetTestQuestionWriting(no As Integer, qDt As DataTable)
+        pnlQuestionWriting.Visible = True
+        Me.txtQuestion_no.Text = no.ToString
 
+        If no = 1 Then
+
+        Else
+            SetTestQuestionBefor1(no - 1)
+
+            Me.lblQNumber2.Text = "ข้อ " + no.ToString + "/" + Me.txtQuestion_Count.Text
+            Me.lblQDetail2.Text = qDt.Rows(0)("question_title") & ""
+            If qDt.Rows(0)("icon_url") & "" <> "" Then
+                lblImage2.Text = qDt.Rows(0)("icon_url") & ""
+            End If
+            Dim tmpAnswer2() As String = Split(qDt.Rows(0)("answer"), "##")
+            Dim tmpChoice2() As String = Split(qDt.Rows(0)("choice"), "##")
+            If tmpChoice2.Length = 4 And tmpAnswer2.Length = 4 Then
+                lblA2.InnerText = tmpChoice2(0)
+                lblB2.InnerText = tmpChoice2(1)
+                lblC2.InnerText = tmpChoice2(2)
+                lblD2.InnerText = tmpChoice2(3)
+            End If
+        End If
     End Sub
 #End Region
 
 #Region "Test Question 5"
 
-    Private Sub SetTestQuestion5()
-        Dim dt As New DataTable
-        dt.Columns.Add("question_title")
+    Private Sub SetTestQuestionPicture(no As Integer, qDt As DataTable)
+        pnlQuestionPicture.Visible = True
+        Me.txtQuestion_no.Text = no.ToString
 
-        For i As Integer = 0 To 9
-            Dim dr As DataRow = dt.NewRow
-            dr("question_title") = (i + 1) & ". XXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX"
+        If no = 1 Then
+            Dim dt As New DataTable
+            dt.Columns.Add("question_title")
 
-            dt.Rows.Add(dr)
-        Next
+            For i As Integer = 0 To 9
+                Dim dr As DataRow = dt.NewRow
+                dr("question_title") = (i + 1) & ". XXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX"
 
-        rptQuestion5.DataSource = dt
-        rptQuestion5.DataBind()
+                dt.Rows.Add(dr)
+            Next
+
+            rptQuestionPicture.DataSource = dt
+            rptQuestionPicture.DataBind()
+        Else
+            SetTestQuestionBefor1(no - 1)
+
+            Me.lblQNumber2.Text = "ข้อ " + no.ToString + "/" + Me.txtQuestion_Count.Text
+            Me.lblQDetail2.Text = qDt.Rows(0)("question_title") & ""
+            If qDt.Rows(0)("icon_url") & "" <> "" Then
+                lblImage2.Text = qDt.Rows(0)("icon_url") & ""
+            End If
+            Dim tmpAnswer2() As String = Split(qDt.Rows(0)("answer"), "##")
+            Dim tmpChoice2() As String = Split(qDt.Rows(0)("choice"), "##")
+            If tmpChoice2.Length = 4 And tmpAnswer2.Length = 4 Then
+                lblA2.InnerText = tmpChoice2(0)
+                lblB2.InnerText = tmpChoice2(1)
+                lblC2.InnerText = tmpChoice2(2)
+                lblD2.InnerText = tmpChoice2(3)
+            End If
+        End If
+
 
     End Sub
 
-    Private Sub rptQuestion5_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptQuestion5.ItemDataBound
+    Private Sub rptQuestionPicture_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptQuestionPicture.ItemDataBound
         If e.Item.ItemType <> ListItemType.Item And e.Item.ItemType <> ListItemType.AlternatingItem Then Exit Sub
         Dim txtAnswer As TextBox = e.Item.FindControl("txtAnswer")
         Dim lblQuestion As Label = e.Item.FindControl("lblQuestion")
@@ -321,7 +419,28 @@ Public Class frmSelectTestQuestion
                 Me.txtQuestion_no.Text = Val(Me.txtQuestion_no.Text) + 1
                 Dim lastchoice As Integer = 0
                 If Val(Me.txtQuestion_no.Text) <= Val(Me.txtQuestion_Count.Text) Then
-                    SetTestQuestion1(Val(Me.txtQuestion_no.Text))
+                    Dim qDt As DataTable = GetTestQuestion(test_id, txtQuestion_no.Text)
+                    'SetTestQuestionABCD(Val(Me.txtQuestion_no.Text), qDt)
+
+                    pnlQuestionABCD.Visible = False
+                    pnlQuestionMatching.Visible = False
+                    pnlQuestionYesNo.Visible = False
+                    pnlQuestionWriting.Visible = False
+                    pnlQuestionPicture.Visible = False
+
+                    Select Case qDt.Rows(0)("question_type")
+                        Case "abcd"
+                            SetTestQuestionABCD(Val(Me.txtQuestion_no.Text), qDt)
+                        Case "yes/no"
+                            SetTestQuestionYESNO(Val(Me.txtQuestion_no.Text), qDt)
+                        Case "matching"
+                            SetTestQuestionMatching(Val(Me.txtQuestion_no.Text), qDt)
+                        Case "writing"
+                            SetTestQuestionWriting(Val(Me.txtQuestion_no.Text), qDt)
+                        Case "picture"
+                            SetTestQuestionPicture(Val(Me.txtQuestion_no.Text), qDt)
+                    End Select
+
                 Else
                     Sumnary()
                     SetTestQuestionBefor1(Val(Me.txtQuestion_Count.Text))

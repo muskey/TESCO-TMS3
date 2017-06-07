@@ -224,7 +224,7 @@
                                         </div>
                                         <div class="row"><div class="span12"></div> </div>
 
-                                        <asp:Panel ID="pnlQuestion1" runat="server" CssClass="tab-pane active" Visible="false" >
+                                        <asp:Panel ID="pnlQuestionABCD" runat="server" CssClass="tab-pane active" Visible="false" >
                                             <div class="row">
                                                 <div class="span2"></div>
                                                 <div class="span3">
@@ -252,7 +252,7 @@
                                             
                                         </asp:Panel>
 
-                                        <asp:Panel ID="pnlQuestion2" runat="server" CssClass="tab-pane active" Visible="false">
+                                        <asp:Panel ID="pnlQuestionMatching" runat="server" CssClass="tab-pane active" Visible="false">
                                             <div class="row">
                                                 <div class="span2"></div>
                                                 <div class="span10">
@@ -260,7 +260,7 @@
                                                 </div>
                                             </div>
                                             
-                                            <asp:Repeater ID="rptQuestion2" runat="server">
+                                            <asp:Repeater ID="rptQuestionMatching" runat="server">
                                                 <ItemTemplate>
                                                     <div class="row">
                                                         <div class="span2"></div>
@@ -279,7 +279,7 @@
                                             </asp:Repeater>
                                         </asp:Panel>
 
-                                        <asp:Panel ID="pnlQuestion3" runat="server" CssClass="tab-pane active" Visible="false">
+                                        <asp:Panel ID="pnlQuestionYesNo" runat="server" CssClass="tab-pane active" Visible="false">
                                             <div class="row">
                                                 <div class="span2"></div>
                                                 <div class="span8">
@@ -295,7 +295,7 @@
                                             </div>
                                         </asp:Panel>
 
-                                        <asp:Panel ID="pnlQuestion4" runat="server" CssClass="tab-pane active" Visible="false">
+                                        <asp:Panel ID="pnlQuestionWriting" runat="server" CssClass="tab-pane active" Visible="false">
                                             <div class="row">
                                                 <div class="span2"></div>
                                                 <div class="span8">
@@ -305,30 +305,28 @@
                                             </div>
                                         </asp:Panel>
 
-                                        <asp:Panel ID="pnlQuestion5" runat="server" CssClass="tab-pane active" Visible="true">
+                                        <asp:Panel ID="pnlQuestionPicture" runat="server" CssClass="tab-pane active" Visible="false">
                                             <div class="row">
                                                 <div class="span2"></div>
                                                 <div class="span3">
                                                     <img src="Assets/PC/noimagefound.jpg" style="width:100%;height:200px;margin-bottom:20px" runat="server" id="img2" />
                                                 </div>
                                                 <div class="span7">
-                                                    
-                                                        <table >
-                                                            <asp:Repeater ID="rptQuestion5" runat="server">
-                                                                <ItemTemplate>
-                                                                    <tr>
-                                                                        <td style="width:20%">
-                                                                            <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control" ></asp:TextBox>
-                                                                        </td>
-                                                                        <td style="width:5px"></td>
-                                                                        <td style="width:70%">
-                                                                            <asp:Label ID="lblQuestion" runat="server" style="font-size: large;color:white;" ></asp:Label>
-                                                                        </td>
-                                                                    </tr>
-                                                                </ItemTemplate>
-                                                            </asp:Repeater>
-                                                        </table>
-                                                    
+                                                    <table >
+                                                        <asp:Repeater ID="rptQuestionPicture" runat="server">
+                                                            <ItemTemplate>
+                                                                <tr>
+                                                                    <td style="width:20%">
+                                                                        <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control" ></asp:TextBox>
+                                                                    </td>
+                                                                    <td style="width:5px"></td>
+                                                                    <td style="width:70%">
+                                                                        <asp:Label ID="lblQuestion" runat="server" style="font-size: large;color:white;" ></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                            </ItemTemplate>
+                                                        </asp:Repeater>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </asp:Panel>

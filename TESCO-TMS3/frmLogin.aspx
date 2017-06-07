@@ -50,7 +50,7 @@
                             <div class="span3" style="background:#29363f">
                                 <asp:Panel ID="pnlLogin" runat="server" CssClass="row-fluid">
                                     <div class="form-group ">
-                                        <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" placeholder="รหัสพนักงาน" AutoComplete="off" required AutoPostBack="true" ></asp:TextBox>
+                                        <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" placeholder="รหัสพนักงาน" AutoComplete="off" required  ></asp:TextBox>
                                         <i class="fa fa-user fa-2x"></i>
                                     </div>
                                     <div class="form-group log-status">

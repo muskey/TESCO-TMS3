@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_TESTING_QUESTION table LinqDB.
-    '[Create by  on May, 5 2017]
+    '[Create by  on June, 7 2017]
     Public Class TbTestingQuestionLinqDB
         Public sub TbTestingQuestionLinqDB()
 
@@ -46,11 +46,21 @@ Namespace TABLE
         Dim _UPDATED_DATE As  System.Nullable(Of DateTime)  = New DateTime(1,1,1)
         Dim _TB_TESTING_ID As Long = 0
         Dim _TEST_ID As Long = 0
+        Dim _QUIZ_ID As Long = 0
         Dim _QUESTION_TITLE As String = ""
         Dim _ICON_URL As  String  = ""
         Dim _CHOICE As String = ""
         Dim _ANSWER As String = ""
         Dim _QUESTION_NO As Long = 0
+        Dim _WEIGHT As  System.Nullable(Of Long) 
+        Dim _STATUS As  System.Nullable(Of Long) 
+        Dim _QUESTION_TYPE As String = "abcd"
+        Dim _YESNO_CORRECT_ANSWER As  System.Nullable(Of Long) 
+        Dim _MATCHING_LEFTTEXT As  String  = ""
+        Dim _MATCHING_RIGHTTEXT As  String  = ""
+        Dim _MATCHING_CORRECT_ANSWER As  String  = ""
+        Dim _PICTURE_TEXT As  String  = ""
+        Dim _PICTURE_CORRECT_ANSWER As  String  = ""
 
         'Generate Field Property 
         <Column(Storage:="_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
@@ -116,6 +126,15 @@ Namespace TABLE
                _TEST_ID = value
             End Set
         End Property 
+        <Column(Storage:="_QUIZ_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
+        Public Property QUIZ_ID() As Long
+            Get
+                Return _QUIZ_ID
+            End Get
+            Set(ByVal value As Long)
+               _QUIZ_ID = value
+            End Set
+        End Property 
         <Column(Storage:="_QUESTION_TITLE", DbType:="VarChar(500) NOT NULL ",CanBeNull:=false)>  _
         Public Property QUESTION_TITLE() As String
             Get
@@ -161,6 +180,87 @@ Namespace TABLE
                _QUESTION_NO = value
             End Set
         End Property 
+        <Column(Storage:="_WEIGHT", DbType:="Int")>  _
+        Public Property WEIGHT() As  System.Nullable(Of Long) 
+            Get
+                Return _WEIGHT
+            End Get
+            Set(ByVal value As  System.Nullable(Of Long) )
+               _WEIGHT = value
+            End Set
+        End Property 
+        <Column(Storage:="_STATUS", DbType:="Int")>  _
+        Public Property STATUS() As  System.Nullable(Of Long) 
+            Get
+                Return _STATUS
+            End Get
+            Set(ByVal value As  System.Nullable(Of Long) )
+               _STATUS = value
+            End Set
+        End Property 
+        <Column(Storage:="_QUESTION_TYPE", DbType:="VarChar(50) NOT NULL ",CanBeNull:=false)>  _
+        Public Property QUESTION_TYPE() As String
+            Get
+                Return _QUESTION_TYPE
+            End Get
+            Set(ByVal value As String)
+               _QUESTION_TYPE = value
+            End Set
+        End Property 
+        <Column(Storage:="_YESNO_CORRECT_ANSWER", DbType:="Int")>  _
+        Public Property YESNO_CORRECT_ANSWER() As  System.Nullable(Of Long) 
+            Get
+                Return _YESNO_CORRECT_ANSWER
+            End Get
+            Set(ByVal value As  System.Nullable(Of Long) )
+               _YESNO_CORRECT_ANSWER = value
+            End Set
+        End Property 
+        <Column(Storage:="_MATCHING_LEFTTEXT", DbType:="Text")>  _
+        Public Property MATCHING_LEFTTEXT() As  String 
+            Get
+                Return _MATCHING_LEFTTEXT
+            End Get
+            Set(ByVal value As  String )
+               _MATCHING_LEFTTEXT = value
+            End Set
+        End Property 
+        <Column(Storage:="_MATCHING_RIGHTTEXT", DbType:="Text")>  _
+        Public Property MATCHING_RIGHTTEXT() As  String 
+            Get
+                Return _MATCHING_RIGHTTEXT
+            End Get
+            Set(ByVal value As  String )
+               _MATCHING_RIGHTTEXT = value
+            End Set
+        End Property 
+        <Column(Storage:="_MATCHING_CORRECT_ANSWER", DbType:="VarChar(255)")>  _
+        Public Property MATCHING_CORRECT_ANSWER() As  String 
+            Get
+                Return _MATCHING_CORRECT_ANSWER
+            End Get
+            Set(ByVal value As  String )
+               _MATCHING_CORRECT_ANSWER = value
+            End Set
+        End Property 
+        <Column(Storage:="_PICTURE_TEXT", DbType:="Text")>  _
+        Public Property PICTURE_TEXT() As  String 
+            Get
+                Return _PICTURE_TEXT
+            End Get
+            Set(ByVal value As  String )
+               _PICTURE_TEXT = value
+            End Set
+        End Property 
+        <Column(Storage:="_PICTURE_CORRECT_ANSWER", DbType:="VarChar(255)")>  _
+        Public Property PICTURE_CORRECT_ANSWER() As  String 
+            Get
+                Return _PICTURE_CORRECT_ANSWER
+            End Get
+            Set(ByVal value As  String )
+               _PICTURE_CORRECT_ANSWER = value
+            End Set
+        End Property 
 
 
         'Clear All Data
@@ -172,11 +272,21 @@ Namespace TABLE
             _UPDATED_DATE = New DateTime(1,1,1)
             _TB_TESTING_ID = 0
             _TEST_ID = 0
+            _QUIZ_ID = 0
             _QUESTION_TITLE = ""
             _ICON_URL = ""
             _CHOICE = ""
             _ANSWER = ""
             _QUESTION_NO = 0
+            _WEIGHT = Nothing
+            _STATUS = Nothing
+            _QUESTION_TYPE = "abcd"
+            _YESNO_CORRECT_ANSWER = Nothing
+            _MATCHING_LEFTTEXT = ""
+            _MATCHING_RIGHTTEXT = ""
+            _MATCHING_CORRECT_ANSWER = ""
+            _PICTURE_TEXT = ""
+            _PICTURE_CORRECT_ANSWER = ""
         End Sub
 
        'Define Public Method 
@@ -302,30 +412,6 @@ Namespace TABLE
             Dim p(1) As SQLParameter
             p(0) = DB.SetBigInt("@_ID", cID)
             Return doGetData("ID = @_ID", trans, p)
-        End Function
-
-
-        '/// Returns an indication whether the record of TB_TESTING_QUESTION by specified QUESTION_TITLE_TB_TESTING_ID key is retrieved successfully.
-        '/// <param name=cQUESTION_TITLE_TB_TESTING_ID>The QUESTION_TITLE_TB_TESTING_ID key.</param>
-        '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
-        '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
-        Public Function ChkDataByQUESTION_TITLE_TB_TESTING_ID(cQUESTION_TITLE As String, cTB_TESTING_ID As Long, trans As SQLTransaction) As Boolean
-            Dim cmdPara(3)  As SQLParameter
-            cmdPara(0) = DB.SetText("@_QUESTION_TITLE", cQUESTION_TITLE) 
-            cmdPara(1) = DB.SetText("@_TB_TESTING_ID", cTB_TESTING_ID) 
-            Return doChkData("QUESTION_TITLE = @_QUESTION_TITLE AND TB_TESTING_ID = @_TB_TESTING_ID", trans, cmdPara)
-        End Function
-
-        '/// Returns an duplicate data record of TB_TESTING_QUESTION by specified QUESTION_TITLE_TB_TESTING_ID key is retrieved successfully.
-        '/// <param name=cQUESTION_TITLE_TB_TESTING_ID>The QUESTION_TITLE_TB_TESTING_ID key.</param>
-        '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
-        '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
-        Public Function ChkDuplicateByQUESTION_TITLE_TB_TESTING_ID(cQUESTION_TITLE As String, cTB_TESTING_ID As Long, cID As Long, trans As SQLTransaction) As Boolean
-            Dim cmdPara(3)  As SQLParameter
-            cmdPara(0) = DB.SetText("@_QUESTION_TITLE", cQUESTION_TITLE) 
-            cmdPara(1) = DB.SetText("@_TB_TESTING_ID", cTB_TESTING_ID) 
-            cmdPara(2) = DB.SetBigInt("@_ID", cID) 
-            Return doChkData("QUESTION_TITLE = @_QUESTION_TITLE AND TB_TESTING_ID = @_TB_TESTING_ID And ID <> @_ID", trans, cmdPara)
         End Function
 
 
@@ -455,7 +541,7 @@ Namespace TABLE
         End Function
 
         Private Function SetParameterData() As SqlParameter()
-            Dim cmbParam(11) As SqlParameter
+            Dim cmbParam(21) As SqlParameter
             cmbParam(0) = New SqlParameter("@_ID", SqlDbType.BigInt)
             cmbParam(0).Value = _ID
 
@@ -493,24 +579,86 @@ Namespace TABLE
             cmbParam(6) = New SqlParameter("@_TEST_ID", SqlDbType.BigInt)
             cmbParam(6).Value = _TEST_ID
 
-            cmbParam(7) = New SqlParameter("@_QUESTION_TITLE", SqlDbType.VarChar)
-            cmbParam(7).Value = _QUESTION_TITLE.Trim
+            cmbParam(7) = New SqlParameter("@_QUIZ_ID", SqlDbType.BigInt)
+            cmbParam(7).Value = _QUIZ_ID
 
-            cmbParam(8) = New SqlParameter("@_ICON_URL", SqlDbType.VarChar)
+            cmbParam(8) = New SqlParameter("@_QUESTION_TITLE", SqlDbType.VarChar)
+            cmbParam(8).Value = _QUESTION_TITLE.Trim
+
+            cmbParam(9) = New SqlParameter("@_ICON_URL", SqlDbType.VarChar)
             If _ICON_URL.Trim <> "" Then 
-                cmbParam(8).Value = _ICON_URL.Trim
+                cmbParam(9).Value = _ICON_URL.Trim
             Else
-                cmbParam(8).Value = DBNull.value
+                cmbParam(9).Value = DBNull.value
             End If
 
-            cmbParam(9) = New SqlParameter("@_CHOICE", SqlDbType.Text)
-            cmbParam(9).Value = _CHOICE.Trim
+            cmbParam(10) = New SqlParameter("@_CHOICE", SqlDbType.Text)
+            cmbParam(10).Value = _CHOICE.Trim
 
-            cmbParam(10) = New SqlParameter("@_ANSWER", SqlDbType.VarChar)
-            cmbParam(10).Value = _ANSWER.Trim
+            cmbParam(11) = New SqlParameter("@_ANSWER", SqlDbType.VarChar)
+            cmbParam(11).Value = _ANSWER.Trim
 
-            cmbParam(11) = New SqlParameter("@_QUESTION_NO", SqlDbType.Int)
-            cmbParam(11).Value = _QUESTION_NO
+            cmbParam(12) = New SqlParameter("@_QUESTION_NO", SqlDbType.Int)
+            cmbParam(12).Value = _QUESTION_NO
+
+            cmbParam(13) = New SqlParameter("@_WEIGHT", SqlDbType.Int)
+            If _WEIGHT IsNot Nothing Then 
+                cmbParam(13).Value = _WEIGHT.Value
+            Else
+                cmbParam(13).Value = DBNull.value
+            End IF
+
+            cmbParam(14) = New SqlParameter("@_STATUS", SqlDbType.Int)
+            If _STATUS IsNot Nothing Then 
+                cmbParam(14).Value = _STATUS.Value
+            Else
+                cmbParam(14).Value = DBNull.value
+            End IF
+
+            cmbParam(15) = New SqlParameter("@_QUESTION_TYPE", SqlDbType.VarChar)
+            cmbParam(15).Value = _QUESTION_TYPE.Trim
+
+            cmbParam(16) = New SqlParameter("@_YESNO_CORRECT_ANSWER", SqlDbType.Int)
+            If _YESNO_CORRECT_ANSWER IsNot Nothing Then 
+                cmbParam(16).Value = _YESNO_CORRECT_ANSWER.Value
+            Else
+                cmbParam(16).Value = DBNull.value
+            End IF
+
+            cmbParam(17) = New SqlParameter("@_MATCHING_LEFTTEXT", SqlDbType.Text)
+            If _MATCHING_LEFTTEXT IsNot Nothing Then 
+                cmbParam(17).Value = _MATCHING_LEFTTEXT.Trim
+            Else
+                cmbParam(17).Value = DBNull.value
+            End IF
+
+            cmbParam(18) = New SqlParameter("@_MATCHING_RIGHTTEXT", SqlDbType.Text)
+            If _MATCHING_RIGHTTEXT IsNot Nothing Then 
+                cmbParam(18).Value = _MATCHING_RIGHTTEXT.Trim
+            Else
+                cmbParam(18).Value = DBNull.value
+            End IF
+
+            cmbParam(19) = New SqlParameter("@_MATCHING_CORRECT_ANSWER", SqlDbType.VarChar)
+            If _MATCHING_CORRECT_ANSWER.Trim <> "" Then 
+                cmbParam(19).Value = _MATCHING_CORRECT_ANSWER.Trim
+            Else
+                cmbParam(19).Value = DBNull.value
+            End If
+
+            cmbParam(20) = New SqlParameter("@_PICTURE_TEXT", SqlDbType.Text)
+            If _PICTURE_TEXT IsNot Nothing Then 
+                cmbParam(20).Value = _PICTURE_TEXT.Trim
+            Else
+                cmbParam(20).Value = DBNull.value
+            End IF
+
+            cmbParam(21) = New SqlParameter("@_PICTURE_CORRECT_ANSWER", SqlDbType.VarChar)
+            If _PICTURE_CORRECT_ANSWER.Trim <> "" Then 
+                cmbParam(21).Value = _PICTURE_CORRECT_ANSWER.Trim
+            Else
+                cmbParam(21).Value = DBNull.value
+            End If
 
             Return cmbParam
         End Function
@@ -538,11 +686,21 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("updated_date")) = False Then _updated_date = Convert.ToDateTime(Rdr("updated_date"))
                         If Convert.IsDBNull(Rdr("tb_testing_id")) = False Then _tb_testing_id = Convert.ToInt64(Rdr("tb_testing_id"))
                         If Convert.IsDBNull(Rdr("test_id")) = False Then _test_id = Convert.ToInt64(Rdr("test_id"))
+                        If Convert.IsDBNull(Rdr("quiz_id")) = False Then _quiz_id = Convert.ToInt64(Rdr("quiz_id"))
                         If Convert.IsDBNull(Rdr("question_title")) = False Then _question_title = Rdr("question_title").ToString()
                         If Convert.IsDBNull(Rdr("icon_url")) = False Then _icon_url = Rdr("icon_url").ToString()
                         If Convert.IsDBNull(Rdr("choice")) = False Then _choice = Rdr("choice").ToString()
                         If Convert.IsDBNull(Rdr("answer")) = False Then _answer = Rdr("answer").ToString()
                         If Convert.IsDBNull(Rdr("question_no")) = False Then _question_no = Convert.ToInt32(Rdr("question_no"))
+                        If Convert.IsDBNull(Rdr("weight")) = False Then _weight = Convert.ToInt32(Rdr("weight"))
+                        If Convert.IsDBNull(Rdr("status")) = False Then _status = Convert.ToInt32(Rdr("status"))
+                        If Convert.IsDBNull(Rdr("question_type")) = False Then _question_type = Rdr("question_type").ToString()
+                        If Convert.IsDBNull(Rdr("yesno_correct_answer")) = False Then _yesno_correct_answer = Convert.ToInt32(Rdr("yesno_correct_answer"))
+                        If Convert.IsDBNull(Rdr("matching_lefttext")) = False Then _matching_lefttext = Rdr("matching_lefttext").ToString()
+                        If Convert.IsDBNull(Rdr("matching_righttext")) = False Then _matching_righttext = Rdr("matching_righttext").ToString()
+                        If Convert.IsDBNull(Rdr("matching_correct_answer")) = False Then _matching_correct_answer = Rdr("matching_correct_answer").ToString()
+                        If Convert.IsDBNull(Rdr("picture_text")) = False Then _picture_text = Rdr("picture_text").ToString()
+                        If Convert.IsDBNull(Rdr("picture_correct_answer")) = False Then _picture_correct_answer = Rdr("picture_correct_answer").ToString()
                     Else
                         ret = False
                         _error = MessageResources.MSGEV002
@@ -584,11 +742,21 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("updated_date")) = False Then _updated_date = Convert.ToDateTime(Rdr("updated_date"))
                         If Convert.IsDBNull(Rdr("tb_testing_id")) = False Then _tb_testing_id = Convert.ToInt64(Rdr("tb_testing_id"))
                         If Convert.IsDBNull(Rdr("test_id")) = False Then _test_id = Convert.ToInt64(Rdr("test_id"))
+                        If Convert.IsDBNull(Rdr("quiz_id")) = False Then _quiz_id = Convert.ToInt64(Rdr("quiz_id"))
                         If Convert.IsDBNull(Rdr("question_title")) = False Then _question_title = Rdr("question_title").ToString()
                         If Convert.IsDBNull(Rdr("icon_url")) = False Then _icon_url = Rdr("icon_url").ToString()
                         If Convert.IsDBNull(Rdr("choice")) = False Then _choice = Rdr("choice").ToString()
                         If Convert.IsDBNull(Rdr("answer")) = False Then _answer = Rdr("answer").ToString()
                         If Convert.IsDBNull(Rdr("question_no")) = False Then _question_no = Convert.ToInt32(Rdr("question_no"))
+                        If Convert.IsDBNull(Rdr("weight")) = False Then _weight = Convert.ToInt32(Rdr("weight"))
+                        If Convert.IsDBNull(Rdr("status")) = False Then _status = Convert.ToInt32(Rdr("status"))
+                        If Convert.IsDBNull(Rdr("question_type")) = False Then _question_type = Rdr("question_type").ToString()
+                        If Convert.IsDBNull(Rdr("yesno_correct_answer")) = False Then _yesno_correct_answer = Convert.ToInt32(Rdr("yesno_correct_answer"))
+                        If Convert.IsDBNull(Rdr("matching_lefttext")) = False Then _matching_lefttext = Rdr("matching_lefttext").ToString()
+                        If Convert.IsDBNull(Rdr("matching_righttext")) = False Then _matching_righttext = Rdr("matching_righttext").ToString()
+                        If Convert.IsDBNull(Rdr("matching_correct_answer")) = False Then _matching_correct_answer = Rdr("matching_correct_answer").ToString()
+                        If Convert.IsDBNull(Rdr("picture_text")) = False Then _picture_text = Rdr("picture_text").ToString()
+                        If Convert.IsDBNull(Rdr("picture_correct_answer")) = False Then _picture_correct_answer = Rdr("picture_correct_answer").ToString()
                     Else
                         _error = MessageResources.MSGEV002
                     End If
@@ -613,18 +781,28 @@ Namespace TABLE
         Private ReadOnly Property SqlInsert() As String 
             Get
                 Dim Sql As String=""
-                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_TESTING_ID, TEST_ID, QUESTION_TITLE, ICON_URL, CHOICE, ANSWER, QUESTION_NO)"
-                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_TESTING_ID, INSERTED.TEST_ID, INSERTED.QUESTION_TITLE, INSERTED.ICON_URL, INSERTED.CHOICE, INSERTED.ANSWER, INSERTED.QUESTION_NO"
+                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_TESTING_ID, TEST_ID, QUIZ_ID, QUESTION_TITLE, ICON_URL, CHOICE, ANSWER, QUESTION_NO, WEIGHT, STATUS, QUESTION_TYPE, YESNO_CORRECT_ANSWER, MATCHING_LEFTTEXT, MATCHING_RIGHTTEXT, MATCHING_CORRECT_ANSWER, PICTURE_TEXT, PICTURE_CORRECT_ANSWER)"
+                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_TESTING_ID, INSERTED.TEST_ID, INSERTED.QUIZ_ID, INSERTED.QUESTION_TITLE, INSERTED.ICON_URL, INSERTED.CHOICE, INSERTED.ANSWER, INSERTED.QUESTION_NO, INSERTED.WEIGHT, INSERTED.STATUS, INSERTED.QUESTION_TYPE, INSERTED.YESNO_CORRECT_ANSWER, INSERTED.MATCHING_LEFTTEXT, INSERTED.MATCHING_RIGHTTEXT, INSERTED.MATCHING_CORRECT_ANSWER, INSERTED.PICTURE_TEXT, INSERTED.PICTURE_CORRECT_ANSWER"
                 Sql += " VALUES("
                 sql += "@_CREATED_BY" & ", "
                 sql += "@_CREATED_DATE" & ", "
                 sql += "@_TB_TESTING_ID" & ", "
                 sql += "@_TEST_ID" & ", "
+                sql += "@_QUIZ_ID" & ", "
                 sql += "@_QUESTION_TITLE" & ", "
                 sql += "@_ICON_URL" & ", "
                 sql += "@_CHOICE" & ", "
                 sql += "@_ANSWER" & ", "
-                sql += "@_QUESTION_NO"
+                sql += "@_QUESTION_NO" & ", "
+                sql += "@_WEIGHT" & ", "
+                sql += "@_STATUS" & ", "
+                sql += "@_QUESTION_TYPE" & ", "
+                sql += "@_YESNO_CORRECT_ANSWER" & ", "
+                sql += "@_MATCHING_LEFTTEXT" & ", "
+                sql += "@_MATCHING_RIGHTTEXT" & ", "
+                sql += "@_MATCHING_CORRECT_ANSWER" & ", "
+                sql += "@_PICTURE_TEXT" & ", "
+                sql += "@_PICTURE_CORRECT_ANSWER"
                 sql += ")"
                 Return sql
             End Get
@@ -640,11 +818,21 @@ Namespace TABLE
                 Sql += "UPDATED_DATE = " & "@_UPDATED_DATE" & ", "
                 Sql += "TB_TESTING_ID = " & "@_TB_TESTING_ID" & ", "
                 Sql += "TEST_ID = " & "@_TEST_ID" & ", "
+                Sql += "QUIZ_ID = " & "@_QUIZ_ID" & ", "
                 Sql += "QUESTION_TITLE = " & "@_QUESTION_TITLE" & ", "
                 Sql += "ICON_URL = " & "@_ICON_URL" & ", "
                 Sql += "CHOICE = " & "@_CHOICE" & ", "
                 Sql += "ANSWER = " & "@_ANSWER" & ", "
-                Sql += "QUESTION_NO = " & "@_QUESTION_NO" + ""
+                Sql += "QUESTION_NO = " & "@_QUESTION_NO" & ", "
+                Sql += "WEIGHT = " & "@_WEIGHT" & ", "
+                Sql += "STATUS = " & "@_STATUS" & ", "
+                Sql += "QUESTION_TYPE = " & "@_QUESTION_TYPE" & ", "
+                Sql += "YESNO_CORRECT_ANSWER = " & "@_YESNO_CORRECT_ANSWER" & ", "
+                Sql += "MATCHING_LEFTTEXT = " & "@_MATCHING_LEFTTEXT" & ", "
+                Sql += "MATCHING_RIGHTTEXT = " & "@_MATCHING_RIGHTTEXT" & ", "
+                Sql += "MATCHING_CORRECT_ANSWER = " & "@_MATCHING_CORRECT_ANSWER" & ", "
+                Sql += "PICTURE_TEXT = " & "@_PICTURE_TEXT" & ", "
+                Sql += "PICTURE_CORRECT_ANSWER = " & "@_PICTURE_CORRECT_ANSWER" + ""
                 Return Sql
             End Get
         End Property
@@ -662,7 +850,7 @@ Namespace TABLE
         'Get Select Statement for table TB_TESTING_QUESTION
         Private ReadOnly Property SqlSelect() As String
             Get
-                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_TESTING_ID, TEST_ID, QUESTION_TITLE, ICON_URL, CHOICE, ANSWER, QUESTION_NO FROM " & tableName
+                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_TESTING_ID, TEST_ID, QUIZ_ID, QUESTION_TITLE, ICON_URL, CHOICE, ANSWER, QUESTION_NO, WEIGHT, STATUS, QUESTION_TYPE, YESNO_CORRECT_ANSWER, MATCHING_LEFTTEXT, MATCHING_RIGHTTEXT, MATCHING_CORRECT_ANSWER, PICTURE_TEXT, PICTURE_CORRECT_ANSWER FROM " & tableName
                 Return Sql
             End Get
         End Property

@@ -59,13 +59,13 @@ Partial Public Class frmSelectTestQuestion
     Protected WithEvents lblQDetail As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
-    '''pnlQuestion1 control.
+    '''pnlQuestionABCD control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents pnlQuestion1 As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents pnlQuestionABCD As Global.System.Web.UI.WebControls.Panel
     
     '''<summary>
     '''imgQ control.
@@ -149,13 +149,13 @@ Partial Public Class frmSelectTestQuestion
     Protected WithEvents lblD As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
-    '''pnlQuestion2 control.
+    '''pnlQuestionMatching control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents pnlQuestion2 As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents pnlQuestionMatching As Global.System.Web.UI.WebControls.Panel
     
     '''<summary>
     '''img1 control.
@@ -167,22 +167,22 @@ Partial Public Class frmSelectTestQuestion
     Protected WithEvents img1 As Global.System.Web.UI.HtmlControls.HtmlImage
     
     '''<summary>
-    '''rptQuestion2 control.
+    '''rptQuestionMatching control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents rptQuestion2 As Global.System.Web.UI.WebControls.Repeater
+    Protected WithEvents rptQuestionMatching As Global.System.Web.UI.WebControls.Repeater
     
     '''<summary>
-    '''pnlQuestion3 control.
+    '''pnlQuestionYesNo control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents pnlQuestion3 As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents pnlQuestionYesNo As Global.System.Web.UI.WebControls.Panel
     
     '''<summary>
     '''chkQ3AnsA control.
@@ -221,13 +221,13 @@ Partial Public Class frmSelectTestQuestion
     Protected WithEvents lblQ3AnsB As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
-    '''pnlQuestion4 control.
+    '''pnlQuestionWriting control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents pnlQuestion4 As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents pnlQuestionWriting As Global.System.Web.UI.WebControls.Panel
     
     '''<summary>
     '''txtAnsQuestion4 control.
@@ -239,13 +239,13 @@ Partial Public Class frmSelectTestQuestion
     Protected WithEvents txtAnsQuestion4 As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''pnlQuestion5 control.
+    '''pnlQuestionPicture control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents pnlQuestion5 As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents pnlQuestionPicture As Global.System.Web.UI.WebControls.Panel
     
     '''<summary>
     '''img2 control.
@@ -257,13 +257,13 @@ Partial Public Class frmSelectTestQuestion
     Protected WithEvents img2 As Global.System.Web.UI.HtmlControls.HtmlImage
     
     '''<summary>
-    '''rptQuestion5 control.
+    '''rptQuestionPicture control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents rptQuestion5 As Global.System.Web.UI.WebControls.Repeater
+    Protected WithEvents rptQuestionPicture As Global.System.Web.UI.WebControls.Repeater
     
     '''<summary>
     '''txtQuestion_no control.
