@@ -16,8 +16,8 @@ Public Class frmSelectFormat
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
-            'Me.txUsertFormatID.Style.Add("display", "none")
-            'Me.txtFormatTitle.Style.Add("display", "none")
+            Me.txUsertFormatID.Style.Add("display", "none")
+            Me.txtFormatTitle.Style.Add("display", "none")
             SetFormat()
             SetWelcomeMessage()
 
@@ -39,7 +39,7 @@ Public Class frmSelectFormat
 
             Dim str As String = ""
             If (dt.Rows.Count > 0) Then
-                str = "<div class=""box-content"">"
+                str = "<div class=""box-content"" style=""background-color:#474848;height:200px;overflow-x:hidden;overflow-y:scroll"">"
                 str += "    <div class=""accordion"" id=""accordion2"">"
                 For i As Int32 = 0 To dt.Rows.Count - 1
                     Dim dr As DataRow = dt.Rows(i)

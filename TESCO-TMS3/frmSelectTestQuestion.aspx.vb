@@ -43,6 +43,7 @@ Public Class frmSelectTestQuestion
                 SetTestQuestion2()
                 SetTestQuestion3()
                 SetTestQuestion4()
+                SetTestQuestion5()
             End If
             dt.DefaultView.RowFilter = ""
         End If
@@ -224,6 +225,32 @@ Public Class frmSelectTestQuestion
     End Sub
 #End Region
 
+#Region "Test Question 5"
+
+    Private Sub SetTestQuestion5()
+        Dim dt As New DataTable
+        dt.Columns.Add("question_title")
+
+        For i As Integer = 0 To 9
+            Dim dr As DataRow = dt.NewRow
+            dr("question_title") = (i + 1) & ". XXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX"
+
+            dt.Rows.Add(dr)
+        Next
+
+        rptQuestion5.DataSource = dt
+        rptQuestion5.DataBind()
+
+    End Sub
+
+    Private Sub rptQuestion5_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptQuestion5.ItemDataBound
+        If e.Item.ItemType <> ListItemType.Item And e.Item.ItemType <> ListItemType.AlternatingItem Then Exit Sub
+        Dim txtAnswer As TextBox = e.Item.FindControl("txtAnswer")
+        Dim lblQuestion As Label = e.Item.FindControl("lblQuestion")
+
+        lblQuestion.Text = e.Item.DataItem("question_title")
+    End Sub
+#End Region
     Private Sub btnOK_Click(sender As Object, e As EventArgs) Handles btnOK.ServerClick
         If ckbA.Checked = False And ckbB.Checked = False And ckbC.Checked = False And ckbD.Checked = False Then
             ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "onCheckSelect();", True)

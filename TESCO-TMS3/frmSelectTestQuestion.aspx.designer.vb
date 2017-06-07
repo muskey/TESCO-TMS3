@@ -239,6 +239,33 @@ Partial Public Class frmSelectTestQuestion
     Protected WithEvents txtAnsQuestion4 As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''pnlQuestion5 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlQuestion5 As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''img2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents img2 As Global.System.Web.UI.HtmlControls.HtmlImage
+    
+    '''<summary>
+    '''rptQuestion5 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rptQuestion5 As Global.System.Web.UI.WebControls.Repeater
+    
+    '''<summary>
     '''txtQuestion_no control.
     '''</summary>
     '''<remarks>

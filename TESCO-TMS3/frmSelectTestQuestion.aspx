@@ -202,98 +202,135 @@
                 <asp:Label runat="server" ID="lblTitle" Font-Size="Larger"></asp:Label>
             </div>
 
-            <div class="container-fluid">
-                <div class="box-content">
+            <div class="container-fluid" >
+                <div class="box-content" >
                     <div class="row-fluid">
                         <%--<div class="span1"></div>--%>
-                        <div class="span12">
+                        <div class="span12"  >
                             <div class="box box-bordered box-color">
 
-                                <div class="nopadding">
-                                    <ul class="tabs tabs-inline tabs-top">
-                                        <li class='active'>
-                                            <br />
-                                            <p>
-                                                <button class="btn-block btn btn-large btn-success">
-                                                    <asp:Label ID="lblQNumber" runat="server"></asp:Label></button>
-                                            </p>
-                                        </li>
-                                        <li class='active'>
-                                            <br />
-                                            <p>
-                                                <button class="btn-block btn btn-large" style="background: #fff">
-                                                    <asp:Label ID="lblQDetail" runat="server"></asp:Label></button>
-                                            </p>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content padding tab-content-inline tab-content-bottom">
-                                        <asp:Panel ID="pnlQuestion1" runat="server" CssClass="tab-pane active" >
-                                            <div class="span3">
-                                                <img src="Assets/PC/noimagefound.jpg" height="200" width="200" runat="server" id="imgQ" />
+                                    <div class="tab-content padding tab-content-inline tab-content-bottom" >
+                                        <div class="row"  >
+                                            <div class="span2" >
+                                                <button class="btn-block btn btn-large btn-green">
+                                                    <asp:Label ID="lblQNumber" runat="server"></asp:Label>
+                                                </button>
                                             </div>
-                                            <div class="span9">
-                                                <div class="check-line">
-                                                    <asp:CheckBox ID="ckbA" runat="server" CssClass="mycheckBig"   />
-                                                    <label class='inline' for="ckbA" runat="server" id="lblA" style="width: 100%; font-size: large;color:white;"></label>
+                                            <div class="span8">
+                                                <button class="btn-block btn btn-large" style="background: #fff;text-align:left">
+                                                    <asp:Label ID="lblQDetail" runat="server"></asp:Label>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row"><div class="span12"></div> </div>
+
+                                        <asp:Panel ID="pnlQuestion1" runat="server" CssClass="tab-pane active" Visible="false" >
+                                            <div class="row">
+                                                <div class="span2"></div>
+                                                <div class="span3">
+                                                    <img src="Assets/PC/noimagefound.jpg" height="200" width="200" runat="server" id="imgQ" />
                                                 </div>
-                                                <div class="check-line">
-                                                    <asp:CheckBox ID="ckbB" runat="server" CssClass="mycheckBig"   />
-                                                    <label class='inline' for="ckbB" runat="server" id="lblB" style="width: 100%; font-size: large;color:white;"></label>
-                                                </div>
-                                                <div class="check-line">
-                                                    <asp:CheckBox ID="ckbC" runat="server" CssClass="mycheckBig"   />
-                                                    <label class='inline' for="ckbC" runat="server" id="lblC" style="width: 100%; font-size: large;color:white;"></label>
-                                                </div>
-                                                <div class="check-line">
-                                                    <asp:CheckBox ID="ckbD" runat="server" CssClass="mycheckBig"   />
-                                                    <label class='inline' for="ckbD" runat="server" id="lblD" style="width: 100%; font-size: large;color:white;"></label>
+                                                <div class="span7">
+                                                    <div class="check-line">
+                                                        <asp:CheckBox ID="ckbA" runat="server" CssClass="mycheckBig"   />
+                                                        <label class='inline' for="ckbA" runat="server" id="lblA" style="width: 100%; font-size: large;color:white;"></label>
+                                                    </div>
+                                                    <div class="check-line">
+                                                        <asp:CheckBox ID="ckbB" runat="server" CssClass="mycheckBig"   />
+                                                        <label class='inline' for="ckbB" runat="server" id="lblB" style="width: 100%; font-size: large;color:white;"></label>
+                                                    </div>
+                                                    <div class="check-line">
+                                                        <asp:CheckBox ID="ckbC" runat="server" CssClass="mycheckBig"   />
+                                                        <label class='inline' for="ckbC" runat="server" id="lblC" style="width: 100%; font-size: large;color:white;"></label>
+                                                    </div>
+                                                    <div class="check-line">
+                                                        <asp:CheckBox ID="ckbD" runat="server" CssClass="mycheckBig"   />
+                                                        <label class='inline' for="ckbD" runat="server" id="lblD" style="width: 100%; font-size: large;color:white;"></label>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            
                                         </asp:Panel>
 
                                         <asp:Panel ID="pnlQuestion2" runat="server" CssClass="tab-pane active" Visible="false">
-                                            <div class="span12">
-                                                <img src="Assets/PC/noimagefound.jpg" style="width:100%;height:200px;margin-bottom:20px" runat="server" id="img1" />
+                                            <div class="row">
+                                                <div class="span2"></div>
+                                                <div class="span10">
+                                                    <img src="Assets/PC/noimagefound.jpg" style="width:100%;height:200px;margin-bottom:20px" runat="server" id="img1" />
+                                                </div>
                                             </div>
-
-                                                <asp:Repeater ID="rptQuestion2" runat="server">
-                                                    <ItemTemplate>
-                                                        <div class="row-fluid">
-                                                            <div class="span2"></div>
-                                                            <div class="span1">
-                                                                <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control"  ></asp:TextBox>
-                                                            </div>
-                                                            <div class="span4">
-                                                                <asp:Label ID="lblQuestion" runat="server" style="font-size: large;color:white;" ></asp:Label>
-                                                            </div>
-                                                            <div class="span4">
-                                                                <asp:Label ID="lblAnswer" runat="server" style="font-size: large;color:white;" ></asp:Label>
-                                                            </div>
-                                                            <div class="span1"></div>
+                                            
+                                            <asp:Repeater ID="rptQuestion2" runat="server">
+                                                <ItemTemplate>
+                                                    <div class="row">
+                                                        <div class="span2"></div>
+                                                        <div class="span1">
+                                                            <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control"  ></asp:TextBox>
                                                         </div>
-                                                    </ItemTemplate>
-                                                </asp:Repeater>
+                                                        <div class="span4">
+                                                            <asp:Label ID="lblQuestion" runat="server" style="font-size: large;color:white;" ></asp:Label>
+                                                        </div>
+                                                        <div class="span4">
+                                                            <asp:Label ID="lblAnswer" runat="server" style="font-size: large;color:white;" ></asp:Label>
+                                                        </div>
+                                                        <div class="span1"></div>
+                                                    </div>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
                                         </asp:Panel>
 
                                         <asp:Panel ID="pnlQuestion3" runat="server" CssClass="tab-pane active" Visible="false">
-                                            <div class="span12">
-                                                <div class="check-line">
-                                                    <asp:CheckBox ID="chkQ3AnsA" runat="server" CssClass="mycheckBig"   />
-                                                    <label class='inline' for="ckbA" runat="server" id="lblQ3AnsA" style="width: 100%; font-size: large;color:white;"></label>
-                                                </div>
-                                                <div class="check-line">
-                                                    <asp:CheckBox ID="chkQ3AndB" runat="server" CssClass="mycheckBig"  />
-                                                    <label class='inline' for="ckbB" runat="server" id="lblQ3AnsB" style="width: 100%; font-size: large;color:white;"></label>
+                                            <div class="row">
+                                                <div class="span2"></div>
+                                                <div class="span8">
+                                                    <div class="check-line">
+                                                        <asp:CheckBox ID="chkQ3AnsA" runat="server" CssClass="mycheckBig"   />
+                                                        <label class='inline' for="ckbA" runat="server" id="lblQ3AnsA" style="width: 100%; font-size: large;color:white;"></label>
+                                                    </div>
+                                                    <div class="check-line">
+                                                        <asp:CheckBox ID="chkQ3AndB" runat="server" CssClass="mycheckBig"  />
+                                                        <label class='inline' for="ckbB" runat="server" id="lblQ3AnsB" style="width: 100%; font-size: large;color:white;"></label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </asp:Panel>
 
                                         <asp:Panel ID="pnlQuestion4" runat="server" CssClass="tab-pane active" Visible="false">
-                                            <div class="span2"></div>
-                                            <div class="span8">
-                                                <asp:TextBox ID="txtAnsQuestion4" runat="server" TextMode="MultiLine" Rows="5"></asp:TextBox>
+                                            <div class="row">
+                                                <div class="span2"></div>
+                                                <div class="span8">
+                                                    <asp:TextBox ID="txtAnsQuestion4" runat="server" TextMode="MultiLine" Rows="5"></asp:TextBox>
+                                                </div>
+                                                <div class="span2"></div>
                                             </div>
-                                            <div class="span2"></div>
+                                        </asp:Panel>
+
+                                        <asp:Panel ID="pnlQuestion5" runat="server" CssClass="tab-pane active" Visible="true">
+                                            <div class="row">
+                                                <div class="span2"></div>
+                                                <div class="span3">
+                                                    <img src="Assets/PC/noimagefound.jpg" style="width:100%;height:200px;margin-bottom:20px" runat="server" id="img2" />
+                                                </div>
+                                                <div class="span7">
+                                                    
+                                                        <table >
+                                                            <asp:Repeater ID="rptQuestion5" runat="server">
+                                                                <ItemTemplate>
+                                                                    <tr>
+                                                                        <td style="width:20%">
+                                                                            <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control" ></asp:TextBox>
+                                                                        </td>
+                                                                        <td style="width:5px"></td>
+                                                                        <td style="width:70%">
+                                                                            <asp:Label ID="lblQuestion" runat="server" style="font-size: large;color:white;" ></asp:Label>
+                                                                        </td>
+                                                                    </tr>
+                                                                </ItemTemplate>
+                                                            </asp:Repeater>
+                                                        </table>
+                                                    
+                                                </div>
+                                            </div>
                                         </asp:Panel>
 
                                         <div style="display: none">
@@ -317,15 +354,26 @@
                                         <div class="span5"></div>
                                         <div class="span2 text-center">
                                             <p>
-                                                <button class="btn-block btn btn-large" runat="server" id="btnOK">ตอบ</button>
+                                                <button class="btn-block btn btn-large btn-green" runat="server" id="btnOK">ตอบ</button>
                                                 <button class="btn-block btn btn-large" runat="server" id="btnSummary" visible="false">ผลสอบ</button>
                                                 <button class="btn-block btn btn-large" runat="server" id="btnTest" visible="false">ผลสอบ test</button>
                                             </p>
                                         </div>
                                         <div class="span5"></div>
                                     </div>
-                                </div>
+
                             </div>
+
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
                         </div>
                         <%--    <div class="span1"></div>--%>
                     </div>

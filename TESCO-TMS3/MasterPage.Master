@@ -126,7 +126,9 @@
     <form id="form1" runat="server">
     <div id="navigation" style="background:#019b79">
         <div class="container-fluid">
-            <img src="Assets/PC/Logo.png" style="width:70px;padding: 10px 10px 10px 10px" />
+            <a href="frmSelectFormat.aspx" style="border:none;">
+                <img src="Assets/PC/Logo.png" style="width:70px;padding: 10px 10px 10px 10px" />
+            </a>
 
             <div class="user">
                 <div class="dropdown">

@@ -31,28 +31,35 @@
 
 <div class="container-fluid nav-hidden" id="content">
     <div class="text-center">
-        <img src="Assets/PC/bgSelectFormatHeader.png" height="250" />
+        <img src="Assets/PC/bgSelectFormatHeader.png" style="height:60px;" />
     </div>
 		<div id="main" style="background:#29363f">
 			<div class="container-fluid"><br />
 				<div class="box-content">
-				      <div class="row-fluid">
-						<div class="span2"></div>
-						<div class="span3">
-                            <div class="box-content" style="text-align: center">
-                                <span class="text-center" style="color: #fff; font-size: 26px;">เลือกฟอร์แมท (Format) ของคุณ</span>
-                                <asp:Label runat="server" ID="lblDropdownListFormat"></asp:Label>
+                    <div class="row-fluid">
+                        <div class="row">
+                            <div class="span5">
+                                <div class="span4"></div>
+                                <div class="span6">
+                                    <div class="box-content" style="text-align: center">
+                                        <span class="text-center" style="color: #fff; font-size: 26px;">เลือกฟอร์แมท (Format) ของคุณ</span>
+                                        <asp:Label runat="server" ID="lblDropdownListFormat"></asp:Label>
+                                    </div>
+                                </div>
                             </div>
-						</div>
-                        
-						<div class="span1"></div>
-						<div class="span4">
-                            <div class="box" style="text-align: center">
-                                <span class="text-center" style="color: #019b79; font-size: 26px;">ความเคลื่อนไหววันนี้...</span>
-                                <asp:Label runat="server" ID="lblNEWS"></asp:Label>
+                            
+                            <div class="span6" >
+                                <div class="span2"></div>
+                                <div class="span8">
+                                    <div class="box" style="text-align: center">
+                                        <span class="text-center" style="color: #019b79; font-size: 26px;">ความเคลื่อนไหววันนี้...</span>
+                                        <asp:Label runat="server" ID="lblNEWS" ></asp:Label>
+                                    </div>
+                                </div>
                             </div>
-						</div>
-				      </div>
+                        </div>
+
+                    </div>
                     <div class="clearfix"></div><br />
                   <div class="row-fluid">
                       <div class="span4"></div>
