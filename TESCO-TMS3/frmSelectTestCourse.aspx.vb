@@ -156,12 +156,12 @@ Public Class frmSelectTestCourse
                                             Case "writing"
 
                                             Case "matching"
-                                                qLnq.MATCHING_LEFTTEXT = question_comment("leftText").ToString
-                                                qLnq.MATCHING_RIGHTTEXT = question_comment("rightText").ToString
+                                                qLnq.MATCHING_LEFTTEXT = question_comment("leftText").ToString.Replace(vbCrLf, "###")
+                                                qLnq.MATCHING_RIGHTTEXT = question_comment("rightText").ToString.Replace(vbCrLf, "###")
                                                 qLnq.MATCHING_CORRECT_ANSWER = question_comment("correct_answer_id_list").ToString.Replace("[", "").Replace("]", "").Trim
                                             Case "picture"
-                                                qLnq.PICTURE_TEXT = question_comment("text").ToString
-                                                qLnq.MATCHING_CORRECT_ANSWER = question_comment("correct_answer_id_list").ToString.Replace("[", "").Replace("]", "").Trim
+                                                qLnq.PICTURE_TEXT = question_comment("text").ToString.ToString.Replace(vbCrLf, "###")
+                                                qLnq.PICTURE_CORRECT_ANSWER = question_comment("correct_answer_id_list").ToString.Replace("[", "").Replace("]", "").Trim
                                         End Select
 
                                         ret = qLnq.InsertData(UserData.UserName, trans.Trans)
