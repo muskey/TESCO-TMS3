@@ -12,7 +12,7 @@ Module TescoModule
     Public FolderCourseDocumentFile As String = TempPath & "\CourseDocumentFile"
 
     Public Function GetWebServiceURL() As String
-        'Return "https://tescolotuslc.com/learningcenterdev/auth/login   " Dev
+        'Return "https://tescolotuslc.com/learningcenterdev/   " Dev
         'Return "http://tescolotuslc.com/learningcenterstaging/"         "Staging"
         'Return "https://tescolotuslc.com/learningcenterpreproduction/"  "ProProduction"
         'Return "https://tescolotuslc.com/learningcenter/                "Produciton"

@@ -96,19 +96,20 @@ Public Class frmDisplayCenter
             inext = inext + 1
         Next
 
-        'Set ClassID to Session
-        Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
-        UserData.GetUserSessionData(UserData.UserSessionID)
-        If UserData.CurrentClassID > 0 Then
-            Session("UserData") = UserData
+        If UserCourseFile.Rows.Count > 0 Then
+            'Set ClassID to Session
+            Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
+            UserData.GetUserSessionData(UserData.UserSessionID)
+            If UserData.CurrentClassID > 0 Then
+                Session("UserData") = UserData
+            End If
+
+
+            Session("UserDataCourse") = UserCourse
+            Session("UserDataCourseFile") = UserCourseFile
+
+            SetIniPage(UserCourseFile.Rows(0))
         End If
-
-
-        Session("UserDataCourse") = UserCourse
-        Session("UserDataCourseFile") = UserCourseFile
-
-        SetIniPage(UserCourseFile.Rows(0))
-
     End Sub
 
     Private Sub SetIniPage(dr As DataRow)

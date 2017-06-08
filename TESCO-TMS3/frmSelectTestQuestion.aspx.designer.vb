@@ -32,13 +32,13 @@ Partial Public Class frmSelectTestQuestion
     Protected WithEvents updatepanel1 As Global.System.Web.UI.UpdatePanel
     
     '''<summary>
-    '''lblTitle control.
+    '''lblTestTitle control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblTitle As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblTestTitle As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
     '''lblQNumber control.
@@ -185,40 +185,40 @@ Partial Public Class frmSelectTestQuestion
     Protected WithEvents pnlQuestionYesNo As Global.System.Web.UI.WebControls.Panel
     
     '''<summary>
-    '''chkQ3AnsA control.
+    '''chkAnsYes control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents chkQ3AnsA As Global.System.Web.UI.WebControls.CheckBox
+    Protected WithEvents chkAnsYes As Global.System.Web.UI.WebControls.CheckBox
     
     '''<summary>
-    '''lblQ3AnsA control.
+    '''lblAnsYes control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblQ3AnsA As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents lblAnsYes As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
-    '''chkQ3AndB control.
+    '''chkAnsNo control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents chkQ3AndB As Global.System.Web.UI.WebControls.CheckBox
+    Protected WithEvents chkAnsNo As Global.System.Web.UI.WebControls.CheckBox
     
     '''<summary>
-    '''lblQ3AnsB control.
+    '''lblAnsNo control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblQ3AnsB As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents lblAnsNo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
     '''pnlQuestionWriting control.
@@ -374,13 +374,13 @@ Partial Public Class frmSelectTestQuestion
     Protected WithEvents lblQDetail2 As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
-    '''btnOK control.
+    '''btnAns control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnOK As Global.System.Web.UI.HtmlControls.HtmlButton
+    Protected WithEvents btnAns As Global.System.Web.UI.HtmlControls.HtmlButton
     
     '''<summary>
     '''btnSummary control.

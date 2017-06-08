@@ -9,8 +9,8 @@
 
     <script>
 
-        function onConfirmTest(value, valuetrue,choice,lastchoice) {
-         
+        function onConfirmTest(value, valuetrue, choice, lastchoice) {
+
             var title = 'เฉลย ข้อ ' + choice;
             var dialogid = $('#<%=txtQuestion_Dialog.ClientID %>').val();
             var msg = '';
@@ -19,7 +19,7 @@
             if (value == 'True') {
                 //title = '';
                 msg += '<font color="#019b79"><h4>คุณตอบถูก<h4></font>'
-               // msg += '<font color="#019b79"><h4>' + valuetrue + '<h4></font>';
+                // msg += '<font color="#019b79"><h4>' + valuetrue + '<h4></font>';
                 bc = 'forestgreen';
                 bt = 'NextButtonClassTrue';
             } else {
@@ -31,8 +31,6 @@
                 bt = 'NextButtonClassFalse';
             }
 
-
-
             var div = $("<div>" + msg + "</div>");
             div.dialog({
                 title: title,
@@ -42,7 +40,7 @@
                                 text: "ต่อไป",
                                 "class": bt,
                                 click: function () {
-                                   
+
                                     $('#<%=lblA.ClientID %>').text($('#<%=lblA2.ClientID %>').text());
                                     $('#<%=lblB.ClientID %>').text($('#<%=lblB2.ClientID %>').text());
                                     $('#<%=lblC.ClientID %>').text($('#<%=lblC2.ClientID %>').text());
@@ -63,100 +61,110 @@
                                         div.dialog("close");
                                         onSummary(dialogid);
                                     }
+                                }
+                            }
+                        ]
+                    }).prev(".ui-dialog-titlebar").css("background", bc);
+                }
 
-                                  
+        function onCheckSelect() {
+
+
+            var div = $("<div>กรุณาเลือกคำตอบ</div>");
+            div.dialog({
+                title: 'เตือน',
+                modal: true,
+                buttons: [
+                            {
+                                text: "ปิด",
+                                "class": 'NextButtonClassTrue',
+                                click: function () {
+                                    div.dialog("close");
 
                                 }
                             }
                 ]
+            }).prev(".ui-dialog-titlebar").css("background", "forestgreen");
+        }
+
+        function onSummary(dialogid) {
+
+            var wWidth = $(window).width();
+            var dWidth = wWidth * 0.65;
+            var wHeight = $(window).height();
+            var dHeight = wHeight * 0.65;
+
+            var bt = '';
+            var bt = ''
+            if (dialogid == 'dialogtrue') {
+                bc = 'forestgreen';
+                bt = 'NextButtonClassTrue';
+            } else {
+                bc = 'red';
+                bt = 'NextButtonClassFalse';
+            }
+
+            var div = $("#" + dialogid);
+            div.dialog({
+                title: 'สรุปผลการทดสอบ',
+                width: dWidth,
+                height: dHeight,
+                modal: true,
+                buttons: [
+                            {
+                                text: "กลับหน้าแรก",
+                                "class": bt,
+                                click: function () {
+                                    div.dialog("close");
+                                    var url = "frmSelectTestCourse.aspx";
+                                    //alert(url);
+                                    window.location = url;
+                                }
+                            }
+                ]
             }).prev(".ui-dialog-titlebar").css("background", bc);
-                    }
-                    function onCheckSelect() {
+        }
 
 
-                        var div = $("<div>กรุณาเลือกคำตอบ</div>");
-                        div.dialog({
-                            title: 'เตือน',
-                            modal: true,
-                            buttons: [
-                                        {
-                                            text: "ปิด",
-                                            "class": 'NextButtonClassTrue',
-                                            click: function () {
-                                                div.dialog("close");
+        function onConfirmCheck(choice) {
+            //alert(choice);
+            $('#<%=txtQuestion_Choice.ClientID %>').val(choice);
 
-                                            }
-                                        }
-                            ]
-                        }).prev(".ui-dialog-titlebar").css("background", "forestgreen");
-                    }
+            if (choice == 0) {
+                $('#<%=ckbA.ClientID %>').attr('checked', true);
+                $('#<%=ckbB.ClientID %>').attr('checked', false);
+                $('#<%=ckbC.ClientID %>').attr('checked', false);
+                $('#<%=ckbD.ClientID %>').attr('checked', false);
+            } else if (choice == 1) {
+                $('#<%=ckbA.ClientID %>').attr('checked', false);
+                $('#<%=ckbB.ClientID %>').attr('checked', true);
+                $('#<%=ckbC.ClientID %>').attr('checked', false);
+                $('#<%=ckbD.ClientID %>').attr('checked', false);
+            } else if (choice == 2) {
+                $('#<%=ckbA.ClientID %>').attr('checked', false);
+                $('#<%=ckbB.ClientID %>').attr('checked', false);
+                $('#<%=ckbC.ClientID %>').attr('checked', true);
+                $('#<%=ckbD.ClientID %>').attr('checked', false);
 
-                    function onSummary(dialogid) {
+            } else if (choice == 3) {
+                $('#<%=ckbA.ClientID %>').attr('checked', false);
+                $('#<%=ckbB.ClientID %>').attr('checked', false);
+                $('#<%=ckbC.ClientID %>').attr('checked', false);
+                $('#<%=ckbD.ClientID %>').attr('checked', true);
+            }
 
-                        var wWidth = $(window).width();
-                        var dWidth = wWidth * 0.65;
-                        var wHeight = $(window).height();
-                        var dHeight = wHeight * 0.65;
+        }
 
-                        var bt = '';
-                        var bt = ''
-                        if (dialogid == 'dialogtrue') {
-                            bc = 'forestgreen';
-                            bt = 'NextButtonClassTrue';
-                        } else {
-                            bc = 'red';
-                            bt = 'NextButtonClassFalse';
-                        }
+        function onConfirmCheckYesNo(choice) {
+            $('#<%=txtQuestion_Choice.ClientID %>').val(choice);
 
-                        var div = $("#" + dialogid);
-                        div.dialog({
-                            title: 'สรุปผลการทดสอบ',
-                            width: dWidth,
-                            height: dHeight,
-                            modal: true,
-                            buttons: [
-                                        {
-                                            text: "กลับหน้าแรก",
-                                            "class": bt,
-                                            click: function () {
-                                                div.dialog("close");
-                                                var url = "frmSelectTestCourse.aspx";
-                                                //alert(url);
-                                                window.location = url;
-                                            }
-                                        }
-                            ]
-                        }).prev(".ui-dialog-titlebar").css("background", bc);
-                    }
-
-
-                    function onConfirmCheck(choice) {
-                        //alert(choice);
-                        $('#<%=txtQuestion_Choice.ClientID %>').val(choice);
-
-                        if (choice == 0) {
-                            $('#<%=ckbA.ClientID %>').attr('checked', true);
-                            $('#<%=ckbB.ClientID %>').attr('checked', false);
-                            $('#<%=ckbC.ClientID %>').attr('checked', false);
-                            $('#<%=ckbD.ClientID %>').attr('checked', false);
-                        } else if (choice == 1) {
-                            $('#<%=ckbA.ClientID %>').attr('checked', false);
-                            $('#<%=ckbB.ClientID %>').attr('checked', true);
-                            $('#<%=ckbC.ClientID %>').attr('checked', false);
-                            $('#<%=ckbD.ClientID %>').attr('checked', false);
-                        } else if (choice == 2) {
-                            $('#<%=ckbA.ClientID %>').attr('checked', false);
-                            $('#<%=ckbB.ClientID %>').attr('checked', false);
-                            $('#<%=ckbC.ClientID %>').attr('checked', true);
-                            $('#<%=ckbD.ClientID %>').attr('checked', false);
-
-                        } else if (choice == 3) {
-                            $('#<%=ckbA.ClientID %>').attr('checked', false);
-                            $('#<%=ckbB.ClientID %>').attr('checked', false);
-                            $('#<%=ckbC.ClientID %>').attr('checked', false);
-                            $('#<%=ckbD.ClientID %>').attr('checked', true);
-                        }
-
+            if (choice == 0) {
+                $('#<%=chkAnsYes.ClientID %>').attr('checked', true);
+                $('#<%=chkAnsNo.ClientID %>').attr('checked', false);
+            } else if (choice == 1) {
+                $('#<%=chkAnsYes.ClientID %>').attr('checked', false);
+                $('#<%=chkAnsNo.ClientID %>').attr('checked', true);
+            }
         }
     </script>
 
@@ -199,7 +207,7 @@
     <asp:UpdatePanel runat="server" ID="updatepanel1">
         <ContentTemplate>
             <div class="breadcrumbs" style="background: #29363f">
-                <asp:Label runat="server" ID="lblTitle" Font-Size="Larger"></asp:Label>
+                <asp:Label runat="server" ID="lblTestTitle" Font-Size="Larger"></asp:Label>
             </div>
 
             <div class="container-fluid" >
@@ -284,12 +292,12 @@
                                                 <div class="span2"></div>
                                                 <div class="span8">
                                                     <div class="check-line">
-                                                        <asp:CheckBox ID="chkQ3AnsA" runat="server" CssClass="mycheckBig"   />
-                                                        <label class='inline' for="ckbA" runat="server" id="lblQ3AnsA" style="width: 100%; font-size: large;color:white;"></label>
+                                                        <asp:CheckBox ID="chkAnsYes" runat="server" CssClass="mycheckBig"   />
+                                                        <label class='inline' for="chkAnsYes" runat="server" id="lblAnsYes" style="width: 100%; font-size: large;color:white;">ใช่</label>
                                                     </div>
                                                     <div class="check-line">
-                                                        <asp:CheckBox ID="chkQ3AndB" runat="server" CssClass="mycheckBig"  />
-                                                        <label class='inline' for="ckbB" runat="server" id="lblQ3AnsB" style="width: 100%; font-size: large;color:white;"></label>
+                                                        <asp:CheckBox ID="chkAnsNo" runat="server" CssClass="mycheckBig"  />
+                                                        <label class='inline' for="chkAnsNo" runat="server" id="lblAnsNo" style="width: 100%; font-size: large;color:white;">ไม่ใช่</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -352,7 +360,7 @@
                                         <div class="span5"></div>
                                         <div class="span2 text-center">
                                             <p>
-                                                <button class="btn-block btn btn-large btn-green" runat="server" id="btnOK">ตอบ</button>
+                                                <button class="btn-block btn btn-large btn-green" runat="server" id="btnAns">ตอบ</button>
                                                 <button class="btn-block btn btn-large" runat="server" id="btnSummary" visible="false">ผลสอบ</button>
                                                 <button class="btn-block btn btn-large" runat="server" id="btnTest" visible="false">ผลสอบ test</button>
                                             </p>

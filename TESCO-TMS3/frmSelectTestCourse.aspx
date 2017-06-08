@@ -95,7 +95,7 @@
                         <div class="span2"></div>
                         <div class="span3">
                             <div class="box-content">
-                                <font color="#fff"><h4 class="text-center">กรุณาเลือกบททดสอบ</h4></font>
+                                <span style="color:#fff"><h4 class="text-center">กรุณาเลือกบททดสอบ</h4></span>
                                 <a href="#modal-1" data-toggle="modal"></a>
                                 <asp:Label runat="server" ID="lblBotton"></asp:Label>
                             </div>
@@ -107,9 +107,9 @@
                                 <span class="text-center" style="color:#019b79;font-size:32px;" >สถิติเบื้องต้นของคุณ</span>
                                 <div style="width: 100%; height: 340px;">
                                     <div class="box-content" style="background: #29363f;text-align:left;">
-                                        <font color="#fff">
+                                        <span style="color:#fff">
                                             <asp:Label runat="server" ID="lblNEWS"></asp:Label>
-								        </font>
+								        </span>
                                     </div>
                                 </div>
                             </div>

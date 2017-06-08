@@ -31,19 +31,23 @@ Public Class frmSelectTestQuestion
             dt.DefaultView.RowFilter = "id=" & test_id
 
             If dt.DefaultView.Count > 0 Then
-                Me.lblTitle.Text = "<h3>&nbsp>&nbsp<a href=""frmSelectTestCourse.aspx""><font color=""#019b79"">" + dt.DefaultView(0)("test_title").ToString + "&nbsp&nbsp</font></a></h3>"
-                Me.ckbA.Attributes.Add("onclick", "onConfirmCheck(0)")
-                Me.ckbB.Attributes.Add("onclick", "onConfirmCheck(1)")
-                Me.ckbC.Attributes.Add("onclick", "onConfirmCheck(2)")
-                Me.ckbD.Attributes.Add("onclick", "onConfirmCheck(3)")
+                Me.lblTestTitle.Text = "<h3>&nbsp>&nbsp<a href=""frmSelectTestCourse.aspx""><font color=""#019b79"">" + dt.DefaultView(0)("test_title").ToString + "&nbsp&nbsp</font></a></h3>"
 
-                SetStartTest1()
+                SetStartTest()
 
                 Dim qDt As DataTable = GetTestQuestion(test_id, 1)
                 Select Case qDt.Rows(0)("question_type")
                     Case "abcd"
+                        Me.ckbA.Attributes.Item("onclick") = "onConfirmCheck(0)"
+                        Me.ckbB.Attributes.Item("onclick") = "onConfirmCheck(1)"
+                        Me.ckbC.Attributes.Item("onclick") = "onConfirmCheck(2)"
+                        Me.ckbD.Attributes.Item("onclick") = "onConfirmCheck(3)"
+
                         SetTestQuestionABCD(1, qDt)
                     Case "yes/no"
+                        Me.chkAnsYes.Attributes.Add("onclick", "onConfirmCheckYesNo(0)")
+                        Me.chkAnsNo.Attributes.Add("onclick", "onConfirmCheckYesNo(1)")
+
                         SetTestQuestionYESNO(1, qDt)
                     Case "matching"
                         SetTestQuestionMatching(1, qDt)
@@ -57,8 +61,7 @@ Public Class frmSelectTestQuestion
         End If
     End Sub
 
-#Region "Test Question 1"
-    Private Sub SetStartTest1()
+    Private Sub SetStartTest()
         Dim dt As DataTable = GetTesting(UserData.UserSessionID)
         dt.DefaultView.RowFilter = "id='" & test_id & "'"
         If dt.DefaultView.Count > 0 Then
@@ -81,6 +84,9 @@ Public Class frmSelectTestQuestion
             trans.RollbackTransaction()
         End If
     End Sub
+
+#Region "Test Question 1"
+
 
     Private Sub SetTestQuestionABCD(no As Integer, dt As DataTable)
         Try
@@ -268,9 +274,6 @@ Public Class frmSelectTestQuestion
                 lblD2.InnerText = tmpChoice2(3)
             End If
         End If
-
-        lblQ3AnsA.InnerText = "ใช่"
-        lblQ3AnsB.InnerText = "ไม่ใช่"
     End Sub
 #End Region
 
@@ -349,57 +352,83 @@ Public Class frmSelectTestQuestion
         lblQuestion.Text = e.Item.DataItem("question_title")
     End Sub
 #End Region
-    Private Sub btnOK_Click(sender As Object, e As EventArgs) Handles btnOK.ServerClick
-        If ckbA.Checked = False And ckbB.Checked = False And ckbC.Checked = False And ckbD.Checked = False Then
-            ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "onCheckSelect();", True)
-            Exit Sub
+    Private Sub btnAns_Click(sender As Object, e As EventArgs) Handles btnAns.ServerClick
+        If pnlQuestionABCD.Visible = True Then
+            If ckbA.Checked = False And ckbB.Checked = False And ckbC.Checked = False And ckbD.Checked = False Then
+                ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "onCheckSelect();", True)
+                Exit Sub
+            End If
+        ElseIf pnlQuestionYesNo.Visible = True Then
+            If chkAnsYes.Checked = False And chkAnsNo.Checked = False Then
+                ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "onCheckSelect();", True)
+                Exit Sub
+            End If
         End If
 
-        If Me.txtQuestion_no.Text <> "" Then
 
+
+        If Me.txtQuestion_no.Text <> "" Then
             Dim dt As DataTable = GetTestQuestion(test_id, txtQuestion_no.Text)
             If dt.Rows.Count > 0 Then
                 Dim ret As Boolean = False
                 Dim retTrue As String = ""
-                Dim retId As String = ""
+                Dim retId As String = dt.Rows(0)("id")
                 Dim retChoice As Integer = 0
-                Dim tmpAnswer() As String = Split(dt.Rows(0)("answer"), "##")
-                Dim tmpChoice() As String = Split(dt.Rows(0)("choice"), "##")
-                retId = dt.Rows(0)("id")
-                If tmpAnswer.Length = 4 And tmpChoice.Length = 4 Then
+
+                If pnlQuestionABCD.Visible = True Then
+                    Dim tmpAnswer() As String = Split(dt.Rows(0)("answer"), "##")
+                    Dim tmpChoice() As String = Split(dt.Rows(0)("choice"), "##")
+                    If tmpAnswer.Length = 4 And tmpChoice.Length = 4 Then
+                        If Me.txtQuestion_Choice.Text = 0 Then
+                            retChoice = 0
+                            If tmpAnswer(0) = "True" Then
+                                ret = True
+                            End If
+                        ElseIf Me.txtQuestion_Choice.Text = 1 Then
+                            retChoice = 1
+                            If tmpAnswer(1) = "True" Then
+                                ret = True
+                            End If
+                        ElseIf Me.txtQuestion_Choice.Text = 2 Then
+                            retChoice = 2
+                            If tmpAnswer(2) = "True" Then
+                                ret = True
+                            End If
+                        ElseIf Me.txtQuestion_Choice.Text = 3 Then
+                            retChoice = 3
+                            If tmpAnswer(3) = "True" Then
+                                ret = True
+                            End If
+                        End If
+
+                        If tmpAnswer(0) = "True" Then
+                            retTrue = tmpChoice(0)
+                        ElseIf tmpAnswer(1) = "True" Then
+                            retTrue = tmpChoice(1)
+                        ElseIf tmpAnswer(2) = "True" Then
+                            retTrue = tmpChoice(2)
+                        ElseIf tmpAnswer(3) = "True" Then
+                            retTrue = tmpChoice(3)
+                        End If
+                    End If
+                ElseIf pnlQuestionYesNo.Visible = True Then
                     If Me.txtQuestion_Choice.Text = 0 Then
                         retChoice = 0
-                        If tmpAnswer(0) = "True" Then
+                        If dt.Rows(0)("yesno_correct_answer") = 1 Then
                             ret = True
                         End If
                     ElseIf Me.txtQuestion_Choice.Text = 1 Then
                         retChoice = 1
-                        If tmpAnswer(1) = "True" Then
+                        If dt.Rows(0)("yesno_correct_answer") = 2 Then
                             ret = True
                         End If
-                    ElseIf Me.txtQuestion_Choice.Text = 2 Then
-                        retChoice = 2
-                        If tmpAnswer(2) = "True" Then
-                            ret = True
-                        End If
-                    ElseIf Me.txtQuestion_Choice.Text = 3 Then
-                        retChoice = 3
-                        If tmpAnswer(3) = "True" Then
-                            ret = True
-                        End If
-                    End If
-
-                    If tmpAnswer(0) = "True" Then
-                        retTrue = tmpChoice(0)
-                    ElseIf tmpAnswer(1) = "True" Then
-                        retTrue = tmpChoice(1)
-                    ElseIf tmpAnswer(2) = "True" Then
-                        retTrue = tmpChoice(2)
-                    ElseIf tmpAnswer(3) = "True" Then
-                        retTrue = tmpChoice(3)
                     End If
                 End If
 
+
+
+
+                'เก็บคำตอบที่เลือกลง DB
                 Dim StartTime As DateTime = Session("teststarttime")
 
                 Dim aLnq As New TbTestingAnswerLinqDB
@@ -416,12 +445,11 @@ Public Class frmSelectTestQuestion
                     trans.RollbackTransaction()
                 End If
 
+                'แสดงผลข้อถัดไป
                 Me.txtQuestion_no.Text = Val(Me.txtQuestion_no.Text) + 1
                 Dim lastchoice As Integer = 0
                 If Val(Me.txtQuestion_no.Text) <= Val(Me.txtQuestion_Count.Text) Then
                     Dim qDt As DataTable = GetTestQuestion(test_id, txtQuestion_no.Text)
-                    'SetTestQuestionABCD(Val(Me.txtQuestion_no.Text), qDt)
-
                     pnlQuestionABCD.Visible = False
                     pnlQuestionMatching.Visible = False
                     pnlQuestionYesNo.Visible = False
@@ -440,11 +468,10 @@ Public Class frmSelectTestQuestion
                         Case "picture"
                             SetTestQuestionPicture(Val(Me.txtQuestion_no.Text), qDt)
                     End Select
-
                 Else
                     Sumnary()
                     SetTestQuestionBefor1(Val(Me.txtQuestion_Count.Text))
-                    btnOK.Visible = False
+                    btnAns.Visible = False
                     btnSummary.Visible = True
                     lastchoice = 1
                 End If
