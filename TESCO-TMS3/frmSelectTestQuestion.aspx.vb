@@ -34,31 +34,17 @@ Public Class frmSelectTestQuestion
                 Me.lblTestTitle.Text = "<h3>&nbsp>&nbsp<a href=""frmSelectTestCourse.aspx""><font color=""#019b79"">" + dt.DefaultView(0)("test_title").ToString + "&nbsp&nbsp</font></a></h3>"
 
                 SetStartTest()
-
-                Dim qDt As DataTable = GetTestQuestion(test_id, 1)
-                Select Case qDt.Rows(0)("question_type")
-                    Case "abcd"
-                        Me.ckbA.Attributes.Item("onclick") = "onConfirmCheck(0)"
-                        Me.ckbB.Attributes.Item("onclick") = "onConfirmCheck(1)"
-                        Me.ckbC.Attributes.Item("onclick") = "onConfirmCheck(2)"
-                        Me.ckbD.Attributes.Item("onclick") = "onConfirmCheck(3)"
-
-                        SetTestQuestionABCD(1, qDt)
-                    Case "yes/no"
-                        Me.chkAnsYes.Attributes.Add("onclick", "onConfirmCheckYesNo(0)")
-                        Me.chkAnsNo.Attributes.Add("onclick", "onConfirmCheckYesNo(1)")
-
-                        SetTestQuestionYESNO(1, qDt)
-                    Case "matching"
-                        SetTestQuestionMatching(1, qDt)
-                    Case "writing"
-                        SetTestQuestionWriting(1, qDt)
-                    Case "picture"
-                        SetTestQuestionPicture(1, qDt)
-                End Select
             End If
             dt.DefaultView.RowFilter = ""
         End If
+
+        Me.ckbA.Attributes.Item("onclick") = "onConfirmCheck(0)"
+        Me.ckbB.Attributes.Item("onclick") = "onConfirmCheck(1)"
+        Me.ckbC.Attributes.Item("onclick") = "onConfirmCheck(2)"
+        Me.ckbD.Attributes.Item("onclick") = "onConfirmCheck(3)"
+
+        Me.chkAnsYes.Attributes.Item("onclick") = "onConfirmCheckYesNo(0)"
+        Me.chkAnsNo.Attributes.Item("onclick") = "onConfirmCheckYesNo(1)"
     End Sub
 
     Private Sub SetStartTest()
@@ -83,11 +69,23 @@ Public Class frmSelectTestQuestion
         Else
             trans.RollbackTransaction()
         End If
+
+        Dim qDt As DataTable = GetTestQuestion(test_id, 1)
+        Select Case qDt.Rows(0)("question_type")
+            Case "abcd"
+                SetTestQuestionABCD(1, qDt)
+            Case "yes/no"
+                SetTestQuestionYESNO(1, qDt)
+            Case "matching"
+                SetTestQuestionMatching(1, qDt)
+            Case "writing"
+                SetTestQuestionWriting(1, qDt)
+            Case "picture"
+                SetTestQuestionPicture(1, qDt)
+        End Select
     End Sub
 
-#Region "Test Question 1"
-
-
+#Region "Test Question ABCD"
     Private Sub SetTestQuestionABCD(no As Integer, dt As DataTable)
         Try
             Me.txtQuestion_no.Text = no.ToString
@@ -193,8 +191,7 @@ Public Class frmSelectTestQuestion
     End Sub
 #End Region
 
-#Region "Test Question 2"
-
+#Region "Test Question Maching"
     Private Sub SetTestQuestionMatching(no As Integer, qDt As DataTable)
         pnlQuestionMatching.Visible = True
         Me.txtQuestion_no.Text = no.ToString
@@ -247,7 +244,7 @@ Public Class frmSelectTestQuestion
     End Sub
 #End Region
 
-#Region "Test Question 3"
+#Region "Test Question YesNo"
     Private Sub SetTestQuestionYESNO(no As Integer, dt As DataTable)
         pnlQuestionYesNo.Visible = True
         Me.txtQuestion_no.Text = no.ToString
@@ -277,7 +274,7 @@ Public Class frmSelectTestQuestion
     End Sub
 #End Region
 
-#Region "Test Question 4"
+#Region "Test Question Writing"
     Private Sub SetTestQuestionWriting(no As Integer, qDt As DataTable)
         pnlQuestionWriting.Visible = True
         Me.txtQuestion_no.Text = no.ToString
@@ -304,8 +301,7 @@ Public Class frmSelectTestQuestion
     End Sub
 #End Region
 
-#Region "Test Question 5"
-
+#Region "Test Question Picture"
     Private Sub SetTestQuestionPicture(no As Integer, qDt As DataTable)
         pnlQuestionPicture.Visible = True
         Me.txtQuestion_no.Text = no.ToString
@@ -363,9 +359,11 @@ Public Class frmSelectTestQuestion
                 ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "onCheckSelect();", True)
                 Exit Sub
             End If
+        ElseIf pnlQuestionMatching.Visible = True Then
+        ElseIf pnlQuestionPicture.Visible = True Then
+        ElseIf pnlQuestionWriting.Visible = True Then
+
         End If
-
-
 
         If Me.txtQuestion_no.Text <> "" Then
             Dim dt As DataTable = GetTestQuestion(test_id, txtQuestion_no.Text)
@@ -375,55 +373,62 @@ Public Class frmSelectTestQuestion
                 Dim retId As String = dt.Rows(0)("id")
                 Dim retChoice As Integer = 0
 
-                If pnlQuestionABCD.Visible = True Then
-                    Dim tmpAnswer() As String = Split(dt.Rows(0)("answer"), "##")
-                    Dim tmpChoice() As String = Split(dt.Rows(0)("choice"), "##")
-                    If tmpAnswer.Length = 4 And tmpChoice.Length = 4 Then
+                Select Case dt.Rows(0)("question_type").ToString.ToLower
+                    Case "abcd"
+                        Dim tmpAnswer() As String = Split(dt.Rows(0)("answer"), "##")
+                        Dim tmpChoice() As String = Split(dt.Rows(0)("choice"), "##")
+                        If tmpAnswer.Length = 4 And tmpChoice.Length = 4 Then
+                            If Me.txtQuestion_Choice.Text = 0 Then
+                                retChoice = 0
+                                If tmpAnswer(0) = "True" Then
+                                    ret = True
+                                End If
+                            ElseIf Me.txtQuestion_Choice.Text = 1 Then
+                                retChoice = 1
+                                If tmpAnswer(1) = "True" Then
+                                    ret = True
+                                End If
+                            ElseIf Me.txtQuestion_Choice.Text = 2 Then
+                                retChoice = 2
+                                If tmpAnswer(2) = "True" Then
+                                    ret = True
+                                End If
+                            ElseIf Me.txtQuestion_Choice.Text = 3 Then
+                                retChoice = 3
+                                If tmpAnswer(3) = "True" Then
+                                    ret = True
+                                End If
+                            End If
+
+                            If tmpAnswer(0) = "True" Then
+                                retTrue = tmpChoice(0)
+                            ElseIf tmpAnswer(1) = "True" Then
+                                retTrue = tmpChoice(1)
+                            ElseIf tmpAnswer(2) = "True" Then
+                                retTrue = tmpChoice(2)
+                            ElseIf tmpAnswer(3) = "True" Then
+                                retTrue = tmpChoice(3)
+                            End If
+                        End If
+                    Case "yes/no"
                         If Me.txtQuestion_Choice.Text = 0 Then
                             retChoice = 0
-                            If tmpAnswer(0) = "True" Then
+                            If dt.Rows(0)("yesno_correct_answer") = 1 Then
                                 ret = True
                             End If
                         ElseIf Me.txtQuestion_Choice.Text = 1 Then
                             retChoice = 1
-                            If tmpAnswer(1) = "True" Then
-                                ret = True
-                            End If
-                        ElseIf Me.txtQuestion_Choice.Text = 2 Then
-                            retChoice = 2
-                            If tmpAnswer(2) = "True" Then
-                                ret = True
-                            End If
-                        ElseIf Me.txtQuestion_Choice.Text = 3 Then
-                            retChoice = 3
-                            If tmpAnswer(3) = "True" Then
+                            If dt.Rows(0)("yesno_correct_answer") = 2 Then
                                 ret = True
                             End If
                         End If
+                    Case "matching"
+                    Case "writing"
+                    Case "picture"
 
-                        If tmpAnswer(0) = "True" Then
-                            retTrue = tmpChoice(0)
-                        ElseIf tmpAnswer(1) = "True" Then
-                            retTrue = tmpChoice(1)
-                        ElseIf tmpAnswer(2) = "True" Then
-                            retTrue = tmpChoice(2)
-                        ElseIf tmpAnswer(3) = "True" Then
-                            retTrue = tmpChoice(3)
-                        End If
-                    End If
-                ElseIf pnlQuestionYesNo.Visible = True Then
-                    If Me.txtQuestion_Choice.Text = 0 Then
-                        retChoice = 0
-                        If dt.Rows(0)("yesno_correct_answer") = 1 Then
-                            ret = True
-                        End If
-                    ElseIf Me.txtQuestion_Choice.Text = 1 Then
-                        retChoice = 1
-                        If dt.Rows(0)("yesno_correct_answer") = 2 Then
-                            ret = True
-                        End If
-                    End If
-                End If
+                End Select
+
+
 
 
 
@@ -456,7 +461,7 @@ Public Class frmSelectTestQuestion
                     pnlQuestionWriting.Visible = False
                     pnlQuestionPicture.Visible = False
 
-                    Select Case qDt.Rows(0)("question_type")
+                    Select Case qDt.Rows(0)("question_type").ToString.ToLower
                         Case "abcd"
                             SetTestQuestionABCD(Val(Me.txtQuestion_no.Text), qDt)
                         Case "yes/no"

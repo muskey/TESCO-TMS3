@@ -207,6 +207,14 @@ Module TescoModule
         Dim dt As DataTable = lnq.GetDataList("tb_testing_id=@_TESTING_ID ", "", Nothing, p)
         Return dt
     End Function
+
+    Public Enum QuestionType
+        ABCD = 1
+        YesNo = 2
+        Writing = 3
+        Matching = 4
+        Picture = 5
+    End Enum
 #End Region
 #Region "File"
     Public Function GetURLFileExtension(URLFile As String) As String
