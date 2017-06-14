@@ -26,9 +26,11 @@
                                                         <asp:Repeater ID="rptQuestionPicture" runat="server">
                                                             <ItemTemplate>
                                                                 <tr>
-                                                                    <td style="width:20%">
+                                                                    <td style="width:10%; text-align:center;">
                                                                         <asp:Label ID="No" runat="server" style="font-size: large;color:white;" ></asp:Label>
-                                                                        <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control" Width="80%" ></asp:TextBox>
+                                                                        </td>
+                                                                    <td style="width:20%; text-align:left;">
+                                                                        <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control" Width="80%"></asp:TextBox>
                                                                     </td>
                                                                     <td style="width:5px"></td>
                                                                     <td style="width:70%">
