@@ -4,6 +4,7 @@
 <%@ Register Src="~/UCQuestion/UCMaching.ascx" TagPrefix="uc2" TagName="UCMaching" %>
 <%@ Register Src="~/UCQuestion/UCPicture.ascx" TagPrefix="uc3" TagName="UCPicture" %>
 <%@ Register Src="~/UCQuestion/UCyesno.ascx" TagPrefix="uc4" TagName="UCyesno" %>
+<%@ Register Src="~/UCQuestion/UCWriting.ascx" TagPrefix="uc5" TagName="UCWriting" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -59,10 +60,11 @@
                 <div class="span12">
                     <div class="box box-bordered box-color">
 
-                        <uc1:WebUserControl1 runat="server" ID="WebUserControl1" />
-                        <uc2:UCMaching runat="server" ID="UCMaching" />
-                        <uc3:UCPicture runat="server" ID="UCPicture" />
-                        <uc4:UCyesno runat="server" ID="UCyesno" />
+                        <uc1:WebUserControl1 runat="server" ID="WebUserControl1" Visible="false" />
+                        <uc2:UCMaching runat="server" ID="UCMaching" Visible="false" />
+                        <uc3:UCPicture runat="server" ID="UCPicture" Visible="false"/>
+                        <uc4:UCyesno runat="server" ID="UCyesno" Visible="false"/>
+                        <uc5:UCWriting runat="server" ID="UCWriting" Visible="false" />
                     </div>
 
                     <br />

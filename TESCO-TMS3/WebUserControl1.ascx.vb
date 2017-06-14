@@ -14,6 +14,8 @@ Public Class WebUserControl1
         Dim dt_col As String = test_id
         Try
             Me.txtQuestion_no.Text = question_no.ToString
+            Dim tbc As DataTable = GetTestQuestion(dt.Rows(0)("tb_testing_id"))
+            txtQuestion_Count.Text = tbc.Rows.Count
             pnlQuestionABCD.Visible = True
             Dim str As String = ""
             If question_no = 1 Then

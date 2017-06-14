@@ -18,11 +18,8 @@
    
     <asp:Panel ID="pnlQuestionYesNo" runat="server" CssClass="tab-pane active" Visible="true">
         <div class="row">
-            <div class="span2"></div>            
-            <div class="span2">
-                <img src="Assets/PC/noimagefound.jpg" height="200" width="200" runat="server" id="imgQ" />
-            </div>
-            <div class="span8">
+            <div class="span2"></div>    
+            <div class="span10">
                 <div class="check-line">
                     <asp:CheckBox ID="chkAnsYes" runat="server" CssClass="mycheckBig" />
                     <label class='inline' for="chkAnsYes" runat="server" id="lblAnsYes" style="width: 100%; font-size: large; color: white;">ใช่</label>
@@ -56,8 +53,8 @@
     <div class="span2 text-center">
         <p>
             <button class="btn-block btn btn-large btn-green" runat="server" id="btnAns">ตอบ</button>
-            <button class="btn-block btn btn-large" runat="server" id="btnSummary" visible="true">ผลสอบ</button>
-            <button class="btn-block btn btn-large" runat="server" id="btnTest" visible="true">ผลสอบ test</button>
+            <button class="btn-block btn btn-large" runat="server" id="btnSummary" visible="false">ผลสอบ</button>
+            <button class="btn-block btn btn-large" runat="server" id="btnTest" visible="false">ผลสอบ test</button>
         </p>
     </div>
     <div class="span5"></div>

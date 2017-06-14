@@ -41,15 +41,6 @@ Partial Public Class UCyesno
     Protected WithEvents pnlQuestionYesNo As Global.System.Web.UI.WebControls.Panel
     
     '''<summary>
-    '''imgQ control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents imgQ As Global.System.Web.UI.HtmlControls.HtmlImage
-    
-    '''<summary>
     '''chkAnsYes control.
     '''</summary>
     '''<remarks>

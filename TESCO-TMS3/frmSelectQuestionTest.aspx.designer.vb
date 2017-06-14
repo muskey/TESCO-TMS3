@@ -59,6 +59,15 @@ Partial Public Class frmSelectQuestionTest
     Protected WithEvents UCyesno As Global.TESCO_TMS3.UCyesno
     
     '''<summary>
+    '''UCWriting control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents UCWriting As Global.TESCO_TMS3.UCWriting
+    
+    '''<summary>
     '''txtQuestion_no control.
     '''</summary>
     '''<remarks>

@@ -56,14 +56,43 @@ Public Class frmSelectQuestionTest
                 Case "abcd"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.WebUserControl1.setCol_rpt(test_id, question_number, qDt)
+                    WebUserControl1.Visible = True
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "yes/no"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCyesno.SetTestQuestionYESNO(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = True
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "matching"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCMaching.SetTestQuestionMatching(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = True
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "writing"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCWriting.SetTestQuestionWriting(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = True
+                    UCPicture.Visible = False
                 Case "picture"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCPicture.SetTestQuestionPicture(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = True
             End Select
         End If
     End Sub
@@ -79,14 +108,43 @@ Public Class frmSelectQuestionTest
                 Case "abcd"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.WebUserControl1.setCol_rpt(test_id, question_number, qDt)
+                    WebUserControl1.Visible = True
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "yes/no"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCyesno.SetTestQuestionYESNO(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = True
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "matching"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCMaching.SetTestQuestionMatching(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = True
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "writing"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCWriting.SetTestQuestionWriting(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = True
+                    UCPicture.Visible = False
                 Case "picture"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCPicture.SetTestQuestionPicture(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = True
             End Select
         End If
     End Sub
@@ -102,14 +160,43 @@ Public Class frmSelectQuestionTest
                 Case "abcd"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.WebUserControl1.setCol_rpt(test_id, question_number, qDt)
+                    WebUserControl1.Visible = True
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "yes/no"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCyesno.SetTestQuestionYESNO(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = True
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "matching"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCMaching.SetTestQuestionMatching(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = True
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "writing"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCWriting.SetTestQuestionWriting(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = True
+                    UCPicture.Visible = False
                 Case "picture"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCPicture.SetTestQuestionPicture(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = True
             End Select
         End If
     End Sub
@@ -125,14 +212,43 @@ Public Class frmSelectQuestionTest
                 Case "abcd"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.WebUserControl1.setCol_rpt(test_id, question_number, qDt)
+                    WebUserControl1.Visible = True
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "yes/no"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCyesno.SetTestQuestionYESNO(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = True
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "matching"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCMaching.SetTestQuestionMatching(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = True
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "writing"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCWriting.SetTestQuestionWriting(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = True
+                    UCPicture.Visible = False
                 Case "picture"
-
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCPicture.SetTestQuestionPicture(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = True
             End Select
         End If
     End Sub
@@ -148,14 +264,95 @@ Public Class frmSelectQuestionTest
                 Case "abcd"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.WebUserControl1.setCol_rpt(test_id, question_number, qDt)
+                    WebUserControl1.Visible = True
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "yes/no"
-                    'SetTestQuestionYESNO(Val(Me.txtQuestion_no.Text), qDt)
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCyesno.SetTestQuestionYESNO(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = True
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "matching"
-                    'SetTestQuestionMatching(Val(Me.txtQuestion_no.Text), qDt)
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCMaching.SetTestQuestionMatching(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = True
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
                 Case "writing"
-                    'SetTestQuestionWriting(Val(Me.txtQuestion_no.Text), qDt)
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCWriting.SetTestQuestionWriting(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = True
+                    UCPicture.Visible = False
                 Case "picture"
-                    'SetTestQuestionPicture(Val(Me.txtQuestion_no.Text), qDt)
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCPicture.SetTestQuestionPicture(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = True
+            End Select
+        End If
+    End Sub
+
+    Private Sub UCyesno_btnAnsWritingclick(sender As Object, question_no As Double) Handles UCWriting.btnAnswritingclick
+
+        Dim lastchoice As Integer = 0
+        Dim qDt As DataTable = GetTestQuestion(test_id, question_no + 1)
+
+        If qDt.Rows.Count > 0 Then
+
+            Select Case qDt.Rows(0)("question_type").ToString.ToLower
+                Case "abcd"
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.WebUserControl1.setCol_rpt(test_id, question_number, qDt)
+                    WebUserControl1.Visible = True
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
+                Case "yes/no"
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCyesno.SetTestQuestionYESNO(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = True
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
+                Case "matching"
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCMaching.SetTestQuestionMatching(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = True
+                    UCWriting.Visible = False
+                    UCPicture.Visible = False
+                Case "writing"
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCWriting.SetTestQuestionWriting(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = True
+                    UCPicture.Visible = False
+                Case "picture"
+                    Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
+                    Me.UCPicture.SetTestQuestionPicture(test_id, question_number, qDt)
+                    WebUserControl1.Visible = False
+                    UCyesno.Visible = False
+                    UCMaching.Visible = False
+                    UCWriting.Visible = False
+                    UCPicture.Visible = True
             End Select
         End If
     End Sub

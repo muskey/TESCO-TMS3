@@ -64,8 +64,8 @@
     <div class="span2 text-center">
         <p>
             <button class="btn-block btn btn-large btn-green" runat="server" id="btnAns">ตอบ</button>
-            <button class="btn-block btn btn-large" runat="server" id="btnSummary" visible="true">ผลสอบ</button>
-            <button class="btn-block btn btn-large" runat="server" id="btnTest" visible="true">ผลสอบ test</button>
+            <button class="btn-block btn btn-large" runat="server" id="btnSummary" visible="false">ผลสอบ</button>
+            <button class="btn-block btn btn-large" runat="server" id="btnTest" visible="false">ผลสอบ test</button>
         </p>
     </div>
     <div class="span5"></div>

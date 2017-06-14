@@ -2095,6 +2095,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="UCQuestion\UCMaching.ascx" />
     <Content Include="UCQuestion\UCPicture.ascx" />
+    <Content Include="UCQuestion\UCWriting.ascx" />
     <Content Include="UCQuestion\UCyesno.ascx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="MasterPageIFRAME.Master" />
@@ -2595,6 +2596,13 @@
     </Compile>
     <Compile Include="UCQuestion\UCPicture.ascx.vb">
       <DependentUpon>UCPicture.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UCQuestion\UCWriting.ascx.designer.vb">
+      <DependentUpon>UCWriting.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UCQuestion\UCWriting.ascx.vb">
+      <DependentUpon>UCWriting.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UCQuestion\UCyesno.ascx.designer.vb">

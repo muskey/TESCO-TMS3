@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class UCMaching
+Partial Public Class UCWriting
     
     '''<summary>
     '''lblQNumber control.
@@ -32,13 +32,13 @@ Partial Public Class UCMaching
     Protected WithEvents lblQDetail As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
-    '''pnlQuestionMatching control.
+    '''pnlQuestionWriting control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents pnlQuestionMatching As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents pnlQuestionWriting As Global.System.Web.UI.WebControls.Panel
     
     '''<summary>
     '''img1 control.
@@ -50,22 +50,13 @@ Partial Public Class UCMaching
     Protected WithEvents img1 As Global.System.Web.UI.HtmlControls.HtmlImage
     
     '''<summary>
-    '''rptQuestionMatching control.
+    '''txtAnsQuestion4 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents rptQuestionMatching As Global.System.Web.UI.WebControls.Repeater
-    
-    '''<summary>
-    '''rptAnswerMatching control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents rptAnswerMatching As Global.System.Web.UI.WebControls.Repeater
+    Protected WithEvents txtAnsQuestion4 As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtQuestion_no control.

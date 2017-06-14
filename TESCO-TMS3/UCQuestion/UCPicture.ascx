@@ -27,10 +27,12 @@
                                                             <ItemTemplate>
                                                                 <tr>
                                                                     <td style="width:20%">
-                                                                        <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control" ></asp:TextBox>
+                                                                        <asp:Label ID="No" runat="server" style="font-size: large;color:white;" ></asp:Label>
+                                                                        <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control" Width="80%" ></asp:TextBox>
                                                                     </td>
                                                                     <td style="width:5px"></td>
                                                                     <td style="width:70%">
+                                                                        <asp:Label ID="abc" runat="server" style="font-size: large;color:white;" ></asp:Label>
                                                                         <asp:Label ID="lblQuestion" runat="server" style="font-size: large;color:white;" ></asp:Label>
                                                                     </td>
                                                                 </tr>
@@ -62,8 +64,8 @@
     <div class="span2 text-center">
         <p>
             <button class="btn-block btn btn-large btn-green" runat="server" id="btnAns">ตอบ</button>
-            <button class="btn-block btn btn-large" runat="server" id="btnSummary" visible="true">ผลสอบ</button>
-            <button class="btn-block btn btn-large" runat="server" id="btnTest" visible="true">ผลสอบ test</button>
+            <button class="btn-block btn btn-large" runat="server" id="btnSummary" visible="false">ผลสอบ</button>
+            <button class="btn-block btn btn-large" runat="server" id="btnTest" visible="false">ผลสอบ test</button>
         </p>
     </div>
     <div class="span5"></div>

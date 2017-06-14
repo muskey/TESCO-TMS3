@@ -1,4 +1,4 @@
-﻿<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="UCMaching.ascx.vb" Inherits="TESCO_TMS3.UCMaching" %>
+﻿<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="UCWriting.ascx.vb" Inherits="TESCO_TMS3.UCWriting" %>
 <div class="tab-content padding tab-content-inline tab-content-bottom">
     <div class="row">
         <div class="span2">
@@ -15,38 +15,20 @@
     <div class="row">
         <div class="span12"></div>
     </div>
-    <asp:Panel ID="pnlQuestionMatching" runat="server" CssClass="tab-pane active" Visible="true">
-        <div class="row">
+    <asp:Panel ID="pnlQuestionWriting" runat="server" CssClass="tab-pane active" Visible="false">
+                <div class="row">
             <div class="span2"></div>
             <div class="span10">
                 <img src="Assets/PC/noimagefound.jpg" style="width: 100%; height: 200px; margin-bottom: 20px" runat="server" id="img1" />
             </div>
         </div>
-
         <div class="row">
-            <div class="span2"></div>                            
-            <div class="span5">
-                <asp:Repeater ID="rptQuestionMatching" runat="server">
-                    <ItemTemplate>
-                        <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control" Width="15px"></asp:TextBox>
-                    <asp:Label ID="abc" runat="server" Style="font-size: large; color: white;"></asp:Label>
-                        <asp:Label ID="lblQuestion" runat="server" Style="font-size: large; color: white;"></asp:Label><br/>
-                    </ItemTemplate>
-                </asp:Repeater>
+            <div class="span2"></div>
+            <div class="span8">
+                <asp:TextBox ID="txtAnsQuestion4" runat="server" TextMode="MultiLine" Rows="5"></asp:TextBox>
             </div>
-
-
-        <div class="span4">
-            <asp:Repeater ID="rptAnswerMatching" runat="server">
-                <ItemTemplate>
-                    <asp:Label ID="No" runat="server" Style="font-size: large; color: white;"></asp:Label>
-                    <asp:Label ID="lblAnswer" runat="server" Style="font-size: large; color: white;"></asp:Label> <br/>
-                </ItemTemplate>
-            </asp:Repeater>
+            <div class="span2"></div>
         </div>
-        <div class="span1"></div>
-        </div>
-
     </asp:Panel>
     <div style="display: none">
         <asp:TextBox ID="txtQuestion_no" runat="server"></asp:TextBox>
