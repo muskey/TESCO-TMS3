@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/MasterPage.Master" CodeBehind="frmSelectQuestionTest.aspx.vb" Inherits="TESCO_TMS3.frmSelectQuestionTest" %>
 
-<%@ Register Src="~/WebUserControl1.ascx" TagPrefix="uc1" TagName="WebUserControl1" %>
+<%@ Register Src="~/WebUserControl1.ascx" TagPrefix="uc1" TagName="UCabcd" %>
 <%@ Register Src="~/UCQuestion/UCMaching.ascx" TagPrefix="uc2" TagName="UCMaching" %>
 <%@ Register Src="~/UCQuestion/UCPicture.ascx" TagPrefix="uc3" TagName="UCPicture" %>
 <%@ Register Src="~/UCQuestion/UCyesno.ascx" TagPrefix="uc4" TagName="UCyesno" %>
@@ -8,7 +8,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <title>FLAT - Tiles</title>
+    <title></title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
     <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/start/jquery-ui.css"
@@ -60,7 +60,7 @@
                 <div class="span12">
                     <div class="box box-bordered box-color">
 
-                        <uc1:WebUserControl1 runat="server" ID="WebUserControl1" Visible="false" />
+                        <uc1:UCabcd runat="server" ID="UCabcd1" Visible="false" />
                         <uc2:UCMaching runat="server" ID="UCMaching" Visible="false" />
                         <uc3:UCPicture runat="server" ID="UCPicture" Visible="false"/>
                         <uc4:UCyesno runat="server" ID="UCyesno" Visible="false"/>

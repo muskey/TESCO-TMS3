@@ -55,8 +55,8 @@ Public Class frmSelectQuestionTest
             Select Case qDt.Rows(0)("question_type").ToString.ToLower
                 Case "abcd"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
-                    Me.WebUserControl1.setCol_rpt(test_id, question_number, qDt)
-                    WebUserControl1.Visible = True
+                    Me.UCabcd1.setCol_rpt(test_id, question_number, qDt)
+                    UCabcd1.Visible = True
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -64,7 +64,7 @@ Public Class frmSelectQuestionTest
                 Case "yes/no"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCyesno.SetTestQuestionYESNO(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = True
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -72,7 +72,7 @@ Public Class frmSelectQuestionTest
                 Case "matching"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCMaching.SetTestQuestionMatching(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = True
                     UCWriting.Visible = False
@@ -80,7 +80,7 @@ Public Class frmSelectQuestionTest
                 Case "writing"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCWriting.SetTestQuestionWriting(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = True
@@ -88,7 +88,7 @@ Public Class frmSelectQuestionTest
                 Case "picture"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCPicture.SetTestQuestionPicture(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -97,7 +97,7 @@ Public Class frmSelectQuestionTest
         End If
     End Sub
 
-    Private Sub WebUserControl1_btnAnsABCDclick(sender As Object, question_no As Double) Handles WebUserControl1.btnAnsABCDclick
+    Private Sub WebUserControl1_btnAnsABCDclick(sender As Object, question_no As Double) Handles UCabcd1.btnAnsABCDclick
 
         Dim lastchoice As Integer = 0
         Dim qDt As DataTable = GetTestQuestion(test_id, question_no + 1)
@@ -107,8 +107,8 @@ Public Class frmSelectQuestionTest
             Select Case qDt.Rows(0)("question_type").ToString.ToLower
                 Case "abcd"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
-                    Me.WebUserControl1.setCol_rpt(test_id, question_number, qDt)
-                    WebUserControl1.Visible = True
+                    Me.UCabcd1.setCol_rpt(test_id, question_number, qDt)
+                    UCabcd1.Visible = True
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -116,7 +116,7 @@ Public Class frmSelectQuestionTest
                 Case "yes/no"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCyesno.SetTestQuestionYESNO(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = True
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -124,7 +124,7 @@ Public Class frmSelectQuestionTest
                 Case "matching"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCMaching.SetTestQuestionMatching(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = True
                     UCWriting.Visible = False
@@ -132,7 +132,7 @@ Public Class frmSelectQuestionTest
                 Case "writing"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCWriting.SetTestQuestionWriting(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = True
@@ -140,7 +140,7 @@ Public Class frmSelectQuestionTest
                 Case "picture"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCPicture.SetTestQuestionPicture(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -159,8 +159,8 @@ Public Class frmSelectQuestionTest
             Select Case qDt.Rows(0)("question_type").ToString.ToLower
                 Case "abcd"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
-                    Me.WebUserControl1.setCol_rpt(test_id, question_number, qDt)
-                    WebUserControl1.Visible = True
+                    Me.UCabcd1.setCol_rpt(test_id, question_number, qDt)
+                    UCabcd1.Visible = True
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -168,7 +168,7 @@ Public Class frmSelectQuestionTest
                 Case "yes/no"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCyesno.SetTestQuestionYESNO(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = True
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -176,7 +176,7 @@ Public Class frmSelectQuestionTest
                 Case "matching"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCMaching.SetTestQuestionMatching(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = True
                     UCWriting.Visible = False
@@ -184,7 +184,7 @@ Public Class frmSelectQuestionTest
                 Case "writing"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCWriting.SetTestQuestionWriting(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = True
@@ -192,7 +192,7 @@ Public Class frmSelectQuestionTest
                 Case "picture"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCPicture.SetTestQuestionPicture(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -211,8 +211,8 @@ Public Class frmSelectQuestionTest
             Select Case qDt.Rows(0)("question_type").ToString.ToLower
                 Case "abcd"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
-                    Me.WebUserControl1.setCol_rpt(test_id, question_number, qDt)
-                    WebUserControl1.Visible = True
+                    Me.UCabcd1.setCol_rpt(test_id, question_number, qDt)
+                    UCabcd1.Visible = True
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -220,7 +220,7 @@ Public Class frmSelectQuestionTest
                 Case "yes/no"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCyesno.SetTestQuestionYESNO(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = True
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -228,7 +228,7 @@ Public Class frmSelectQuestionTest
                 Case "matching"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCMaching.SetTestQuestionMatching(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = True
                     UCWriting.Visible = False
@@ -236,7 +236,7 @@ Public Class frmSelectQuestionTest
                 Case "writing"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCWriting.SetTestQuestionWriting(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = True
@@ -244,7 +244,7 @@ Public Class frmSelectQuestionTest
                 Case "picture"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCPicture.SetTestQuestionPicture(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -263,8 +263,8 @@ Public Class frmSelectQuestionTest
             Select Case qDt.Rows(0)("question_type").ToString.ToLower
                 Case "abcd"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
-                    Me.WebUserControl1.setCol_rpt(test_id, question_number, qDt)
-                    WebUserControl1.Visible = True
+                    Me.UCabcd1.setCol_rpt(test_id, question_number, qDt)
+                    UCabcd1.Visible = True
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -272,7 +272,7 @@ Public Class frmSelectQuestionTest
                 Case "yes/no"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCyesno.SetTestQuestionYESNO(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = True
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -280,7 +280,7 @@ Public Class frmSelectQuestionTest
                 Case "matching"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCMaching.SetTestQuestionMatching(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = True
                     UCWriting.Visible = False
@@ -288,7 +288,7 @@ Public Class frmSelectQuestionTest
                 Case "writing"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCWriting.SetTestQuestionWriting(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = True
@@ -296,7 +296,7 @@ Public Class frmSelectQuestionTest
                 Case "picture"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCPicture.SetTestQuestionPicture(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -315,8 +315,8 @@ Public Class frmSelectQuestionTest
             Select Case qDt.Rows(0)("question_type").ToString.ToLower
                 Case "abcd"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
-                    Me.WebUserControl1.setCol_rpt(test_id, question_number, qDt)
-                    WebUserControl1.Visible = True
+                    Me.UCabcd1.setCol_rpt(test_id, question_number, qDt)
+                    UCabcd1.Visible = True
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -324,7 +324,7 @@ Public Class frmSelectQuestionTest
                 Case "yes/no"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCyesno.SetTestQuestionYESNO(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = True
                     UCMaching.Visible = False
                     UCWriting.Visible = False
@@ -332,7 +332,7 @@ Public Class frmSelectQuestionTest
                 Case "matching"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCMaching.SetTestQuestionMatching(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = True
                     UCWriting.Visible = False
@@ -340,7 +340,7 @@ Public Class frmSelectQuestionTest
                 Case "writing"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCWriting.SetTestQuestionWriting(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = True
@@ -348,7 +348,7 @@ Public Class frmSelectQuestionTest
                 Case "picture"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
                     Me.UCPicture.SetTestQuestionPicture(test_id, question_number, qDt)
-                    WebUserControl1.Visible = False
+                    UCabcd1.Visible = False
                     UCyesno.Visible = False
                     UCMaching.Visible = False
                     UCWriting.Visible = False

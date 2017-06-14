@@ -50,15 +50,6 @@ Partial Public Class UCMaching
     Protected WithEvents img1 As Global.System.Web.UI.HtmlControls.HtmlImage
     
     '''<summary>
-    '''rptQuestionMatching control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents rptQuestionMatching As Global.System.Web.UI.WebControls.Repeater
-    
-    '''<summary>
     '''rptAnswerMatching control.
     '''</summary>
     '''<remarks>
@@ -66,6 +57,15 @@ Partial Public Class UCMaching
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents rptAnswerMatching As Global.System.Web.UI.WebControls.Repeater
+    
+    '''<summary>
+    '''rptQuestionMatching control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rptQuestionMatching As Global.System.Web.UI.WebControls.Repeater
     
     '''<summary>
     '''txtQuestion_no control.

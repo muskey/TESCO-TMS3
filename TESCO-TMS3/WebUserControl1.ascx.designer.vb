@@ -140,94 +140,22 @@ Partial Public Class WebUserControl1
     Protected WithEvents txtQuestion_Count As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''txtCourse_id control.
+    '''txtCorrectChoice control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtCourse_id As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtCorrectChoice As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''txtQuestion_Dialog control.
+    '''txtCorrectAnswer control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtQuestion_Dialog As Global.System.Web.UI.WebControls.TextBox
-    
-    '''<summary>
-    '''txtQuestion_Choice control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtQuestion_Choice As Global.System.Web.UI.WebControls.TextBox
-    
-    '''<summary>
-    '''lblA2 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblA2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
-    '''<summary>
-    '''lblB2 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblB2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
-    '''<summary>
-    '''lblC2 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblC2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
-    '''<summary>
-    '''lblD2 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblD2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
-    '''<summary>
-    '''lblImage2 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblImage2 As Global.System.Web.UI.WebControls.Label
-    
-    '''<summary>
-    '''lblQNumber2 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblQNumber2 As Global.System.Web.UI.WebControls.Label
-    
-    '''<summary>
-    '''lblQDetail2 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblQDetail2 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents txtCorrectAnswer As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''btnAns control.
@@ -255,4 +183,58 @@ Partial Public Class WebUserControl1
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnTest As Global.System.Web.UI.HtmlControls.HtmlButton
+    
+    '''<summary>
+    '''pnlAnsResult control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlAnsResult As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''divHeader control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents divHeader As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''btnCloseDialog control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCloseDialog As Global.System.Web.UI.WebControls.LinkButton
+    
+    '''<summary>
+    '''lblDialogHead control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblDialogHead As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''litAnsDetail control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents litAnsDetail As Global.System.Web.UI.WebControls.Literal
+    
+    '''<summary>
+    '''btnNext control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnNext As Global.System.Web.UI.WebControls.LinkButton
 End Class

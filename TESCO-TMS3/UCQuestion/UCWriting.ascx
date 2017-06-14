@@ -18,7 +18,7 @@
     <asp:Panel ID="pnlQuestionWriting" runat="server" CssClass="tab-pane active" Visible="false">
                 <div class="row">
             <div class="span2"></div>
-            <div class="span10">
+            <div class="span8">
                 <img src="Assets/PC/noimagefound.jpg" style="width: 100%; height: 200px; margin-bottom: 20px" runat="server" id="img1" />
             </div>
         </div>

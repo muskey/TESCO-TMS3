@@ -23,13 +23,13 @@ Partial Public Class frmSelectQuestionTest
     Protected WithEvents lblTestTitle As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
-    '''WebUserControl1 control.
+    '''UCabcd1 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents WebUserControl1 As Global.TESCO_TMS3.WebUserControl1
+    Protected WithEvents UCabcd1 As Global.TESCO_TMS3.WebUserControl1
     
     '''<summary>
     '''UCMaching control.

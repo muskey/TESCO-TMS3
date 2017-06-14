@@ -16,34 +16,34 @@
         <div class="span12"></div>
     </div>
  <asp:Panel ID="pnlQuestionPicture" runat="server" CssClass="tab-pane active" Visible="true">
-                                            <div class="row">
-                                                <div class="span2"></div>
-                                                <div class="span3">
-                                                    <img src="Assets/PC/noimagefound.jpg" style="width:100%;height:200px;margin-bottom:20px" runat="server" id="img2" />
-                                                </div>
-                                                <div class="span7">
-                                                    <table >
-                                                        <asp:Repeater ID="rptQuestionPicture" runat="server">
-                                                            <ItemTemplate>
-                                                                <tr>
-                                                                    <td style="width:10%; text-align:center;">
-                                                                        <asp:Label ID="No" runat="server" style="font-size: large;color:white;" ></asp:Label>
-                                                                        </td>
-                                                                    <td style="width:20%; text-align:left;">
-                                                                        <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control" Width="80%"></asp:TextBox>
-                                                                    </td>
-                                                                    <td style="width:5px"></td>
-                                                                    <td style="width:70%">
-                                                                        <asp:Label ID="abc" runat="server" style="font-size: large;color:white;" ></asp:Label>
-                                                                        <asp:Label ID="lblQuestion" runat="server" style="font-size: large;color:white;" ></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                            </ItemTemplate>
-                                                        </asp:Repeater>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </asp:Panel>
+     <div class="row">
+         <div class="span2"></div>
+         <div class="span3">
+             <img src="Assets/PC/noimagefound.jpg" style="width: 100%; height: 200px; margin-bottom: 20px" runat="server" id="img2" />
+         </div>
+         <div class="span7">
+             <table>
+                 <asp:Repeater ID="rptQuestionPicture" runat="server">
+                     <ItemTemplate>
+                         <tr>
+                             <td style="width: 10%; text-align: center;">
+                                 <asp:Label ID="No" runat="server" Style="font-size: large; color: white;"></asp:Label>
+                             </td>
+                             <td style="width: 20%; text-align: left;">
+                                 <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control" Width="80%"></asp:TextBox>
+                             </td>
+                             <td style="width: 5px"></td>
+                             <td style="width: 70%">
+                                 <asp:Label ID="abc" runat="server" Style="font-size: large; color: white;"></asp:Label>
+                                 <asp:Label ID="lblQuestion" runat="server" Style="font-size: large; color: white;"></asp:Label>
+                             </td>
+                         </tr>
+                     </ItemTemplate>
+                 </asp:Repeater>
+             </table>
+         </div>
+     </div>
+ </asp:Panel>
     <div style="display: none">
         <asp:TextBox ID="txtQuestion_no" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtQuestion_Count" runat="server"></asp:TextBox>
