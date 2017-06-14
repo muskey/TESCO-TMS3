@@ -72,4 +72,8 @@ Public Class UCyesno
     Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
         RaiseEvent btnAnsYESNOclick(sender, txtQuestion_no.Text)
     End Sub
+
+    Private Sub btnCloseDialog_Click(sender As Object, e As EventArgs) Handles btnCloseDialog.Click
+        pnlAnsResult.Visible = False
+    End Sub
 End Class
