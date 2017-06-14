@@ -105,12 +105,12 @@ Public Class frmSelectTestCourse
                                         Dim qLnq As New TbTestingQuestionLinqDB
                                         qLnq.TB_TESTING_ID = lnq.ID
                                         qLnq.TEST_ID = lnq.TEST_ID
-                                        qLnq.QUIZ_ID = question_comment("quiz_id").ToString
-                                        If question_comment("title") IsNot Nothing Then qLnq.QUESTION_TITLE = question_comment("title").ToString
+                                        'qLnq.QUIZ_ID = question_comment("quiz_id").ToString
+                                        If question_comment("description") IsNot Nothing Then qLnq.QUESTION_TITLE = question_comment("description").ToString
                                         qLnq.ICON_URL = question_comment("cover").ToString
                                         qLnq.QUESTION_NO = question_qty
                                         qLnq.WEIGHT = question_comment("weight").ToString
-                                        qLnq.STATUS = question_comment("status").ToString
+                                        'qLnq.STATUS = question_comment("status").ToString
                                         qLnq.QUESTION_TYPE = question_comment("type").ToString
 
                                         Select Case question_comment("type").ToString.ToLower

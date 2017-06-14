@@ -2086,12 +2086,16 @@
     <Content Include="frmSelectDepartment.aspx" />
     <Content Include="frmSelectFormat.aspx" />
     <Content Include="frmSelectFunction.aspx" />
+    <Content Include="frmSelectQuestionTest.aspx" />
     <Content Include="frmSelectTestQuestion.aspx" />
     <Content Include="frmSelectTestCourse.aspx" />
     <Content Include="frmTestingCourse.aspx" />
     <Content Include="HtmlPage1.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="UCQuestion\UCMaching.ascx" />
+    <Content Include="UCQuestion\UCPicture.ascx" />
+    <Content Include="UCQuestion\UCyesno.ascx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="MasterPageIFRAME.Master" />
     <Content Include="WebForm2.aspx" />
@@ -2117,6 +2121,7 @@
     <Content Include="Assets\font\kit46p-webfont.woff" />
     <Content Include="Assets\font\kit46p-webfont.woff2" />
     <Content Include="Assets\font\webfontkit.zip" />
+    <Content Include="WebUserControl1.ascx" />
     <None Include="My Project\PublishProfiles\TESCO-TMS3.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -2509,6 +2514,13 @@
       <DependentUpon>frmSelectFunction.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="frmSelectQuestionTest.aspx.designer.vb">
+      <DependentUpon>frmSelectQuestionTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectQuestionTest.aspx.vb">
+      <DependentUpon>frmSelectQuestionTest.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="frmSelectTestQuestion.aspx.designer.vb">
       <DependentUpon>frmSelectTestQuestion.aspx</DependentUpon>
     </Compile>
@@ -2571,6 +2583,27 @@
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="TescoModule.vb" />
+    <Compile Include="UCQuestion\UCMaching.ascx.designer.vb">
+      <DependentUpon>UCMaching.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UCQuestion\UCMaching.ascx.vb">
+      <DependentUpon>UCMaching.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UCQuestion\UCPicture.ascx.designer.vb">
+      <DependentUpon>UCPicture.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UCQuestion\UCPicture.ascx.vb">
+      <DependentUpon>UCPicture.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UCQuestion\UCyesno.ascx.designer.vb">
+      <DependentUpon>UCyesno.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UCQuestion\UCyesno.ascx.vb">
+      <DependentUpon>UCyesno.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="UserProfileData.vb" />
     <Compile Include="WebForm1.aspx.designer.vb">
       <DependentUpon>WebForm1.aspx</DependentUpon>
@@ -2589,6 +2622,13 @@
     <Compile Include="WebService\WebService.asmx.vb">
       <DependentUpon>WebService.asmx</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebUserControl1.ascx.designer.vb">
+      <DependentUpon>WebUserControl1.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="WebUserControl1.ascx.vb">
+      <DependentUpon>WebUserControl1.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
