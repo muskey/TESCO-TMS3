@@ -31,19 +31,10 @@
         </div>
     </asp:Panel>
     <div style="display: none">
+        <asp:TextBox ID="txtTestID" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtQuestion_no" runat="server"></asp:TextBox>
-        <asp:TextBox ID="txtQuestion_Count" runat="server"></asp:TextBox>
-        <asp:TextBox ID="txtCourse_id" runat="server"></asp:TextBox>
-        <asp:TextBox ID="txtQuestion_Dialog" runat="server"></asp:TextBox>
-        <asp:TextBox ID="txtQuestion_Choice" runat="server"></asp:TextBox>
-        <label class='inline' for="lblA2" runat="server" id="lblA2"></label>
-        <label class='inline' for="lblB2" runat="server" id="lblB2"></label>
-        <label class='inline' for="lblC2" runat="server" id="lblC2"></label>
-        <label class='inline' for="lblD2" runat="server" id="lblD2"></label>
         <asp:Label ID="lblImage2" runat="server"></asp:Label>
-        <asp:Label ID="lblQNumber2" runat="server"></asp:Label>
-        <asp:Label ID="lblQDetail2" runat="server"></asp:Label>
-
+        <asp:TextBox ID="txtShowAnswer" runat="server"  ></asp:TextBox>
     </div>
 </div>
 <div class="clearfix"></div>

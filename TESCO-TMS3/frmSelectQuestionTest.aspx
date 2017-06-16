@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/MasterPage.Master" CodeBehind="frmSelectQuestionTest.aspx.vb" Inherits="TESCO_TMS3.frmSelectQuestionTest" %>
 
-<%@ Register Src="~/WebUserControl1.ascx" TagPrefix="uc1" TagName="UCabcd" %>
+<%@ Register Src="~/UCQuestion/UCTestABCD.ascx" TagPrefix="uc1" TagName="UCabcd" %>
 <%@ Register Src="~/UCQuestion/UCMaching.ascx" TagPrefix="uc2" TagName="UCMaching" %>
 <%@ Register Src="~/UCQuestion/UCPicture.ascx" TagPrefix="uc3" TagName="UCPicture" %>
 <%@ Register Src="~/UCQuestion/UCyesno.ascx" TagPrefix="uc4" TagName="UCyesno" %>
@@ -47,6 +47,8 @@
             height: 10px;
         }
     </style>
+
+    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 
@@ -93,4 +95,6 @@
         </div>
     </div>
     <asp:TextBox ID="txtQuestion_no" runat="server" Visible="false"></asp:TextBox>
+    <asp:Label ID="lblIsShowAnswer" runat="server" Visible="false"></asp:Label>
+    <asp:Label ID="lblQuestionQty" runat="server" Visible="false"></asp:Label>
 </asp:Content>

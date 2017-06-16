@@ -5,41 +5,23 @@ Public Class UCyesno
 
     Inherits System.Web.UI.UserControl
 
-    Public Event btnAnsYESNOclick(sender As Object, question_no As String)
+    '    Public Event btnAnsYESNOclick(sender As Object, question_no As String)
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-
+        Me.chkAnsYes.Attributes.Item("onclick") = "onConfirmCheck(0)"
+        Me.chkAnsNo.Attributes.Item("onclick") = "onConfirmCheck(1)"
     End Sub
 
-    Public Sub SetTestQuestionYESNO(no As Integer, question_number As Double, dt As DataTable)
+    Public Sub SetTestQuestionYESNO(test_id As Integer, question_no As Integer, QuestionQty As Integer, ShowAnswer As String)
+        txtTestID.Text = test_id
+        txtShowAnswer.Text = ShowAnswer
         pnlQuestionYesNo.Visible = True
-        Me.txtQuestion_no.Text = question_number.ToString
-        Dim tbc As DataTable = GetTestQuestion(dt.Rows(0)("tb_testing_id"))
-        txtQuestion_Count.Text = tbc.Rows.Count
-        Me.lblQNumber.Text = "ข้อ " + question_number.ToString + "/" + Me.txtQuestion_Count.Text
-            Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
-        'If dt.Rows(0)("icon_url") & "" <> "" Then
-        '    lblImage2.Text = dt.Rows(0)("icon_url") & ""
-        'Else
-        'End If
-        'Dim tmpAnswer2() As String = Split(dt.Rows(0)("answer"), "##")
-        'Dim tmpChoice2() As String = Split(dt.Rows(0)("choice"), "##")
-        'If tmpChoice2.Length = 2 And tmpAnswer2.Length = 2 Then
-        '    lblAnsYes.InnerText = tmpChoice2(0)
-        '    lblAnsNo.InnerText = tmpChoice2(1)
-
-        '    Dim i As Integer = 0
-        '    For Each ans As String In tmpAnswer2
-        '        If ans.ToLower = "true" Then
-
-        '            i += 1
-        '        End If
-        '    Next
-        'End If
+        Me.txtQuestion_no.Text = question_no
+        Dim dt As DataTable = GetTestQuestion(test_id)
+        Me.lblQNumber.Text = "ข้อ " + question_no.ToString + "/" + QuestionQty.ToString
+        Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
 
         txtCorrectAnswer.Text = dt.Rows(0)("yesno_correct_answer")
         txtCorrectChoice.Text = IIf(dt.Rows(0)("yesno_correct_answer") = 1, "ใช่", "ไม่ใช่")
-
-
     End Sub
 
     Private Sub btnAns_ServerClick(sender As Object, e As EventArgs) Handles btnAns.ServerClick
@@ -70,7 +52,8 @@ Public Class UCyesno
     End Sub
 
     Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
-        RaiseEvent btnAnsYESNOclick(sender, txtQuestion_no.Text)
+        'RaiseEvent btnAnsYESNOclick(sender, txtQuestion_no.Text)
+        Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
     End Sub
 
     Private Sub btnCloseDialog_Click(sender As Object, e As EventArgs) Handles btnCloseDialog.Click

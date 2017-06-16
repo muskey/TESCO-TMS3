@@ -26,6 +26,15 @@
         <div class="row">
             <div class="span2"></div>
             <div class="span4">
+                <asp:Repeater ID="rptQuestionMatching" runat="server">
+                    <ItemTemplate>
+                        <asp:Label ID="abc" runat="server" Style="font-size: large; color: white;"></asp:Label>
+                        <asp:Label ID="lblQuestion" runat="server" Style="font-size: large; color: white;"></asp:Label><br />
+                    </ItemTemplate>
+                </asp:Repeater>
+            </div>
+
+            <div class="span4">
                 <asp:Repeater ID="rptAnswerMatching" runat="server">
                     <ItemTemplate>
                         <asp:TextBox ID="txtAnswer" runat="server" CssClass="form-control" Width="30px"></asp:TextBox>
@@ -34,34 +43,17 @@
                         <br />
                     </ItemTemplate>
                 </asp:Repeater>
-            </div>
-
-            <div class="span4">
-                <asp:Repeater ID="rptQuestionMatching" runat="server">
-                    <ItemTemplate>
-                        <asp:Label ID="abc" runat="server" Style="font-size: large; color: white;"></asp:Label>
-                        <asp:Label ID="lblQuestion" runat="server" Style="font-size: large; color: white;"></asp:Label><br />
-                    </ItemTemplate>
-                </asp:Repeater>
+                
             </div>
             <div class="span1"></div>
         </div>
 
     </asp:Panel>
     <div style="display: none">
+        <asp:TextBox ID="txtTestID" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtQuestion_no" runat="server"></asp:TextBox>
-        <asp:TextBox ID="txtQuestion_Count" runat="server"></asp:TextBox>
-        <asp:TextBox ID="txtCourse_id" runat="server"></asp:TextBox>
-        <asp:TextBox ID="txtQuestion_Dialog" runat="server"></asp:TextBox>
-        <asp:TextBox ID="txtQuestion_Choice" runat="server"></asp:TextBox>
-        <label class='inline' for="lblA2" runat="server" id="lblA2"></label>
-        <label class='inline' for="lblB2" runat="server" id="lblB2"></label>
-        <label class='inline' for="lblC2" runat="server" id="lblC2"></label>
-        <label class='inline' for="lblD2" runat="server" id="lblD2"></label>
         <asp:Label ID="lblImage2" runat="server"></asp:Label>
-        <asp:Label ID="lblQNumber2" runat="server"></asp:Label>
-        <asp:Label ID="lblQDetail2" runat="server"></asp:Label>
-
+        <asp:TextBox ID="txtShowAnswer" runat="server"  ></asp:TextBox>
     </div>
 </div>
 <div class="clearfix"></div>
@@ -76,3 +68,22 @@
     </div>
     <div class="span5"></div>
 </div>
+
+<asp:Panel ID="pnlAnsResult" runat="server" CssClass="modal hide in" tabindex="-1" aria-hidden="false" style="display:block;" Visible="false" >
+    <div class="modal-dialog modal-center">
+        <div class="modal-content">
+	        <div class="modal-header" style="background: #019b79" id="divHeader" runat="server">
+                <asp:LinkButton ID="btnCloseDialog" runat="server" CssClass="close" data-dismiss="modal" aria-hidden="true">
+                    x
+                </asp:LinkButton>
+		        <h3 class="text-center"><asp:Label ID="lblDialogHead" runat="server" ForeColor="White"></asp:Label></h3>
+	        </div>
+	        <div class="modal-body text-center">
+                <asp:Literal ID="litAnsDetail" runat="server"></asp:Literal>
+                <asp:LinkButton ID="btnNext" runat="server" CssClass="btn btn-green" data-dismiss="modal">
+                    ต่อไป
+                </asp:LinkButton>
+            </div>
+        </div>
+    </div>
+</asp:Panel>

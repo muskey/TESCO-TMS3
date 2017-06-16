@@ -39,7 +39,7 @@
                                 click: function () {
                                     div.dialog("close");
 
-                                    var url = "frmSelectQuestionTest.aspx?id=" + id;
+                                    var url = "frmSelectQuestionTest.aspx?id=" + id + "&q_id=1";
                                     //alert(url);
                                     window.location = url;
                                     // onDelete(id);

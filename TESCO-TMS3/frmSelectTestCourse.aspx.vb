@@ -88,6 +88,8 @@ Public Class frmSelectTestCourse
                             lnq.COURSE_ID = Convert.ToInt32(comment("course_id"))
                             lnq.TB_USER_SESSION_ID = UserData.UserSessionID
                             lnq.QUESTION_QTY = 0
+                            lnq.IS_RANDOM_QUESTION = IIf(Convert.ToBoolean(comment("is_random_question")) = True, "Y", "N")
+                            lnq.IS_SHOW_ANSWER = IIf(Convert.ToBoolean(comment("is_show_answer")) = True, "Y", "N")
 
                             ret = lnq.InsertData(UserData.UserName, trans.Trans)
                             If ret.IsSuccess = True Then
@@ -99,17 +101,17 @@ Public Class frmSelectTestCourse
                                     For Each question_comment As JObject In question_item.Values
                                         Try
                                             question_qty = question_qty + 1
-
                                             question_item.CreateReader()
 
                                             Dim qLnq As New TbTestingQuestionLinqDB
                                             qLnq.TB_TESTING_ID = lnq.ID
                                             qLnq.TEST_ID = lnq.TEST_ID
-                                            If question_comment("description") IsNot Nothing Then qLnq.QUESTION_TITLE = question_comment("description").ToString
                                             qLnq.ICON_URL = question_comment("cover").ToString
                                             qLnq.QUESTION_NO = question_qty
+                                            If question_comment("description") IsNot Nothing Then qLnq.QUESTION_TITLE = question_comment("description").ToString
                                             qLnq.WEIGHT = question_comment("weight").ToString
                                             qLnq.QUESTION_TYPE = question_comment("type").ToString
+                                            qLnq.IS_RANDOM_ANSWER = IIf(Convert.ToBoolean(comment("is_random_answer")) = True, "Y", "N")
 
                                             Select Case question_comment("type").ToString.ToLower
                                                 Case "abcd"
@@ -119,32 +121,84 @@ Public Class frmSelectTestCourse
                                                     Dim answer_txt As String = "{""answer"":" & question_comment("answer").ToString & "}"
                                                     Dim answer_ser As JObject = JObject.Parse(answer_txt)
                                                     Dim answer_data As List(Of JToken) = answer_ser.Children().ToList
-                                                    For Each answer_item As JProperty In answer_data
-                                                        Dim PreAlphabet As Integer = Asc("ก")
 
-                                                        For Each answer_comment As JObject In answer_item.Values
-                                                            answer_item.CreateReader()
+                                                    If qLnq.IS_RANDOM_ANSWER = "Y" Then
+                                                        'สุ่มคำตอบ
+                                                        For Each answer_item As JProperty In answer_data
+                                                            Dim PreAlphabet As Integer = Asc("ก")
+                                                            Dim aDt As New DataTable
+                                                            aDt.Columns.Add("choice")
+                                                            aDt.Columns.Add("answer")
 
-                                                            If vChoice = "" Then
-                                                                vChoice = Chr(PreAlphabet) & ". " & answer_comment("text").ToString
-                                                            Else
-                                                                vChoice += "##" & Chr(PreAlphabet) & ". " & answer_comment("text").ToString
-                                                            End If
+                                                            For Each answer_comment As JObject In answer_item.Values
+                                                                answer_item.CreateReader()
 
-                                                            If vAnswer = "" Then
-                                                                vAnswer = answer_comment("is_correct").ToString
-                                                            Else
-                                                                vAnswer += "##" + answer_comment("is_correct").ToString
-                                                            End If
+                                                                Dim aDr As DataRow = aDt.NewRow
+                                                                aDr("choice") = Chr(PreAlphabet) & ". " & answer_comment("text").ToString
+                                                                aDr("answer") = answer_comment("is_correct").ToString
+                                                                aDt.Rows.Add(aDr)
 
-                                                            PreAlphabet += 1
-                                                            If PreAlphabet = 163 Then   '163=ตัว ฃ ขวด
                                                                 PreAlphabet += 1
-                                                            ElseIf PreAlphabet = 165 Then  ' 165= ฅ คน
-                                                                PreAlphabet += 2
-                                                            End If
+                                                                If PreAlphabet = 163 Then   '163=ตัว ฃ ขวด
+                                                                    PreAlphabet += 1
+                                                                ElseIf PreAlphabet = 165 Then  ' 165= ฅ คน
+                                                                    PreAlphabet += 2
+                                                                End If
+                                                            Next
+
+                                                            'สุ่มคำตอบ
+                                                            aDt.Columns.Add("RandNum", GetType(Integer))
+                                                            Dim i As Integer
+                                                            Dim rndNum As New Random()
+                                                            For i = 0 To aDt.Rows.Count - 1
+                                                                aDt.Rows(i)("RandNum") = rndNum.Next(10000)
+                                                            Next i
+
+                                                            aDt.DefaultView.Sort = "RanNum"
+                                                            aDt = aDt.DefaultView.ToTable
+
+                                                            For Each aDr As DataRow In aDt.Rows
+                                                                If vChoice = "" Then
+                                                                    vChoice = aDr("choice").ToString
+                                                                Else
+                                                                    vChoice += "##" & aDr("choice").ToString
+                                                                End If
+
+                                                                If vAnswer = "" Then
+                                                                    vAnswer = aDr("answer").ToString
+                                                                Else
+                                                                    vAnswer += "##" + aDr("answer").ToString
+                                                                End If
+                                                            Next
                                                         Next
-                                                    Next
+                                                    Else
+                                                        For Each answer_item As JProperty In answer_data
+                                                            Dim PreAlphabet As Integer = Asc("ก")
+
+                                                            For Each answer_comment As JObject In answer_item.Values
+                                                                answer_item.CreateReader()
+
+                                                                If vChoice = "" Then
+                                                                    vChoice = Chr(PreAlphabet) & ". " & answer_comment("text").ToString
+                                                                Else
+                                                                    vChoice += "##" & Chr(PreAlphabet) & ". " & answer_comment("text").ToString
+                                                                End If
+
+                                                                If vAnswer = "" Then
+                                                                    vAnswer = answer_comment("is_correct").ToString
+                                                                Else
+                                                                    vAnswer += "##" + answer_comment("is_correct").ToString
+                                                                End If
+
+                                                                PreAlphabet += 1
+                                                                If PreAlphabet = 163 Then   '163=ตัว ฃ ขวด
+                                                                    PreAlphabet += 1
+                                                                ElseIf PreAlphabet = 165 Then  ' 165= ฅ คน
+                                                                    PreAlphabet += 2
+                                                                End If
+                                                            Next
+                                                        Next
+                                                    End If
 
                                                     qLnq.CHOICE = vChoice
                                                     qLnq.ANSWER = vAnswer
@@ -184,7 +238,56 @@ Public Class frmSelectTestCourse
                                 'จำนวนคำถามในแบบทดสอบ
                                 lnq.QUESTION_QTY = question_qty
                                 ret = lnq.UpdateData(UserData.UserName, trans.Trans)
-                                If ret.IsSuccess = False Then
+                                If ret.IsSuccess = True Then
+                                    'กรณีกำหนดให้มีการสุ่มคำถาม
+                                    If lnq.IS_RANDOM_QUESTION = "Y" Then
+                                        Dim dt As DataTable = GetTestQuestion(lnq.ID, trans)
+                                        If dt.Rows.Count > 0 Then
+                                            'ลบข้อมูลเดิมทิ้งไป เพื่อจัดลำดับใหม่
+                                            ret = DeleteTestQuestion(lnq.ID, trans)
+                                            If ret.IsSuccess = True Then
+                                                dt.Columns.Add("RandNum", GetType(Integer))
+                                                Dim i As Integer
+                                                Dim rndNum As New Random()
+                                                For i = 0 To dt.Rows.Count - 1
+                                                    dt.Rows(i)("RandNum") = rndNum.Next(10000)
+                                                Next i
+                                                dt.DefaultView.Sort = "RandNum"
+
+                                                dt = dt.DefaultView.ToTable
+
+                                                i = 1
+                                                For Each dr As DataRow In dt.Rows
+                                                    Dim qLnq As New TbTestingQuestionLinqDB
+                                                    qLnq.TB_TESTING_ID = lnq.ID
+                                                    qLnq.TEST_ID = dr("test_id")
+                                                    qLnq.QUESTION_NO = i
+                                                    If Convert.IsDBNull(dr("question_title")) = False Then qLnq.QUESTION_TITLE = dr("question_title")
+                                                    If Convert.IsDBNull(dr("icon_url")) = False Then qLnq.ICON_URL = dr("icon_url")
+                                                    If Convert.IsDBNull(dr("weight")) = False Then qLnq.WEIGHT = Convert.ToInt32(dr("weight"))
+                                                    qLnq.QUESTION_TYPE = dr("question_type")
+                                                    qLnq.IS_RANDOM_ANSWER = dr("is_random_answer")
+                                                    If Convert.IsDBNull(dr("choice")) = False Then qLnq.CHOICE = dr("choice")
+                                                    If Convert.IsDBNull(dr("answer")) = False Then qLnq.ANSWER = dr("answer")
+                                                    If Convert.IsDBNull(dr("yesno_correct_answer")) = False Then qLnq.YESNO_CORRECT_ANSWER = dr("yesno_correct_answer")
+                                                    If Convert.IsDBNull(dr("matching_lefttext")) = False Then qLnq.MATCHING_LEFTTEXT = dr("matching_lefttext")
+                                                    If Convert.IsDBNull(dr("matching_righttext")) = False Then qLnq.MATCHING_RIGHTTEXT = dr("matching_righttext")
+                                                    If Convert.IsDBNull(dr("matching_correct_answer")) = False Then qLnq.MATCHING_CORRECT_ANSWER = dr("matching_correct_answer")
+                                                    If Convert.IsDBNull(dr("picture_text")) = False Then qLnq.PICTURE_TEXT = dr("picture_text")
+                                                    If Convert.IsDBNull(dr("picture_correct_answer")) = False Then qLnq.PICTURE_CORRECT_ANSWER = dr("picture_correct_answer")
+
+                                                    ret = qLnq.InsertData(UserData.UserName, trans.Trans)
+                                                    If ret.IsSuccess = False Then
+                                                        Exit For
+                                                    End If
+                                                    i += 1
+                                                Next
+                                            Else
+                                                Exit For
+                                            End If
+                                        End If
+                                    End If
+                                Else
                                     Exit For
                                 End If
                             Else
@@ -281,6 +384,10 @@ Public Class frmSelectTestCourse
             Response.Redirect("frmSelectFunction.aspx?rnd=" & DateTime.Now.Millisecond & "&format_id=" & Me.txtFormatID.Text & "&formar_title=" + Me.txtFormatTitle.Text)
         End If
     End Sub
+
+
+
+
 #End Region
 
 End Class

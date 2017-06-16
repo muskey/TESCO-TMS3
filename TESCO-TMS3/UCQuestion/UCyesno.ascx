@@ -32,10 +32,11 @@
         </div>
     </asp:Panel>
     <div style="display: none">
+        <asp:TextBox ID="txtTestID" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtQuestion_no" runat="server"></asp:TextBox>
-        <asp:TextBox ID="txtQuestion_Count" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtCorrectChoice" runat="server"  ></asp:TextBox>
         <asp:TextBox ID="txtCorrectAnswer" runat="server"  ></asp:TextBox>
+        <asp:TextBox ID="txtShowAnswer" runat="server"  ></asp:TextBox>
     </div>
 </div>
 <div class="clearfix"></div>
@@ -69,3 +70,16 @@
         </div>
     </div>
 </asp:Panel>
+
+
+<script>
+    function onConfirmCheck(choice) {
+        if (choice == 0) {
+            $('#<%=chkAnsYes.ClientID %>').attr('checked', true);
+            $('#<%=chkAnsNo.ClientID %>').attr('checked', false);
+        } else if (choice == 1) {
+            $('#<%=chkAnsYes.ClientID %>').attr('checked', false);
+            $('#<%=chkAnsNo.ClientID %>').attr('checked', true);
+        }
+    }
+</script>

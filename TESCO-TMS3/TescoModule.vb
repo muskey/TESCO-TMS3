@@ -12,7 +12,7 @@ Module TescoModule
     Public FolderCourseDocumentFile As String = TempPath & "\CourseDocumentFile"
 
     Public Function GetWebServiceURL() As String
-        'Return "https://tescolotuslc.com/learningcenterdev/   " Dev
+        'Return "https://tescolotuslc.com/learningcenterdev/" 'Dev
         'Return "http://tescolotuslc.com/learningcenterstaging/"         "Staging"
         'Return "https://tescolotuslc.com/learningcenterpreproduction/"  "ProProduction"
         'Return "https://tescolotuslc.com/learningcenter/                "Produciton"
@@ -191,12 +191,24 @@ Module TescoModule
         Return dt
     End Function
 
+    Public Function GetTestingData(TestID As Long) As TbTestingLinqDB
+        Dim lnq As New TbTestingLinqDB
+        lnq.GetDataByPK(TestID, Nothing)
+        Return lnq
+    End Function
+
     Public Function GetTestQuestion(TestID As Long, QuestionNo As Integer)
-        Dim p(2) As SqlParameter
-        p(0) = SqlDB.SetBigInt("@_TESTING_ID", TestID)
-        p(1) = SqlDB.SetInt("@_QUESTION_NO", QuestionNo)
-        Dim lnq As New TbTestingQuestionLinqDB
-        Dim dt As DataTable = lnq.GetDataList("tb_testing_id=@_TESTING_ID and question_no=@_QUESTION_NO", "", Nothing, p)
+        Dim dt As New DataTable
+        Dim testLnq As New TbTestingLinqDB
+        testLnq.GetDataByPK(TestID, Nothing)
+        If testLnq.ID > 0 Then
+            Dim p(2) As SqlParameter
+            p(0) = SqlDB.SetBigInt("@_TESTING_ID", TestID)
+            p(1) = SqlDB.SetInt("@_QUESTION_NO", QuestionNo)
+            Dim lnq As New TbTestingQuestionLinqDB
+            dt = lnq.GetDataList("tb_testing_id=@_TESTING_ID and question_no=@_QUESTION_NO", "", Nothing, p)
+        End If
+
         Return dt
     End Function
 
@@ -206,6 +218,23 @@ Module TescoModule
         Dim lnq As New TbTestingQuestionLinqDB
         Dim dt As DataTable = lnq.GetDataList("tb_testing_id=@_TESTING_ID ", "", Nothing, p)
         Return dt
+    End Function
+
+    Public Function GetTestQuestion(TestID As Long, trans As TransactionDB)
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_TESTING_ID", TestID)
+        Dim lnq As New TbTestingQuestionLinqDB
+        Dim dt As DataTable = lnq.GetDataList("tb_testing_id=@_TESTING_ID ", "", trans.Trans, p)
+        Return dt
+    End Function
+    Public Function DeleteTestQuestion(TestID As Long, trans As TransactionDB) As ExecuteDataInfo
+        Dim ret As New ExecuteDataInfo
+        Dim sql As String = "delete from TB_TESTING_QUESTION where tb_testing_id=@_TESTING_ID"
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_TESTING_ID", TestID)
+
+        ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+        Return ret
     End Function
 
     Public Enum QuestionType

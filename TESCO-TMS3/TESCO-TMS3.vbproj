@@ -2122,7 +2122,7 @@
     <Content Include="Assets\font\kit46p-webfont.woff" />
     <Content Include="Assets\font\kit46p-webfont.woff2" />
     <Content Include="Assets\font\webfontkit.zip" />
-    <Content Include="WebUserControl1.ascx" />
+    <Content Include="UCQuestion\UCTestABCD.ascx" />
     <None Include="My Project\PublishProfiles\TESCO-TMS3.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -2631,11 +2631,11 @@
       <DependentUpon>WebService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WebUserControl1.ascx.designer.vb">
-      <DependentUpon>WebUserControl1.ascx</DependentUpon>
+    <Compile Include="UCQuestion\UCTestABCD.ascx.designer.vb">
+      <DependentUpon>UCTestABCD.ascx</DependentUpon>
     </Compile>
-    <Compile Include="WebUserControl1.ascx.vb">
-      <DependentUpon>WebUserControl1.ascx</DependentUpon>
+    <Compile Include="UCQuestion\UCTestABCD.ascx.vb">
+      <DependentUpon>UCTestABCD.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
   </ItemGroup>

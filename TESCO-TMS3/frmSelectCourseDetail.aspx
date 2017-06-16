@@ -18,7 +18,7 @@
                     height: dHeight,
                     buttons: [
                           {
-                              text: "ลงทะเบียน",
+                              text: "เริ่มเรียน",
                               "class": 'saveButtonClass',
                               click: function () {
                                   $("#dialog").dialog("close");
@@ -37,17 +37,6 @@
         <div id="main" style="background: #29363f">
             <div class="breadcrumbs" style="background: #29363f">
                 <asp:Label runat="server" ID="lblTitle"></asp:Label>
-                <%--					<ul>
-							<li><i class="icon icon-home"></i>
-								<a href="more-login.html"><font color="#019b79">EXTRA</font></a>
-							</li>
-							<li>
-								<a href="components-messages.html"><font color="#019b79">|&nbsp; &nbsp; HYPER</font></a>
-							</li>
-							<li>
-								<a href="components-elements.html"><font color="#019b79">|&nbsp; &nbsp; DEPT</font></a>
-							</li>
-						</ul>--%>
             </div>
             <div class="container-fluid">
                 <br />

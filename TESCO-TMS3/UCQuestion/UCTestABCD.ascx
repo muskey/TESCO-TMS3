@@ -1,4 +1,4 @@
-﻿<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="WebUserControl1.ascx.vb" Inherits="TESCO_TMS3.WebUserControl1" %>
+﻿<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="UCTestABCD.ascx.vb" Inherits="TESCO_TMS3.UCTestABCD" %>
 <div class="tab-content padding tab-content-inline tab-content-bottom">
     <div class="row">
         <div class="span2">
@@ -43,10 +43,11 @@
 
     </asp:Panel>
     <div style="display:none">
+        <asp:TextBox ID="txtTestID" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtQuestion_no" runat="server"></asp:TextBox>
-        <asp:TextBox ID="txtQuestion_Count" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtCorrectChoice" runat="server"  ></asp:TextBox>
         <asp:TextBox ID="txtCorrectAnswer" runat="server"  ></asp:TextBox>
+        <asp:TextBox ID="txtShowAnswer" runat="server"  ></asp:TextBox>
     </div>
 </div>
 <div class="clearfix"></div>
@@ -80,3 +81,31 @@
         </div>
     </div>
 </asp:Panel>
+
+<script>
+    function onConfirmCheck(choice) {
+        if (choice == 0) {
+            $('#<%=ckbA.ClientID %>').attr('checked', true);
+            $('#<%=ckbB.ClientID %>').attr('checked', false);
+            $('#<%=ckbC.ClientID %>').attr('checked', false);
+            $('#<%=ckbD.ClientID %>').attr('checked', false);
+        } else if (choice == 1) {
+            $('#<%=ckbA.ClientID %>').attr('checked', false);
+            $('#<%=ckbB.ClientID %>').attr('checked', true);
+            $('#<%=ckbC.ClientID %>').attr('checked', false);
+            $('#<%=ckbD.ClientID %>').attr('checked', false);
+        } else if (choice == 2) {
+            $('#<%=ckbA.ClientID %>').attr('checked', false);
+            $('#<%=ckbB.ClientID %>').attr('checked', false);
+            $('#<%=ckbC.ClientID %>').attr('checked', true);
+            $('#<%=ckbD.ClientID %>').attr('checked', false);
+
+        } else if (choice == 3) {
+            $('#<%=ckbA.ClientID %>').attr('checked', false);
+            $('#<%=ckbB.ClientID %>').attr('checked', false);
+            $('#<%=ckbC.ClientID %>').attr('checked', false);
+            $('#<%=ckbD.ClientID %>').attr('checked', true);
+        }
+
+    }
+</script>

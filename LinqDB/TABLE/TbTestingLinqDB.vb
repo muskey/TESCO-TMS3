@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_TESTING table LinqDB.
-    '[Create by  on March, 14 2017]
+    '[Create by  on June, 16 2017]
     Public Class TbTestingLinqDB
         Public sub TbTestingLinqDB()
 
@@ -40,8 +40,8 @@ Namespace TABLE
 
         'Generate Field List
         Dim _ID As Long = 0
-        Dim _CREATED_BY As  String  = ""
-        Dim _CREATED_DATE As  System.Nullable(Of DateTime)  = New DateTime(1,1,1)
+        Dim _CREATED_BY As String = ""
+        Dim _CREATED_DATE As DateTime = New DateTime(1,1,1)
         Dim _UPDATED_BY As  String  = ""
         Dim _UPDATED_DATE As  System.Nullable(Of DateTime)  = New DateTime(1,1,1)
         Dim _TB_USER_SESSION_ID As Long = 0
@@ -51,6 +51,8 @@ Namespace TABLE
         Dim _TARGET_PERCENTAGE As Long = 0
         Dim _COURSE_ID As Long = 0
         Dim _QUESTION_QTY As Long = 0
+        Dim _IS_RANDOM_QUESTION As Char = "N"
+        Dim _IS_SHOW_ANSWER As Char = "Y"
 
         'Generate Field Property 
         <Column(Storage:="_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
@@ -62,21 +64,21 @@ Namespace TABLE
                _ID = value
             End Set
         End Property 
-        <Column(Storage:="_CREATED_BY", DbType:="VarChar(50)")>  _
-        Public Property CREATED_BY() As  String 
+        <Column(Storage:="_CREATED_BY", DbType:="VarChar(50) NOT NULL ",CanBeNull:=false)>  _
+        Public Property CREATED_BY() As String
             Get
                 Return _CREATED_BY
             End Get
-            Set(ByVal value As  String )
+            Set(ByVal value As String)
                _CREATED_BY = value
             End Set
         End Property 
-        <Column(Storage:="_CREATED_DATE", DbType:="DateTime")>  _
-        Public Property CREATED_DATE() As  System.Nullable(Of DateTime) 
+        <Column(Storage:="_CREATED_DATE", DbType:="DateTime NOT NULL ",CanBeNull:=false)>  _
+        Public Property CREATED_DATE() As DateTime
             Get
                 Return _CREATED_DATE
             End Get
-            Set(ByVal value As  System.Nullable(Of DateTime) )
+            Set(ByVal value As DateTime)
                _CREATED_DATE = value
             End Set
         End Property 
@@ -161,6 +163,24 @@ Namespace TABLE
                _QUESTION_QTY = value
             End Set
         End Property 
+        <Column(Storage:="_IS_RANDOM_QUESTION", DbType:="Char(1) NOT NULL ",CanBeNull:=false)>  _
+        Public Property IS_RANDOM_QUESTION() As Char
+            Get
+                Return _IS_RANDOM_QUESTION
+            End Get
+            Set(ByVal value As Char)
+               _IS_RANDOM_QUESTION = value
+            End Set
+        End Property 
+        <Column(Storage:="_IS_SHOW_ANSWER", DbType:="Char(1) NOT NULL ",CanBeNull:=false)>  _
+        Public Property IS_SHOW_ANSWER() As Char
+            Get
+                Return _IS_SHOW_ANSWER
+            End Get
+            Set(ByVal value As Char)
+               _IS_SHOW_ANSWER = value
+            End Set
+        End Property 
 
 
         'Clear All Data
@@ -177,6 +197,8 @@ Namespace TABLE
             _TARGET_PERCENTAGE = 0
             _COURSE_ID = 0
             _QUESTION_QTY = 0
+            _IS_RANDOM_QUESTION = "N"
+            _IS_SHOW_ANSWER = "Y"
         End Sub
 
        'Define Public Method 
@@ -455,23 +477,15 @@ Namespace TABLE
         End Function
 
         Private Function SetParameterData() As SqlParameter()
-            Dim cmbParam(11) As SqlParameter
+            Dim cmbParam(13) As SqlParameter
             cmbParam(0) = New SqlParameter("@_ID", SqlDbType.BigInt)
             cmbParam(0).Value = _ID
 
             cmbParam(1) = New SqlParameter("@_CREATED_BY", SqlDbType.VarChar)
-            If _CREATED_BY.Trim <> "" Then 
-                cmbParam(1).Value = _CREATED_BY.Trim
-            Else
-                cmbParam(1).Value = DBNull.value
-            End If
+            cmbParam(1).Value = _CREATED_BY.Trim
 
             cmbParam(2) = New SqlParameter("@_CREATED_DATE", SqlDbType.DateTime)
-            If _CREATED_DATE.Value.Year > 1 Then 
-                cmbParam(2).Value = _CREATED_DATE.Value
-            Else
-                cmbParam(2).Value = DBNull.value
-            End If
+            cmbParam(2).Value = _CREATED_DATE
 
             cmbParam(3) = New SqlParameter("@_UPDATED_BY", SqlDbType.VarChar)
             If _UPDATED_BY.Trim <> "" Then 
@@ -508,6 +522,12 @@ Namespace TABLE
             cmbParam(11) = New SqlParameter("@_QUESTION_QTY", SqlDbType.Int)
             cmbParam(11).Value = _QUESTION_QTY
 
+            cmbParam(12) = New SqlParameter("@_IS_RANDOM_QUESTION", SqlDbType.Char)
+            cmbParam(12).Value = _IS_RANDOM_QUESTION
+
+            cmbParam(13) = New SqlParameter("@_IS_SHOW_ANSWER", SqlDbType.Char)
+            cmbParam(13).Value = _IS_SHOW_ANSWER
+
             Return cmbParam
         End Function
 
@@ -539,6 +559,8 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("target_percentage")) = False Then _target_percentage = Convert.ToInt32(Rdr("target_percentage"))
                         If Convert.IsDBNull(Rdr("course_id")) = False Then _course_id = Convert.ToInt64(Rdr("course_id"))
                         If Convert.IsDBNull(Rdr("question_qty")) = False Then _question_qty = Convert.ToInt32(Rdr("question_qty"))
+                        If Convert.IsDBNull(Rdr("is_random_question")) = False Then _is_random_question = Rdr("is_random_question").ToString()
+                        If Convert.IsDBNull(Rdr("is_show_answer")) = False Then _is_show_answer = Rdr("is_show_answer").ToString()
                     Else
                         ret = False
                         _error = MessageResources.MSGEV002
@@ -585,6 +607,8 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("target_percentage")) = False Then _target_percentage = Convert.ToInt32(Rdr("target_percentage"))
                         If Convert.IsDBNull(Rdr("course_id")) = False Then _course_id = Convert.ToInt64(Rdr("course_id"))
                         If Convert.IsDBNull(Rdr("question_qty")) = False Then _question_qty = Convert.ToInt32(Rdr("question_qty"))
+                        If Convert.IsDBNull(Rdr("is_random_question")) = False Then _is_random_question = Rdr("is_random_question").ToString()
+                        If Convert.IsDBNull(Rdr("is_show_answer")) = False Then _is_show_answer = Rdr("is_show_answer").ToString()
                     Else
                         _error = MessageResources.MSGEV002
                     End If
@@ -609,8 +633,8 @@ Namespace TABLE
         Private ReadOnly Property SqlInsert() As String 
             Get
                 Dim Sql As String=""
-                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_SESSION_ID, TEST_ID, TEST_TITLE, TEST_DESC, TARGET_PERCENTAGE, COURSE_ID, QUESTION_QTY)"
-                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_SESSION_ID, INSERTED.TEST_ID, INSERTED.TEST_TITLE, INSERTED.TEST_DESC, INSERTED.TARGET_PERCENTAGE, INSERTED.COURSE_ID, INSERTED.QUESTION_QTY"
+                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_SESSION_ID, TEST_ID, TEST_TITLE, TEST_DESC, TARGET_PERCENTAGE, COURSE_ID, QUESTION_QTY, IS_RANDOM_QUESTION, IS_SHOW_ANSWER)"
+                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_SESSION_ID, INSERTED.TEST_ID, INSERTED.TEST_TITLE, INSERTED.TEST_DESC, INSERTED.TARGET_PERCENTAGE, INSERTED.COURSE_ID, INSERTED.QUESTION_QTY, INSERTED.IS_RANDOM_QUESTION, INSERTED.IS_SHOW_ANSWER"
                 Sql += " VALUES("
                 sql += "@_CREATED_BY" & ", "
                 sql += "@_CREATED_DATE" & ", "
@@ -620,7 +644,9 @@ Namespace TABLE
                 sql += "@_TEST_DESC" & ", "
                 sql += "@_TARGET_PERCENTAGE" & ", "
                 sql += "@_COURSE_ID" & ", "
-                sql += "@_QUESTION_QTY"
+                sql += "@_QUESTION_QTY" & ", "
+                sql += "@_IS_RANDOM_QUESTION" & ", "
+                sql += "@_IS_SHOW_ANSWER"
                 sql += ")"
                 Return sql
             End Get
@@ -640,7 +666,9 @@ Namespace TABLE
                 Sql += "TEST_DESC = " & "@_TEST_DESC" & ", "
                 Sql += "TARGET_PERCENTAGE = " & "@_TARGET_PERCENTAGE" & ", "
                 Sql += "COURSE_ID = " & "@_COURSE_ID" & ", "
-                Sql += "QUESTION_QTY = " & "@_QUESTION_QTY" + ""
+                Sql += "QUESTION_QTY = " & "@_QUESTION_QTY" & ", "
+                Sql += "IS_RANDOM_QUESTION = " & "@_IS_RANDOM_QUESTION" & ", "
+                Sql += "IS_SHOW_ANSWER = " & "@_IS_SHOW_ANSWER" + ""
                 Return Sql
             End Get
         End Property
@@ -658,7 +686,7 @@ Namespace TABLE
         'Get Select Statement for table TB_TESTING
         Private ReadOnly Property SqlSelect() As String
             Get
-                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_SESSION_ID, TEST_ID, TEST_TITLE, TEST_DESC, TARGET_PERCENTAGE, COURSE_ID, QUESTION_QTY FROM " & tableName
+                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_SESSION_ID, TEST_ID, TEST_TITLE, TEST_DESC, TARGET_PERCENTAGE, COURSE_ID, QUESTION_QTY, IS_RANDOM_QUESTION, IS_SHOW_ANSWER FROM " & tableName
                 Return Sql
             End Get
         End Property

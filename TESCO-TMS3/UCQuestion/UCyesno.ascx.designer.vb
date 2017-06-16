@@ -77,6 +77,15 @@ Partial Public Class UCyesno
     Protected WithEvents lblAnsNo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
+    '''txtTestID control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtTestID As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
     '''txtQuestion_no control.
     '''</summary>
     '''<remarks>
@@ -84,15 +93,6 @@ Partial Public Class UCyesno
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtQuestion_no As Global.System.Web.UI.WebControls.TextBox
-    
-    '''<summary>
-    '''txtQuestion_Count control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtQuestion_Count As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtCorrectChoice control.
@@ -111,6 +111,15 @@ Partial Public Class UCyesno
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtCorrectAnswer As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtShowAnswer control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtShowAnswer As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''btnAns control.

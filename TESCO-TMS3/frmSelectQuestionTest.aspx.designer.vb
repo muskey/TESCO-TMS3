@@ -29,7 +29,7 @@ Partial Public Class frmSelectQuestionTest
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents UCabcd1 As Global.TESCO_TMS3.WebUserControl1
+    Protected WithEvents UCabcd1 As Global.TESCO_TMS3.UCTestABCD
     
     '''<summary>
     '''UCMaching control.
@@ -75,4 +75,22 @@ Partial Public Class frmSelectQuestionTest
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtQuestion_no As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''lblIsShowAnswer control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblIsShowAnswer As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lblQuestionQty control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblQuestionQty As Global.System.Web.UI.WebControls.Label
 End Class
