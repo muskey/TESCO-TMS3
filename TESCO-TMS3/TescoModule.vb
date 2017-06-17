@@ -241,6 +241,18 @@ Module TescoModule
         Dim dt As DataTable = lnq.GetDataList("tb_testing_id=@_TESTING_ID ", "", trans.Trans, p)
         Return dt
     End Function
+
+    Public Function GetTestWritingAnswer(TestID As Long)
+        Dim sql As String = "select tq.question_no,ta.answer_text, tq.question_type, tq.weight, ta.time_spent"
+        sql += " from TB_TESTING_ANSWER_WRITING ta "
+        sql += " inner join TB_TESTING_QUESTION tq on tq.id=ta.tb_testing_question_id "
+        sql += " where ta.tb_testing_id=@_TESTING_ID"
+
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_TESTING_ID", TestID)
+        Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
+        Return dt
+    End Function
     Public Function DeleteTestQuestion(TestID As Long, trans As TransactionDB) As ExecuteDataInfo
         Dim ret As New ExecuteDataInfo
         Dim sql As String = "delete from TB_TESTING_QUESTION where tb_testing_id=@_TESTING_ID"

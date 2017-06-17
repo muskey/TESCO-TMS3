@@ -96,5 +96,7 @@
     </div>
     <asp:TextBox ID="txtQuestion_no" runat="server" Visible="false"></asp:TextBox>
     <asp:Label ID="lblIsShowAnswer" runat="server" Visible="false"></asp:Label>
+    <asp:Label ID="lblCourseID" runat="server" Visible="false"></asp:Label>
+    <asp:Label ID="lblTargetPercent" runat="server" Visible="false"></asp:Label>
     <asp:Label ID="lblQuestionQty" runat="server" Visible="false"></asp:Label>
 </asp:Content>

@@ -95,6 +95,24 @@ Partial Public Class frmSelectQuestionTest
     Protected WithEvents lblIsShowAnswer As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''lblCourseID control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCourseID As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lblTargetPercent control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblTargetPercent As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
     '''lblQuestionQty control.
     '''</summary>
     '''<remarks>

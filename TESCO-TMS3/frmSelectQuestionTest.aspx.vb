@@ -27,11 +27,20 @@ Public Class frmSelectQuestionTest
                 Me.lblTestTitle.Text = "<h3>&nbsp>&nbsp<a href=""frmSelectTestCourse.aspx""><font color=""#019b79"">" + lnq.TEST_TITLE + "&nbsp&nbsp</font></a></h3>"
                 lblIsShowAnswer.Text = lnq.IS_SHOW_ANSWER
                 lblQuestionQty.Text = lnq.QUESTION_QTY
-                SetStartTest()
+                lblCourseID.Text = lnq.COURSE_ID
+                lblTargetPercent.Text = lnq.TARGET_PERCENTAGE
+
+                If q_id <= Convert.ToInt32(lblQuestionQty.Text) Then
+                    SetStartTest()
+                Else
+                    'ถ้าเป็นคำถามสุดท้ายแล้วให้ Update Log ไปยัง Backend และแสดงหน้าจอสรุป
+                    Dim aDt As DataTable = GetAnswerDT()
+                    SendTestingLog(aDt)
+                    ShowTestSummary(aDt)
+                End If
             End If
         End If
     End Sub
-
     Private Sub SetStartTest()
         'Dim dt As DataTable = GetTesting(UserData.UserSessionID)
         'dt.DefaultView.RowFilter = "id='" & test_id & "'"
@@ -86,4 +95,123 @@ Public Class frmSelectQuestionTest
         End If
     End Sub
 
+    Private Function GetAnswerDT() As DataTable
+        Dim sql As String = "select ta.id, tq.test_id, ta.answer_result, ta.answer_choice,tq.question_no, ta.tb_testing_question_id,ta.time_spent, "
+        sql += " tq.question_type, tq.weight"
+        sql += " From TB_TESTING_ANSWER ta "
+        sql += " inner join TB_TESTING_QUESTION tq on tq.id=ta.tb_testing_question_id "
+        sql += " where ta.tb_testing_id=@_TESTING_ID "
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_TESTING_ID", test_id)
+
+        Dim aDt As DataTable = SqlDB.ExecuteTable(sql, p)
+        Return aDt
+    End Function
+
+    Private Sub SendTestingLog(AnswerDt As DataTable)
+        If AnswerDt.Rows.Count > 0 Then
+            Dim AnswerData As String = ""
+            AnswerData = "{" & Chr(34) & "testing_id" & Chr(34) & ":" & AnswerDt.DefaultView(0)("test_id") & ","
+            AnswerData += Chr(34) + "is_scorm" + Chr(34) & ":" & Chr(34) & "false" & Chr(34) & ", "
+            AnswerData += Chr(34) & "user_id" & Chr(34) & ":" & UserData.UserID & ","
+            AnswerData += Chr(34) & "course_id" & Chr(34) & ":" & lblCourseID.Text & ", "
+            AnswerData += Chr(34) & "is_success" & Chr(34) & ":" & Chr(34) & "true" & Chr(34) & ", "
+            AnswerData += Chr(34) & "target_percentage" & Chr(34) & ":" & lblTargetPercent.Text & ", "
+            AnswerData += Chr(34) + "answer_data" + Chr(34) & ":[" & Environment.NewLine
+
+            Dim HaveAns As Boolean = False
+#Region "Answer ABCD, YESNO"
+            AnswerDt.DefaultView.RowFilter = "question_type in ('abcd','yes/no')"
+            If AnswerDt.DefaultView.Count > 0 Then
+                For Each qDr As DataRowView In AnswerDt.DefaultView
+                    If HaveAns = True Then
+                        AnswerData += ", "
+                    End If
+                    AnswerData += "{"
+                    AnswerData += Chr(34) + "question_id" + Chr(34) & ":" & qDr("question_no") & ", " & Environment.NewLine
+
+                    AnswerData += Chr(34) + "type" + Chr(34) + ":" & qDr("question_type") & ", " & Environment.NewLine
+                    AnswerData += Chr(34) + "weight" + Chr(34) + ":" & qDr("weight") & "," & Environment.NewLine
+                    AnswerData += Chr(34) + "answer_id" + Chr(34) & ":" & qDr("answer_choice") & ", " & Environment.NewLine
+                    AnswerData += Chr(34) + "is_correct" + Chr(34) & ":" & Chr(34) & IIf(qDr("answer_result").ToString = "Y", "true", "false") & Chr(34) & ", " & Environment.NewLine
+                    AnswerData += Chr(34) + "time_spent" + Chr(34) & ":" & qDr("time_spent") & Environment.NewLine
+                    AnswerData += "}"
+
+                    HaveAns = True
+                Next
+            End If
+            AnswerDt.DefaultView.RowFilter = ""
+#End Region
+
+#Region "Answer MATCHING, PICTURE"
+            AnswerDt.DefaultView.RowFilter = "question_type in ('matching','picture')"
+            If AnswerDt.DefaultView.Count > 0 Then
+                Dim qDt As New DataTable   'จำนวนคำถามของ maching, picture
+                qDt = AnswerDt.DefaultView.ToTable(True, "test_id", "question_no", "question_type", "weight", "time_spent")
+                If qDt.Rows.Count > 0 Then
+
+                    For Each qDr As DataRow In qDt.Rows
+                        'เอาเฉพาะข้อที่ตอบถูกเพื่อหา Percent
+                        AnswerDt.DefaultView.RowFilter = "question_type in ('matching','picture') and question_no='" & qDr("question_no") & "' "
+                        Dim AllAnswer As Integer = AnswerDt.DefaultView.Count  'จำนวนข้อทั้งหมด
+
+                        AnswerDt.DefaultView.RowFilter = "question_type in ('matching','picture') and question_no='" & qDr("question_no") & "' and answer_result='Y'"
+                        Dim CorrectAnswer As Integer = AnswerDt.DefaultView.Count  'จำนวนข้อที่ตอบถูก
+
+                        Dim CorrectPercent As Integer = (CorrectAnswer * 100) / AllAnswer
+
+                        If HaveAns = True Then
+                            AnswerData += ", "
+                        End If
+                        AnswerData += "{"
+                        AnswerData += Chr(34) + "question_id" + Chr(34) & ":" & qDr("question_no") & ", " & Environment.NewLine
+                        AnswerData += Chr(34) + "type" + Chr(34) + ":" & Chr(34) & qDr("question_type") & Chr(34) & ", " & Environment.NewLine
+                        AnswerData += Chr(34) + "weight" + Chr(34) + ":" & qDr("weight") & "," & Environment.NewLine
+                        AnswerData += Chr(34) + "correct_percentage" + Chr(34) & ":" & CorrectPercent & ", " & Environment.NewLine
+                        AnswerData += Chr(34) + "time_spent" + Chr(34) & ":" & qDr("time_spent") & Environment.NewLine
+                        AnswerData += "}"
+
+                        HaveAns = True
+                    Next
+                End If
+                qDt.Dispose()
+            End If
+            AnswerDt.DefaultView.RowFilter = ""
+#End Region
+
+#Region "WRITING"
+            Dim dt As DataTable = GetTestWritingAnswer(test_id)
+            If dt.Rows.Count > 0 Then
+                For Each qDr As DataRow In dt.Rows
+                    If HaveAns = True Then
+                        AnswerData += ", "
+                    End If
+                    AnswerData += "{"
+                    AnswerData += Chr(34) + "question_id" + Chr(34) & ":" & qDr("question_no") & ", " & Environment.NewLine
+                    AnswerData += Chr(34) + "type" + Chr(34) + ":" & Chr(34) & qDr("question_type") & Chr(34) & ", " & Environment.NewLine
+                    AnswerData += Chr(34) + "weight" + Chr(34) + ":" & qDr("weight") & "," & Environment.NewLine
+                    AnswerData += Chr(34) + "answer_text" + Chr(34) & ":" & Chr(34) & qDr("answer_text") & Chr(34) & ", " & Environment.NewLine
+                    AnswerData += Chr(34) + "time_spent" + Chr(34) & ":" & qDr("time_spent") & Environment.NewLine
+                    AnswerData += "}"
+                    HaveAns = True
+                Next
+            End If
+            dt.Dispose()
+#End Region
+
+            AnswerData += "]"
+            AnswerData += "}"
+
+            Dim info As String = ""
+            info = GetStringDataFromURL(GetWebServiceURL() & "api/log", UserData.Token & "&action=complete&module=testing&data=" & AnswerData)
+            If info.Trim <> "" Then
+                'txtQuestion_Dialog.Text = strdialogid
+            End If
+        End If
+
+    End Sub
+
+    Private Sub ShowTestSummary(AnswerDt As DataTable)
+
+    End Sub
 End Class
