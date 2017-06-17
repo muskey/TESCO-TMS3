@@ -86,6 +86,15 @@ Partial Public Class UCyesno
     Protected WithEvents txtTestID As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''txtQuestionID control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtQuestionID As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
     '''txtQuestion_no control.
     '''</summary>
     '''<remarks>

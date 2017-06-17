@@ -82,6 +82,8 @@
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Kanit">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
 	
+    <script src="Scripts/ScriptJS.js"></script>
+
     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
     </asp:ContentPlaceHolder>
 
@@ -125,6 +127,7 @@
     </style>
     
     <form id="form1" runat="server">
+        
     <div id="navigation" style="background:#019b79">
         <div class="container-fluid">
             <a href="frmSelectFormat.aspx" style="border:none;">

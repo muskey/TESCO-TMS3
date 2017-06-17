@@ -52,21 +52,32 @@ Public Class frmSelectTestCourse
                         Dim p(1) As SqlParameter
                         p(0) = SqlDB.SetBigInt("@_USER_SESSION_ID", UserData.UserSessionID)
 
-                        ret = SqlDB.ExecuteNonQuery(sql, p)
+                        ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
                         If ret.IsSuccess = True Then
-                            sql = "delete from TB_TESTING_QUESTION "
+                            sql = " delete from TB_TESTING_ANSWER_WRITING "
                             sql += " where tb_testing_id in (select id from TB_TESTING where tb_user_session_id=@_USER_SESSION_ID) "
                             ReDim p(1)
                             p(0) = SqlDB.SetBigInt("@_USER_SESSION_ID", UserData.UserSessionID)
 
                             ret = SqlDB.ExecuteNonQuery(sql, p)
                             If ret.IsSuccess = True Then
-                                sql = "delete from TB_TESTING where tb_user_session_id=@_USER_SESSION_ID"
+                                sql = "delete from TB_TESTING_QUESTION "
+                                sql += " where tb_testing_id in (select id from TB_TESTING where tb_user_session_id=@_USER_SESSION_ID) "
                                 ReDim p(1)
                                 p(0) = SqlDB.SetBigInt("@_USER_SESSION_ID", UserData.UserSessionID)
 
                                 ret = SqlDB.ExecuteNonQuery(sql, p)
-                                If ret.IsSuccess = False Then
+                                If ret.IsSuccess = True Then
+                                    sql = "delete from TB_TESTING where tb_user_session_id=@_USER_SESSION_ID"
+                                    ReDim p(1)
+                                    p(0) = SqlDB.SetBigInt("@_USER_SESSION_ID", UserData.UserSessionID)
+
+                                    ret = SqlDB.ExecuteNonQuery(sql, p)
+                                    If ret.IsSuccess = False Then
+                                        trans.RollbackTransaction()
+                                        Return ret
+                                    End If
+                                Else
                                     trans.RollbackTransaction()
                                     Return ret
                                 End If

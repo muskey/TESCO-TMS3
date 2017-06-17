@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="UCTestABCD.ascx.vb" Inherits="TESCO_TMS3.UCTestABCD" %>
+
 <div class="tab-content padding tab-content-inline tab-content-bottom">
     <div class="row">
         <div class="span2">
@@ -44,6 +45,7 @@
     </asp:Panel>
     <div style="display:none">
         <asp:TextBox ID="txtTestID" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txtQuestionID" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtQuestion_no" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtCorrectChoice" runat="server"  ></asp:TextBox>
         <asp:TextBox ID="txtCorrectAnswer" runat="server"  ></asp:TextBox>
@@ -108,4 +110,6 @@
         }
 
     }
+
+    
 </script>

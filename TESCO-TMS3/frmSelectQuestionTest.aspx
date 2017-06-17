@@ -51,7 +51,7 @@
     
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
-
+    <asp:ScriptManager ID="scriptmanager1" runat="server"></asp:ScriptManager>
     <div class="breadcrumbs" style="background: #29363f">
         <asp:Label runat="server" ID="lblTestTitle" Font-Size="Larger"></asp:Label>
     </div>

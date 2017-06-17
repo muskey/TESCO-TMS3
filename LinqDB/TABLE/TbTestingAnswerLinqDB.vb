@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_TESTING_ANSWER table LinqDB.
-    '[Create by  on May, 4 2017]
+    '[Create by  on June, 17 2017]
     Public Class TbTestingAnswerLinqDB
         Public sub TbTestingAnswerLinqDB()
 
@@ -280,30 +280,6 @@ Namespace TABLE
             Dim p(1) As SQLParameter
             p(0) = DB.SetBigInt("@_ID", cID)
             Return doGetData("ID = @_ID", trans, p)
-        End Function
-
-
-        '/// Returns an indication whether the record of TB_TESTING_ANSWER by specified TB_TESTING_ID_TB_TESTING_QUESTION_ID key is retrieved successfully.
-        '/// <param name=cTB_TESTING_ID_TB_TESTING_QUESTION_ID>The TB_TESTING_ID_TB_TESTING_QUESTION_ID key.</param>
-        '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
-        '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
-        Public Function ChkDataByTB_TESTING_ID_TB_TESTING_QUESTION_ID(cTB_TESTING_ID As Long, cTB_TESTING_QUESTION_ID As Long, trans As SQLTransaction) As Boolean
-            Dim cmdPara(3)  As SQLParameter
-            cmdPara(0) = DB.SetText("@_TB_TESTING_ID", cTB_TESTING_ID) 
-            cmdPara(1) = DB.SetText("@_TB_TESTING_QUESTION_ID", cTB_TESTING_QUESTION_ID) 
-            Return doChkData("TB_TESTING_ID = @_TB_TESTING_ID AND TB_TESTING_QUESTION_ID = @_TB_TESTING_QUESTION_ID", trans, cmdPara)
-        End Function
-
-        '/// Returns an duplicate data record of TB_TESTING_ANSWER by specified TB_TESTING_ID_TB_TESTING_QUESTION_ID key is retrieved successfully.
-        '/// <param name=cTB_TESTING_ID_TB_TESTING_QUESTION_ID>The TB_TESTING_ID_TB_TESTING_QUESTION_ID key.</param>
-        '/// <param name=trans>The System.Data.SQLClient.SQLTransaction used by this System.Data.SQLClient.SQLCommand.</param>
-        '/// <returns>true if data is retrieved successfully; otherwise, false.</returns>
-        Public Function ChkDuplicateByTB_TESTING_ID_TB_TESTING_QUESTION_ID(cTB_TESTING_ID As Long, cTB_TESTING_QUESTION_ID As Long, cID As Long, trans As SQLTransaction) As Boolean
-            Dim cmdPara(3)  As SQLParameter
-            cmdPara(0) = DB.SetText("@_TB_TESTING_ID", cTB_TESTING_ID) 
-            cmdPara(1) = DB.SetText("@_TB_TESTING_QUESTION_ID", cTB_TESTING_QUESTION_ID) 
-            cmdPara(2) = DB.SetBigInt("@_ID", cID) 
-            Return doChkData("TB_TESTING_ID = @_TB_TESTING_ID AND TB_TESTING_QUESTION_ID = @_TB_TESTING_QUESTION_ID And ID <> @_ID", trans, cmdPara)
         End Function
 
 

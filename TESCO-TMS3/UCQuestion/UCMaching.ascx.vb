@@ -1,7 +1,12 @@
-﻿Public Class UCMaching
+﻿Imports LinqDB.ConnectDB
+Public Class UCMaching
     Inherits System.Web.UI.UserControl
 
-    'Public Event btnAnsMACHINGclick(sender As Object, question_no As String)
+    Public ReadOnly Property UserData As UserProfileData
+        Get
+            Return Session("UserData")
+        End Get
+    End Property
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
     End Sub
@@ -12,39 +17,45 @@
         pnlQuestionMatching.Visible = True
         Me.txtQuestion_no.Text = question_no
 
-        Dim dt As DataTable = GetTestQuestion(test_id)
+        Dim dt As DataTable = GetTestQuestion(test_id, question_no)
         Me.lblQNumber.Text = "ข้อ " + question_no.ToString + "/" + QuestionCount.ToString
         Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
+        txtQuestionID.Text = dt.Rows(0)("id")
         If dt.Rows(0)("icon_url") & "" <> "" Then
             img1.Src = dt.Rows(0)("icon_url")
             lblImage2.Text = dt.Rows(0)("icon_url") & ""
         End If
 
-        Dim tmpAnswer2() As String = Split(dt.Rows(0)("matching_lefttext"), "###")
-        Dim sumans As Double = tmpAnswer2.Length
+        Dim tmpAnswer() As String = Split(dt.Rows(0)("matching_lefttext"), "###")
+        Dim sumans As Double = tmpAnswer.Length
         Dim dtans As New DataTable
         dtans.Columns.Add("ans")
         dtans.Columns.Add("seq")
+
         Dim dr As DataRow
         For i As Integer = 0 To sumans - 1
             dr = dtans.NewRow()
-            dr("ans") = tmpAnswer2(i).ToString
+            dr("ans") = tmpAnswer(i).ToString
             dr("seq") = (i + 1)
+
             dtans.Rows.Add(dr)
         Next
         rptQuestionMatching.DataSource = dtans
         rptQuestionMatching.DataBind()
 
-        Dim tmpChoice2() As String = Split(dt.Rows(0)("matching_righttext"), "###")
-        Dim Choice As Double = tmpChoice2.Length
+        Dim tmpChoice() As String = Split(dt.Rows(0)("matching_righttext"), "###")
+        Dim tmpCorrectAns() As String = Split(dt.Rows(0)("matching_correct_answer"), ",")
+        Dim Choice As Double = tmpChoice.Length
         Dim dtChoice As New DataTable
         dtChoice.Columns.Add("seq")
         dtChoice.Columns.Add("choice")
+        dtChoice.Columns.Add("correct_answer")
         Dim drc As DataRow
         For i As Integer = 0 To Choice - 1
             drc = dtChoice.NewRow()
-            drc("choice") = tmpChoice2(i).ToString
+            drc("choice") = tmpChoice(i).ToString
             drc("seq") = Chr(65 + i)
+            drc("correct_answer") = tmpCorrectAns(i).Replace(Chr(34), "").Trim
             dtChoice.Rows.Add(drc)
         Next
         rptAnswerMatching.DataSource = dtChoice
@@ -66,18 +77,62 @@
 
         Dim No As Label = e.Item.FindControl("No")
         Dim lblAnswer As Label = e.Item.FindControl("lblAnswer")
+        Dim lblCorrectAnswer As Label = e.Item.FindControl("lblCorrectAnswer")
+        Dim txtAnswer As TextBox = e.Item.FindControl("txtAnswer")
+        SetTextIntKeypress(txtAnswer)
 
         lblAnswer.Text = e.Item.DataItem("choice")
         No.Text = e.Item.DataItem("seq")
+        lblCorrectAnswer.Text = e.Item.DataItem("correct_answer")
     End Sub
 
     Private Sub btnAns_ServerClick(sender As Object, e As EventArgs) Handles btnAns.ServerClick
         'Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
-        If txtShowAnswer.Text = "Y" Then
-            pnlAnsResult.Visible = True
-        Else
+        If ValidateData() = True Then
+            lblDialogHead.Text = "เฉลยคำตอบ"
+
+            Dim TimeSpen As Integer = DateDiff(DateInterval.Second, Convert.ToDateTime(Session("teststarttime")), DateTime.Now)
+            Dim trans As New TransactionDB
+            Dim ret As New ExecuteDataInfo
+            For Each itm As RepeaterItem In rptAnswerMatching.Items
+                Dim lblCorrectAnswer As Label = itm.FindControl("lblCorrectAnswer")
+                Dim txtAnswer As TextBox = itm.FindControl("txtAnswer")
+
+                Dim AnswerResult As String = IIf(lblCorrectAnswer.Text = Convert.ToInt16(txtAnswer.Text) - 1, "Y", "N")
+                ret = SaveTestAnswer(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, Convert.ToInt16(txtAnswer.Text) - 1, AnswerResult)
+                If ret.IsSuccess = False Then
+                    Exit For
+                End If
+            Next
+
+            If ret.IsSuccess = True Then
+                trans.CommitTransaction()
+            Else
+                trans.RollbackTransaction()
+            End If
+
+
             Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
+            'If txtShowAnswer.Text = "Y" Then
+            '    pnlAnsResult.Visible = True
+            'Else
+            '    Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
+            'End If
         End If
+
     End Sub
+
+    Private Function ValidateData() As Boolean
+        For Each itm As RepeaterItem In rptAnswerMatching.Items
+            Dim txtAnswer As TextBox = itm.FindControl("txtAnswer")
+            If txtAnswer.Text.Trim = "" Then
+                'onValidate
+                ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "Alert", "alert('กรุณาตอบให้ครบทุกข้อ');", True)
+                Return False
+            End If
+        Next
+
+        Return True
+    End Function
 
 End Class

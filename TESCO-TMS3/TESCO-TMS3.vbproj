@@ -2093,6 +2093,7 @@
     <Content Include="HtmlPage1.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\ScriptJS.js" />
     <Content Include="UCQuestion\UCMaching.ascx" />
     <Content Include="UCQuestion\UCPicture.ascx" />
     <Content Include="UCQuestion\UCWriting.ascx" />

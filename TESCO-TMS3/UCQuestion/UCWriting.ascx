@@ -32,6 +32,7 @@
     </asp:Panel>
     <div style="display: none">
         <asp:TextBox ID="txtTestID" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txtQuestionID" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtQuestion_no" runat="server"></asp:TextBox>
         <asp:Label ID="lblImage2" runat="server"></asp:Label>
         <asp:TextBox ID="txtShowAnswer" runat="server"  ></asp:TextBox>

@@ -180,6 +180,20 @@ Module TescoModule
         Return ret
     End Function
 
+#Region "Set validate Textbox Property"
+    Public Sub SetTextIntKeypress(txt As TextBox)
+        txt.Attributes.Add("OnKeyPress", "ChkMinusInt(this,event);")
+        txt.Attributes.Add("onKeyDown", "CheckKeyNumber(event);")
+    End Sub
+    Public Sub SetTextDblKeypress(txt As TextBox)
+        txt.Attributes.Add("OnKeyPress", "ChkMinusDbl(this,event);")
+        txt.Attributes.Add("onKeyDown", "CheckKeyNumber(event);")
+    End Sub
+    Public Sub SetTextAreaMaxLength(txt As TextBox, MaxLength As Int16)
+        txt.Attributes.Add("onKeyDown", "checkTextAreaMaxLength(this,event,'" & MaxLength & "');")
+    End Sub
+#End Region
+
 #Region "Testing"
     Public Function GetTesting(UserSessionID As Long) As DataTable
         Dim sql As String = " select * from TB_TESTING where tb_user_session_id=@_USER_SESSION_ID"
@@ -234,6 +248,32 @@ Module TescoModule
         p(0) = SqlDB.SetBigInt("@_TESTING_ID", TestID)
 
         ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+        Return ret
+    End Function
+
+    Public Function SaveTestAnswer(Username As String, trans As TransactionDB, TestID As Long, QuestionID As Long, TimeSpen As Integer, AnswerChoice As Integer, AnswerResult As String) As ExecuteDataInfo
+        Dim ret As New ExecuteDataInfo
+        Dim lnq As New TbTestingAnswerLinqDB
+        lnq.TB_TESTING_ID = TestID
+        lnq.TB_TESTING_QUESTION_ID = QuestionID
+        lnq.TIME_SPENT = TimeSpen
+        lnq.ANSWER_CHOICE = AnswerChoice
+        lnq.ANSWER_RESULT = AnswerResult
+
+        ret = lnq.InsertData(Username, trans.Trans)
+
+        Return ret
+    End Function
+    Public Function SaveTestAnswerWriting(Username As String, trans As TransactionDB, TestID As Long, QuestionID As Long, TimeSpen As Integer, AnswerText As String) As ExecuteDataInfo
+        Dim ret As New ExecuteDataInfo
+        Dim lnq As New TbTestingAnswerWritingLinqDB
+        lnq.TB_TESTING_ID = TestID
+        lnq.TB_TESTING_QUESTION_ID = QuestionID
+        lnq.TIME_SPENT = TimeSpen
+        lnq.ANSWER_TEXT = AnswerText
+
+        ret = lnq.InsertData(Username, trans.Trans)
+
         Return ret
     End Function
 

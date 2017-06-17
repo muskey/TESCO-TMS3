@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class UCMaching
     
     '''<summary>
+    '''upd1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents upd1 As Global.System.Web.UI.UpdatePanel
+    
+    '''<summary>
     '''lblQNumber control.
     '''</summary>
     '''<remarks>
@@ -75,6 +84,15 @@ Partial Public Class UCMaching
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtTestID As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtQuestionID control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtQuestionID As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtQuestion_no control.

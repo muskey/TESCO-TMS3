@@ -2,10 +2,12 @@
 Imports LinqDB.ConnectDB
 Imports LinqDB.TABLE
 Public Class UCyesno
-
     Inherits System.Web.UI.UserControl
-
-    '    Public Event btnAnsYESNOclick(sender As Object, question_no As String)
+    Public ReadOnly Property UserData As UserProfileData
+        Get
+            Return Session("UserData")
+        End Get
+    End Property
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Me.chkAnsYes.Attributes.Item("onclick") = "onConfirmCheck(0)"
         Me.chkAnsNo.Attributes.Item("onclick") = "onConfirmCheck(1)"
@@ -16,7 +18,8 @@ Public Class UCyesno
         txtShowAnswer.Text = ShowAnswer
         pnlQuestionYesNo.Visible = True
         Me.txtQuestion_no.Text = question_no
-        Dim dt As DataTable = GetTestQuestion(test_id)
+        Dim dt As DataTable = GetTestQuestion(test_id, question_no)
+        txtQuestionID.Text = dt.Rows(0)("id")
         Me.lblQNumber.Text = "ข้อ " + question_no.ToString + "/" + QuestionQty.ToString
         Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
 
@@ -25,36 +28,64 @@ Public Class UCyesno
     End Sub
 
     Private Sub btnAns_ServerClick(sender As Object, e As EventArgs) Handles btnAns.ServerClick
-
-        Dim isCorrect As Boolean = False
-        If chkAnsYes.Checked = True Then
-            If txtCorrectAnswer.Text = 1 Then
-                isCorrect = True
+        If ValidateData() = True Then
+            Dim isCorrect As Boolean = False
+            Dim AnswerChoice As Integer = -1
+            If chkAnsYes.Checked = True Then
+                AnswerChoice = 0
+                If txtCorrectAnswer.Text = 1 Then
+                    isCorrect = True
+                End If
+            ElseIf chkAnsNo.Checked Then
+                AnswerChoice = 1
+                If txtCorrectAnswer.Text = 0 Then
+                    isCorrect = True
+                End If
             End If
-        ElseIf chkAnsNo.Checked Then
-            If txtCorrectAnswer.Text = 0 Then
-                isCorrect = True
+
+            Dim TimeSpen As Integer = DateDiff(DateInterval.Second, Convert.ToDateTime(Session("teststarttime")), DateTime.Now)
+            Dim trans As New TransactionDB
+            Dim ret As ExecuteDataInfo = SaveTestAnswer(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, AnswerChoice, IIf(isCorrect = True, "Y", "N"))
+            If ret.IsSuccess = True Then
+                trans.CommitTransaction()
+            Else
+                trans.RollbackTransaction()
+            End If
+
+            If isCorrect = True Then
+                lblDialogHead.Text = "ยินดีด้วย"
+                litAnsDetail.Text = "<h2>คุณตอบถูก</h2>"
+            Else
+                lblDialogHead.Text = "คุณตอบผิด"
+                divHeader.Attributes.Remove("style")
+                divHeader.Attributes.Add("style", "background:red")
+
+                litAnsDetail.Text = "<font color='#019b79'><h4>คำตอบที่ถูกคือ<h4></font>"
+                litAnsDetail.Text += "<font color='#019b79'><h4>" + txtCorrectChoice.Text + "</h4></font>"
+            End If
+
+            If txtShowAnswer.Text = "Y" Then
+                pnlAnsResult.Visible = True
+            Else
+                Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
             End If
         End If
-
-        If isCorrect = True Then
-            lblDialogHead.Text = "ยินดีด้วย"
-            litAnsDetail.Text = "<h2>คุณตอบถูก</h2>"
-        Else
-            lblDialogHead.Text = "คุณตอบผิด"
-            divHeader.Attributes.Remove("style")
-            divHeader.Attributes.Add("style", "background:red")
-
-            litAnsDetail.Text = "<font color='#019b79'><h4>คำตอบที่ถูกคือ<h4></font>"
-            litAnsDetail.Text += "<font color='#019b79'><h4>" + txtCorrectChoice.Text + "</h4></font>"
-        End If
-        pnlAnsResult.Visible = True
     End Sub
 
     Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+
         'RaiseEvent btnAnsYESNOclick(sender, txtQuestion_no.Text)
         Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
+
     End Sub
+
+    Private Function ValidateData()
+        If chkAnsNo.Checked = False And chkAnsYes.Checked = False Then
+            ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "Alert", "alert('กรุณาเลือกคำตอบ');", True)
+            Return False
+        End If
+        Return True
+    End Function
 
     Private Sub btnCloseDialog_Click(sender As Object, e As EventArgs) Handles btnCloseDialog.Click
         pnlAnsResult.Visible = False

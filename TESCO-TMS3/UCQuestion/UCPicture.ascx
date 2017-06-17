@@ -31,8 +31,9 @@
                              </td>
                              <td style="width: 1px"></td>
                              <td style="width: 80%">
-                                 <asp:Label ID="lblNo" runat="server" Style="font-size: large; color: white;"></asp:Label>
+                                 <asp:Label ID="lblAbc" runat="server" Style="font-size: large; color: white;"></asp:Label>
                                  <asp:Label ID="lblQuestion" runat="server" Style="font-size: large; color: white;"></asp:Label>
+                                 <asp:Label ID="lblCorrectAnswer" runat="server" Visible="false"></asp:Label>
                              </td>
                          </tr>
                      </ItemTemplate>
@@ -43,6 +44,7 @@
  </asp:Panel>
     <div style="display: none">
         <asp:TextBox ID="txtTestID" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txtQuestionID" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtQuestion_no" runat="server"></asp:TextBox>
         <asp:Label ID="lblImage2" runat="server"></asp:Label>
         <asp:TextBox ID="txtShowAnswer" runat="server"  ></asp:TextBox>

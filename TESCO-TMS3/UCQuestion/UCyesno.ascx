@@ -33,6 +33,7 @@
     </asp:Panel>
     <div style="display: none">
         <asp:TextBox ID="txtTestID" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txtQuestionID" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtQuestion_no" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtCorrectChoice" runat="server"  ></asp:TextBox>
         <asp:TextBox ID="txtCorrectAnswer" runat="server"  ></asp:TextBox>
