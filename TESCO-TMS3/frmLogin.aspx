@@ -122,10 +122,45 @@
                 </asp:Panel>
 			</form>
 		</div>
-
-		
-		
 	</div>
+
+    <script>
+        function GetLoginStatus(txtUserName) {
+            var UserName = txtUsername.value;
+            //alert(UserName);
+
+            //;
+
+
+            var param = "{'UserName':" + JSON.stringify(UserName) + "}";
+            $.ajax({
+                type: "POST",
+                url: "WebService/WebService.asmx/GetLoginStatus",
+                data: param,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    var strvalue = data.d;
+                    if (strvalue != '') {
+                        var ret = strvalue.split("#")
+                        if (ret.length == 3) {
+                            var IsFirstItmeLogin = ret[0];
+                            var IsTelephoneExist = ret[1];
+
+                            if (IsTelephoneExist == "true") {
+                                alert("ผู้ใช้ไม่มีหมายเลขโทรศัพท์ กรุณาติดต่อผู้ดูแลระบบ");
+                            } else if (IsFirstItmeLogin == "true") {
+                                document.getElementById("<%=btnForgetPassword.ClientID%>").click();
+                            }
+                        }
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

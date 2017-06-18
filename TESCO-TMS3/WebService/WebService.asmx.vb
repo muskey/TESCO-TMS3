@@ -225,45 +225,6 @@ Public Class WebService
         Catch ex As Exception
 
         End Try
-
-
-
-
-
-
-
-
-        'info = GetStringDataFromURL(GetWebServiceURL() & "api/user/get", Token & "&user_company_id=" & UserID & "&course_id=" & CourseID)
-        'If info.Trim <> "" Then
-        '    Dim json As String = info
-        '    Dim ser As JObject = JObject.Parse(json)
-        '    Dim data As List(Of JToken) = ser.Children().ToList
-        '    Dim output As String = ""
-
-        '    For Each item As JProperty In data
-        '        item.CreateReader()
-        '        Select Case item.Name
-        '            Case "user"
-        '                For Each comment As JProperty In item.Values
-        '                    Select Case comment.Name
-        '                        Case "id"
-        '                            UserID = comment.Value.ToString
-        '                            Exit For
-        '                            'Case "firstname"
-        '                            '    ret(1) = comment.Value.ToString
-        '                            'Case "lastname"
-        '                            '    ret(2) = comment.Value.ToString
-        '                            'Case "company_id"
-        '                            '    ret(3) = comment.Value.ToString
-        '                    End Select
-        '                Next
-        '        End Select
-        '    Next
-
-        '    If UserID.Trim <> "" Then
-
-        '    End If
-        'End If
     End Sub
 
 #End Region
@@ -284,4 +245,38 @@ Public Class WebService
         Return serializer.Serialize(rows)
     End Function
 #End Region
+
+    <WebMethod()>
+    Public Function GetLoginStatus(UserName As String) As String
+        Dim ret As String = "false#false#"
+        Return ret
+        Dim info As String = ""
+        info = GetStringDataFromURL(GetWebServiceURL() & "api/GetLoginStatus", "user_id=" & UserName)
+
+        If info.Trim <> "" Then
+            Dim json As String = info
+            Dim ser As JObject = JObject.Parse(json)
+            Dim data As List(Of JToken) = ser.Children().ToList
+
+            For Each item As JProperty In data
+                item.CreateReader()
+
+                Select Case item.Name
+                    Case "status"
+                        If Convert.ToBoolean(item.First) = False Then
+                            Exit For
+                        End If
+                    Case "is_first_time_login"
+                        ret += item.First.ToString & "#"
+                    Case "is_telephone_existed"
+                        ret += item.First.ToString & "#"
+                End Select
+            Next
+        End If
+
+        'ret = "is_first_time_login#is_telephone_existed
+        Return ret
+    End Function
+
+
 End Class

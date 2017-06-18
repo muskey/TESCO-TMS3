@@ -7,7 +7,9 @@ Public Class frmLogin
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-
+        If IsPostBack = False Then
+            txtUsername.Attributes.Add("onBlur", "return GetLoginStatus(this)")
+        End If
     End Sub
 
     Private Sub txtUsername_TextChanged(sender As Object, e As EventArgs) Handles txtUsername.TextChanged
@@ -403,30 +405,6 @@ Public Class frmLogin
             End Try
             ci += 1
         Next
-        'End If
-
-        'Clear Inactive File
-        'ถ้ามีไฟล์ที่เคยดาวน์โหลดมาแล้วในเครื่อง และเป็นไฟล์ที่ไม่มีอยู่ในบทเรียนแล้ว ก็ให้ลบไฟล์นั้นออกไปโลด
-
-        'Dim fDt As DataTable = GetSqlDataTable("select * from TB_COURSE_DOCUMENT_FILE")
-        'If fDt.Rows.Count > 0 Then
-        '    For Each f As String In Directory.GetFiles(FolderCourseDocumentFile)
-        '        Dim fInfo As New FileInfo(f)
-
-        '        Dim fFile As String = EnCripText(FolderCourseDocumentFile & "\" & DeCripText(fInfo.Name))
-        '        fDt.DefaultView.RowFilter = "file_path='" & fFile & "'"
-        '        If fDt.DefaultView.Count = 0 Then
-        '            Try
-        '                File.SetAttributes(f, FileAttributes.Normal)
-        '                File.Delete(f)
-        '            Catch ex As Exception
-
-        '            End Try
-        '        End If
-        '        fDt.DefaultView.RowFilter = ""
-        '    Next
-        'End If
-        'fDt.Dispose()
         Return ret
     End Function
 
@@ -468,12 +446,60 @@ Public Class frmLogin
     Private Sub btnForgetPassword_Click(sender As Object, e As EventArgs) Handles btnForgetPassword.Click
         pnlLogin.Visible = False
         pnlRequestOTP.Visible = True
+
+        txtReqestOTPSendUsername.Text = txtUsername.Text
     End Sub
 
     Private Sub btnSendOTP_Click(sender As Object, e As EventArgs) Handles btnSendOTP.Click
-        pnlRequestOTP.Visible = False
-        pnlLoginOTP.Visible = True
+        Dim info As String = ""
+        info = GetStringDataFromURL(GetWebServiceURL() & "api/otp/get", "user_id=" & txtReqestOTPSendUsername.Text)
+        If info.Trim <> "" Then
+            Dim json As String = info
+            Dim ser As JObject = JObject.Parse(json)
+            Dim data As List(Of JToken) = ser.Children().ToList
+            Dim ret As String = ""
 
+            For Each item As JProperty In data
+                item.CreateReader()
+
+                Select Case item.Name
+                    Case "status"
+                        ret = item.First.ToString.ToLower
+                End Select
+            Next
+
+            If ret = "true" Then
+                txtOTPUserLogin.Text = txtReqestOTPSendUsername.Text
+                pnlRequestOTP.Visible = False
+                pnlLoginOTP.Visible = True
+            End If
+        End If
     End Sub
 
+    Private Sub btnOTPLogin_Click(sender As Object, e As EventArgs) Handles btnOTPLogin.Click
+        Dim info As String = ""
+        info = GetStringDataFromURL(GetWebServiceURL() & "api/otp/login", "user_id=" & txtOTPUserLogin.Text & "&otp=" & txtOTPCode.Text & "&password=" & txtOTPPassword.Text)
+        If info.Trim <> "" Then
+            Dim json As String = info
+            Dim ser As JObject = JObject.Parse(json)
+            Dim data As List(Of JToken) = ser.Children().ToList
+            Dim ret As String = ""
+
+            For Each item As JProperty In data
+                item.CreateReader()
+
+                Select Case item.Name
+                    Case "status"
+                        ret = item.First.ToString.ToLower
+                End Select
+            Next
+
+            If ret = "true" Then
+                If Login(txtUsername.Text, txtPassword.Text) = True Then
+                    Session("Username") = txtUsername.Text
+                    Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
+                End If
+            End If
+        End If
+    End Sub
 End Class
