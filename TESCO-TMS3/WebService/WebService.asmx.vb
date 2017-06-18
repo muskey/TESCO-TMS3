@@ -248,8 +248,10 @@ Public Class WebService
 
     <WebMethod()>
     Public Function GetLoginStatus(UserName As String) As String
-        Dim ret As String = "false#false#"
-        Return ret
+        'Dim ret As String = "false#false#"
+        'Return ret
+
+        Dim ret As String = ""
         Dim info As String = ""
         info = GetStringDataFromURL(GetWebServiceURL() & "api/GetLoginStatus", "user_id=" & UserName)
 
