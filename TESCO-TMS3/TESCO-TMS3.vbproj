@@ -2065,6 +2065,7 @@
     <Content Include="Assets\PC\noimagefound.jpg" />
     <Content Include="Assets\pdfdll\itextsharp.dll" />
     <Content Include="Assets\pdfdll\itextsharp.pdfa.dll" />
+    <Content Include="Assets\scorm\player.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />

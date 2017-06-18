@@ -115,6 +115,15 @@ Public Class WebService
                                 For Each file_comment As JObject In file_item.Values
                                     file_item.CreateReader()
 
+                                    Dim vUrl As New Uri(file_comment("file"))
+                                    Dim vFile As String = vUrl.Segments(vUrl.Segments.Length - 1)
+
+                                    Dim StoryFile As String = file_comment("file").ToString
+                                    If vFile.StartsWith("index_lms.html") = True Then
+                                        StoryFile = file_comment("file").ToString.Replace("index_lms.html", "story.html")
+
+                                    End If
+
                                     Dim FileName As String = file_comment("id").ToString & GetURLFileExtension(file_comment("file").ToString)
                                     Dim DocFileID As String = EnCripText(FileName)
                                     'Dim DocFileName As String = "null"
@@ -124,7 +133,7 @@ Public Class WebService
                                     cfLnq.TB_USER_COURSE_DOCUMENT_ID = cdLnq.ID
                                     cfLnq.USER_ID = UserData.UserID
                                     cfLnq.FILE_TITLE = file_comment("title").ToString
-                                    cfLnq.FILE_URL = file_comment("file").ToString
+                                    cfLnq.FILE_URL = StoryFile
                                     cfLnq.ORDER_BY = file_comment("order").ToString
 
                                     ret = cfLnq.InsertData(UserData.UserName, trans.Trans)

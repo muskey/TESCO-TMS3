@@ -168,7 +168,22 @@
                 });
             });
         };
+
+
+        
+
     </script>
+
+
+<%--    <script src="http://tescolotuslc.com/learningcenterstaging/storage/scorm/2017-04-27/10/24ab/SCORM1_2/lms/APIConstants.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://tescolotuslc.com/learningcenterstaging/storage/scorm/2017-04-27/10/24ab/SCORM1_2/lms/Configuration.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://tescolotuslc.com/learningcenterstaging/storage/scorm/2017-04-27/10/24ab/SCORM1_2/lms/UtilityFunctions.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://tescolotuslc.com/learningcenterstaging/storage/scorm/2017-04-27/10/24ab/SCORM1_2/lms/SCORM2004Functions.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://tescolotuslc.com/learningcenterstaging/storage/scorm/2017-04-27/10/24ab/SCORM1_2/lms/SCORMFunctions.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://tescolotuslc.com/learningcenterstaging/storage/scorm/2017-04-27/10/24ab/SCORM1_2/lms/AICCFunctions.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://tescolotuslc.com/learningcenterstaging/storage/scorm/2017-04-27/10/24ab/SCORM1_2/lms/NONEFunctions.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://tescolotuslc.com/learningcenterstaging/storage/scorm/2017-04-27/10/24ab/SCORM1_2/lms/LMSAPI.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://tescolotuslc.com/learningcenterstaging/storage/scorm/2017-04-27/10/24ab/SCORM1_2/lms/API.js" type="text/javascript" charset="utf-8"></script>--%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 
@@ -209,4 +224,73 @@
 
 
     </div>
+    <script>
+        function readURL(input, target) {
+            console.log(input);
+            console.log(target);
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $(target).attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        //$(document).ready(function () {
+        //    setupScormApi();
+        //});
+
+
+        //function setupScormApi() {
+        //    //alert("setupScormApi");
+        //    API.LMSInitialize = LMSInitialize;
+        //    API.LMSGetValue = LMSGetValue;
+        //    API.LMSSetValue = LMSSetValue;
+        //    API.LMSCommit = LMSCommit;
+        //    API.LMSFinish = LMSFinish;
+        //    API.LMSGetLastError = LMSGetLastError;
+        //    API.LMSGetDiagnostic = LMSGetDiagnostic;
+        //    API.LMSGetErrorString = LMSGetErrorString;
+
+        //    //window.open("http://tescolotuslc.com/learningcenterstaging/storage/scorm/2017-04-27/10/24ab/SCORM1_2/index_lms.html", "popupname", "resizable,scrollbars,status");
+        //}
+
+        //function LMSInitialize(initializeInput) {
+        //    displayLog("LMSInitialize: " + initializeInput);
+        //    return true;
+        //}
+        //function LMSGetValue(varname) {
+        //    displayLog("LMSGetValue: " + varname);
+        //    return "";
+        //}
+        //function LMSSetValue(varname, varvalue) {
+        //    displayLog("LMSSetValue: " + varname + "=" + varvalue);
+        //    return "";
+        //}
+        //function LMSCommit(commitInput) {
+        //    displayLog("LMSCommit: " + commitInput);
+        //    return true;
+        //}
+        //function LMSFinish(finishInput) {
+        //    displayLog("LMSFinish: " + finishInput);
+        //    return true;
+        //}
+        //function LMSGetLastError() {
+        //    displayLog("LMSGetLastError: ");
+        //    return 0;
+        //}
+        //function LMSGetDiagnostic(errorCode) {
+        //    displayLog("LMSGetDiagnostic: " + errorCode);
+        //    return "";
+        //}
+        //function LMSGetErrorString(errorCode) {
+        //    displayLog("LMSGetErrorString: " + errorCode);
+        //    return "";
+        //}
+    </script>
+
+    <script src="Assets/scorm/player.js"></script>
+    
+    
 </asp:Content>
