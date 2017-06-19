@@ -36,8 +36,11 @@ Public Class frmSelectDepartment
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
-            Me.lblTitle.Text = "<h3>&nbsp>&nbsp<a href=""frmSelectFormat.aspx""><font color=""#019b79"">" + Session("backpathname1") + "&nbsp>&nbsp</font></a><a href=" + Session("backpath2") + "><font color=""#019b79"">" + Session("backpathname2") + "&nbsp>&nbsp</font></a><font color=""#019b79"">" + function_title + "</font></h3>"
+            Me.lblTitle.Text = "<h3>&nbsp>&nbsp"
+            lblTitle.Text += " <a onClick=""return CreateTransLog('" & UserData.LoginHistoryID & "','กลับหน้าจอเลือก Format')"" href=""frmSelectFormat.aspx""><font color=""#019b79"">" + Session("backpathname1") + "&nbsp>&nbsp</font></a>"
+            lblTitle.Text += " <a onClick=""return CreateTransLog('" & UserData.LoginHistoryID & "','กลับหน้าจอเลือก Function')"" href=" + Session("backpath2") + "><font color=""#019b79"">" + Session("backpathname2") + "&nbsp>&nbsp</font></a><font color=""#019b79"">" + function_title + "</font></h3>"
             DisplayDepartmentList()
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงหน้าจอเลือก Department")
         End If
 
     End Sub
@@ -89,11 +92,12 @@ Public Class frmSelectDepartment
             strMain += "</ul>"
             lblMain.Text = strMain
         Catch ex As Exception
-
+            LogFileBL.LogException(UserData, ex.Message, ex.StackTrace)
         End Try
     End Sub
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่ม Back")
         Dim strurl As String = Session("backpath2")
         Response.Redirect(strurl)
     End Sub

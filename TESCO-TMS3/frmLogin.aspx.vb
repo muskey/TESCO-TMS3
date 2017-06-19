@@ -24,6 +24,8 @@ Public Class frmLogin
     End Sub
 
 #Region "Load Data Login"
+
+    Dim LoginHisID As Long = 0
     Private Function Login(ByVal Username As String, ByVal Password As String) As Boolean
         Dim ret As Boolean = False
         Try
@@ -93,9 +95,11 @@ Public Class frmLogin
                 Dim re As ExecuteDataInfo = CreateUserSession(UserData.TokenStr, UserData.UserID, Username, FirstNameEng, LastNameEng, FirstNameThai, LastNameThai, IsTeacher, FormatData, MessageData)
                 If re.IsSuccess = True Then
                     UserData.UserSessionID = re.NewID
+                    UserData.LoginHistoryID = LoginHisID
                     Session("UserData") = UserData
                     'GetDatableTableFromTesting(UserData)
                     ret = re.IsSuccess
+                    LogFileBL.LogTrans(UserData.LoginHistoryID, "Login Success")
                 End If
             End If
         Catch ex As Exception
@@ -138,12 +142,14 @@ Public Class frmLogin
 
                 ret = hLnq.InsertData(Username, trans.Trans)
                 If ret.IsSuccess = True Then
+                    LoginHisID = hLnq.ID
                     ret = BuiltUserFormat(lnq.ID, lnq.USER_ID, Username, FormatData, trans)
                     If ret.IsSuccess = True Then
                         ret = BuiltDatableTableUserMessage(MessageData, lnq.ID, UserID, Username, trans)
 
                         If ret.IsSuccess = True Then
                             ret.NewID = _newID
+
                             trans.CommitTransaction()
                         Else
                             trans.RollbackTransaction()

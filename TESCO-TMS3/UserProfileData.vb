@@ -3,6 +3,7 @@
 Public Class UserProfileData
 
     Dim _UserSessionID As Long = 0
+    Dim _LoginHistoryID As Long = 0
     Dim _UserID As String = ""
     Dim _UserName As String = ""
     Dim _FullName As String = ""
@@ -16,6 +17,7 @@ Public Class UserProfileData
     Dim _TestingTotal As Integer = 0
 
 
+
     Public Property UserSessionID As Long
         Get
             Return _UserSessionID
@@ -24,6 +26,15 @@ Public Class UserProfileData
             _UserSessionID = value
         End Set
     End Property
+    Public Property LoginHistoryID As Long
+        Get
+            Return _LoginHistoryID
+        End Get
+        Set(value As Long)
+            _LoginHistoryID = value
+        End Set
+    End Property
+
     Public Property UserID As String
         Get
             Return _UserID.Trim

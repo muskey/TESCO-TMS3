@@ -31,10 +31,11 @@ Public Class frmSelectFunction
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
-            Me.lblTitle.Text = "<h3>&nbsp>&nbsp<a href=""frmSelectFormat.aspx""><font color=""#019b79"" style=""font-size:30px"">" + Session("backpathname1") + "&nbsp>&nbsp</font></a><font color=""#019b79"" style=""font-size:30px"">" + formar_title + "</font></h3>"
+            Me.lblTitle.Text = "<h3>&nbsp>&nbsp<a onClick=""return CreateTransLog('" & UserData.LoginHistoryID & "','กลับหน้าจอเลือก Format')"" href=""frmSelectFormat.aspx""><font color=""#019b79"" style=""font-size:30px"">" + Session("backpathname1") + "&nbsp>&nbsp</font></a><font color=""#019b79"" style=""font-size:30px"">" + formar_title + "</font></h3>"
             SetFuntion()
+
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงหน้าจอเลือก Function")
         End If
-        ' &nbsp; &nbsp; &nbsp;<a href=""frmSelectFormat.aspx"">" + Session("backpathname1") + "</a>
     End Sub
 
     <WebMethod()>
@@ -100,13 +101,12 @@ Public Class frmSelectFunction
             lblMain.Text = strMain
             lblSub.Text = strsub
         Catch ex As Exception
-
+            LogFileBL.LogException(UserData, ex.Message, ex.StackTrace)
         End Try
     End Sub
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
-
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่ม Back")
         Response.Redirect("frmSelectFormat.aspx")
-
     End Sub
 
 #End Region

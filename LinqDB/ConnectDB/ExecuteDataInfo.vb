@@ -59,7 +59,6 @@
                 _RecordEffected = value
             End Set
         End Property
-
     End Class
 End Namespace
 

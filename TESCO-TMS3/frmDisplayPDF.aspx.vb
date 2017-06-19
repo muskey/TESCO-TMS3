@@ -11,6 +11,11 @@ Public Class frmDisplayPDF
     Inherits System.Web.UI.Page
 
 #Region "Declare & Valiable"
+    Public ReadOnly Property UserData As UserProfileData
+        Get
+            Return Session("UserData")
+        End Get
+    End Property
     Public ReadOnly Property id As String
         Get
             Return Page.Request.QueryString("id") & ""
@@ -182,10 +187,12 @@ Public Class frmDisplayPDF
         Me.txtNext.Text = Val(Me.txtCurrent.Text) + 1
 
         GetBottonPDF()
+
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "เลือกหน้า " & txtCurrent.Text)
     End Sub
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
-
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่มเอกสารก่อนหน้า")
         Dim dtback As DataTable = Session("UserDataCourseFile")
         Dim foundRows() As DataRow
         Dim back_id = Val(id) - 1
@@ -195,10 +202,12 @@ Public Class frmDisplayPDF
         If foundRows.Length > 0 Then
             SetIniPage(foundRows(i))
         End If
+
+
     End Sub
 
     Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
-
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่มเอกสารถัดไป")
         Dim dtnext As DataTable = Session("UserDataCourseFile")
         Dim foundRows() As DataRow
         Dim next_id = Val(id) + 1
@@ -207,31 +216,28 @@ Public Class frmDisplayPDF
         If foundRows.Length > 0 Then
             SetIniPage(foundRows(0))
         End If
+
+
     End Sub
 
 
     Private Sub SetIniPage(dr As DataRow)
         Dim url As String
         If dr("file_url").ToString.IndexOf(".png") <> -1 Or dr("file_url").ToString.IndexOf(".jpg") <> -1 Then
-            ' myIframe.Attributes.Add("src", "frmDisplayImage.aspx?id=" + dr("id").ToString)
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงบทเรียน " & dr("file_title") & vbNewLine & "URL=" & dr("file_url"))
             url = "frmDisplayImage.aspx?id=" + dr("id").ToString
-            'ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "loadIframe('" + url + "');", True)
-
             Response.Redirect(url)
         ElseIf dr("file_url").ToString.IndexOf(".pdf") <> -1 Then
-            'myIframe.Attributes.Add("src", "frmDisplayPDF.aspx?id=" + dr("id").ToString)
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงบทเรียน " & dr("file_title") & vbNewLine & "URL=" & dr("file_url"))
             url = "frmDisplayPDF.aspx?id=" + dr("id").ToString
-            'ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "loadIframe('" + url + "');", True)
             Response.Redirect(url)
         ElseIf dr("file_url").ToString.IndexOf(".mp4") <> -1 Then
-            'myIframe.Attributes.Add("src", "frmDisplayVDO.aspx?id=" + dr("id").ToString)
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงบทเรียน " & dr("file_title") & vbNewLine & "URL=" & dr("file_url"))
             url = "frmDisplayVDO.aspx?id=" + dr("id").ToString
-            'ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "loadIframe('" + url + "');", True)
             Response.Redirect(url)
         ElseIf dr("file_url").ToString.IndexOf(".html") <> -1 Then
-            'myIframe.Attributes.Add("src", "frmDisplayHTML.aspx?id=" + dr("id").ToString)
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงบทเรียน " & dr("file_title") & vbNewLine & "URL=" & dr("file_url"))
             url = "frmDisplayHTML.aspx?id=" + dr("id").ToString
-            ' ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "loadIframe('" + url + "');", True)
             Response.Redirect(url)
         End If
 
@@ -260,6 +266,7 @@ Public Class frmDisplayPDF
     End Sub
 
     Private Sub btnHome_Click(sender As Object, e As EventArgs) Handles btnHome.Click
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่ม Home ")
         Response.Redirect("frmSelectFormat.aspx")
     End Sub
 
@@ -280,6 +287,8 @@ Public Class frmDisplayPDF
 
 
         GetBottonPDF()
+
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่ม Previous Page")
     End Sub
 
     Private Sub btnPDFNext_Click(sender As Object, e As EventArgs) Handles btnPDFNext.Click
@@ -299,8 +308,9 @@ Public Class frmDisplayPDF
         Me.txtCurrent.Text = Val(Me.txtCurrent.Text) + 1
         Me.txtNext.Text = Val(Me.txtNext.Text) + 1
 
-
         GetBottonPDF()
+
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่ม Next Page")
     End Sub
 
     Private Sub GetBottonPDF()

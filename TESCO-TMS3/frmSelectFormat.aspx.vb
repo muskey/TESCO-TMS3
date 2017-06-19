@@ -20,7 +20,7 @@ Public Class frmSelectFormat
             Me.txtFormatTitle.Style.Add("display", "none")
             SetFormat()
             SetWelcomeMessage()
-
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงหน้าจอ Select Format")
         End If
 
     End Sub
@@ -58,22 +58,6 @@ Public Class frmSelectFormat
                     str += "            </div>"
                     str += "        </div>"
                     str += "    </div>"
-
-
-
-
-                    '<div Class="accordion-group">
-                    '	<div Class="accordion-heading" >
-                    '		<a Class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne" style="color:#019b79" >
-                    '			Collapsible Group Item #1
-                    '		</a>
-                    '	</div>
-                    '	<div id = "collapseOne" Class="accordion-body collapse">
-                    '		<div Class="accordion-inner">
-                    '			Anim pariatur cliche...Lorem ipsum dolore dolor occaecat dolore elit deserunt incididunt ex sed nostrud aute aliquip ut elit sed nisi. 
-                    '		</div>
-                    '	</div>
-                    '</div>
                 Next
                 str += "    </div>"
                 str += "</div>"
@@ -109,8 +93,6 @@ Public Class frmSelectFormat
                         txUsertFormatID.Text = dr("id")
                         txtFormatTitle.Text = dr("format_title")
                     End If
-
-                    'str += " < p <> Button Class=""btn-block btn btn-larges"" id=" + dr("format_id").ToString + " onclick=""fselect('" + dr("format_id").ToString + "','" + dr("format_title").ToString + "');return false;"" >" + dr("format_title").ToString + "</button></p>"
                     str += "<option value=" & dr("id") & " " & Sel & " >" & dr("format_title") & "</option>"
                 Next
                 str += "</select>"
@@ -118,12 +100,13 @@ Public Class frmSelectFormat
             dt.Dispose()
             lblDropdownListFormat.Text = str
         Catch ex As Exception
-
+            LogFileBL.LogException(UserData, ex.Message, ex.StackTrace)
         End Try
     End Sub
 
     Private Sub btnFormat_Click(sender As Object, e As EventArgs) Handles btnFormat.Click
         If Me.txUsertFormatID.Text <> "" Then
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "เลือก Format" & txtFormatTitle.Text)
             Session("backpathname1") = "Format"
             Response.Redirect("frmSelectFunction.aspx?rnd=" & DateTime.Now.Millisecond & "&user_format_id=" & Me.txUsertFormatID.Text & "&formar_title=" + Me.txtFormatTitle.Text)
         End If

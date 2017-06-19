@@ -11,6 +11,8 @@
                 //var control = $("#" + id);
                 var url = "frmSelectCourse.aspx?id=" + id + '&title=' + name + "&color=" + color;
                 //alert(url);
+
+                CreateTransLog('<%=UserData.LoginHistoryID %>', 'เลือก Department ' + name);
                 window.location = url;
                 return false;
             } else {

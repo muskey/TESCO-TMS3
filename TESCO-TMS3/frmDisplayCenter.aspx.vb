@@ -115,25 +115,20 @@ Public Class frmDisplayCenter
     Private Sub SetIniPage(dr As DataRow)
         Dim url As String
         If dr("file_url").ToString.IndexOf(".png") <> -1 Or dr("file_url").ToString.IndexOf(".jpg") <> -1 Then
-            ' myIframe.Attributes.Add("src", "frmDisplayImage.aspx?id=" + dr("id").ToString)
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงบทเรียน " & dr("file_title") & vbNewLine & "URL=" & dr("file_url"))
             url = "frmDisplayImage.aspx?id=" + dr("id").ToString
-            'ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "loadIframe('" + url + "');", True)
-
             Response.Redirect(url)
         ElseIf dr("file_url").ToString.IndexOf(".pdf") <> -1 Then
-            'myIframe.Attributes.Add("src", "frmDisplayPDF.aspx?id=" + dr("id").ToString)
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงบทเรียน " & dr("file_title") & vbNewLine & "URL=" & dr("file_url"))
             url = "frmDisplayPDF.aspx?id=" + dr("id").ToString
-            'ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "loadIframe('" + url + "');", True)
             Response.Redirect(url)
         ElseIf dr("file_url").ToString.IndexOf(".mp4") <> -1 Then
-            'myIframe.Attributes.Add("src", "frmDisplayVDO.aspx?id=" + dr("id").ToString)
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงบทเรียน " & dr("file_title") & vbNewLine & "URL=" & dr("file_url"))
             url = "frmDisplayVDO.aspx?id=" + dr("id").ToString
-            'ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "loadIframe('" + url + "');", True)
             Response.Redirect(url)
         ElseIf dr("file_url").ToString.IndexOf(".html") <> -1 Then
-            'myIframe.Attributes.Add("src", "frmDisplayHTML.aspx?id=" + dr("id").ToString)
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงบทเรียน " & dr("file_title") & vbNewLine & "URL=" & dr("file_url"))
             url = "frmDisplayHTML.aspx?id=" + dr("id").ToString
-            ' ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "loadIframe('" + url + "');", True)
             Response.Redirect(url)
         End If
 

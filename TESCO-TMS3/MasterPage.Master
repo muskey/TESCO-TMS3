@@ -172,6 +172,28 @@
 
     </form>
 
+    <script>
+        function CreateTransLog(LoginHistoryID, LogMsg) {
+            var param = "{'LoginHistoryID':" + JSON.stringify(LoginHistoryID);
+            param += ",'LogMsg':" + JSON.stringify(LogMsg);
+            param += "}";
 
+            $.ajax({
+                type: "POST",
+                url: "WebService/WebService.asmx/CreateLogTrans",
+                data: param,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.d != "true") {
+                        alert(data.d);
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 </html>

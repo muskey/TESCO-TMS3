@@ -2545,6 +2545,7 @@
       <DependentUpon>frmTestingCourse.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="LogFileBL.vb" />
     <Compile Include="MasterPage.Master.designer.vb">
       <DependentUpon>MasterPage.Master</DependentUpon>
     </Compile>

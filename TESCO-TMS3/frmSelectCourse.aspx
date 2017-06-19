@@ -10,13 +10,15 @@
     <script>
 
         function fselect(id, name) {
-
+            CreateTransLog('<%=UserData.LoginHistoryID %>', 'เลือก Course ' + name);
             var url = "frmSelectCourseDetail.aspx?id=" + id + '&title=' + name;
             window.location = url;
             return false;
         }
 
         function ShowPopup(id, name, desc, UserSessionID) {
+            CreateTransLog('<%=UserData.LoginHistoryID %>', 'เลือก Course ' + name);
+
             onEdit(id);
 
             $(function () {
@@ -36,8 +38,9 @@
                               "class": 'saveButtonClass',
                               click: function () {
                                   $("#dialog").dialog("close");
-                                  onDocumentData(id, name, UserSessionID);
 
+                                  CreateTransLog('<%=UserData.LoginHistoryID %>', 'เริ่มเรียน Course ' + name);
+                                  onDocumentData(id, name, UserSessionID);
                               }
                           }
                     ],

@@ -5,7 +5,7 @@ Public Class frmSelectCourse
 
 #Region "Declare & Valiable"
     ' Public myUser As User
-    Private ReadOnly Property UserData As UserProfileData
+    Protected ReadOnly Property UserData As UserProfileData
         Get
             Return Session("UserData")
         End Get
@@ -33,9 +33,14 @@ Public Class frmSelectCourse
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
-            Me.lblTitle.Text = "<h3>&nbsp>&nbsp<a href=""frmSelectFormat.aspx""><font color=""#019b79"">" + Session("backpathname1") + "&nbsp>&nbsp</font></a><a href=" + Session("backpath2") + "><font color=""#019b79"">" + Session("backpathname2") + "&nbsp>&nbsp</font></a><a href=" + Session("backpath3") + "><font color=""#019b79"">" + Session("backpathname3") + "&nbsp>&nbsp</font></a><font color=""#019b79"">" + Department_title + "</font></h3>"
+            Me.lblTitle.Text = "<h3>&nbsp>&nbsp"
+            lblTitle.Text += " <a onClick=""return CreateTransLog('" & UserData.LoginHistoryID & "','กลับหน้าจอเลือก Format')"" href=""frmSelectFormat.aspx""><font color=""#019b79"">" + Session("backpathname1") + "&nbsp>&nbsp</font></a>"
+            lblTitle.Text += " <a onClick=""return CreateTransLog('" & UserData.LoginHistoryID & "','กลับหน้าจอเลือก Function')"" href=" + Session("backpath2") + "><font color=""#019b79"">" + Session("backpathname2") + "&nbsp>&nbsp</font></a>"
+            lblTitle.Text += " <a onClick=""return CreateTransLog('" & UserData.LoginHistoryID & "','กลับหน้าจอเลือก Department')"" href=" + Session("backpath3") + "><font color=""#019b79"">" + Session("backpathname3") + "&nbsp>&nbsp</font></a><font color=""#019b79"">" + Department_title + "</font></h3>"
             'SetDepartment()
             DisplayCourseList()
+
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงหน้าจอเลือก Course")
         End If
 
     End Sub
@@ -47,7 +52,7 @@ Public Class frmSelectCourse
 
         Dim sql As String = "select * "
         sql += " from tb_user_course "
-        sql += " where 1=1 and tb_user_department_id=@_USER_DEPARTMENT_ID"
+        sql += " where 1=1 And tb_user_department_id=@_USER_DEPARTMENT_ID"
         sql += " order by course_title"
         Dim p(1) As SqlParameter
         p(0) = SqlDB.SetBigInt("@_USER_DEPARTMENT_ID", User_Department_id)
@@ -68,6 +73,7 @@ Public Class frmSelectCourse
     End Sub
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่ม Back")
         Dim strurl As String = Session("backpath3")
         Response.Redirect(strurl)
     End Sub

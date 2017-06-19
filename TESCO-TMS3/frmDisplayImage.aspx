@@ -88,30 +88,8 @@
                 url = 'frmDisplayHTML.aspx?id=' + id;
             }
 
+            CreateTransLog('<%=UserData.LoginHistoryID %>', 'เลือกเอกสารจากสารบัญ URL=' + file_url);
             window.location = url;
-
-  <%--          hidecontent();
-
-            $('#<%=txtPre.ClientID %>').val(parseInt(rowindex) - 1);
-            $('#<%=txtCurrent.ClientID %>').val(parseInt(rowindex));
-            $('#<%=txtNext.ClientID %>').val(parseInt(rowindex) + 1);
-       
-
-            loadIframe(url);
-
-
-         if (rowindex == 1) {
-             document.getElementById('<%=btnBack.ClientID %>').disabled = true;
-            } else {
-             document.getElementById('<%=btnBack.ClientID %>').disabled = false;
-            }
- 
-            if ($('#<%=txtMax.ClientID %>').val() == rowindex) {
-              document.getElementById('<%=btnNext.ClientID %>').disabled = true;
-            } else {
-              document.getElementById('<%=btnNext.ClientID %>').disabled = false;
-            }--%>
-
 
         }
 
@@ -151,7 +129,7 @@
 
 
         function ShowPopup() {
-
+            CreateTransLog('<%=UserData.LoginHistoryID %>', 'คลิกปุ่มสารบัญ');
 
             $(function () {
                 // $("#dialog").html(message);

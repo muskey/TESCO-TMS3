@@ -5,8 +5,9 @@ Imports Newtonsoft.Json.Linq
 Imports LinqDB.ConnectDB
 Imports System.Data.SqlClient
 
+
 ' To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line.
-' <System.Web.Script.Services.ScriptService()> _
+'<System.Web.Script.Services.ScriptService()>
 <System.Web.Script.Services.ScriptService()>
 <WebService(Namespace:="http://tempuri.org/")>
 <WebServiceBinding(ConformsTo:=WsiProfiles.BasicProfile1_1)>
@@ -14,9 +15,16 @@ Imports System.Data.SqlClient
 Public Class WebService
     Inherits System.Web.Services.WebService
 
+    '<WebMethod()>
+    'Public Function HelloWorld() As String
+    '    Return "Hello World"
+    'End Function
+
     <WebMethod()>
-    Public Function HelloWorld() As String
-        Return "Hello World"
+    Public Function CreateLogTrans(LoginHistoryID As Long, LogMsg As String) As String
+        Dim ret As String = "false"
+        LogFileBL.LogTrans(LoginHistoryID, LogMsg)
+        Return "true"
     End Function
 
     <WebMethod()>
@@ -203,14 +211,14 @@ Public Class WebService
             Dim ser As JObject = JObject.Parse(json)
             Dim data As List(Of JToken) = ser.Children().ToList
 
-            If Data.Count = 3 Then
-                If DirectCast(Data(0), JProperty).Value.ToString.ToLower = "true" Then
+            If data.Count = 3 Then
+                If DirectCast(data(0), JProperty).Value.ToString.ToLower = "true" Then
                     'ret = DirectCast(data(2), JProperty).Value
 
                     Dim lnq As New LinqDB.TABLE.TbUserSessionLinqDB
                     lnq.GetDataByPK(UserSessionID, Nothing)
                     If lnq.ID > 0 Then
-                        lnq.CURRENT_CLASS_ID = Convert.ToInt64(DirectCast(Data(2), JProperty).Value)
+                        lnq.CURRENT_CLASS_ID = Convert.ToInt64(DirectCast(data(2), JProperty).Value)
 
                         Dim trans As New LinqDB.ConnectDB.TransactionDB
                         If lnq.UpdateData(UserName, trans.Trans).IsSuccess = True Then

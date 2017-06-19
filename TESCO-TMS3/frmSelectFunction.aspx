@@ -13,9 +13,9 @@
                 // var control = $("#" + id);
                 var url = "frmSelectDepartment.aspx?user_function_id=" + id + '&title=' + name + '&color=' + color;
                 //alert(url);
+
+                CreateTransLog('<%=UserData.LoginHistoryID %>', 'เลือก Function ' + name);
                 window.location = url;
-
-
 
                 return false;
             } else {
