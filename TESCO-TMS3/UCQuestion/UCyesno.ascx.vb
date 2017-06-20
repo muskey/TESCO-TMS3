@@ -28,6 +28,7 @@ Public Class UCyesno
     End Sub
 
     Private Sub btnAns_ServerClick(sender As Object, e As EventArgs) Handles btnAns.ServerClick
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่มตอบ")
         If ValidateData() = True Then
             Dim isCorrect As Boolean = False
             Dim AnswerChoice As Integer = -1
@@ -52,9 +53,11 @@ Public Class UCyesno
                 trans.RollbackTransaction()
             End If
 
+            Dim LogMsg As String = "ตอบคำถาม " & lblQNumber.Text & " " & lblQDetail.Text
             If isCorrect = True Then
                 lblDialogHead.Text = "ยินดีด้วย"
                 litAnsDetail.Text = "<h2>คุณตอบถูก</h2>"
+                LogMsg += " ตอบถูก"
             Else
                 lblDialogHead.Text = "คุณตอบผิด"
                 divHeader.Attributes.Remove("style")
@@ -62,7 +65,9 @@ Public Class UCyesno
 
                 litAnsDetail.Text = "<font color='#019b79'><h4>คำตอบที่ถูกคือ<h4></font>"
                 litAnsDetail.Text += "<font color='#019b79'><h4>" + txtCorrectChoice.Text + "</h4></font>"
+                LogMsg += " ตอบผิด"
             End If
+            LogFileBL.LogTrans(UserData.LoginHistoryID, LogMsg)
 
             If txtShowAnswer.Text = "Y" Then
                 pnlAnsResult.Visible = True
@@ -74,7 +79,7 @@ Public Class UCyesno
 
     Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
 
-        'RaiseEvent btnAnsYESNOclick(sender, txtQuestion_no.Text)
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่ม ต่อไป")
         Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
 
     End Sub
@@ -88,6 +93,7 @@ Public Class UCyesno
     End Function
 
     Private Sub btnCloseDialog_Click(sender As Object, e As EventArgs) Handles btnCloseDialog.Click
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่ม ปิด")
         pnlAnsResult.Visible = False
     End Sub
 End Class

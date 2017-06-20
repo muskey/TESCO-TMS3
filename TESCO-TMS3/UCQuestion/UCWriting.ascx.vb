@@ -30,8 +30,10 @@ Public Class UCWriting
     End Sub
 
     Private Sub btnAns_ServerClick(sender As Object, e As EventArgs) Handles btnAns.ServerClick
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่มตอบ")
         If ValidateData() = True Then
 
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "คำตอบคือ" & txtAnsQuestion4.Text)
             Dim TimeSpen As Integer = DateDiff(DateInterval.Second, Convert.ToDateTime(Session("teststarttime")), DateTime.Now)
             Dim trans As New TransactionDB
             Dim ret As ExecuteDataInfo = SaveTestAnswerWriting(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, txtAnsQuestion4.Text)

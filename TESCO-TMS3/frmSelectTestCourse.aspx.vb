@@ -308,8 +308,10 @@ Public Class frmSelectTestCourse
 
                         If ret.IsSuccess = True Then
                             trans.CommitTransaction()
+                            LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลแบบทดสอบจาก Backend")
                         Else
                             trans.RollbackTransaction()
+                            LogFileBL.LogError(UserData, ret.ErrorMessage)
                         End If
                     Case "course_data"
                         For Each comment As JProperty In item.Values
@@ -320,6 +322,7 @@ Public Class frmSelectTestCourse
                                     UserData.CourseTotal = comment.Last
                             End Select
                         Next
+                        LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลสถิติบทการเรียนจาก Backend")
                     Case "testing_data"
                         For Each comment As JProperty In item.Values
                             Select Case comment.Name
@@ -331,6 +334,8 @@ Public Class frmSelectTestCourse
                                     UserData.TestingTotal = comment.Last
                             End Select
                         Next
+
+                        LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลสถิติการสอบจาก Backend")
                 End Select
             Next
 
@@ -338,6 +343,7 @@ Public Class frmSelectTestCourse
         Catch ex As Exception
             ret.IsSuccess = False
             ret.ErrorMessage = ex.Message
+            LogFileBL.LogException(UserData, ex.Message, ex.StackTrace)
         End Try
         Return ret
     End Function

@@ -48,6 +48,7 @@ Public Class UCPicture
     End Sub
 
     Private Sub btnAns_ServerClick(sender As Object, e As EventArgs) Handles btnAns.ServerClick
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่มตอบ")
         If ValidateData() = True Then
 
             Dim TimeSpen As Integer = DateDiff(DateInterval.Second, Convert.ToDateTime(Session("teststarttime")), DateTime.Now)
@@ -57,8 +58,11 @@ Public Class UCPicture
             For Each itm As RepeaterItem In rptQuestionPicture.Items
                 Dim lblCorrectAnswer As Label = itm.FindControl("lblCorrectAnswer")
                 Dim txtAnswer As TextBox = itm.FindControl("txtAnswer")
+                Dim lblQuestion As Label = itm.FindControl("lblQuestion")
 
                 Dim AnswerResult As String = IIf(lblCorrectAnswer.Text = Convert.ToInt16(txtAnswer.Text) - 1, "Y", "N")
+                LogFileBL.LogTrans(UserData.LoginHistoryID, "ตอบคำถาม " & lblQuestion.Text & ":" & txtAnswer.Text & "  " & IIf(AnswerResult = "Y", "ตอบถูก", "ตอบผิด"))
+
                 ret = SaveTestAnswer(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, Convert.ToInt16(txtAnswer.Text) - 1, AnswerResult)
                 If ret.IsSuccess = False Then
                     Exit For
@@ -72,11 +76,6 @@ Public Class UCPicture
             End If
 
             Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
-            'If txtShowAnswer.Text = "Y" Then
-            '    pnlAnsResult.Visible = True
-            'Else
-            '    Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
-            'End If
         End If
     End Sub
 

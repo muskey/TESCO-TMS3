@@ -21,10 +21,13 @@
             $('#<%=txtFormatID.ClientID %>').val(id);
             $('#<%=txtFormatTitle.ClientID %>').val(title);
 
+            CreateTransLog('<%=UserData.LoginHistoryID %>', 'เลือกแบบทดสอบ' + title);
             onConfirmTest(id, title, percent, qty);
         }
 
-        function onConfirmTest(id, title, desc, percent,qty) {
+        function onConfirmTest(id, title, desc, percent, qty) {
+            CreateTransLog('<%=UserData.LoginHistoryID %>', 'เลือกแบบทดสอบ' + title);
+
             var msg = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             msg += desc + '<br /><br /><br />';
             msg += 'จำนวนคำถาม ' + qty + ' ข้อ เกณฑ์คะแนน ' + percent + '%';
@@ -40,7 +43,7 @@
                                     div.dialog("close");
 
                                     var url = "frmSelectQuestionTest.aspx?id=" + id + "&q_id=1";
-                                    //alert(url);
+                                    CreateTransLog('<%=UserData.LoginHistoryID %>', 'เริ่มทำแบบทดสอบ' + title);
                                     window.location = url;
                                     // onDelete(id);
 
@@ -50,6 +53,7 @@
                                 text: "ปิด",
                                 "class": 'saveButtonClass',
                                 click: function () {
+                                    CreateTransLog('<%=UserData.LoginHistoryID %>', 'คลิกปุ่มปิด');
                                     div.dialog("close");
                                 }
                             }

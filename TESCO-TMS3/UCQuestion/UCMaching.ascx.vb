@@ -88,6 +88,7 @@ Public Class UCMaching
 
     Private Sub btnAns_ServerClick(sender As Object, e As EventArgs) Handles btnAns.ServerClick
         'Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่มตอบ")
         If ValidateData() = True Then
             lblDialogHead.Text = "เฉลยคำตอบ"
 
@@ -97,8 +98,13 @@ Public Class UCMaching
             For Each itm As RepeaterItem In rptAnswerMatching.Items
                 Dim lblCorrectAnswer As Label = itm.FindControl("lblCorrectAnswer")
                 Dim txtAnswer As TextBox = itm.FindControl("txtAnswer")
+                Dim lblAnswer As Label = itm.FindControl("lblAnswer")
 
                 Dim AnswerResult As String = IIf(lblCorrectAnswer.Text = Convert.ToInt16(txtAnswer.Text) - 1, "Y", "N")
+
+                LogFileBL.LogTrans(UserData.LoginHistoryID, "ตอบคำถาม " & lblAnswer.Text & ":" & txtAnswer.Text & "  " & IIf(AnswerResult = "Y", "ตอบถูก", "ตอบผิด"))
+
+
                 ret = SaveTestAnswer(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, Convert.ToInt16(txtAnswer.Text) - 1, AnswerResult)
                 If ret.IsSuccess = False Then
                     Exit For

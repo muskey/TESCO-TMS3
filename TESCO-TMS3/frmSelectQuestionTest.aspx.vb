@@ -70,6 +70,8 @@ Public Class frmSelectQuestionTest
             UCWriting.Visible = False
             UCPicture.Visible = False
 
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงรายละเอียดคำถามที่ " & q_id & "/" & lblQuestionQty.Text & " ประเภทคำถาม " & qDt.Rows(0)("question_type").ToString)
+
             Select Case qDt.Rows(0)("question_type").ToString.ToLower
                 Case "abcd"
                     Dim question_number As Double = qDt.Rows(0)("question_no").ToString()
