@@ -484,32 +484,100 @@ Public Class frmLogin
         End If
     End Sub
 
+
+    Private Function CheckPasswordPolicy(pssWd As String) As Boolean
+        If txtOTPPassword.Text.Trim <> txtOTPConfirmPassword.Text.Trim Then
+            ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "Alert", "alert('การยืนยันรหัสผ่านไม่ตรงกัน');", True)
+            Return False
+        End If
+
+
+
+        'The password require 8 characters
+        'The password must using at least 3 of 4 types
+        '   - An Upper and Lower case alpha
+        '   - A Number
+        '   - A Special character e.g.!?*&
+        'Password must be changed at least every 90 days.
+        'The password history must be set to remember at least 3 passwords to prevent frequent password re-use.
+
+        'Dim ret As Boolean = False
+        If pssWd.Trim.Length < 8 Then
+            ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "Alert", "alert('รหัสผ่านต้องมีความยาวไม่น้อยกว่า 8 ตัวอักษร');", True)
+            Return False
+        End If
+
+        Dim TypeCount As Integer = 0
+
+        'เช็คว่ามีตัวพิมพ์ใหญ่
+        For Each c As Char In pssWd
+            Dim i As Integer = Convert.ToInt16(c)
+            If i >= 65 And i <= 90 Then
+                TypeCount += 1
+                Exit For
+            End If
+        Next
+
+        'เช็คว่ามีตัวพิมพ์เล็ก
+        For Each c As Char In pssWd
+            Dim i As Integer = Convert.ToInt16(c)
+            If i >= 97 And i <= 122 Then
+                TypeCount += 1
+                Exit For
+            End If
+        Next
+
+        'เช็คว่ามีตัวเลขด้วย
+        For Each c As Char In pssWd
+            Dim i As Integer = Convert.ToInt16(c)
+            If i >= 48 And i <= 57 Then
+                TypeCount += 1
+                Exit For
+            End If
+        Next
+
+        'เช็คว่ามีอักขระพิเศษด้วยนะ
+        For Each c As Char In pssWd
+            Select Case c
+                Case "!", "#", "$", "%", "*", "+", "-", ".", ":", ";", "?", "@", "^", "|", "="
+                    TypeCount += 1
+                    Exit For
+
+            End Select
+        Next
+
+        If TypeCount < 3 Then
+            ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "Alert", "alert('รหัสผ่านจะต้องเป็นตัวอักษรภาษาอังกฤษที่มีตัวพิมพ์ใหญ่ พิมพ์เล็ก ตัวเลข และอัขระพิเศษ');", True)
+            Return False
+        End If
+
+        Return True
+    End Function
     Private Sub btnOTPLogin_Click(sender As Object, e As EventArgs) Handles btnOTPLogin.Click
         'Validate Password
+        If CheckPasswordPolicy(txtOTPPassword.Text) = True Then
+            Dim info As String = ""
+            info = GetStringDataFromURL(GetWebServiceURL() & "api/otp/login", "user_id=" & txtOTPUserLogin.Text & "&otp=" & txtOTPCode.Text & "&password=" & txtOTPPassword.Text)
+            If info.Trim <> "" Then
+                Dim json As String = info
+                Dim ser As JObject = JObject.Parse(json)
+                Dim data As List(Of JToken) = ser.Children().ToList
+                Dim ret As String = ""
 
+                For Each item As JProperty In data
+                    item.CreateReader()
 
+                    Select Case item.Name
+                        Case "status"
+                            ret = item.First.ToString.ToLower
+                    End Select
+                Next
 
-        Dim info As String = ""
-        info = GetStringDataFromURL(GetWebServiceURL() & "api/otp/login", "user_id=" & txtOTPUserLogin.Text & "&otp=" & txtOTPCode.Text & "&password=" & txtOTPPassword.Text)
-        If info.Trim <> "" Then
-            Dim json As String = info
-            Dim ser As JObject = JObject.Parse(json)
-            Dim data As List(Of JToken) = ser.Children().ToList
-            Dim ret As String = ""
-
-            For Each item As JProperty In data
-                item.CreateReader()
-
-                Select Case item.Name
-                    Case "status"
-                        ret = item.First.ToString.ToLower
-                End Select
-            Next
-
-            If ret = "true" Then
-                If Login(txtUsername.Text, txtPassword.Text) = True Then
-                    Session("Username") = txtUsername.Text
-                    Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
+                If ret = "true" Then
+                    If Login(txtUsername.Text, txtPassword.Text) = True Then
+                        Session("Username") = txtUsername.Text
+                        Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
+                    End If
                 End If
             End If
         End If
