@@ -50,22 +50,48 @@ Public Class frmSelectCourse
 
         Dim strURlImage As String = Request.Url.GetLeftPart(UriPartial.Authority) + Request.ApplicationPath & "Assets/PC/icon_course_book.png"
 
-        Dim sql As String = "select * "
-        sql += " from tb_user_course "
-        sql += " where 1=1 And tb_user_department_id=@_USER_DEPARTMENT_ID"
-        sql += " order by course_title"
-        Dim p(1) As SqlParameter
+        Dim sql As String = "select c.*, cr.is_finished pre_course_finish "
+        sql += " from tb_user_course c"
+        sql += " left join tb_user_course cr on cr.course_id=c.prerequisite_course_id and cr.user_id=@_USER_ID"
+        sql += " where 1=1 And c.tb_user_department_id=@_USER_DEPARTMENT_ID"
+        sql += " and c.user_id=@_USER_ID"
+        sql += " order by c.course_title"
+        Dim p(2) As SqlParameter
         p(0) = SqlDB.SetBigInt("@_USER_DEPARTMENT_ID", User_Department_id)
+        p(1) = SqlDB.SetBigInt("@_USER_ID", UserData.UserID)
         Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
 
         Dim strMain As String = "<ul class=""tiles"">"
         For Each dr As DataRowView In dt.DefaultView
-            strMain += " <li  onclick=""ShowPopup('" + dr("id").ToString + "','" + dr("course_title").ToString + "','" + dr("course_title").ToString + "','" & UserData.UserSessionID & "');"" id=" + dr("id").ToString
-            strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px"">"
-            strMain += "    <a href=""#"">"
-            strMain += "        <span class=""text-center"" style=""font-size:20px;padding-top:25px;"" >" + dr("course_title").ToString + "</span>"
-            strMain += "    </a>"
-            strMain += " </li>"
+            'ถ้าเป็น Course ที่มี Prerequisite ให้ตรวจสอบว่า Course ที่เป็น Prerequisite นั้นได้เรียนจบแล้วหรือไม่
+            Dim IsShow As Boolean = False
+            If Convert.ToInt64(dr("prerequisite_course_id")) > 0 Then
+                If Convert.IsDBNull(dr("pre_course_finish")) = False Then
+                    If dr("pre_course_finish") = "Y" Then
+                        IsShow = True
+                    End If
+                End If
+            Else
+                IsShow = True
+            End If
+
+            If IsShow = True Then
+                strMain += " <li  onclick=""ShowPopup('" + dr("id").ToString + "','" + dr("course_title").ToString + "','" + dr("course_title").ToString + "','" & UserData.UserSessionID & "');"" id=" + dr("id").ToString
+                strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px"">"
+                strMain += "    <a href=""#"">"
+                strMain += "        <span class=""text-center"" style=""font-size:20px;padding-top:25px;padding-left:15px;padding-right:15px;"" >" + dr("course_title").ToString + "</span>"
+                strMain += "    </a>"
+                strMain += " </li>"
+            Else
+                strMain += " <li id=" + dr("id").ToString
+                strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px"">"
+                strMain += "    <a href=""#"" style='cursor:default' >"
+                strMain += "        <span class=""text-center"" style=""font-size:20px;padding-top:25px;padding-left:15px;padding-right:15px;"" >" + dr("course_title").ToString + "</span>"
+                strMain += "    </a>"
+                strMain += " </li>"
+            End If
+
+
         Next
         strMain += "</ul>"
         lblMain.Text = strMain

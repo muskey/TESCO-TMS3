@@ -89,15 +89,32 @@ Module TescoModule
     End Function
 
 #Region "Log"
-    Public Sub CallAPIUpdateLog(token As String, vAction As String, vModule As String, data As String)
+    Public Function CallAPIUpdateLog(token As String, vAction As String, vModule As String, data As String) As Boolean
         'เมื่อเรียนจบหลักสูตรให้บันทึก Log
+
+        Dim ret As Boolean = False
         Dim info As String = ""
         info = GetStringDataFromURL(GetWebServiceURL() & "api/log", token & "&action=" & vAction & "&module=" & vModule & "&data=" & data)
-    End Sub
+        If info.Trim <> "" Then
+            Dim json As String = info
+            Dim ser As JObject = JObject.Parse(json)
+            Dim ser_data As List(Of JToken) = ser.Children().ToList
+
+            For Each item As JProperty In ser_data
+                Select Case item.Name
+                    Case "status"
+                        ret = Convert.ToBoolean(item.First)
+                        Exit For
+                End Select
+            Next
+        End If
+
+        Return ret
+    End Function
 
 
 
-    Public Sub UpdateLog(id As Long, ClassID As Long, Token As String, UserDataCourseFile As DataTable)
+    Public Sub UpdateLog(id As Long, ClassID As Long, Token As String, UserDataCourseFile As DataTable, Username As String)
         Dim tb_user_course_document_id As String = "0"
         Dim doc_id As String = "0"
         Dim course_id As String = "0"
@@ -119,7 +136,21 @@ Module TescoModule
         Dim strfillter As String = "id >" & id
         UserDataCourseFile.DefaultView.RowFilter = strfillter
         If UserDataCourseFile.DefaultView.Count = 0 Then
-            CallAPIUpdateLog(Token, "complete", "class", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "}")
+            If CallAPIUpdateLog(Token, "complete", "class", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "}") = True Then
+                'เมื่อเรียนจบหลักสูตรแล้วให้ Update IS_FINISHED ว่าเรียนจบแล้ว
+
+                Dim lnq As New TbUserCourseLinqDB
+                lnq.GetDataByPK(course_id, Nothing)
+                lnq.IS_FINISHED = "Y"
+
+                Dim trans As New TransactionDB
+                Dim ret As ExecuteDataInfo = lnq.UpdateData(Username, trans.Trans)
+                If ret.IsSuccess = True Then
+                    trans.CommitTransaction()
+                Else
+                    trans.RollbackTransaction()
+                End If
+            End If
         Else
             CallAPIUpdateLog(Token, "complete", "document", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "," & Chr(34) & "document_id" & Chr(34) & ":" & doc_id & "}")
         End If

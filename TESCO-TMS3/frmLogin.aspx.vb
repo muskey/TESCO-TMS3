@@ -397,6 +397,8 @@ Public Class frmLogin
                 lnq.ICON_URL = comment("icon").ToString
                 lnq.COVER_URL = comment("cover").ToString
                 lnq.IS_DOCUMENT_LOCK = IIf(comment("is_document_lock").ToString.ToLower = "true", "Y", "N")
+                If comment("prerequisite_course_id").ToString.Trim <> "" Then lnq.PREREQUISITE_COURSE_ID = comment("prerequisite_course_id").ToString
+                lnq.IS_FINISHED = IIf(comment("is_finished").ToString.ToLower = "true", "Y", "N")
                 lnq.DOCUMENT_DETAIL = "{""document"":" & comment("document").ToString & "}"
                 lnq.BIND_DOCUMENT = "N"
 
@@ -483,6 +485,10 @@ Public Class frmLogin
     End Sub
 
     Private Sub btnOTPLogin_Click(sender As Object, e As EventArgs) Handles btnOTPLogin.Click
+        'Validate Password
+
+
+
         Dim info As String = ""
         info = GetStringDataFromURL(GetWebServiceURL() & "api/otp/login", "user_id=" & txtOTPUserLogin.Text & "&otp=" & txtOTPCode.Text & "&password=" & txtOTPPassword.Text)
         If info.Trim <> "" Then

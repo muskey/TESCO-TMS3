@@ -21,7 +21,7 @@ Public Class frmDisplayImage
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
             Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
-            UpdateLog(id, UserData.CurrentClassID, UserData.Token, DirectCast(Session("UserDataCourseFile"), DataTable))
+            UpdateLog(id, UserData.CurrentClassID, UserData.Token, DirectCast(Session("UserDataCourseFile"), DataTable), UserData.UserName)
             SetContent()
             GetData()
             GetBotton()
