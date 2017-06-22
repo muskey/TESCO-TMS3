@@ -128,7 +128,7 @@ Partial Public Class UCMaching
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnAns As Global.System.Web.UI.HtmlControls.HtmlButton
+    Protected WithEvents btnAns As Global.System.Web.UI.WebControls.LinkButton
     
     '''<summary>
     '''btnSummary control.

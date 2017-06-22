@@ -34,6 +34,9 @@ Public Class frmSelectQuestionTest
                     SetStartTest()
                 Else
                     'ถ้าเป็นคำถามสุดท้ายแล้วให้ Update Log ไปยัง Backend และแสดงหน้าจอสรุป
+                    pnlTestQuestion.Visible = False
+
+
                     Dim aDt As DataTable = GetAnswerDT()
                     SendTestingLog(aDt)
                     ShowTestSummary(aDt)
@@ -98,10 +101,11 @@ Public Class frmSelectQuestionTest
     End Sub
 
     Private Function GetAnswerDT() As DataTable
-        Dim sql As String = "select ta.id, tq.test_id, ta.answer_result, ta.answer_choice,tq.question_no, ta.tb_testing_question_id,ta.time_spent, "
+        Dim sql As String = "select ta.id, t.id test_id, ta.answer_result, ta.answer_choice,tq.question_no, ta.tb_testing_question_id,ta.time_spent, "
         sql += " tq.question_type, tq.weight"
         sql += " From TB_TESTING_ANSWER ta "
         sql += " inner join TB_TESTING_QUESTION tq on tq.id=ta.tb_testing_question_id "
+        sql += " inner join TB_TESTING t on t.id=tq.tb_testing_id"
         sql += " where ta.tb_testing_id=@_TESTING_ID "
         Dim p(1) As SqlParameter
         p(0) = SqlDB.SetBigInt("@_TESTING_ID", test_id)
@@ -214,6 +218,44 @@ Public Class frmSelectQuestionTest
     End Sub
 
     Private Sub ShowTestSummary(AnswerDt As DataTable)
+        Dim TotalWeight As Integer = 0
+        Dim CorrectScore As Double = 0
+        Dim ResultPercent As Double = 0
+        Dim Target As Integer = lblTargetPercent.Text
+        Dim qDt As DataTable = AnswerDt.DefaultView.ToTable(True, "tb_testing_question_id", "weight")
+        If qDt.Rows.Count > 0 Then
+            TotalWeight = Convert.ToInt64(qDt.Compute("sum(weight)", ""))   '100%
+            For i As Integer = 0 To qDt.Rows.Count - 1
+                Dim TestQuestionID As Long = qDt.Rows(i)("tb_testing_question_id")
+                Dim Weight As Integer = qDt.Rows(i)("weight")
 
+                AnswerDt.DefaultView.RowFilter = "tb_testing_question_id=" & TestQuestionID & " and answer_result='Y'"
+                Dim CorrectQty As Integer = AnswerDt.DefaultView.Count
+
+                AnswerDt.DefaultView.RowFilter = "tb_testing_question_id=" & TestQuestionID
+                Dim AnsQty As Integer = AnswerDt.DefaultView.Count
+
+                CorrectScore += ((CorrectQty * Weight) / AnsQty)
+
+                AnswerDt.DefaultView.RowFilter = ""
+            Next
+
+            ResultPercent = (CorrectScore * 100) / TotalWeight
+        End If
+
+        If ResultPercent < Target Then
+            pnlSummaryFalse.Visible = True
+            lblCorrectScoreFalse.Text = CorrectScore.ToString("0")
+            lblTotalScoreFalse.Text = TotalWeight
+            lblTotalQuestionFalse.Text = lblQuestionQty.Text
+            lblResultPercentFalse.Text = Target & "%"
+        Else
+            pnlSummaryTrue.Visible = True
+
+            lblCorrectScoreTrue.Text = CorrectScore.ToString("0")
+            lblTotalScoreTrue.Text = TotalWeight
+            lblTotalQuestionTrue.Text = lblQuestionQty.Text
+            lblResultPercentTrue.Text = Target & "%"
+        End If
     End Sub
 End Class

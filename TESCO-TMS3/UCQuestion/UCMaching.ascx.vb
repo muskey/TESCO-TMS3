@@ -86,7 +86,7 @@ Public Class UCMaching
         lblCorrectAnswer.Text = e.Item.DataItem("correct_answer")
     End Sub
 
-    Private Sub btnAns_ServerClick(sender As Object, e As EventArgs) Handles btnAns.ServerClick
+    Private Sub btnAns_Click(sender As Object, e As EventArgs) Handles btnAns.Click
         'Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
         LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่มตอบ")
         If ValidateData() = True Then
@@ -119,11 +119,6 @@ Public Class UCMaching
 
 
             Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
-            'If txtShowAnswer.Text = "Y" Then
-            '    pnlAnsResult.Visible = True
-            'Else
-            '    Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
-            'End If
         End If
 
     End Sub

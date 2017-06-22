@@ -66,7 +66,9 @@
             <div class="span5"></div>
             <div class="span2 text-center">
                 <p>
-                    <button class="btn-block btn btn-large btn-green" runat="server" id="btnAns">ตอบ</button>
+                    <asp:LinkButton ID="btnAns" runat="server" CssClass="btn-block btn btn-large btn-green">
+                        <span>ตอบ</span>
+                    </asp:LinkButton>
                     <button class="btn-block btn btn-large" runat="server" id="btnSummary" visible="false">ผลสอบ</button>
                     <button class="btn-block btn btn-large" runat="server" id="btnTest" visible="false">ผลสอบ test</button>
                 </p>

@@ -60,10 +60,10 @@ Public Class UCPicture
                 Dim txtAnswer As TextBox = itm.FindControl("txtAnswer")
                 Dim lblQuestion As Label = itm.FindControl("lblQuestion")
 
-                Dim AnswerResult As String = IIf(lblCorrectAnswer.Text = Convert.ToInt16(txtAnswer.Text) - 1, "Y", "N")
+                Dim AnswerResult As String = IIf(lblCorrectAnswer.Text = txtAnswer.Text, "Y", "N")
                 LogFileBL.LogTrans(UserData.LoginHistoryID, "ตอบคำถาม " & lblQuestion.Text & ":" & txtAnswer.Text & "  " & IIf(AnswerResult = "Y", "ตอบถูก", "ตอบผิด"))
 
-                ret = SaveTestAnswer(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, Convert.ToInt16(txtAnswer.Text) - 1, AnswerResult)
+                ret = SaveTestAnswer(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, txtAnswer.Text, AnswerResult)
                 If ret.IsSuccess = False Then
                     Exit For
                 End If

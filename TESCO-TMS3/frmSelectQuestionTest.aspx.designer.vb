@@ -32,6 +32,15 @@ Partial Public Class frmSelectQuestionTest
     Protected WithEvents lblTestTitle As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''pnlTestQuestion control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlTestQuestion As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
     '''UCabcd1 control.
     '''</summary>
     '''<remarks>
@@ -120,4 +129,112 @@ Partial Public Class frmSelectQuestionTest
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblQuestionQty As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''pnlSummaryFalse control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlSummaryFalse As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''lblCorrectScoreFalse control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCorrectScoreFalse As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lblTotalScoreFalse control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblTotalScoreFalse As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lblTotalQuestionFalse control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblTotalQuestionFalse As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lblResultPercentFalse control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblResultPercentFalse As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''btnBackFalse control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnBackFalse As Global.System.Web.UI.WebControls.LinkButton
+    
+    '''<summary>
+    '''pnlSummaryTrue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlSummaryTrue As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''lblCorrectScoreTrue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCorrectScoreTrue As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lblTotalScoreTrue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblTotalScoreTrue As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lblTotalQuestionTrue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblTotalQuestionTrue As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lblResultPercentTrue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblResultPercentTrue As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''btnBackTrue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnBackTrue As Global.System.Web.UI.WebControls.LinkButton
 End Class
