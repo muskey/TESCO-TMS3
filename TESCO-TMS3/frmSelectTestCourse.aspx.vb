@@ -18,7 +18,7 @@ Public Class frmSelectTestCourse
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
-            If GetDatableTableFromTesting.IsSuccess = True Then
+            If GetTestStatistic.IsSuccess = True Then
                 Me.txtFormatID.Style.Add("display", "none")
                 Me.txtFormatTitle.Style.Add("display", "none")
                 SetTestSubject()
@@ -28,17 +28,16 @@ Public Class frmSelectTestCourse
 
     End Sub
 
-    Public Function GetDatableTableFromTesting() As ExecuteDataInfo
+    Public Function GetTestStatistic() As ExecuteDataInfo
         Dim ret As New ExecuteDataInfo
         Try
-
             Dim UserData As UserProfileData = Session("UserData")
-            LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลแบบทดสอบจาก Backend")
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลสถิติจาก Backend")
 
             Dim info As String = ""
             info = GetStringDataFromURL(GetWebServiceURL() & "api/testing/get", UserData.Token & "&user_id=" & UserData.UserID)
             If info.Trim = "" Then
-                LogFileBL.LogError(UserData, "ดึงข้อมูลแบบทดสอบไม่สำเร็จ")
+                LogFileBL.LogError(UserData, "ดึงข้อมูลสถิติไม่สำเร็จ")
                 Return New ExecuteDataInfo
             End If
 
@@ -50,278 +49,6 @@ Public Class frmSelectTestCourse
             For Each item As JProperty In data
                 item.CreateReader()
                 Select Case item.Name
-                    Case "testing"
-                        LogFileBL.LogTrans(UserData.LoginHistoryID, "ลบ Temp Testing")
-
-                        Dim trans As New TransactionDB
-                        Dim sql As String = " delete from TB_TESTING_ANSWER "
-                        sql += " where tb_testing_id in (select id from TB_TESTING where tb_user_session_id=@_USER_SESSION_ID) "
-                        Dim p(1) As SqlParameter
-                        p(0) = SqlDB.SetBigInt("@_USER_SESSION_ID", UserData.UserSessionID)
-
-                        ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
-                        If ret.IsSuccess = True Then
-                            sql = " delete from TB_TESTING_ANSWER_WRITING "
-                            sql += " where tb_testing_id in (select id from TB_TESTING where tb_user_session_id=@_USER_SESSION_ID) "
-                            ReDim p(1)
-                            p(0) = SqlDB.SetBigInt("@_USER_SESSION_ID", UserData.UserSessionID)
-
-                            ret = SqlDB.ExecuteNonQuery(sql, p)
-                            If ret.IsSuccess = True Then
-                                sql = "delete from TB_TESTING_QUESTION "
-                                sql += " where tb_testing_id in (select id from TB_TESTING where tb_user_session_id=@_USER_SESSION_ID) "
-                                ReDim p(1)
-                                p(0) = SqlDB.SetBigInt("@_USER_SESSION_ID", UserData.UserSessionID)
-
-                                ret = SqlDB.ExecuteNonQuery(sql, p)
-                                If ret.IsSuccess = True Then
-                                    sql = "delete from TB_TESTING where tb_user_session_id=@_USER_SESSION_ID"
-                                    ReDim p(1)
-                                    p(0) = SqlDB.SetBigInt("@_USER_SESSION_ID", UserData.UserSessionID)
-
-                                    ret = SqlDB.ExecuteNonQuery(sql, p)
-                                    If ret.IsSuccess = False Then
-                                        trans.RollbackTransaction()
-                                        Return ret
-                                    End If
-                                Else
-                                    trans.RollbackTransaction()
-                                    Return ret
-                                End If
-                            Else
-                                trans.RollbackTransaction()
-                                Return ret
-                            End If
-                        Else
-                            trans.RollbackTransaction()
-                            Return ret
-                        End If
-
-
-                        LogFileBL.LogTrans(UserData.LoginHistoryID, "Insert Testing Data")
-                        For Each comment As JObject In item.Values
-                            Dim lnq As New TbTestingLinqDB
-                            lnq.TEST_ID = comment("id")
-                            lnq.TEST_TITLE = comment("title").ToString
-                            lnq.TEST_DESC = comment("description").ToString
-                            lnq.TARGET_PERCENTAGE = Convert.ToInt32(comment("target_percentage"))
-                            lnq.COURSE_ID = Convert.ToInt32(comment("course_id"))
-                            lnq.TB_USER_SESSION_ID = UserData.UserSessionID
-                            lnq.QUESTION_QTY = 0
-                            lnq.IS_RANDOM_QUESTION = IIf(Convert.ToBoolean(comment("is_random_question")) = True, "Y", "N")
-                            lnq.IS_SHOW_ANSWER = IIf(Convert.ToBoolean(comment("is_show_answer")) = True, "Y", "N")
-
-                            ret = lnq.InsertData(UserData.UserName, trans.Trans)
-                            If ret.IsSuccess = True Then
-                                Dim question_qty As Integer = 0
-                                Dim question_txt As String = "{""question"":" & comment("question").ToString & "}"
-                                Dim question_ser As JObject = JObject.Parse(question_txt)
-                                Dim question_data As List(Of JToken) = question_ser.Children().ToList
-                                For Each question_item As JProperty In question_data
-                                    For Each question_comment As JObject In question_item.Values
-                                        Try
-                                            question_qty = question_qty + 1
-                                            question_item.CreateReader()
-
-                                            Dim qLnq As New TbTestingQuestionLinqDB
-                                            qLnq.TB_TESTING_ID = lnq.ID
-                                            qLnq.TEST_ID = lnq.TEST_ID
-                                            qLnq.ICON_URL = question_comment("cover").ToString
-                                            qLnq.QUESTION_NO = question_qty
-                                            If question_comment("description") IsNot Nothing Then qLnq.QUESTION_TITLE = question_comment("description").ToString
-                                            qLnq.WEIGHT = question_comment("weight").ToString
-                                            qLnq.QUESTION_TYPE = question_comment("type").ToString
-                                            qLnq.IS_RANDOM_ANSWER = IIf(Convert.ToBoolean(comment("is_random_answer")) = True, "Y", "N")
-
-                                            Select Case question_comment("type").ToString.ToLower
-                                                Case "abcd"
-                                                    Dim vChoice As String = ""
-                                                    Dim vAnswer As String = ""
-
-                                                    Dim answer_txt As String = "{""answer"":" & question_comment("answer").ToString & "}"
-                                                    Dim answer_ser As JObject = JObject.Parse(answer_txt)
-                                                    Dim answer_data As List(Of JToken) = answer_ser.Children().ToList
-
-                                                    If qLnq.IS_RANDOM_ANSWER = "Y" Then
-                                                        'สุ่มคำตอบ
-                                                        For Each answer_item As JProperty In answer_data
-                                                            Dim PreAlphabet As Integer = Asc("ก")
-                                                            Dim aDt As New DataTable
-                                                            aDt.Columns.Add("choice")
-                                                            aDt.Columns.Add("answer")
-
-                                                            For Each answer_comment As JObject In answer_item.Values
-                                                                answer_item.CreateReader()
-
-                                                                Dim aDr As DataRow = aDt.NewRow
-                                                                aDr("choice") = Chr(PreAlphabet) & ". " & answer_comment("text").ToString
-                                                                aDr("answer") = answer_comment("is_correct").ToString
-                                                                aDt.Rows.Add(aDr)
-
-                                                                PreAlphabet += 1
-                                                                If PreAlphabet = 163 Then   '163=ตัว ฃ ขวด
-                                                                    PreAlphabet += 1
-                                                                ElseIf PreAlphabet = 165 Then  ' 165= ฅ คน
-                                                                    PreAlphabet += 2
-                                                                End If
-                                                            Next
-
-                                                            'สุ่มคำตอบ
-                                                            aDt.Columns.Add("RandNum", GetType(Integer))
-                                                            Dim i As Integer
-                                                            Dim rndNum As New Random()
-                                                            For i = 0 To aDt.Rows.Count - 1
-                                                                aDt.Rows(i)("RandNum") = rndNum.Next(10000)
-                                                            Next i
-
-                                                            aDt.DefaultView.Sort = "RanNum"
-                                                            aDt = aDt.DefaultView.ToTable
-
-                                                            For Each aDr As DataRow In aDt.Rows
-                                                                If vChoice = "" Then
-                                                                    vChoice = aDr("choice").ToString
-                                                                Else
-                                                                    vChoice += "##" & aDr("choice").ToString
-                                                                End If
-
-                                                                If vAnswer = "" Then
-                                                                    vAnswer = aDr("answer").ToString
-                                                                Else
-                                                                    vAnswer += "##" + aDr("answer").ToString
-                                                                End If
-                                                            Next
-                                                        Next
-                                                    Else
-                                                        For Each answer_item As JProperty In answer_data
-                                                            Dim PreAlphabet As Integer = Asc("ก")
-
-                                                            For Each answer_comment As JObject In answer_item.Values
-                                                                answer_item.CreateReader()
-
-                                                                If vChoice = "" Then
-                                                                    vChoice = Chr(PreAlphabet) & ". " & answer_comment("text").ToString
-                                                                Else
-                                                                    vChoice += "##" & Chr(PreAlphabet) & ". " & answer_comment("text").ToString
-                                                                End If
-
-                                                                If vAnswer = "" Then
-                                                                    vAnswer = answer_comment("is_correct").ToString
-                                                                Else
-                                                                    vAnswer += "##" + answer_comment("is_correct").ToString
-                                                                End If
-
-                                                                PreAlphabet += 1
-                                                                If PreAlphabet = 163 Then   '163=ตัว ฃ ขวด
-                                                                    PreAlphabet += 1
-                                                                ElseIf PreAlphabet = 165 Then  ' 165= ฅ คน
-                                                                    PreAlphabet += 2
-                                                                End If
-                                                            Next
-                                                        Next
-                                                    End If
-
-                                                    qLnq.CHOICE = vChoice
-                                                    qLnq.ANSWER = vAnswer
-
-                                                Case "yes/no"
-                                                    qLnq.YESNO_CORRECT_ANSWER = Convert.ToInt64(IIf(Convert.ToBoolean(question_comment("correct_answer")) = True, 1, 0))
-                                                Case "writing"
-
-                                                Case "matching"
-                                                    qLnq.MATCHING_LEFTTEXT = question_comment("leftText").ToString.Replace(vbCrLf, "###")
-                                                    qLnq.MATCHING_RIGHTTEXT = question_comment("rightText").ToString.Replace(vbCrLf, "###")
-                                                    qLnq.MATCHING_CORRECT_ANSWER = question_comment("correct_answer_id_list").ToString.Replace("[", "").Replace("]", "").Trim
-                                                Case "picture"
-                                                    qLnq.PICTURE_TEXT = question_comment("text").ToString.ToString.Replace(vbCrLf, "###")
-                                                    qLnq.PICTURE_CORRECT_ANSWER = question_comment("correct_answer_id_list").ToString.Replace("[", "").Replace("]", "").Trim
-                                            End Select
-
-                                            ret = qLnq.InsertData(UserData.UserName, trans.Trans)
-                                            If ret.IsSuccess = False Then
-                                                Exit For
-                                            End If
-                                        Catch ex As Exception
-                                            ret.IsSuccess = False
-                                            ret.ErrorMessage = ex.Message
-                                            Exit For
-                                        End Try
-                                    Next
-                                    If ret.IsSuccess = False Then
-                                        Exit For
-                                    End If
-                                Next
-
-                                If ret.IsSuccess = False Then
-                                    Exit For
-                                End If
-
-                                'จำนวนคำถามในแบบทดสอบ
-                                lnq.QUESTION_QTY = question_qty
-                                ret = lnq.UpdateData(UserData.UserName, trans.Trans)
-                                If ret.IsSuccess = True Then
-                                    'กรณีกำหนดให้มีการสุ่มคำถาม
-                                    If lnq.IS_RANDOM_QUESTION = "Y" Then
-                                        Dim dt As DataTable = GetTestQuestion(lnq.ID, trans)
-                                        If dt.Rows.Count > 0 Then
-                                            'ลบข้อมูลเดิมทิ้งไป เพื่อจัดลำดับใหม่
-                                            ret = DeleteTestQuestion(lnq.ID, trans)
-                                            If ret.IsSuccess = True Then
-                                                dt.Columns.Add("RandNum", GetType(Integer))
-                                                Dim i As Integer
-                                                Dim rndNum As New Random()
-                                                For i = 0 To dt.Rows.Count - 1
-                                                    dt.Rows(i)("RandNum") = rndNum.Next(10000)
-                                                Next i
-                                                dt.DefaultView.Sort = "RandNum"
-
-                                                dt = dt.DefaultView.ToTable
-
-                                                i = 1
-                                                For Each dr As DataRow In dt.Rows
-                                                    Dim qLnq As New TbTestingQuestionLinqDB
-                                                    qLnq.TB_TESTING_ID = lnq.ID
-                                                    qLnq.TEST_ID = dr("test_id")
-                                                    qLnq.QUESTION_NO = i
-                                                    If Convert.IsDBNull(dr("question_title")) = False Then qLnq.QUESTION_TITLE = dr("question_title")
-                                                    If Convert.IsDBNull(dr("icon_url")) = False Then qLnq.ICON_URL = dr("icon_url")
-                                                    If Convert.IsDBNull(dr("weight")) = False Then qLnq.WEIGHT = Convert.ToInt32(dr("weight"))
-                                                    qLnq.QUESTION_TYPE = dr("question_type")
-                                                    qLnq.IS_RANDOM_ANSWER = dr("is_random_answer")
-                                                    If Convert.IsDBNull(dr("choice")) = False Then qLnq.CHOICE = dr("choice")
-                                                    If Convert.IsDBNull(dr("answer")) = False Then qLnq.ANSWER = dr("answer")
-                                                    If Convert.IsDBNull(dr("yesno_correct_answer")) = False Then qLnq.YESNO_CORRECT_ANSWER = dr("yesno_correct_answer")
-                                                    If Convert.IsDBNull(dr("matching_lefttext")) = False Then qLnq.MATCHING_LEFTTEXT = dr("matching_lefttext")
-                                                    If Convert.IsDBNull(dr("matching_righttext")) = False Then qLnq.MATCHING_RIGHTTEXT = dr("matching_righttext")
-                                                    If Convert.IsDBNull(dr("matching_correct_answer")) = False Then qLnq.MATCHING_CORRECT_ANSWER = dr("matching_correct_answer")
-                                                    If Convert.IsDBNull(dr("picture_text")) = False Then qLnq.PICTURE_TEXT = dr("picture_text")
-                                                    If Convert.IsDBNull(dr("picture_correct_answer")) = False Then qLnq.PICTURE_CORRECT_ANSWER = dr("picture_correct_answer")
-
-                                                    ret = qLnq.InsertData(UserData.UserName, trans.Trans)
-                                                    If ret.IsSuccess = False Then
-                                                        Exit For
-                                                    End If
-                                                    i += 1
-                                                Next
-                                            Else
-                                                Exit For
-                                            End If
-                                        End If
-                                    End If
-                                Else
-                                    Exit For
-                                End If
-                            Else
-                                Exit For
-                            End If
-                        Next
-
-                        If ret.IsSuccess = True Then
-                            trans.CommitTransaction()
-                            LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลแบบทดสอบจาก Backend สำเร็จ")
-                        Else
-                            trans.RollbackTransaction()
-                            LogFileBL.LogError(UserData, ret.ErrorMessage)
-                        End If
                     Case "course_data"
                         For Each comment As JProperty In item.Values
                             Select Case comment.Name
@@ -332,6 +59,7 @@ Public Class frmSelectTestCourse
                             End Select
                         Next
                         LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลสถิติบทการเรียนจาก Backend")
+
                     Case "testing_data"
                         For Each comment As JProperty In item.Values
                             Select Case comment.Name
@@ -349,6 +77,7 @@ Public Class frmSelectTestCourse
             Next
 
             Session("UserData") = UserData
+            ret.IsSuccess = True
         Catch ex As Exception
             ret.IsSuccess = False
             ret.ErrorMessage = ex.Message
