@@ -29,6 +29,8 @@
 	<link rel="stylesheet" href="Assets/css/plugins/icheck/all.css">
 	<!-- chosen -->
 	<link rel="stylesheet" href="Assets/css/plugins/chosen/chosen.css">
+    <!-- colorbox -->
+	<link rel="stylesheet" href="Assets/css/plugins/colorbox/colorbox.css">
 	<!-- multi select -->
 	<link rel="stylesheet" href="Assets/css/plugins/multiselect/multi-select.css">
 
@@ -39,8 +41,7 @@
 	<script src="Assets/js/plugins/gritter/jquery.gritter.min.js"></script>
 	<!-- Nice Scroll -->
 	<script src="Assets/js/plugins/nicescroll/jquery.nicescroll.min.js"></script>
-	<!-- imagesLoaded -->
-	<script src="Assets/js/plugins/imagesLoaded/jquery.imagesloaded.min.js"></script>
+	
 	<!-- jQuery UI -->
 	<script src="Assets/js/plugins/jquery-ui/jquery.ui.core.min.js"></script>
 	<script src="Assets/js/plugins/jquery-ui/jquery.ui.widget.min.js"></script>
@@ -59,6 +60,12 @@
 	<script src="Assets/js/plugins/validation/additional-methods.min.js"></script>
 	<!-- Chosen -->
 	<script src="Assets/js/plugins/chosen/chosen.jquery.min.js"></script>
+    <!-- colorbox -->
+	<script src="Assets/js/plugins/colorbox/jquery.colorbox-min.js"></script>
+	<!-- masonry -->
+	<script src="Assets/js/plugins/masonry/jquery.masonry.min.js"></script>
+    <!-- imagesLoaded -->
+	<script src="Assets/js/plugins/imagesLoaded/jquery.imagesloaded.min.js"></script>
 	<!-- MultiSelect -->
 	<script src="Assets/js/plugins/multiselect/jquery.multi-select.js"></script>
 	<!-- select2 -->
@@ -79,8 +86,11 @@
 	<script src="Assets/js/application.min.js"></script>
 	<!-- Just for demonstration -->
 	<script src="Assets/js/demonstration.min.js"></script>
+
+    <link rel="stylesheet" href="Assets/font/font-awesome/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Kanit">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+    
 	
     <script src="Scripts/ScriptJS.js"></script>
 
@@ -157,7 +167,6 @@
                         </li>
                         <li>
                             <asp:LinkButton  ID="btnLogout" runat="server">
-                                <i class="fa fa-check"></i>
                                 <span>ออกจากระบบ</span>
                             </asp:LinkButton>
                         </li>

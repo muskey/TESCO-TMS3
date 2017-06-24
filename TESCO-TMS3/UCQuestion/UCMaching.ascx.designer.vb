@@ -14,15 +14,6 @@ Option Explicit On
 Partial Public Class UCMaching
     
     '''<summary>
-    '''upd1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents upd1 As Global.System.Web.UI.UpdatePanel
-    
-    '''<summary>
     '''lblQNumber control.
     '''</summary>
     '''<remarks>
@@ -57,6 +48,24 @@ Partial Public Class UCMaching
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents img1 As Global.System.Web.UI.HtmlControls.HtmlImage
+    
+    '''<summary>
+    '''likExtras control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents likExtras As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''likImage1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents likImage1 As Global.System.Web.UI.HtmlControls.HtmlAnchor
     
     '''<summary>
     '''rptQuestionMatching control.

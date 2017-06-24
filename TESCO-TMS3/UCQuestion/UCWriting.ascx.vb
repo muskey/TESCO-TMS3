@@ -26,6 +26,9 @@ Public Class UCWriting
         If dt.Rows(0)("icon_url") & "" <> "" Then
             lblImage2.Text = dt.Rows(0)("icon_url") & ""
             img1.Src = dt.Rows(0)("icon_url")
+            likImage1.HRef = dt.Rows(0)("icon_url")
+        Else
+            likExtras.Attributes.Add("style", "display:none")
         End If
     End Sub
 

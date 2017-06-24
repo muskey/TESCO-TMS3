@@ -34,9 +34,9 @@ Public Class UCTestABCD
                 Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
                 If dt.Rows(0)("icon_url") & "" <> "" Then
                     Me.imgQ.Src = dt.Rows(0)("icon_url") & ""
-
-                    Me.imgQ.Attributes.Add("onClick", "ShowBigImage('" & dt.Rows(0)("icon_url") & "')")
-                    Me.imgQ.Attributes.Add("style", "cursor:pointer")
+                    likImage1.HRef = dt.Rows(0)("icon_url")
+                Else
+                    likExtras.Attributes.Add("style", "display:none")
                 End If
 
                 Dim tmpAnswer() As String = Split(dt.Rows(0)("answer"), "##")

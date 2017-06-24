@@ -19,8 +19,21 @@
     <asp:Panel ID="pnlQuestionABCD" runat="server" CssClass="tab-pane active" Visible="true">
         <div class="row">
             <div class="span2"></div>
-            <div class="span3">
-                <img src="../Assets/PC/noimagefound.jpg" height="200" width="200" runat="server" id="imgQ" />
+            <div class="span3">             
+                <ul class="gallery">
+                    <li>
+                        <a href="#">
+                            <img runat="server" id="imgQ" src="../Assets/PC/noimagefound.jpg" height="200" width="200"  />
+                        </a>
+                        <div class="extras" id="likExtras" runat="server">
+                            <div class="extras-inner">
+                                <a id="likImage1" runat="server" href="#" class='colorbox-image' rel="group-1">
+                                    <i class="icon-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
             <div class="span7">
                 <div class="check-line">

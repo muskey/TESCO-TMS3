@@ -1,7 +1,6 @@
 ﻿<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="UCMaching.ascx.vb" Inherits="TESCO_TMS3.UCMaching" %>
 
-<asp:UpdatePanel ID="upd1" runat="server">
-    <ContentTemplate>
+
         <div class="tab-content padding tab-content-inline tab-content-bottom">
             <div class="row">
                 <div class="span2">
@@ -22,7 +21,20 @@
                 <div class="row">
                     <div class="span2"></div>
                     <div class="span8">
-                        <img src="../Assets/PC/noimagefound.jpg" style="width: 100%; height: 200px; margin-bottom: 20px" runat="server" id="img1" />
+                        <ul class="gallery">
+                            <li>
+                                <a href="#">
+                                    <img runat="server" id="img1"  src="../Assets/PC/noimagefound.jpg" style="width: 100%; height: 200px; margin-bottom: 20px" />
+                                </a>
+                                <div class="extras" id="likExtras" runat="server">
+                                    <div class="extras-inner">
+                                        <a id="likImage1" runat="server" href="#" class='colorbox-image' rel="group-1">
+                                            <i class="icon-search"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
@@ -94,6 +106,3 @@
                 </div>
             </div>
         </asp:Panel>
-
-    </ContentTemplate>
-</asp:UpdatePanel>

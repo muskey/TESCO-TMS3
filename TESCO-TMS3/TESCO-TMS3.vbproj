@@ -1462,6 +1462,9 @@
     <Content Include="Assets\emails\email-satblue.html" />
     <Content Include="Assets\emails\email-satgreen.html" />
     <Content Include="Assets\emails\email-teal.html" />
+    <Content Include="Assets\font\font-awesome\font-awesome.css" />
+    <Content Include="Assets\font\font-awesome\font-awesome.min.css" />
+    <Content Include="Assets\font\font-awesome\fontawesome-webfont.svg" />
     <Content Include="Assets\font\font.css" />
     <Content Include="Assets\font\generator_config.txt" />
     <Content Include="Assets\font\kit45-demo.html" />
@@ -2126,6 +2129,10 @@
     <Content Include="Assets\font\kit46p-webfont.woff2" />
     <Content Include="Assets\font\webfontkit.zip" />
     <Content Include="UCQuestion\UCTestABCD.ascx" />
+    <Content Include="Assets\font\font-awesome\fontawesome-webfont.eot" />
+    <Content Include="Assets\font\font-awesome\fontawesome-webfont.ttf" />
+    <Content Include="Assets\font\font-awesome\fontawesome-webfont.woff" />
+    <Content Include="Assets\font\font-awesome\fontawesome-webfont.woff2" />
     <None Include="My Project\PublishProfiles\TESCO-TMS3.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

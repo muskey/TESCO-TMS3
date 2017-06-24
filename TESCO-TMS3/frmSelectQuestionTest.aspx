@@ -8,72 +8,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <title></title>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
-    <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/start/jquery-ui.css"
-        rel="stylesheet" type="text/css" />
-
-    <style media="screen" type="text/css">
-        .ui-widget-header {
-            background: forestgreen;
-        }
-
-        .ui-button.NextButtonClassTrue {
-            color: white;
-            background: forestgreen;
-        }
-
-        .ui-button.NextButtonClassFalse {
-            color: white;
-            background: red;
-        }
-
-        .ui-dialog .ui-dialog-buttonpane {
-            text-align: center;
-        }
-
-            .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
-                float: none;
-            }
-
-        .mycheckBig input {
-            width: 18px;
-            height: 18px;
-        }
-
-        .mycheckSmall input {
-            width: 10px;
-            height: 10px;
-        }
-    </style>
-
-    <script>
-        function ShowBigImage(imgUrl) {
-            var wWidth = $(window).width();
-            var dWidth = wWidth * 0.8;
-            var wHeight = $(window).height();
-            var dHeight = wHeight * 0.8;
-
-            var div = $("<table style='width:100%;height:100%'><tr><td style='width:100%;align:center;'><img src=" + imgUrl + "></td></tr></table>");
-            div.dialog({
-                //title: 'เตือน',
-                width: dWidth,
-                height: dHeight,
-                modal: true,
-                buttons: [
-                            {
-                                text: "ปิด",
-                                "class": 'NextButtonClassTrue',
-                                click: function () {
-                                    div.dialog("close");
-
-                                }
-                            }
-                ]
-            }).prev(".ui-dialog").css("background", bc);;
-        }
-    </script>
+    
     
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">

@@ -24,9 +24,9 @@ Public Class UCMaching
         If dt.Rows(0)("icon_url") & "" <> "" Then
             img1.Src = dt.Rows(0)("icon_url")
             lblImage2.Text = dt.Rows(0)("icon_url") & ""
-
-            Me.img1.Attributes.Add("onClick", "ShowBigImage('" & dt.Rows(0)("icon_url") & "')")
-            Me.img1.Attributes.Add("style", "width: 100%; height: 200px; margin-bottom: 20px;cursor:pointer")
+            likImage1.HRef = dt.Rows(0)("icon_url")
+        Else
+            likExtras.Attributes.Add("style", "display:none")
         End If
 
         Dim tmpAnswer() As String = Split(dt.Rows(0)("matching_lefttext"), "###")
