@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="span2"></div>
                     <div class="span8">
-                        <img src="Assets/PC/noimagefound.jpg" style="width: 100%; height: 200px; margin-bottom: 20px" runat="server" id="img1" />
+                        <img src="../Assets/PC/noimagefound.jpg" style="width: 100%; height: 200px; margin-bottom: 20px" runat="server" id="img1" />
                     </div>
                 </div>
 

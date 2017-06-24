@@ -2080,6 +2080,7 @@
     <Content Include="frmDisplayPDF1.aspx" />
     <Content Include="frmDisplayTest.aspx" />
     <Content Include="frmDisplayVDO1.aspx" />
+    <Content Include="frmFormTest.aspx" />
     <Content Include="frmLogin.aspx" />
     <Content Include="frmSelectCourse.aspx" />
     <Content Include="frmSelectCourseDetail.aspx" />
@@ -2466,6 +2467,13 @@
     </Compile>
     <Compile Include="frmDisplayVDO1.aspx.vb">
       <DependentUpon>frmDisplayVDO1.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmFormTest.aspx.designer.vb">
+      <DependentUpon>frmFormTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmFormTest.aspx.vb">
+      <DependentUpon>frmFormTest.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="frmLogin.aspx.designer.vb">

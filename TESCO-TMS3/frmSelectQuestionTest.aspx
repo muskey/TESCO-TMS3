@@ -48,6 +48,32 @@
         }
     </style>
 
+    <script>
+        function ShowBigImage(imgUrl) {
+            var wWidth = $(window).width();
+            var dWidth = wWidth * 0.8;
+            var wHeight = $(window).height();
+            var dHeight = wHeight * 0.8;
+
+            var div = $("<table style='width:100%;height:100%'><tr><td style='width:100%;align:center;'><img src=" + imgUrl + "></td></tr></table>");
+            div.dialog({
+                //title: 'เตือน',
+                width: dWidth,
+                height: dHeight,
+                modal: true,
+                buttons: [
+                            {
+                                text: "ปิด",
+                                "class": 'NextButtonClassTrue',
+                                click: function () {
+                                    div.dialog("close");
+
+                                }
+                            }
+                ]
+            }).prev(".ui-dialog").css("background", bc);;
+        }
+    </script>
     
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">

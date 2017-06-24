@@ -20,7 +20,7 @@
         <div class="row">
             <div class="span2"></div>
             <div class="span3">
-                <img src="Assets/PC/noimagefound.jpg" height="200" width="200" runat="server" id="imgQ" />
+                <img src="../Assets/PC/noimagefound.jpg" height="200" width="200" runat="server" id="imgQ" />
             </div>
             <div class="span7">
                 <div class="check-line">

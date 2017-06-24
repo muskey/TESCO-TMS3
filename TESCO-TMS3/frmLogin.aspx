@@ -126,7 +126,7 @@
 
     <script>
         function GetLoginStatus(txtUserName) {
-            var UserName = txtUsername.value;
+            var UserName = document.getElementById(txtUserName).value;
             //alert(UserName);
 
             //;

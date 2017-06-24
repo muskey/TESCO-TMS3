@@ -31,11 +31,16 @@ Public Class frmSelectTestCourse
     Public Function GetDatableTableFromTesting() As ExecuteDataInfo
         Dim ret As New ExecuteDataInfo
         Try
+
             Dim UserData As UserProfileData = Session("UserData")
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลแบบทดสอบจาก Backend")
 
             Dim info As String = ""
             info = GetStringDataFromURL(GetWebServiceURL() & "api/testing/get", UserData.Token & "&user_id=" & UserData.UserID)
-            If info.Trim = "" Then Return New ExecuteDataInfo
+            If info.Trim = "" Then
+                LogFileBL.LogError(UserData, "ดึงข้อมูลแบบทดสอบไม่สำเร็จ")
+                Return New ExecuteDataInfo
+            End If
 
             Dim json As String = info
             Dim ser As JObject = JObject.Parse(json)
@@ -46,6 +51,8 @@ Public Class frmSelectTestCourse
                 item.CreateReader()
                 Select Case item.Name
                     Case "testing"
+                        LogFileBL.LogTrans(UserData.LoginHistoryID, "ลบ Temp Testing")
+
                         Dim trans As New TransactionDB
                         Dim sql As String = " delete from TB_TESTING_ANSWER "
                         sql += " where tb_testing_id in (select id from TB_TESTING where tb_user_session_id=@_USER_SESSION_ID) "
@@ -90,6 +97,8 @@ Public Class frmSelectTestCourse
                             Return ret
                         End If
 
+
+                        LogFileBL.LogTrans(UserData.LoginHistoryID, "Insert Testing Data")
                         For Each comment As JObject In item.Values
                             Dim lnq As New TbTestingLinqDB
                             lnq.TEST_ID = comment("id")
@@ -308,7 +317,7 @@ Public Class frmSelectTestCourse
 
                         If ret.IsSuccess = True Then
                             trans.CommitTransaction()
-                            LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลแบบทดสอบจาก Backend")
+                            LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลแบบทดสอบจาก Backend สำเร็จ")
                         Else
                             trans.RollbackTransaction()
                             LogFileBL.LogError(UserData, ret.ErrorMessage)

@@ -14,6 +14,8 @@ Public Class UCTestABCD
         Me.ckbB.Attributes.Item("onclick") = "onConfirmCheck(1)"
         Me.ckbC.Attributes.Item("onclick") = "onConfirmCheck(2)"
         Me.ckbD.Attributes.Item("onclick") = "onConfirmCheck(3)"
+
+
     End Sub
 
 
@@ -32,6 +34,9 @@ Public Class UCTestABCD
                 Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
                 If dt.Rows(0)("icon_url") & "" <> "" Then
                     Me.imgQ.Src = dt.Rows(0)("icon_url") & ""
+
+                    Me.imgQ.Attributes.Add("onClick", "ShowBigImage('" & dt.Rows(0)("icon_url") & "')")
+                    Me.imgQ.Attributes.Add("style", "cursor:pointer")
                 End If
 
                 Dim tmpAnswer() As String = Split(dt.Rows(0)("answer"), "##")

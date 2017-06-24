@@ -258,4 +258,9 @@ Public Class frmSelectQuestionTest
             lblResultPercentTrue.Text = Target & "%"
         End If
     End Sub
+
+    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBackFalse.Click, btnBackTrue.Click
+        LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่ม กลับหน้าแรก")
+        Response.Redirect("frmSelectTestCourse.aspx?rnd=" & DateTime.Now.Millisecond)
+    End Sub
 End Class
