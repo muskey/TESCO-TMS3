@@ -41,31 +41,13 @@ Partial Public Class UCTestABCD
     Protected WithEvents pnlQuestionABCD As Global.System.Web.UI.WebControls.Panel
     
     '''<summary>
-    '''imgQ control.
+    '''links control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents imgQ As Global.System.Web.UI.HtmlControls.HtmlImage
-    
-    '''<summary>
-    '''likExtras control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents likExtras As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
-    '''<summary>
-    '''likImage1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents likImage1 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents links As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
     '''ckbA control.

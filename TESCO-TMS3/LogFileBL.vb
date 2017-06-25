@@ -60,6 +60,20 @@ Public Class LogFileBL
         lnq = Nothing
     End Sub
 
+    Public Shared Sub LogError(LoginHistoryID As Long, LogMsg As String)
+        Dim frame As StackFrame = New StackFrame(1, True)
+        Dim ClassName As String = frame.GetMethod.ReflectedType.Name
+        Dim FunctionName As String = frame.GetMethod.Name
+        Dim LineNo As Integer = frame.GetFileLineNumber
+
+        Dim lnq As New LinqDB.TABLE.TbLoginHistoryLinqDB
+        lnq.GetDataByPK(LoginHistoryID, Nothing)
+        If lnq.ID > 0 Then
+            CreateUserActivityLog(LoginHistoryID, lnq.USERNAME, ClassName, FunctionName, LineNo, LogMsg, AgentLogType.ErrorLog)
+        End If
+
+    End Sub
+
     Public Shared Sub LogError(UserSession As UserProfileData, LogMsg As String)
         Dim frame As StackFrame = New StackFrame(1, True)
         Dim ClassName As String = frame.GetMethod.ReflectedType.Name

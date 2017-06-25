@@ -32,7 +32,7 @@
 	<!-- Bootstrap -->
 	<script src="Assets/js/bootstrap.min.js"></script>
 	<script src="Assets/js/eakroko.js"></script>
-    <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' />
+    <%--<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' />--%>
 
 	<!--[if lte IE 9]>
 		<script src="Assets/js/plugins/placeholder/jquery.placeholder.min.js"></script>

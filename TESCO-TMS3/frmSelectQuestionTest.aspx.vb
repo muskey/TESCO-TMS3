@@ -209,7 +209,7 @@ Public Class frmSelectQuestionTest
             AnswerData += "}"
 
             Dim info As String = ""
-            info = GetStringDataFromURL(GetWebServiceURL() & "api/log", UserData.Token & "&action=complete&module=testing&data=" & AnswerData)
+            info = GetStringDataFromURL(Me, Me.GetType, UserData.LoginHistoryID, GetWebServiceURL() & "api/log", UserData.Token & "&action=complete&module=testing&data=" & AnswerData)
             If info.Trim <> "" Then
                 'txtQuestion_Dialog.Text = strdialogid
             End If

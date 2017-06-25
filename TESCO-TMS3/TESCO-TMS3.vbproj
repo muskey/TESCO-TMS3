@@ -70,6 +70,31 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\blueimpGallery\css\blueimp-gallery-indicator.css" />
+    <Content Include="Assets\blueimpGallery\css\blueimp-gallery-video.css" />
+    <Content Include="Assets\blueimpGallery\css\blueimp-gallery.css" />
+    <Content Include="Assets\blueimpGallery\css\blueimp-gallery.min.css" />
+    <Content Include="Assets\blueimpGallery\css\demo\demo.css" />
+    <Content Include="Assets\blueimpGallery\img\error.png" />
+    <Content Include="Assets\blueimpGallery\img\error.svg" />
+    <Content Include="Assets\blueimpGallery\img\loading.gif" />
+    <Content Include="Assets\blueimpGallery\img\play-pause.png" />
+    <Content Include="Assets\blueimpGallery\img\play-pause.svg" />
+    <Content Include="Assets\blueimpGallery\img\video-play.png" />
+    <Content Include="Assets\blueimpGallery\img\video-play.svg" />
+    <Content Include="Assets\blueimpGallery\index.html" />
+    <Content Include="Assets\blueimpGallery\js\blueimp-gallery-fullscreen.js" />
+    <Content Include="Assets\blueimpGallery\js\blueimp-gallery-indicator.js" />
+    <Content Include="Assets\blueimpGallery\js\blueimp-gallery-video.js" />
+    <Content Include="Assets\blueimpGallery\js\blueimp-gallery-vimeo.js" />
+    <Content Include="Assets\blueimpGallery\js\blueimp-gallery-youtube.js" />
+    <Content Include="Assets\blueimpGallery\js\blueimp-gallery.js" />
+    <Content Include="Assets\blueimpGallery\js\blueimp-gallery.min.js" />
+    <Content Include="Assets\blueimpGallery\js\blueimp-helper.js" />
+    <Content Include="Assets\blueimpGallery\js\demo\demo.js" />
+    <Content Include="Assets\blueimpGallery\js\jquery.blueimp-gallery.js" />
+    <Content Include="Assets\blueimpGallery\js\jquery.blueimp-gallery.min.js" />
+    <Content Include="Assets\blueimpGallery\js\vendor\jquery.js" />
     <Content Include="Assets\css\bootstrap-responsive.css" />
     <Content Include="Assets\css\bootstrap-responsive.min.css" />
     <Content Include="Assets\css\bootstrap.css" />
@@ -2133,6 +2158,9 @@
     <Content Include="Assets\font\font-awesome\fontawesome-webfont.ttf" />
     <Content Include="Assets\font\font-awesome\fontawesome-webfont.woff" />
     <Content Include="Assets\font\font-awesome\fontawesome-webfont.woff2" />
+    <Content Include="Assets\blueimpGallery\css\blueimp-gallery.min.css.map" />
+    <Content Include="Assets\blueimpGallery\js\blueimp-gallery.min.js.map" />
+    <Content Include="Assets\blueimpGallery\js\jquery.blueimp-gallery.min.js.map" />
     <None Include="My Project\PublishProfiles\TESCO-TMS3.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

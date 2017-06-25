@@ -26,10 +26,15 @@ Public Class UCPicture
 
         If dt.Rows(0)("icon_url") & "" <> "" Then
             lblImage2.Text = dt.Rows(0)("icon_url") & ""
-            img2.Src = dt.Rows(0)("icon_url")
-            likImage1.HRef = dt.Rows(0)("icon_url")
-        Else
-            likExtras.Attributes.Add("style", "display:none")
+
+            links.InnerHtml = "<a href='" & dt.Rows(0)("icon_url") & "' title='' data-gallery='' >"
+            links.InnerHtml += "    <img  src='" & dt.Rows(0)("icon_url") & "' style='width:100%;height:200px' />"
+            links.InnerHtml += "</a>"
+
+            '    img2.Src = dt.Rows(0)("icon_url")
+            '    likImage1.HRef = dt.Rows(0)("icon_url")
+            'Else
+            '    likExtras.Attributes.Add("style", "display:none")
         End If
         Dim question() As String = Split(dt.Rows(0)("picture_text"), "###")
         Dim CorrectAnswer() As String = Split(dt.Rows(0)("picture_correct_answer"), ",")

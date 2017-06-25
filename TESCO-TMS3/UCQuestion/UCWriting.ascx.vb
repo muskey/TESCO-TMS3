@@ -25,10 +25,14 @@ Public Class UCWriting
         txtQuestionID.Text = dt.Rows(0)("id")
         If dt.Rows(0)("icon_url") & "" <> "" Then
             lblImage2.Text = dt.Rows(0)("icon_url") & ""
-            img1.Src = dt.Rows(0)("icon_url")
-            likImage1.HRef = dt.Rows(0)("icon_url")
-        Else
-            likExtras.Attributes.Add("style", "display:none")
+
+            links.InnerHtml = "<a href='" & dt.Rows(0)("icon_url") & "' title='' data-gallery='' >"
+            links.InnerHtml += "    <img  src='" & dt.Rows(0)("icon_url") & "' style='width:100%;height:200px' />"
+            links.InnerHtml += "</a>"
+            '    img1.Src = dt.Rows(0)("icon_url")
+            '    likImage1.HRef = dt.Rows(0)("icon_url")
+            'Else
+            '    likExtras.Attributes.Add("style", "display:none")
         End If
     End Sub
 

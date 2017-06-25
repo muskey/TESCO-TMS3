@@ -30,7 +30,7 @@ Public Class frmLogin
         Dim ret As Boolean = False
         Try
             Dim info As String = ""
-            info = GetStringDataFromURL(GetWebServiceURL() & "api/login", "username=" & Username & "&password=" & Password)
+            info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/login", "username=" & Username & "&password=" & Password)
             If info.Trim <> "" Then
                 Dim json As String = info
                 Dim ser As JObject = JObject.Parse(json)
@@ -429,7 +429,7 @@ Public Class frmLogin
             LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลแบบทดสอบจาก Backend")
 
             Dim info As String = ""
-            info = GetStringDataFromURL(GetWebServiceURL() & "api/testing/get", UserData.Token & "&user_id=" & UserData.UserID)
+            info = GetStringDataFromURL(Me, Me.GetType, UserData.LoginHistoryID, GetWebServiceURL() & "api/testing/get", UserData.Token & "&user_id=" & UserData.UserID)
             If info.Trim = "" Then
                 LogFileBL.LogError(UserData, "ดึงข้อมูลแบบทดสอบไม่สำเร็จ")
                 Return New ExecuteDataInfo
@@ -794,7 +794,7 @@ Public Class frmLogin
 
     Private Sub btnSendOTP_Click(sender As Object, e As EventArgs) Handles btnSendOTP.Click
         Dim info As String = ""
-        info = GetStringDataFromURL(GetWebServiceURL() & "api/otp/get", "user_id=" & txtReqestOTPSendUsername.Text)
+        info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/get", "user_id=" & txtReqestOTPSendUsername.Text)
         If info.Trim <> "" Then
             Dim json As String = info
             Dim ser As JObject = JObject.Parse(json)
@@ -891,7 +891,7 @@ Public Class frmLogin
         'Validate Password
         If CheckPasswordPolicy(txtOTPPassword.Text) = True Then
             Dim info As String = ""
-            info = GetStringDataFromURL(GetWebServiceURL() & "api/otp/login", "user_id=" & txtOTPUserLogin.Text & "&otp=" & txtOTPCode.Text & "&password=" & txtOTPPassword.Text)
+            info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/login", "user_id=" & txtOTPUserLogin.Text & "&otp=" & txtOTPCode.Text & "&password=" & txtOTPPassword.Text)
             If info.Trim <> "" Then
                 Dim json As String = info
                 Dim ser As JObject = JObject.Parse(json)

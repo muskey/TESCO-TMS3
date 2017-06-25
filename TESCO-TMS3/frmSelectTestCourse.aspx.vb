@@ -35,7 +35,7 @@ Public Class frmSelectTestCourse
             LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลสถิติจาก Backend")
 
             Dim info As String = ""
-            info = GetStringDataFromURL(GetWebServiceURL() & "api/testing/get", UserData.Token & "&user_id=" & UserData.UserID)
+            info = GetStringDataFromURL(Me, Me.GetType, UserData.LoginHistoryID, GetWebServiceURL() & "api/testing/get", UserData.Token & "&user_id=" & UserData.UserID)
             If info.Trim = "" Then
                 LogFileBL.LogError(UserData, "ดึงข้อมูลสถิติไม่สำเร็จ")
                 Return New ExecuteDataInfo

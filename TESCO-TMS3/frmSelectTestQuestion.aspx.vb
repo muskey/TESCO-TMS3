@@ -560,7 +560,7 @@ Public Class frmSelectTestQuestion
         Dim info As String = ""
         Dim strAction As String = "complete"
         Dim strModule As String = "testing"
-        info = GetStringDataFromURL(GetWebServiceURL() & "api/log", UserData.Token & "&action=" & strAction & "&module=" & strModule & "&data=" & AnswerData)
+        info = GetStringDataFromURL(Me, Me.GetType, UserData.LoginHistoryID, GetWebServiceURL() & "api/log", UserData.Token & "&action=" & strAction & "&module=" & strModule & "&data=" & AnswerData)
         If info.Trim <> "" Then
             txtQuestion_Dialog.Text = strdialogid
         End If
@@ -637,7 +637,7 @@ Public Class frmSelectTestQuestion
             Dim info As String = ""
             Dim strAction As String = "complete"
             Dim strModule As String = "testing"
-            info = GetStringDataFromURL(GetWebServiceURL() & "api/log", UserData.Token & "&client_id=" & 13 & "&action=" & strAction & "&module=" & strModule & "&data=" & AnswerData)
+            info = GetStringDataFromURL(Me, Me.GetType, UserData.LoginHistoryID, GetWebServiceURL() & "api/log", UserData.Token & "&client_id=" & 13 & "&action=" & strAction & "&module=" & strModule & "&data=" & AnswerData)
             If info.Trim <> "" Then
                 ScriptManager.RegisterStartupScript(Me, Page.GetType, "Script", "onSummary('" + strdialogid + "');", True)
             End If

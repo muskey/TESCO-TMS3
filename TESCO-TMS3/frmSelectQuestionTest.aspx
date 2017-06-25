@@ -7,7 +7,10 @@
 <%@ Register Src="~/UCQuestion/UCWriting.ascx" TagPrefix="uc5" TagName="UCWriting" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
+    <!-- FOR IMAGE Gallery -->
+    <link rel="stylesheet" href="assets/blueimpGallery/css/blueimp-gallery.css">
+    <link rel="stylesheet" href="assets/blueimpGallery/css/blueimp-gallery-indicator.css">
+    <!-- FOR IMAGE Gallery -->
     
     
 </asp:Content>
@@ -123,4 +126,9 @@
         </div>
     </asp:Panel>
 
+    <!-- For Image Gallery  -->
+    <script src="assets/blueimpGallery/js/blueimp-gallery.js"></script>
+    <script src="assets/blueimpGallery/js/blueimp-gallery-indicator.js"></script>
+    <script src="assets/blueimpGallery/js/jquery.blueimp-gallery.js"></script>
+    <!-- For Image Gallery  -->
 </asp:Content>

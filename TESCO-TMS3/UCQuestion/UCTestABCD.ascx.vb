@@ -33,10 +33,15 @@ Public Class UCTestABCD
                 Me.lblQNumber.Text = "ข้อ " + question_no.ToString + "/" + QuestionCount.ToString
                 Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
                 If dt.Rows(0)("icon_url") & "" <> "" Then
-                    Me.imgQ.Src = dt.Rows(0)("icon_url") & ""
-                    likImage1.HRef = dt.Rows(0)("icon_url")
-                Else
-                    likExtras.Attributes.Add("style", "display:none")
+                    links.InnerHtml = "<a href='" & dt.Rows(0)("icon_url") & "' title='' data-gallery='' >"
+                    links.InnerHtml += "    <img  src='" & dt.Rows(0)("icon_url") & "' style='width:200px;height:200px' />"
+                    links.InnerHtml += "</a>"
+                    'Else
+                    'likExtras.Attributes.Add("style", "display:none")
+
+                    'links.InnerHtml = "<a href='../Assets/PC/noimagefound.jpg' title='' data-gallery='' >"
+                    'links.InnerHtml += "    <img  src='../Assets/PC/noimagefound.jpg' style='width:200px;height:200px' />"
+                    'links.InnerHtml += "</a>"
                 End If
 
                 Dim tmpAnswer() As String = Split(dt.Rows(0)("answer"), "##")

@@ -19,21 +19,20 @@
     <asp:Panel ID="pnlQuestionABCD" runat="server" CssClass="tab-pane active" Visible="true">
         <div class="row">
             <div class="span2"></div>
-            <div class="span3">             
-                <ul class="gallery">
-                    <li>
-                        <a href="#">
-                            <img runat="server" id="imgQ" src="../Assets/PC/noimagefound.jpg" height="200" width="200"  />
-                        </a>
-                        <div class="extras" id="likExtras" runat="server">
-                            <div class="extras-inner">
-                                <a id="likImage1" runat="server" href="#" class='colorbox-image' rel="group-1">
-                                    <i class="icon-search"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+            <div class="span3">
+                <div id="links" class="links" runat="server">
+                    
+                </div>
+                <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+                <div id="blueimp-gallery" class="blueimp-gallery">
+                    <div class="slides"></div>
+                    <h3 class="title"></h3>
+                    <a class="prev">‹</a>
+                    <a class="next">›</a>
+                    <a class="close">x</a>
+                    <a class="play-pause"></a>
+                    <ol class="indicator"></ol>
+                </div>
             </div>
             <div class="span7">
                 <div class="check-line">

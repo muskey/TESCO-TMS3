@@ -46,6 +46,41 @@ Module TescoModule
 
 
 
+    Function GetStringDataFromURL(p As Page, pt As Type, LoginHisID As Long, ByVal URL As String, ByVal Parameter As String) As String
+        Try
+            Dim StartTime As DateTime = DateTime.Now
+            Dim ret As String = ""
+            If CheckInternetConnection(GetWebServiceURL() & "api/welcome") = True Then
+                Dim request As WebRequest
+                request = WebRequest.Create(URL)
+                Dim response As WebResponse
+                Dim data As Byte() = Encoding.UTF8.GetBytes(Parameter)
+
+                request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials
+                request.Method = "POST"
+                request.ContentType = "application/x-www-form-urlencoded"
+                request.ContentLength = data.Length
+
+                Dim stream As Stream = request.GetRequestStream()
+                stream.Write(data, 0, data.Length)
+                stream.Close()
+
+                response = request.GetResponse()
+                Dim sr As New StreamReader(response.GetResponseStream())
+
+                LogFileBL.LogTrans(LoginHisID, "Call API URL:" & URL & "  Parameter:" & Parameter & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
+                Return sr.ReadToEnd()
+            Else
+                ScriptManager.RegisterStartupScript(p, pt, Guid.NewGuid().ToString(), "alert('Unable to connect Back-End server " & vbCrLf & vbCrLf & "Please contract your support !!')", True)
+                LogFileBL.LogError(LoginHisID, "Unable to connect Back-End server URL :" & URL)
+            End If
+        Catch ex As Exception
+            'MessageBox.Show(ex.Message & vbCrLf & ex.StackTrace, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ScriptManager.RegisterStartupScript(p, pt, Guid.NewGuid().ToString(), "alert('Unable to connect Back-End server " & vbCrLf & vbCrLf & "Please contract your support !!')", True)
+        End Try
+        Return ""
+    End Function
+
     Function GetStringDataFromURL(ByVal URL As String, Optional ByVal Parameter As String = "") As String
         Try
             Dim ret As String = ""
@@ -69,7 +104,7 @@ Module TescoModule
 
                 Return sr.ReadToEnd()
             Else
-                'MessageBox.Show("Unable to connect Back-End server " & vbCrLf & vbCrLf & "Please check network connection !!", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                'LogFileBL.LogError()
             End If
         Catch ex As Exception
             'MessageBox.Show(ex.Message & vbCrLf & ex.StackTrace, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -89,12 +124,12 @@ Module TescoModule
     End Function
 
 #Region "Log"
-    Public Function CallAPIUpdateLog(token As String, vAction As String, vModule As String, data As String) As Boolean
+    Public Function CallAPIUpdateLog(p As Page, pt As Type, LoginHisID As Long, token As String, vAction As String, vModule As String, data As String) As Boolean
         'เมื่อเรียนจบหลักสูตรให้บันทึก Log
 
         Dim ret As Boolean = False
         Dim info As String = ""
-        info = GetStringDataFromURL(GetWebServiceURL() & "api/log", token & "&action=" & vAction & "&module=" & vModule & "&data=" & data)
+        info = GetStringDataFromURL(p, pt, LoginHisID, GetWebServiceURL() & "api/log", token & "&action=" & vAction & "&module=" & vModule & "&data=" & data)
         If info.Trim <> "" Then
             Dim json As String = info
             Dim ser As JObject = JObject.Parse(json)
@@ -114,7 +149,7 @@ Module TescoModule
 
 
 
-    Public Sub UpdateLog(id As Long, ClassID As Long, Token As String, UserDataCourseFile As DataTable, Username As String)
+    Public Sub UpdateLog(pa As Page, pt As Type, LoginHisID As Long, id As Long, ClassID As Long, Token As String, UserDataCourseFile As DataTable, Username As String)
         Dim tb_user_course_document_id As String = "0"
         Dim doc_id As String = "0"
         Dim course_id As String = "0"
@@ -136,7 +171,7 @@ Module TescoModule
         Dim strfillter As String = "id >" & id
         UserDataCourseFile.DefaultView.RowFilter = strfillter
         If UserDataCourseFile.DefaultView.Count = 0 Then
-            If CallAPIUpdateLog(Token, "complete", "class", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "}") = True Then
+            If CallAPIUpdateLog(pa, pt, LoginHisID, Token, "complete", "class", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "}") = True Then
                 'เมื่อเรียนจบหลักสูตรแล้วให้ Update IS_FINISHED ว่าเรียนจบแล้ว
 
                 Dim lnq As New TbUserCourseLinqDB
@@ -152,64 +187,64 @@ Module TescoModule
                 End If
             End If
         Else
-            CallAPIUpdateLog(Token, "complete", "document", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "," & Chr(34) & "document_id" & Chr(34) & ":" & doc_id & "}")
+            CallAPIUpdateLog(pa, pt, LoginHisID, Token, "complete", "document", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "," & Chr(34) & "document_id" & Chr(34) & ":" & doc_id & "}")
         End If
         UserDataCourseFile.DefaultView.RowFilter = ""
     End Sub
 #End Region
 
-    Public Function CreateClass(token As String, stdID As String, ClientID As String, CourseID As String, UserID As String) As Long
-        Dim ret As Long = 0
-        Try
-            Dim info As String = ""
-            info = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", token & "&client_id=" & ClientID & "&course_id=" & CourseID & "&user_id=" & UserID & "&student_id_list=" & stdID)
+    'Public Function CreateClass(token As String, stdID As String, ClientID As String, CourseID As String, UserID As String) As Long
+    '    Dim ret As Long = 0
+    '    Try
+    '        Dim info As String = ""
+    '        info = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", token & "&client_id=" & ClientID & "&course_id=" & CourseID & "&user_id=" & UserID & "&student_id_list=" & stdID)
 
-            Dim json As String = info
-            Dim ser As JObject = JObject.Parse(json)
-            Dim data As List(Of JToken) = ser.Children().ToList
+    '        Dim json As String = info
+    '        Dim ser As JObject = JObject.Parse(json)
+    '        Dim data As List(Of JToken) = ser.Children().ToList
 
-            If data.Count = 3 Then
-                If DirectCast(data(0), JProperty).Value.ToString.ToLower = "true" Then
-                    ret = DirectCast(data(2), JProperty).Value
-                End If
-            End If
-        Catch ex As Exception
-            ret = 0
-        End Try
-    End Function
+    '        If data.Count = 3 Then
+    '            If DirectCast(data(0), JProperty).Value.ToString.ToLower = "true" Then
+    '                ret = DirectCast(data(2), JProperty).Value
+    '            End If
+    '        End If
+    '    Catch ex As Exception
+    '        ret = 0
+    '    End Try
+    'End Function
 
-    Public Function AddUser(ByVal Token As String, ByVal UserID As String, CourseID As String) As String()
-        Dim ret(3) As String
-        Dim info As String = ""
-        info = GetStringDataFromURL(GetWebServiceURL() & "api/user/get", Token & "&user_company_id=" & UserID & "&course_id=" & CourseID)
-        If info.Trim <> "" Then
-            Dim json As String = info
-            Dim ser As JObject = JObject.Parse(json)
-            Dim data As List(Of JToken) = ser.Children().ToList
-            Dim output As String = ""
+    'Public Function AddUser(ByVal Token As String, ByVal UserID As String, CourseID As String) As String()
+    '    Dim ret(3) As String
+    '    Dim info As String = ""
+    '    info = GetStringDataFromURL(GetWebServiceURL() & "api/user/get", Token & "&user_company_id=" & UserID & "&course_id=" & CourseID)
+    '    If info.Trim <> "" Then
+    '        Dim json As String = info
+    '        Dim ser As JObject = JObject.Parse(json)
+    '        Dim data As List(Of JToken) = ser.Children().ToList
+    '        Dim output As String = ""
 
-            For Each item As JProperty In data
-                item.CreateReader()
-                Select Case item.Name
-                    Case "user"
-                        For Each comment As JProperty In item.Values
-                            Select Case comment.Name
-                                Case "id"
-                                    ret(0) = comment.Value.ToString
-                                Case "firstname"
-                                    ret(1) = comment.Value.ToString
-                                Case "lastname"
-                                    ret(2) = comment.Value.ToString
-                                Case "company_id"
-                                    ret(3) = comment.Value.ToString
-                            End Select
-                        Next
+    '        For Each item As JProperty In data
+    '            item.CreateReader()
+    '            Select Case item.Name
+    '                Case "user"
+    '                    For Each comment As JProperty In item.Values
+    '                        Select Case comment.Name
+    '                            Case "id"
+    '                                ret(0) = comment.Value.ToString
+    '                            Case "firstname"
+    '                                ret(1) = comment.Value.ToString
+    '                            Case "lastname"
+    '                                ret(2) = comment.Value.ToString
+    '                            Case "company_id"
+    '                                ret(3) = comment.Value.ToString
+    '                        End Select
+    '                    Next
 
-                End Select
-            Next
-        End If
-        Return ret
-    End Function
+    '            End Select
+    '        Next
+    '    End If
+    '    Return ret
+    'End Function
 
 #Region "Set validate Textbox Property"
     Public Sub SetTextIntKeypress(txt As TextBox)

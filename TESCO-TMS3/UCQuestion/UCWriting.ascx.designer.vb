@@ -41,31 +41,13 @@ Partial Public Class UCWriting
     Protected WithEvents pnlQuestionWriting As Global.System.Web.UI.WebControls.Panel
     
     '''<summary>
-    '''img1 control.
+    '''links control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents img1 As Global.System.Web.UI.HtmlControls.HtmlImage
-    
-    '''<summary>
-    '''likExtras control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents likExtras As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
-    '''<summary>
-    '''likImage1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents likImage1 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents links As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
     '''txtAnsQuestion4 control.
