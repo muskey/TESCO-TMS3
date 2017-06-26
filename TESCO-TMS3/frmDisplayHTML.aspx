@@ -169,7 +169,7 @@
 
     <div class="footer">
         <div class="row">
-            <div class="span4"></div>
+            <div class="span5"></div>
             <div class="span4 text-center">
                 <asp:ImageButton ID="btnBack" runat="server" ImageUrl="~/Assets/PC/btnPreviousDoc.png" Height="40px" Width="100px" />
                 <asp:ImageButton ID="btnNext" runat="server" ImageUrl="~/Assets/PC/btnNextDoc.png" Height="40px" Width="100px" />
@@ -179,7 +179,7 @@
                 <asp:TextBox ID="txtNext" runat="server" Visible="false"></asp:TextBox>
                 <asp:TextBox ID="txtMax" runat="server" Visible="false"></asp:TextBox>
             </div>
-            <div class="span4 text-right">
+            <div class="span3 text-center">
                 <asp:ImageButton ID="btnHome" runat="server" ImageUrl="~/Assets/PC/btnCloseDoc.png" Height="40px" Width="100px" />
                 <asp:ImageButton ID="btnContent" runat="server" ImageUrl="~/Assets/PC/index_icon.png" Height="40px" Width="100px" />
                 <asp:Button ID="btnCloseContent" runat="server" CssClass="btn btn-Normal btn-green" Text="ปิด" Width="" />
