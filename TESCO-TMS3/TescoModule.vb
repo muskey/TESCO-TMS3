@@ -68,7 +68,12 @@ Module TescoModule
                 response = request.GetResponse()
                 Dim sr As New StreamReader(response.GetResponseStream())
 
-                LogFileBL.LogTrans(LoginHisID, "Call API URL:" & URL & "  Parameter:" & Parameter & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
+                If LoginHisID > 0 Then
+                    LogFileBL.LogTrans(LoginHisID, "Call API URL:" & URL & "  Parameter:" & Parameter & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
+                Else
+                    LogFileBL.LogTrans(Parameter, "Call API URL:" & URL & "  Parameter:" & Parameter & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
+                End If
+
                 Return sr.ReadToEnd()
             Else
                 ScriptManager.RegisterStartupScript(p, pt, Guid.NewGuid().ToString(), "alert('Unable to connect Back-End server " & vbCrLf & vbCrLf & "Please contract your support !!')", True)

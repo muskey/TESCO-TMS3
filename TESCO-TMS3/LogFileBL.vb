@@ -60,6 +60,16 @@ Public Class LogFileBL
         lnq = Nothing
     End Sub
 
+    Public Shared Sub LogTrans(UserName As String, LogMsg As String)
+
+        Dim frame As StackFrame = New StackFrame(1, True)
+        Dim ClassName As String = frame.GetMethod.ReflectedType.Name
+        Dim FunctionName As String = frame.GetMethod.Name
+        Dim LineNo As Integer = frame.GetFileLineNumber
+
+        CreateUserActivityLog(0, UserName, ClassName, FunctionName, LineNo, LogMsg, AgentLogType.TransLog)
+    End Sub
+
     Public Shared Sub LogError(LoginHistoryID As Long, LogMsg As String)
         Dim frame As StackFrame = New StackFrame(1, True)
         Dim ClassName As String = frame.GetMethod.ReflectedType.Name

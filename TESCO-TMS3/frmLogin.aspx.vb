@@ -67,8 +67,8 @@ Public Class frmLogin
                         Case "is_teacher"
                             IsTeacher = item.First.ToString
                         Case "data"
-
                             ClearUserSession(Username)
+
                             FormatData = item.First
                         Case "welcome"
                             'BuiltDatableTableUserMessage(item)
@@ -92,7 +92,7 @@ Public Class frmLogin
 
                 UserData.FullName = FirstName & " " & LastName
 
-                Dim re As ExecuteDataInfo = CreateUserSession(UserData.TokenStr, UserData.UserID, Username, FirstNameEng, LastNameEng, FirstNameThai, LastNameThai, IsTeacher, FormatData, MessageData)
+                Dim re As ExecuteDataInfo = CreateLoginSession(UserData.TokenStr, UserData.UserID, Username, FirstNameEng, LastNameEng, FirstNameThai, LastNameThai, IsTeacher, FormatData, MessageData)
                 If re.IsSuccess = True Then
                     UserData.UserSessionID = re.NewID
                     UserData.LoginHistoryID = LoginHisID
@@ -117,7 +117,7 @@ Public Class frmLogin
         Return ret
     End Function
 
-    Private Function CreateUserSession(TokenStr As String, UserID As Long, Username As String, FirstNameEng As String, LastNameEng As String, FirstNameThai As String, LastNameThai As String, IsTeacher As String, FormatData As JToken, MessageData As JProperty) As ExecuteDataInfo
+    Private Function CreateLoginSession(TokenStr As String, UserID As Long, Username As String, FirstNameEng As String, LastNameEng As String, FirstNameThai As String, LastNameThai As String, IsTeacher As String, FormatData As JToken, MessageData As JProperty) As ExecuteDataInfo
         Dim ret As New ExecuteDataInfo
         Try
             Dim lnq As New TbUserSessionLinqDB
@@ -150,6 +150,7 @@ Public Class frmLogin
                 ret = hLnq.InsertData(Username, trans.Trans)
                 If ret.IsSuccess = True Then
                     LoginHisID = hLnq.ID
+
                     ret = BuiltUserFormat(lnq.ID, lnq.USER_ID, Username, FormatData, trans)
                     If ret.IsSuccess = True Then
                         ret = BuiltDatableTableUserMessage(MessageData, lnq.ID, UserID, Username, trans)

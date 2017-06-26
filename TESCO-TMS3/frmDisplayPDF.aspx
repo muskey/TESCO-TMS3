@@ -170,12 +170,12 @@
         <div class="row">
             <div class="span5"></div>
             <div class="span4 text-center" >
-                <asp:ImageButton ID="btnBack" runat="server" ImageUrl="~/Assets/PC/btnPreviousDoc.png" Height="40px" Width="100px" />
-                <asp:ImageButton ID="btnPDFBack" runat="server" ImageUrl="~/Assets/PC/btnPreviousDidable.png" Height="40px" Width="40px" />
-                <asp:DropDownList CssClass="form-control" ID="ddlPage" runat="server" Width="50px" Height="23px" AutoPostBack="true"  Font-Size="Smaller" ></asp:DropDownList><asp:Label ID="lblPDFPage" runat="server" Text="1/99"></asp:Label>
+                <asp:ImageButton ID="btnBack" runat="server" ImageUrl="~/Assets/PC/btnPreviousDoc.png" Height="35px" Width="88px" />
+                <asp:ImageButton ID="btnPDFBack" runat="server" ImageUrl="~/Assets/PC/btnPreviousDidable.png" Height="35px" Width="35px" />
+                <asp:DropDownList CssClass="form-control" ID="ddlPage" runat="server" Width="40px" Height="20px" AutoPostBack="true"  Font-Size="XX-Small" ></asp:DropDownList><asp:Label ID="lblPDFPage" runat="server" Text="1/99"></asp:Label>
 
-                <asp:ImageButton ID="btnPDFNext" runat="server" ImageUrl="~/Assets/PC/btnNextDisable.png" Height="40px" Width="40px" />
-                <asp:ImageButton ID="btnNext" runat="server" ImageUrl="~/Assets/PC/btnNextDoc.png" Height="40px" Width="100px" />
+                <asp:ImageButton ID="btnPDFNext" runat="server" ImageUrl="~/Assets/PC/btnNextDisable.png" Height="35px" Width="35px" />
+                <asp:ImageButton ID="btnNext" runat="server" ImageUrl="~/Assets/PC/btnNextDoc.png" Height="35px" Width="88px" />
 
                 <asp:TextBox ID="txtPre" runat="server" Visible="false"></asp:TextBox>
                 <asp:TextBox ID="txtCurrent" runat="server" Visible="false"></asp:TextBox>
@@ -183,8 +183,8 @@
                 <asp:TextBox ID="txtMax" runat="server" Visible="false"></asp:TextBox>
             </div>
             <div class="span3 text-center">
-                <asp:ImageButton ID="btnHome" runat="server" ImageUrl="~/Assets/PC/btnCloseDoc.png" Height="40px" Width="100px" />
-                <asp:ImageButton ID="btnContent" runat="server" ImageUrl="~/Assets/PC/index_icon.png" Height="40px" Width="100px" />
+                <asp:ImageButton ID="btnHome" runat="server" ImageUrl="~/Assets/PC/btnCloseDoc.png" Height="35px" Width="88px" />
+                <asp:ImageButton ID="btnContent" runat="server" ImageUrl="~/Assets/PC/index_icon.png" Height="35px" Width="88px" />
                 <asp:Button ID="btnCloseContent" runat="server" CssClass="btn btn-Normal btn-green" Text="ปิด" Width="" Visible="false" />
             </div>
 
