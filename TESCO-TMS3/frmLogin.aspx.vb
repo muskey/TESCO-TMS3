@@ -8,7 +8,7 @@ Public Class frmLogin
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
-            'txtUsername.Attributes.Add("onBlur", "return GetLoginStatus('" & txtUsername.ClientID & "')")
+            txtUsername.Attributes.Add("onBlur", "return GetLoginStatus(event,'" & txtUsername.ClientID & "')")
         End If
     End Sub
 
@@ -911,7 +911,7 @@ Public Class frmLogin
                 Next
 
                 If ret = "true" Then
-                    If Login(txtUsername.Text, txtPassword.Text) = True Then
+                    If Login(txtUsername.Text, txtOTPPassword.Text) = True Then
                         Session("Username") = txtUsername.Text
                         Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
                     End If

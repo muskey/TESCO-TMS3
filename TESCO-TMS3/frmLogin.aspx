@@ -125,12 +125,8 @@
 	</div>
 
     <script>
-        function GetLoginStatus(txtUserName) {
+        function GetLoginStatus(event, txtUserName) {
             var UserName = document.getElementById(txtUserName).value;
-            //alert(UserName);
-
-            //;
-
 
             var param = "{'UserName':" + JSON.stringify(UserName) + "}";
             $.ajax({
@@ -150,6 +146,10 @@
 
                             if (IsTelephoneExist == "true") {
                                 alert("ผู้ใช้ไม่มีหมายเลขโทรศัพท์ กรุณาติดต่อผู้ดูแลระบบ");
+                                setTimeout(function () {  //the horror...the horror...  
+                                       document.getElementById(event.target.id).select();  
+                                }, 1);    
+                                return false;
                             } else if (IsFirstItmeLogin == "true") {
                                 document.getElementById("<%=btnForgetPassword.ClientID%>").click();
                             }
