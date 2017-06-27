@@ -15,9 +15,10 @@ namespace ConvertPDFWindowsService
     public class ConvertPDFServiceENG
     {
         public static void ConvertFilePDF() {
-            IniFile ini = new IniFile(Application.StartupPath + @"\Config.ini");
-            string TempFolder = ini.GetKeyValue("Setting", "TempFolder");
-            string DocumentFolder = ini.GetKeyValue("Setting", "DocumentDocument");
+            IniFile ini = new IniFile(@"C:\Windows\TESCO-TMS3.ini");
+            string TempFolder = ini.GetKeyValue("FolderSetting", "TempFolder");
+            if (Directory.Exists(TempFolder) == false)
+                Directory.CreateDirectory(TempFolder);
 
             TbUserCourseDocumentFileLinqDB lnq = new TbUserCourseDocumentFileLinqDB();
             DataTable dt = lnq.GetDataList("is_convert='N'", "", null, null);
@@ -27,16 +28,22 @@ namespace ConvertPDFWindowsService
                 {
                     if (Convert.IsDBNull(dr["file_url"]) == false)
                     {
+                        string DocumentFolder = ini.GetKeyValue("FolderSetting", "DocumentFolder") + dr["user_id"].ToString() + "\\";
+                        if (Directory.Exists(DocumentFolder) == false)
+                            Directory.CreateDirectory(DocumentFolder);
+
                         string OutputFile = TempFolder + Path.GetFileName(dr["file_url"].ToString());
 
-                        if (DownloadFileFromURL(dr["file_url"].ToString(), TempFolder) == true)
+                        //Download PDF File Form Backend
+                        if (DownloadFileFromURL(dr["file_url"].ToString(), OutputFile) == true)
                         {
-                            pdftoimg.PDFConvertor pdf = new pdftoimg.PDFConvertor();
+                            PDFConvertor pdf = new PDFConvertor();
                             DataTable fileDt = pdf.ConvertToDatatable(OutputFile, DocumentFolder, System.Drawing.Imaging.ImageFormat.Jpeg);
                             if (fileDt.Rows.Count > 0)
                             {
                                 lnq = new TbUserCourseDocumentFileLinqDB();
                                 lnq.GetDataByPK(Convert.ToInt64(dr["id"]), null);
+                                lnq.IS_CONVERT = 'Y';
 
                                 TransactionDB trans = new TransactionDB();
                                 ExecuteDataInfo ret = lnq.UpdateData("ConvertPDFService", trans.Trans);
@@ -71,6 +78,7 @@ namespace ConvertPDFWindowsService
                 WebClient client = new WebClient();
                 client.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
                 byte[] b = client.DownloadData(URL);
+                client.Dispose();
 
                 FileStream fs = new FileStream(OutputFile, FileMode.Create);
                 fs.Write(b, 0, b.Length);
