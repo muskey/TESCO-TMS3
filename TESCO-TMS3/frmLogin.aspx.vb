@@ -8,7 +8,7 @@ Public Class frmLogin
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
-            txtUsername.Attributes.Add("onBlur", "return GetLoginStatus('" & txtUsername.ClientID & "')")
+            'txtUsername.Attributes.Add("onBlur", "return GetLoginStatus('" & txtUsername.ClientID & "')")
         End If
     End Sub
 
