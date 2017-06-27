@@ -725,7 +725,7 @@ Public Class frmLogin
                                     UserData.CourseTotal = comment.Last
                             End Select
                         Next
-                        LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลสถิติบทการเรียนจาก Backend")
+                        LogFileBL.LogTrans(UserData.LoginHistoryID, "ดึงข้อมูลสถิติบทเรียนจาก Backend")
                     Case "testing_data"
                         For Each comment As JProperty In item.Values
                             Select Case comment.Name
@@ -795,7 +795,7 @@ Public Class frmLogin
 
     Private Sub btnSendOTP_Click(sender As Object, e As EventArgs) Handles btnSendOTP.Click
         Dim info As String = ""
-        info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/get", "user_id=" & txtReqestOTPSendUsername.Text)
+        info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/get", "employee_id=" & txtReqestOTPSendUsername.Text)
         If info.Trim <> "" Then
             Dim json As String = info
             Dim ser As JObject = JObject.Parse(json)
@@ -808,6 +808,7 @@ Public Class frmLogin
                 Select Case item.Name
                     Case "status"
                         ret = item.First.ToString.ToLower
+                        Exit For
                 End Select
             Next
 
@@ -892,7 +893,7 @@ Public Class frmLogin
         'Validate Password
         If CheckPasswordPolicy(txtOTPPassword.Text) = True Then
             Dim info As String = ""
-            info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/login", "user_id=" & txtOTPUserLogin.Text & "&otp=" & txtOTPCode.Text & "&password=" & txtOTPPassword.Text)
+            info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/login", "employee_id=" & txtOTPUserLogin.Text & "&otp=" & txtOTPCode.Text & "&password=" & txtOTPPassword.Text)
             If info.Trim <> "" Then
                 Dim json As String = info
                 Dim ser As JObject = JObject.Parse(json)
@@ -905,6 +906,7 @@ Public Class frmLogin
                     Select Case item.Name
                         Case "status"
                             ret = item.First.ToString.ToLower
+                            Exit For
                     End Select
                 Next
 

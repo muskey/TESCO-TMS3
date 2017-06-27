@@ -2100,12 +2100,12 @@
     <Content Include="Default.aspx" />
     <Content Include="frmDisplayHTML1.aspx" />
     <Content Include="frmDisplayHTML.aspx" />
+    <Content Include="frmDisplayPDF1.aspx" />
     <Content Include="frmDisplayVDO.aspx" />
     <Content Include="frmDisplayPDF.aspx" />
     <Content Include="frmDisplayImage.aspx" />
     <Content Include="frmDisplayCenter.aspx" />
     <Content Include="frmDisplayMain.aspx" />
-    <Content Include="frmDisplayPDF1.aspx" />
     <Content Include="frmDisplayTest.aspx" />
     <Content Include="frmDisplayVDO1.aspx" />
     <Content Include="frmFormTest.aspx" />
@@ -2448,6 +2448,13 @@
       <DependentUpon>frmDisplayHTML.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="frmDisplayPDF1.aspx.designer.vb">
+      <DependentUpon>frmDisplayPDF1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmDisplayPDF1.aspx.vb">
+      <DependentUpon>frmDisplayPDF1.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="frmDisplayVDO.aspx.designer.vb">
       <DependentUpon>frmDisplayVDO.aspx</DependentUpon>
     </Compile>
@@ -2481,13 +2488,6 @@
     </Compile>
     <Compile Include="frmDisplayMain.aspx.vb">
       <DependentUpon>frmDisplayMain.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="frmDisplayPDF1.aspx.designer.vb">
-      <DependentUpon>frmDisplayPDF1.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="frmDisplayPDF1.aspx.vb">
-      <DependentUpon>frmDisplayPDF1.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="frmDisplayTest.aspx.designer.vb">
@@ -2705,6 +2705,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Interop.Acrobat, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>bin\Interop.Acrobat.dll</HintPath>
+    </Reference>
     <Reference Include="itextsharp, Version=5.4.4.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Assets\pdfdll\itextsharp.dll</HintPath>
@@ -2725,6 +2730,7 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Extensions.Design" />
     <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -2736,6 +2742,10 @@
     <ProjectReference Include="..\LinqDB\LinqDB.vbproj">
       <Project>{631d831b-7e5a-44e4-a947-4cb0cb9f35ad}</Project>
       <Name>LinqDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pdftoimg\pdftoimg.csproj">
+      <Project>{8c41efaa-c7ba-43e6-9a2d-22ba2ff33bac}</Project>
+      <Name>pdftoimg</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

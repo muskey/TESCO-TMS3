@@ -1,96 +1,195 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/MasterPageIFRAME.Master" CodeBehind="frmDisplayPDF1.aspx.vb" Inherits="TESCO_TMS3.frmDisplayPDF1" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/MasterPage.Master" CodeBehind="frmDisplayPDF1.aspx.vb" Inherits="TESCO_TMS3.frmDisplayPDF1" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
-        <style media="screen" type="text/css">
-        html,
-        body {
-            margin: 0;
-            padding: 0;
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
+    <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/start/jquery-ui.css"
+        rel="stylesheet" type="text/css" />
+
+    <style media="screen" type="text/css">
+        /**
+ * Demo Styles
+ */
+
+        html {
             height: 100%;
+            box-sizing: border-box;
         }
 
-        #container {
-            min-height: 100%;
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        body {
             position: relative;
+            margin: 0;
+            padding-bottom: 6rem;
+            min-height: 100%;
+            font-family: "Helvetica Neue", Arial, sans-serif;
         }
 
-        #header {
-            background: #ff0;
-            padding: 10px;
+        .demo {
+            margin: 0 auto;
+            padding-top: 64px;
+            max-width: 640px;
+            width: 94%;
         }
 
-        #body {
-            padding: 10px;
-            padding-bottom: 40px; /* Height of the footer */
-        }
+            .demo h1 {
+                margin-top: 0;
+            }
 
-        #footer {
+        /**
+ * Footer Styles
+ */
+
+        .footer {
             position: absolute;
+            right: 0;
             bottom: 0;
-            width: 100%;
-            height: 40px; /* Height of the footer */
-            background: #808080;
-        }
-        /* other non-essential CSS */
-        #header p,
-        #header h1 {
-            margin: 0;
-            padding: 10px 0 0 10px;
+            left: 0;
+            background-color: #2B4354;
+            text-align: center;
         }
 
-        #footer p {
-            margin: 0;
-            padding: 10px;
+        .ui-widget-header {
+            background: forestgreen;
         }
 
-        .i-am-centered { margin: auto; max-width: 100%;}
+        .ui-button.saveButtonClass {
+            color: white;
+            background: forestgreen;
+        }
+
+        .ui-dialog .ui-dialog-buttonpane {
+            text-align: center;
+        }
+
+            .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+                float: none;
+            }
+
     </style>
-<%--    <script src="Assets/js/plugins/responsiveiframe/responsiveiframe.js"></script>
     <script>
-    var ri = responsiveIframe();
-        ri.allowResponsiveEmbedding();
-</script>
-     <script>
-  ;(function($){          
-      $(function(){
-          $('#<%=myIframe.ClientID %>').responsiveIframe({ xdomain: '*' });       
-      });        
-  })(jQuery);
-</script>--%>
+
+        function fselect(id, file_url, rowindex) {
+
+            var url = '';
+            if (file_url.indexOf(".png") != -1 || file_url.indexOf(".jpg") != -1) {
+                url = 'frmDisplayImage.aspx?id=' + id;
+            } else if (file_url.indexOf(".pdf") != -1) {
+                url = 'frmDisplayPDF.aspx?id=' + id;
+            } else if (file_url.indexOf(".mp4") != -1) {
+                url = 'frmDisplayVDO.aspx?id=' + id;
+            } else if (file_url.indexOf(".html") != -1) {
+                url = 'frmDisplayHTML.aspx?id=' + id;
+            }
+
+            CreateTransLog('<%=UserData.LoginHistoryID %>', 'เลือกเอกสารจากสารบัญ URL=' + file_url);
+
+            window.location = url;
+        }
+
+        function loadIframe(url) {
+
+            var $iframe = $('#myIframe');
+            if ($iframe.length) {
+                $iframe.attr('src', url);
+                return false;
+            }
+            return true;
+        }
+
+        function showcontent() {
+            $("#myBody").hide();
+            $("#myContent").show();
+
+
+            document.getElementById('<%=btnCloseContent.ClientID %>').style.visibility = 'visible';
+            document.getElementById('<%=btnBack.ClientID %>').style.visibility = 'hidden';
+            document.getElementById('<%=btnNext.ClientID %>').style.visibility = 'hidden';
+            document.getElementById('<%=btnHome.ClientID %>').style.visibility = 'hidden';
+            document.getElementById('<%=btnContent.ClientID %>').style.visibility = 'hidden';
+        }
+
+        function hidecontent() {
+            $("#myBody").show();
+            $("#myContent").hide();
+
+            document.getElementById('<%=btnCloseContent.ClientID %>').style.visibility = 'hidden';
+            document.getElementById('<%=btnBack.ClientID %>').style.visibility = 'visible';
+            document.getElementById('<%=btnNext.ClientID %>').style.visibility = 'visible';
+            document.getElementById('<%=btnHome.ClientID %>').style.visibility = 'visible';
+            document.getElementById('<%=btnContent.ClientID %>').style.visibility = 'visible';
+        }
+
+        function ShowPopup() {
+            CreateTransLog('<%=UserData.LoginHistoryID %>', 'คลิกปุ่มสารบัญ');
+
+            $(function () {
+                // $("#dialog").html(message);
+                var wWidth = $(window).width();
+                var dWidth = wWidth * 0.8;
+                var wHeight = $(window).height();
+                var dHeight = wHeight * 0.8;
+
+                $("#myContent").dialog({
+                    title: name,
+                    width: dWidth,
+                    height: dHeight,
+                    modal: true
+                });
+            });
+        };
+
+    </script>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-        <div class="container-fluid">
-             <div class="row">
-            <div class="col-md-12">
-    <iframe name="myIframe" id="myIframe" runat="server" style="height: 85vh; width: 100%" align="center" frameborder="0" allowfullscreen="true"></iframe>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 
-            </div>
+    <div id="myContent" style="display: none;">
 
-             </div>
-              <div class="row">
-               <div class="col-md-12 align text-center">            
-              <asp:Button ID="btnBack" runat="server" CssClass="btn btn-primary btn-xs" Text="เอกสารก่อนหน้า" />
-                    <asp:TextBox ID="txtPre" runat="server" Visible="false"></asp:TextBox>
-                    <asp:TextBox ID="txtCurrent" runat="server"  Visible="false"></asp:TextBox>
-                    <asp:TextBox ID="txtNext" runat="server"  Visible="false"></asp:TextBox>
-                    <asp:TextBox ID="txtMax" runat="server"  Visible="false"></asp:TextBox>
-               <asp:Button ID="btnNext" runat="server" CssClass="btn btn-primary btn-xs" Text="เอกสารก่อนถัดไป" />
-               </div>
-         </div>
+        <div style="width: 100%">
+            <asp:Label ID="lblContent" runat="server" Text="sssssssssssssssssssss"></asp:Label>
         </div>
-       <div id="footer" style="display:none" >
-        <table style="width: 100%">
-            <tr>
-                <td style="width: 100%">
-                               
 
-                 
-                 </td>
 
-               
 
-            </tr>
-        </table>
+    </div>
+    <div id="myBody">
+        <iframe name="myIframe" id="myIframe" runat="server" style="height: 87vh; width: 100%" align="center" frameborder="0" allowfullscreen="true"></iframe>
+
     </div>
 
+
+
+    <%--    <div class="footer">This footer will always be positioned at the bottom of the page, but <strong>not fixed</strong>.</div>--%>
+    <div class="footer">
+        <div class="row">
+            <div class="span5"></div>
+            <div class="span4 text-center" >
+                <asp:ImageButton ID="btnBack" runat="server" ImageUrl="~/Assets/PC/btnPreviousDoc.png" Height="35px" Width="88px" />
+                <asp:ImageButton ID="btnPDFBack" runat="server" ImageUrl="~/Assets/PC/btnPreviousDidable.png" Height="35px" Width="35px" />
+                <asp:DropDownList CssClass="form-control" ID="ddlPage" runat="server" Width="40px" Height="20px" AutoPostBack="true"  Font-Size="XX-Small" ></asp:DropDownList><asp:Label ID="lblPDFPage" runat="server" Text="1/99"></asp:Label>
+
+                <asp:ImageButton ID="btnPDFNext" runat="server" ImageUrl="~/Assets/PC/btnNextDisable.png" Height="35px" Width="35px" />
+                <asp:ImageButton ID="btnNext" runat="server" ImageUrl="~/Assets/PC/btnNextDoc.png" Height="35px" Width="88px" />
+
+                <asp:TextBox ID="txtPre" runat="server" Visible="false"></asp:TextBox>
+                <asp:TextBox ID="txtCurrent" runat="server" Visible="false"></asp:TextBox>
+                <asp:TextBox ID="txtNext" runat="server" Visible="false"></asp:TextBox>
+                <asp:TextBox ID="txtMax" runat="server" Visible="false"></asp:TextBox>
+            </div>
+            <div class="span3 text-center">
+                <asp:ImageButton ID="btnHome" runat="server" ImageUrl="~/Assets/PC/btnCloseDoc.png" Height="35px" Width="88px" />
+                <asp:ImageButton ID="btnContent" runat="server" ImageUrl="~/Assets/PC/index_icon.png" Height="35px" Width="88px" />
+                <asp:Button ID="btnCloseContent" runat="server" CssClass="btn btn-Normal btn-green" Text="ปิด" Width="" Visible="false" />
+            </div>
+
+        </div>
+
+
+    </div>
 </asp:Content>

@@ -128,6 +128,32 @@ Module TescoModule
         Return im
     End Function
 
+    Function GetFileFromURL(ByVal URL As String, OutputFile As String) As Boolean
+        Dim ret As Boolean = False
+        Try
+            If File.Exists(OutputFile) = True Then
+                File.SetAttributes(OutputFile, FileAttributes.Normal)
+                File.Delete(OutputFile)
+            End If
+
+            Dim Client As New WebClient
+            Client.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials
+            Dim b() As Byte = Client.DownloadData(URL)
+
+            Dim fs As New FileStream(OutputFile, FileMode.Create)
+            fs.Write(b, 0, b.Length)
+            fs.Close()
+
+            If File.Exists(OutputFile) = True Then
+                ret = True
+            End If
+        Catch ex As Exception
+            ret = False
+        End Try
+
+        Return ret
+    End Function
+
 #Region "Log"
     Public Function CallAPIUpdateLog(p As Page, pt As Type, LoginHisID As Long, token As String, vAction As String, vModule As String, data As String) As Boolean
         'เมื่อเรียนจบหลักสูตรให้บันทึก Log

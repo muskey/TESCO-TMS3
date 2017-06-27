@@ -132,7 +132,8 @@ Public Class WebService
 
                                     End If
 
-                                    Dim FileName As String = file_comment("id").ToString & GetURLFileExtension(file_comment("file").ToString)
+                                    Dim FileExt As String = GetURLFileExtension(file_comment("file").ToString)
+                                    Dim FileName As String = file_comment("id").ToString & FileExt
                                     Dim DocFileID As String = EnCripText(FileName)
                                     'Dim DocFileName As String = "null"
 
@@ -143,6 +144,11 @@ Public Class WebService
                                     cfLnq.FILE_TITLE = file_comment("title").ToString
                                     cfLnq.FILE_URL = StoryFile
                                     cfLnq.ORDER_BY = file_comment("order").ToString
+                                    If FileExt.ToLower = ".pdf" Then
+                                        cfLnq.IS_CONVERT = "N"
+                                    Else
+                                        cfLnq.IS_CONVERT = "Z"
+                                    End If
 
                                     ret = cfLnq.InsertData(UserData.UserName, trans.Trans)
                                     If ret.IsSuccess = False Then
@@ -261,7 +267,7 @@ Public Class WebService
 
         Dim ret As String = ""
         Dim info As String = ""
-        info = GetStringDataFromURL(GetWebServiceURL() & "api/GetLoginStatus", "user_id=" & UserName)
+        info = GetStringDataFromURL(GetWebServiceURL() & "api/GetLoginStatus", "employee_id=" & UserName)
 
         If info.Trim <> "" Then
             Dim json As String = info
@@ -277,9 +283,15 @@ Public Class WebService
                             Exit For
                         End If
                     Case "is_first_time_login"
-                        ret += item.First.ToString & "#"
-                    Case "is_telephone_existed"
-                        ret += item.First.ToString & "#"
+                        ret += item.First.ToString.ToLower & "#"
+                    'Case "is_telephone_existed"
+                    '    ret += item.First.ToString.ToLower & "#"
+                    Case "telephone"
+                        If item.First.ToString.Trim = "" Then
+                            ret += "true#"
+                        Else
+                            ret += "false#"
+                        End If
                 End Select
             Next
         End If
