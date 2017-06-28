@@ -3,7 +3,7 @@ Imports System.IO
 Imports System.Data.SqlClient
 Imports System.Windows.Forms
 Imports LinqDB.ConnectDB
-Imports pdftoimg
+
 
 Public Class frmDisplayPDF1
     Inherits System.Web.UI.Page
@@ -62,7 +62,7 @@ Public Class frmDisplayPDF1
             End If
 
             If GetFileFromURL(frompath, OutputFile) = True Then
-                splitpdf(OutputFile, topath)
+                'splitpdf(OutputFile, topath)
             End If
 
 
@@ -82,36 +82,36 @@ Public Class frmDisplayPDF1
     End Sub
 
 
-    Private Sub splitpdf(ByVal frompath As String, ByVal topath As String)
-        Try
-            Dim pdf As New PDFConvertor()
-            Dim CoursePDF As DataTable = pdf.ConvertToDatatable(frompath, topath, Imaging.ImageFormat.Jpeg)
-            If CoursePDF.Rows.Count = 0 Then
-                Throw New ArgumentException("Not enough pages in source pdf to split")
-            End If
+    'Private Sub splitpdf(ByVal frompath As String, ByVal topath As String)
+    '    Try
+    '        Dim pdf As New PDFConvertor()
+    '        Dim CoursePDF As DataTable = pdf.ConvertToDatatable(frompath, topath, Imaging.ImageFormat.Jpeg)
+    '        If CoursePDF.Rows.Count = 0 Then
+    '            Throw New ArgumentException("Not enough pages in source pdf to split")
+    '        End If
 
-            Session("CoursePdf") = CoursePDF
+    '        Session("CoursePdf") = CoursePDF
 
-            Me.ddlPage.DataSource = CoursePDF
-            Me.ddlPage.DataTextField = "next_id"
-            Me.ddlPage.DataValueField = "next_id"
-            Me.ddlPage.DataBind()
+    '        Me.ddlPage.DataSource = CoursePDF
+    '        Me.ddlPage.DataTextField = "next_id"
+    '        Me.ddlPage.DataValueField = "next_id"
+    '        Me.ddlPage.DataBind()
 
-            If (CoursePDF.Rows.Count > 0) Then
-                SetInitShow(CoursePDF.Rows(0))
-                Me.txtPre.Text = 0
-                Me.txtCurrent.Text = 1
-                Me.txtNext.Text = IIf(CoursePDF.Rows.Count = 1, 1, 2)
-                Me.txtMax.Text = CoursePDF.Rows.Count
-            End If
-            GetBottonPDF()
+    '        If (CoursePDF.Rows.Count > 0) Then
+    '            SetInitShow(CoursePDF.Rows(0))
+    '            Me.txtPre.Text = 0
+    '            Me.txtCurrent.Text = 1
+    '            Me.txtNext.Text = IIf(CoursePDF.Rows.Count = 1, 1, 2)
+    '            Me.txtMax.Text = CoursePDF.Rows.Count
+    '        End If
+    '        GetBottonPDF()
 
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Information, "splitpdf")
-            'errormsg = ex.Message
+    '    Catch ex As Exception
+    '        MsgBox(ex.Message, MsgBoxStyle.Information, "splitpdf")
+    '        'errormsg = ex.Message
 
-        End Try
-    End Sub
+    '    End Try
+    'End Sub
 
 
 

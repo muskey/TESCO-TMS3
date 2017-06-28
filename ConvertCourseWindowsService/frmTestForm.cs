@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ConvertPDFWindowsService
+
+namespace ConvertCourseWindowsService
 {
     public partial class frmTestForm : Form
     {
@@ -19,7 +20,9 @@ namespace ConvertPDFWindowsService
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ConvertPDFServiceENG.ConvertFilePDF();
+            //Engine.ConvertCourseENG.ConvertCourseData();
+            ConvertPDFFileENG.ConvertFilePDF();
+             
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ConvertPDFWindowsService
+﻿namespace ConvertCourseWindowsService
 {
     partial class frmTestForm
     {

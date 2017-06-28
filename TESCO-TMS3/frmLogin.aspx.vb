@@ -368,15 +368,22 @@ Public Class frmLogin
                 lnq.DEPARTMENT_ID = desc("id").ToString
                 lnq.DEPARTMENT_TITLE = desc("title").ToString
                 lnq.DEPARTMENT_COVER_URL = desc("cover").ToString
+                lnq.COURSE_DETAIL = "{" & desc.Last.ToString & "}"
+                lnq.BIND_COURSE = "N"
                 ret = lnq.InsertData(Username, trans.Trans)
-                If ret.IsSuccess = True Then
-                    ret = BindDatableTableFromCourse(lnq.ID, UserID, Username, desc.Last, trans)
-                    If ret.IsSuccess = False Then
-                        Exit For
-                    End If
-                Else
+
+                If ret.IsSuccess = False Then
                     Exit For
                 End If
+
+                'If ret.IsSuccess = True Then
+                '    ret = BindDatableTableFromCourse(lnq.ID, UserID, Username, desc.Last, trans)
+                '    If ret.IsSuccess = False Then
+                '        Exit For
+                '    End If
+                'Else
+                '    Exit For
+                'End If
             Next
         Next
         Return ret
@@ -391,7 +398,7 @@ Public Class frmLogin
             Return ret
         End If
 
-        Dim ci As Integer = 1
+        'Dim ci As Integer = 1
         For Each comment As JObject In item.Values
             Try
                 Dim lnq As New TbUserCourseLinqDB
@@ -419,7 +426,7 @@ Public Class frmLogin
                 ret.ErrorMessage = ex.Message
                 Exit For
             End Try
-            ci += 1
+            'ci += 1
         Next
         Return ret
     End Function

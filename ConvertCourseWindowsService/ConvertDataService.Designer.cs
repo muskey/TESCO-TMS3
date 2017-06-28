@@ -1,6 +1,6 @@
-﻿namespace ConvertPDFWindowsService
+﻿namespace ConvertCourseWindowsService
 {
-    partial class ConvertPDFService
+    partial class ConvertDataService
     {
         /// <summary> 
         /// Required designer variable.

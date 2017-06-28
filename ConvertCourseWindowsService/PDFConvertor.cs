@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Data;
-
+using Engine;
 
     // A delegate type for hooking up change notifications.
     public delegate void ProgressChangingEventHandler(object sender, string  e);
@@ -99,55 +95,67 @@ using System.Data;
         dt.Columns.Add("next_id", typeof(int));
         dt.Columns.Add("pathname");
 
-        if (pdfDoc.Open(sourceFileName))
-        {
-            pageCount = pdfDoc.GetNumPages();
-
-            for (int i = 0; i < pageCount; i++)
+        try {
+            if (pdfDoc.Open(sourceFileName))
             {
-                try {
-                    pdfPage = (Acrobat.CAcroPDPage)pdfDoc.AcquirePage(i);
+                pageCount = pdfDoc.GetNumPages();
 
-                    pdfPoint = (Acrobat.AcroPoint)pdfPage.GetSize();
-                    pdfRect.Left = 0;
-                    pdfRect.right = pdfPoint.x;
-                    pdfRect.Top = 0;
-                    pdfRect.bottom = pdfPoint.y;
-
-                    pdfPage.CopyToClipboard(pdfRect, 0, 0, 100);
-
-                    string outimg = "";
-                    string filename = sourceFileName.Substring(sourceFileName.LastIndexOf("\\")).Replace(".pdf", "").Replace("\\", "");
-
-                    outimg = DestinationPath + filename + "_" + (i + 1).ToString() + "." + outPutImageFormat.ToString();
-                    Clipboard.GetImage().Save(outimg, outPutImageFormat);
-                    if (System.IO.File.Exists(outimg) == true)
+                for (int i = 0; i < pageCount; i++)
+                {
+                    try
                     {
-                        System.Data.DataRow dr = dt.NewRow();
-                        dr["next_id"] = (i + 1);
-                        dr["pathname"] = outimg;
+                        pdfPage = (Acrobat.CAcroPDPage)pdfDoc.AcquirePage(i);
 
-                        dt.Rows.Add(dr);
+                        pdfPoint = (Acrobat.AcroPoint)pdfPage.GetSize();
+                        pdfRect.Left = 0;
+                        pdfRect.right = pdfPoint.x;
+                        pdfRect.Top = 0;
+                        pdfRect.bottom = pdfPoint.y;
+
+                        pdfPage.CopyToClipboard(pdfRect, 0, 0, 100);
+
+                        string outimg = "";
+                        string filename = sourceFileName.Substring(sourceFileName.LastIndexOf("\\")).Replace(".pdf", "").Replace("\\", "");
+
+                        outimg = DestinationPath + filename + "_" + (i + 1).ToString() + "." + outPutImageFormat.ToString();
+                        Clipboard.GetImage().Save(outimg, outPutImageFormat);
+                        if (System.IO.File.Exists(outimg) == true)
+                        {
+                            System.Data.DataRow dr = dt.NewRow();
+                            dr["next_id"] = (i + 1);
+                            dr["pathname"] = outimg;
+
+                            dt.Rows.Add(dr);
+                        }
+
+                        ////////////Firing Progress Event 
+                        OnExportProgressChanging(outimg);
                     }
+                    catch (Exception ex)
+                    {
+                        pdfDoc.Close();
+                        Dispose();
+                        LogFileENG.LogException("Exception 1 " + ex.Message, ex.StackTrace);
+                    }
+                }
 
-                    ////////////Firing Progress Event 
-                    OnExportProgressChanging(outimg);
-                }
-                catch (Exception ex) {
-                    pdfDoc.Close();
-                    Dispose();
-                }
+                pdfDoc.Close();
+                Dispose();
             }
-
-            pdfDoc.Close();
-            Dispose();
+            else
+            {
+                LogFileENG.LogError("File " + sourceFileName + " Not Found!");
+                Dispose();
+                //throw new System.IO.FileNotFoundException(sourceFileName + " Not Found!");
+                
+            }
         }
-        else
-        {
-            Dispose();
-            throw new System.IO.FileNotFoundException(sourceFileName + " Not Found!");
-
+        catch (Exception ex) {
+            LogFileENG.LogException("Exception 2 " + ex.Message, ex.StackTrace);
         }
+        
+
+        
         return dt;
     }
     #endregion
