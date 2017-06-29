@@ -81,7 +81,7 @@
             if (file_url.indexOf(".png") != -1 || file_url.indexOf(".jpg") != -1) {
                 url = 'frmDisplayImage.aspx?id=' + id;
             } else if (file_url.indexOf(".pdf") != -1) {
-                url = 'frmDisplayPDF.aspx?id=' + id;
+                url = 'frmDisplayPDF1.aspx?id=' + id;
             } else if (file_url.indexOf(".mp4") != -1) {
                 url = 'frmDisplayVDO.aspx?id=' + id;
             } else if (file_url.indexOf(".html") != -1) {
@@ -158,14 +158,14 @@
 
 
     </div>
-    <div id="myBody">
-        <iframe name="myIframe" id="myIframe" runat="server" style="height: 87vh; width: 100%" align="center" frameborder="0" allowfullscreen="true"></iframe>
-
+    <div id="myBody" style="height: 87vh; width: 100%; overflow-y: scroll;">
+        <div class="row">
+            <div class="span12 text-center">
+                <asp:Image runat="server" ID="imgShow" src="https://gifyu.com/images/17883105_623102657889044_5265897545783050240_n.jpg" Width="98%" />
+            </div>
+        </div>
     </div>
 
-
-
-    <%--    <div class="footer">This footer will always be positioned at the bottom of the page, but <strong>not fixed</strong>.</div>--%>
     <div class="footer">
         <div class="row">
             <div class="span5"></div>

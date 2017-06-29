@@ -41,12 +41,16 @@ namespace ConvertCourseWindowsService
                             //Download PDF File Form Backend
                             if (DownloadFileFromURL(dr["file_url"].ToString(), OutputFile) == true)
                             {
+
+                                LogFileENG.LogTrans("เริ่ม Convert File " + OutputFile);
                                 PDFConvertor pdf = new PDFConvertor();
                                 DataTable fileDt = pdf.ConvertToDatatable(OutputFile, DocumentFolder, System.Drawing.Imaging.ImageFormat.Jpeg);
                                 if (fileDt.Rows.Count > 0)
                                 {
+                                    LogFileENG.LogTrans("Convert File " + OutputFile + " สำเร็จ จำนวน " + fileDt.Rows.Count + " หน้า");
                                     lnq = new TbUserCourseDocumentFileLinqDB();
                                     lnq.GetDataByPK(Convert.ToInt64(dr["id"]), null);
+                                    lnq.PDF_PAGE = fileDt.Rows.Count;
                                     lnq.IS_CONVERT = 'Y';
 
                                     TransactionDB trans = new TransactionDB();
@@ -54,11 +58,16 @@ namespace ConvertCourseWindowsService
                                     if (ret.IsSuccess == true)
                                     {
                                         trans.CommitTransaction();
+                                        LogFileENG.LogTrans("Update IS_CONVERT ของไฟล์ " + OutputFile + " สำเร็จ");
                                     }
                                     else
                                     {
                                         trans.RollbackTransaction();
+                                        LogFileENG.LogError("Update IS_CONVERT ของไฟล์ " + OutputFile + " ไม่สำเร็จ");
                                     }
+                                }
+                                else {
+                                    LogFileENG.LogError("Convert File " + OutputFile + " ไม่สำเร็จ");
                                 }
                             }
                         }

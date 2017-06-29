@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_USER_COURSE_DOCUMENT_FILE table LinqDB.
-    '[Create by  on June, 27 2017]
+    '[Create by  on June, 29 2017]
     Public Class TbUserCourseDocumentFileLinqDB
         Public sub TbUserCourseDocumentFileLinqDB()
 
@@ -50,7 +50,8 @@ Namespace TABLE
         Dim _FILE_TITLE As String = ""
         Dim _FILE_URL As String = ""
         Dim _ORDER_BY As Long = 0
-        Dim _IS_CONVERT As  System.Nullable(Of Char)  = "N"
+        Dim _IS_CONVERT As Char = "Z"
+        Dim _PDF_PAGE As  System.Nullable(Of Long) 
 
         'Generate Field Property 
         <Column(Storage:="_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
@@ -152,13 +153,22 @@ Namespace TABLE
                _ORDER_BY = value
             End Set
         End Property 
-        <Column(Storage:="_IS_CONVERT", DbType:="Char(1)")>  _
-        Public Property IS_CONVERT() As  System.Nullable(Of Char) 
+        <Column(Storage:="_IS_CONVERT", DbType:="Char(1) NOT NULL ",CanBeNull:=false)>  _
+        Public Property IS_CONVERT() As Char
             Get
                 Return _IS_CONVERT
             End Get
-            Set(ByVal value As  System.Nullable(Of Char) )
+            Set(ByVal value As Char)
                _IS_CONVERT = value
+            End Set
+        End Property 
+        <Column(Storage:="_PDF_PAGE", DbType:="Int")>  _
+        Public Property PDF_PAGE() As  System.Nullable(Of Long) 
+            Get
+                Return _PDF_PAGE
+            End Get
+            Set(ByVal value As  System.Nullable(Of Long) )
+               _PDF_PAGE = value
             End Set
         End Property 
 
@@ -176,7 +186,8 @@ Namespace TABLE
             _FILE_TITLE = ""
             _FILE_URL = ""
             _ORDER_BY = 0
-            _IS_CONVERT = "N"
+            _IS_CONVERT = "Z"
+            _PDF_PAGE = 0
         End Sub
 
        'Define Public Method 
@@ -455,7 +466,7 @@ Namespace TABLE
         End Function
 
         Private Function SetParameterData() As SqlParameter()
-            Dim cmbParam(11) As SqlParameter
+            Dim cmbParam(12) As SqlParameter
             cmbParam(0) = New SqlParameter("@_ID", SqlDbType.BigInt)
             cmbParam(0).Value = _ID
 
@@ -506,10 +517,13 @@ Namespace TABLE
             cmbParam(10).Value = _ORDER_BY
 
             cmbParam(11) = New SqlParameter("@_IS_CONVERT", SqlDbType.Char)
-            If _IS_CONVERT.Value <> "" Then 
-                cmbParam(11).Value = _IS_CONVERT.Value
+            cmbParam(11).Value = _IS_CONVERT
+
+            cmbParam(12) = New SqlParameter("@_PDF_PAGE", SqlDbType.Int)
+            If _PDF_PAGE IsNot Nothing Then 
+                cmbParam(12).Value = _PDF_PAGE.Value
             Else
-                cmbParam(11).Value = DBNull.value
+                cmbParam(12).Value = DBNull.value
             End IF
 
             Return cmbParam
@@ -543,6 +557,7 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("file_url")) = False Then _file_url = Rdr("file_url").ToString()
                         If Convert.IsDBNull(Rdr("order_by")) = False Then _order_by = Convert.ToInt32(Rdr("order_by"))
                         If Convert.IsDBNull(Rdr("is_convert")) = False Then _is_convert = Rdr("is_convert").ToString()
+                        If Convert.IsDBNull(Rdr("pdf_page")) = False Then _pdf_page = Convert.ToInt32(Rdr("pdf_page"))
                     Else
                         ret = False
                         _error = MessageResources.MSGEV002
@@ -589,6 +604,7 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("file_url")) = False Then _file_url = Rdr("file_url").ToString()
                         If Convert.IsDBNull(Rdr("order_by")) = False Then _order_by = Convert.ToInt32(Rdr("order_by"))
                         If Convert.IsDBNull(Rdr("is_convert")) = False Then _is_convert = Rdr("is_convert").ToString()
+                        If Convert.IsDBNull(Rdr("pdf_page")) = False Then _pdf_page = Convert.ToInt32(Rdr("pdf_page"))
                     Else
                         _error = MessageResources.MSGEV002
                     End If
@@ -613,8 +629,8 @@ Namespace TABLE
         Private ReadOnly Property SqlInsert() As String 
             Get
                 Dim Sql As String=""
-                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_COURSE_DOCUMENT_ID, USER_ID, DOCUMENT_FILE_ID, FILE_TITLE, FILE_URL, ORDER_BY, IS_CONVERT)"
-                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_COURSE_DOCUMENT_ID, INSERTED.USER_ID, INSERTED.DOCUMENT_FILE_ID, INSERTED.FILE_TITLE, INSERTED.FILE_URL, INSERTED.ORDER_BY, INSERTED.IS_CONVERT"
+                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_COURSE_DOCUMENT_ID, USER_ID, DOCUMENT_FILE_ID, FILE_TITLE, FILE_URL, ORDER_BY, IS_CONVERT, PDF_PAGE)"
+                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_COURSE_DOCUMENT_ID, INSERTED.USER_ID, INSERTED.DOCUMENT_FILE_ID, INSERTED.FILE_TITLE, INSERTED.FILE_URL, INSERTED.ORDER_BY, INSERTED.IS_CONVERT, INSERTED.PDF_PAGE"
                 Sql += " VALUES("
                 sql += "@_CREATED_BY" & ", "
                 sql += "@_CREATED_DATE" & ", "
@@ -624,7 +640,8 @@ Namespace TABLE
                 sql += "@_FILE_TITLE" & ", "
                 sql += "@_FILE_URL" & ", "
                 sql += "@_ORDER_BY" & ", "
-                sql += "@_IS_CONVERT"
+                sql += "@_IS_CONVERT" & ", "
+                sql += "@_PDF_PAGE"
                 sql += ")"
                 Return sql
             End Get
@@ -644,7 +661,8 @@ Namespace TABLE
                 Sql += "FILE_TITLE = " & "@_FILE_TITLE" & ", "
                 Sql += "FILE_URL = " & "@_FILE_URL" & ", "
                 Sql += "ORDER_BY = " & "@_ORDER_BY" & ", "
-                Sql += "IS_CONVERT = " & "@_IS_CONVERT" + ""
+                Sql += "IS_CONVERT = " & "@_IS_CONVERT" & ", "
+                Sql += "PDF_PAGE = " & "@_PDF_PAGE" + ""
                 Return Sql
             End Get
         End Property
@@ -662,7 +680,7 @@ Namespace TABLE
         'Get Select Statement for table TB_USER_COURSE_DOCUMENT_FILE
         Private ReadOnly Property SqlSelect() As String
             Get
-                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_COURSE_DOCUMENT_ID, USER_ID, DOCUMENT_FILE_ID, FILE_TITLE, FILE_URL, ORDER_BY, IS_CONVERT FROM " & tableName
+                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_COURSE_DOCUMENT_ID, USER_ID, DOCUMENT_FILE_ID, FILE_TITLE, FILE_URL, ORDER_BY, IS_CONVERT, PDF_PAGE FROM " & tableName
                 Return Sql
             End Get
         End Property
