@@ -99,6 +99,13 @@
                         <asp:TextBox ID="txtRequestOTPShowMobileNo" runat="server" CssClass="form-control" Enabled="false" AutoComplete="off" data-rule-required="true" 
                             Style="padding: 4px 0px;font-size:20px;height:26px"></asp:TextBox>
                     </div>
+                    <div class="from-group">
+                        <IMG  alt="" src="RenderCaptcha.aspx" style="width:100%;height:80px">
+                    </div>
+                    <div class="from-group">
+                        <asp:TextBox ID="txtCaptchaText" runat="server" CssClass="form-control" placeholder="CAPTCHA TEXT" AutoComplete="off" data-rule-required="true" 
+                            Style="padding: 4px 0px;font-size:20px;height:26px;"></asp:TextBox>
+                    </div>
                     <div class="form-group ">
                         <asp:Button ID="btnSendOTP" runat="server" CssClass="log-btn" style="width:100%" Text="SEND OTP" />
                     </div>

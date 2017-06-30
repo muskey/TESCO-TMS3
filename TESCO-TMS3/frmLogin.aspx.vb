@@ -804,6 +804,13 @@ Public Class frmLogin
     End Sub
 
     Private Sub btnSendOTP_Click(sender As Object, e As EventArgs) Handles btnSendOTP.Click
+        If Session("randomStr") IsNot Nothing Then
+            If txtCaptchaText.Text <> Session("randomStr").ToString Then
+                ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "Alert", "alert('กรุณาระบุ CAPTCHA ให้ถูกต้อง');", True)
+                Exit Sub
+            End If
+        End If
+
         Dim info As String = ""
         info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/get", "employee_id=" & txtReqestOTPSendUsername.Text)
         If info.Trim <> "" Then

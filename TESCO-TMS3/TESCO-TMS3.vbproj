@@ -2121,6 +2121,7 @@
     <Content Include="frmSelectTestCourse.aspx" />
     <Content Include="frmTestingCourse.aspx" />
     <Content Include="HtmlPage1.html" />
+    <Content Include="RenderCaptcha.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\ScriptJS.js" />
@@ -2627,6 +2628,13 @@
     </Compile>
     <Compile Include="frmMain.aspx.vb">
       <DependentUpon>frmMain.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="RenderCaptcha.aspx.designer.vb">
+      <DependentUpon>RenderCaptcha.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RenderCaptcha.aspx.vb">
+      <DependentUpon>RenderCaptcha.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="TescoModule.vb" />
