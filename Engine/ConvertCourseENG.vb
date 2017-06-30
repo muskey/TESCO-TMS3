@@ -9,20 +9,32 @@ Public Class ConvertCourseENG
             Dim dLnq As New TbUserDepartmentLinqDB
             Dim dt As DataTable = dLnq.GetDataList("bind_course='N'", "", Nothing, Nothing)
             If dt.Rows.Count > 0 Then
-
                 For Each dr As DataRow In dt.Rows
-                    If (Convert.IsDBNull(dr("course_detail")) = True) Then Continue For
-
                     Dim UserID As Long = dr("user_id")
                     Dim Username As String = dr("created_by")
 
                     Dim trans As New TransactionDB
                     Dim ret As New ExecuteDataInfo
 
+                    If (Convert.IsDBNull(dr("course_detail")) = True) Then
+                        dLnq = New TbUserDepartmentLinqDB
+                        dLnq.GetDataByPK(dr("id"), Nothing)
+                        dLnq.BIND_COURSE = "Y"
+                        ret = dLnq.UpdateData(Username, trans.Trans)
+                        If ret.IsSuccess = True Then
+                            trans.CommitTransaction()
+                        Else
+                            trans.RollbackTransaction()
+                        End If
+                        Continue For
+                    End If
+
+
+
                     Dim document_ser As JObject = JObject.Parse(dr("course_detail"))
                     Dim document_data As List(Of JToken) = document_ser.Children().ToList
                     For Each document_item As JProperty In document_data
-                        If document_item.Value.Count = 0 Then
+                        If document_item.Values.Count = 0 Then
                             ret.IsSuccess = True
                             Continue For
                         End If
@@ -51,8 +63,9 @@ Public Class ConvertCourseENG
                                     Dim DocumentText As String = "{""document"":" & comment("document").ToString & "}"
 
                                     ret = ConvertCourseDocumentData(UserID, Username, lnq.ID, DocumentText, trans)
-                                Else
-                                    Exit For
+                                    If ret.IsSuccess = False Then
+                                        Exit For
+                                    End If
                                 End If
                             Catch ex As Exception
                                 ret.IsSuccess = False
@@ -101,6 +114,11 @@ Public Class ConvertCourseENG
                 Dim document_ser As JObject = JObject.Parse(document_txt)
                 Dim document_data As List(Of JToken) = document_ser.Children().ToList
                 For Each document_item As JProperty In document_data
+                    If document_item.Values.Count = 0 Then
+                        ret.IsSuccess = True
+                        Continue For
+                    End If
+
 
                     For Each document_comment As JObject In document_item.Values
                         document_item.CreateReader()
@@ -169,9 +187,9 @@ Public Class ConvertCourseENG
                         End If
                         cdLnq = Nothing
                     Next
-                    If ret.IsSuccess = False Then
-                        Exit For
-                    End If
+                    'If ret.IsSuccess = False Then
+                    '    Exit For
+                    'End If
                 Next
             End If
         Catch ex As Exception

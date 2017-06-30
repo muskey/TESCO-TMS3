@@ -267,13 +267,14 @@ Public Class WebService
                         If item.First.ToString.Trim = "" Then
                             ret += "true#"
                         Else
-                            ret += "false#"
+                            Dim MobileNo As String = item.First.ToString.Trim
+                            ret += "false#" & MobileNo.Substring(0, MobileNo.Length - 4) & "XXXX"
                         End If
                 End Select
             Next
         End If
 
-        'ret = "is_first_time_login#is_telephone_existed
+        'ret = "is_first_time_login#is_telephone_existed#mobile_no
         Return ret
     End Function
 

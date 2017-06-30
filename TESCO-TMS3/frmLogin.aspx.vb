@@ -794,10 +794,13 @@ Public Class frmLogin
 #End Region
 
     Private Sub btnForgetPassword_Click(sender As Object, e As EventArgs) Handles btnForgetPassword.Click
+        txtRequestOTPShowMobileNo.Text = ""
         pnlLogin.Visible = False
         pnlRequestOTP.Visible = True
-
+        txtRequestOTPShowMobileNo.Text = txtTempMobileNo.Text
         txtReqestOTPSendUsername.Text = txtUsername.Text
+
+        txtReqestOTPSendUsername.Attributes.Add("onBlur", "return GetMobileNo(event,'" & txtReqestOTPSendUsername.ClientID & "','" & txtRequestOTPShowMobileNo.ClientID & "')")
     End Sub
 
     Private Sub btnSendOTP_Click(sender As Object, e As EventArgs) Handles btnSendOTP.Click

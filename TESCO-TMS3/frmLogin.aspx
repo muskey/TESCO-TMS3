@@ -81,6 +81,7 @@
 				    <div class="control-group">
                         <div class="form-group text-center">
                             <asp:Button ID="btnLogin" runat="server" CssClass="log-btn" style="width:100%" Text="Login" />
+                            <asp:TextBox ID="txtTempMobileNo" runat="server" style="display:none;"></asp:TextBox>
                         </div>
 				    </div>
                     <div class="form-group" style="text-align: center;">
@@ -92,6 +93,10 @@
                 <asp:Panel ID="pnlRequestOTP" runat="server" CssClass="row-fluid" Visible="false">
                     <div class="form-group ">
                         <asp:TextBox ID="txtReqestOTPSendUsername" runat="server" CssClass="form-control" placeholder="รหัสพนักงาน" AutoComplete="off" data-rule-required="true" 
+                            Style="padding: 4px 0px;font-size:20px;height:26px"></asp:TextBox>
+                    </div>
+                    <div class="from-group">
+                        <asp:TextBox ID="txtRequestOTPShowMobileNo" runat="server" CssClass="form-control" Enabled="false" AutoComplete="off" data-rule-required="true" 
                             Style="padding: 4px 0px;font-size:20px;height:26px"></asp:TextBox>
                     </div>
                     <div class="form-group ">
@@ -143,6 +148,7 @@
                         if (ret.length == 3) {
                             var IsFirstItmeLogin = ret[0];
                             var IsTelephoneExist = ret[1];
+                            var MobileNo = ret[2];
 
                             if (IsTelephoneExist == "true") {
                                 alert("ผู้ใช้ไม่มีหมายเลขโทรศัพท์ กรุณาติดต่อผู้ดูแลระบบ");
@@ -151,7 +157,47 @@
                                 }, 1);    
                                 return false;
                             } else if (IsFirstItmeLogin == "true") {
+
+                                document.getElementById("<%=txtTempMobileNo.ClientID%>").value = MobileNo;
                                 document.getElementById("<%=btnForgetPassword.ClientID%>").click();
+                            }
+                        }
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+
+        function GetMobileNo(event, txtReqestOTPSendUsername, txtRequestOTPShowMobileNo) {
+            var UserName = document.getElementById(txtReqestOTPSendUsername).value;
+
+            var param = "{'UserName':" + JSON.stringify(UserName) + "}";
+            $.ajax({
+                type: "POST",
+                url: "WebService/WebService.asmx/GetLoginStatus",
+                data: param,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    var strvalue = data.d;
+                    if (strvalue != '') {
+                        var ret = strvalue.split("#")
+                        if (ret.length == 3) {
+                            var IsFirstItmeLogin = ret[0];
+                            var IsTelephoneExist = ret[1];
+                            var MobileNo = ret[2];
+
+                            if (IsTelephoneExist == "true") {
+                                alert("ผู้ใช้ไม่มีหมายเลขโทรศัพท์ กรุณาติดต่อผู้ดูแลระบบ");
+                                setTimeout(function () {  //the horror...the horror...  
+                                       document.getElementById(event.target.id).select();  
+                                }, 1);    
+                                return false;
+                            } else {
+                                document.getElementById("txtRequestOTPShowMobileNo").value = MobileNo;
                             }
                         }
                     }
