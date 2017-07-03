@@ -18,8 +18,22 @@
    
     <asp:Panel ID="pnlQuestionYesNo" runat="server" CssClass="tab-pane active" Visible="true">
         <div class="row">
-            <div class="span2"></div>    
-            <div class="span10">
+            <div class="span2"></div>
+            <div class="span3">
+                <div id="links" class="links" runat="server">
+                </div>
+                <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+                <div id="blueimp-gallery" class="blueimp-gallery">
+                    <div class="slides"></div>
+                    <h3 class="title"></h3>
+                    <a class="prev">‹</a>
+                    <a class="next">›</a>
+                    <a class="close">x</a>
+                    <a class="play-pause"></a>
+                    <ol class="indicator"></ol>
+                </div>
+            </div>
+            <div class="span7">
                 <div class="check-line">
                     <asp:CheckBox ID="chkAnsYes" runat="server" CssClass="mycheckBig" />
                     <label class='inline' for="chkAnsYes" runat="server" id="lblAnsYes" style="width: 100%; font-size: large; color: white;">ใช่</label>

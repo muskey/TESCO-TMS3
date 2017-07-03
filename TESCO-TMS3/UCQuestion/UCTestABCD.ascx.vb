@@ -32,37 +32,42 @@ Public Class UCTestABCD
             If (dt.Rows.Count > 0) Then
                 Me.lblQNumber.Text = "ข้อ " + question_no.ToString + "/" + QuestionCount.ToString
                 Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
+                'Dim srt1 As String = dt.Rows(0)("icon_url")
+                'If srt1 <> "" Then
+                '    Dim srt2 As String = srt1.Substring(srt1.Length - (3 - 1), 3)
+                'End If
+
                 If dt.Rows(0)("icon_url") & "" <> "" Then
-                    links.InnerHtml = "<a href='" & dt.Rows(0)("icon_url") & "' title='' data-gallery='' >"
-                    links.InnerHtml += "    <img  src='" & dt.Rows(0)("icon_url") & "' style='width:200px;height:200px' />"
-                    links.InnerHtml += "</a>"
-                    'Else
-                    'likExtras.Attributes.Add("style", "display:none")
+                        links.InnerHtml = "<a href='" & dt.Rows(0)("icon_url") & "' title='' data-gallery='' >"
+                        links.InnerHtml += "    <img  src='" & dt.Rows(0)("icon_url") & "' style='width:200px;height:200px' />"
+                        links.InnerHtml += "</a>"
+                        'Else
+                        'likExtras.Attributes.Add("style", "display:none")
 
-                    'links.InnerHtml = "<a href='../Assets/PC/noimagefound.jpg' title='' data-gallery='' >"
-                    'links.InnerHtml += "    <img  src='../Assets/PC/noimagefound.jpg' style='width:200px;height:200px' />"
-                    'links.InnerHtml += "</a>"
+                        'links.InnerHtml = "<a href='../Assets/PC/noimagefound.jpg' title='' data-gallery='' >"
+                        'links.InnerHtml += "    <img  src='../Assets/PC/noimagefound.jpg' style='width:200px;height:200px' />"
+                        'links.InnerHtml += "</a>"
+                    End If
+
+                    Dim tmpAnswer() As String = Split(dt.Rows(0)("answer"), "##")
+                    Dim tmpChoice() As String = Split(dt.Rows(0)("choice"), "##")
+
+                    If tmpChoice.Length = 4 And tmpAnswer.Length = 4 Then
+                        lblA.InnerText = tmpChoice(0)
+                        lblB.InnerText = tmpChoice(1)
+                        lblC.InnerText = tmpChoice(2)
+                        lblD.InnerText = tmpChoice(3)
+
+                        Dim i As Integer = 0
+                        For Each ans As String In tmpAnswer
+                            If ans.ToLower = "true" Then
+                                txtCorrectAnswer.Text = i
+                                txtCorrectChoice.Text = tmpChoice(i)
+                                i += 1
+                            End If
+                        Next
+                    End If
                 End If
-
-                Dim tmpAnswer() As String = Split(dt.Rows(0)("answer"), "##")
-                Dim tmpChoice() As String = Split(dt.Rows(0)("choice"), "##")
-
-                If tmpChoice.Length = 4 And tmpAnswer.Length = 4 Then
-                    lblA.InnerText = tmpChoice(0)
-                    lblB.InnerText = tmpChoice(1)
-                    lblC.InnerText = tmpChoice(2)
-                    lblD.InnerText = tmpChoice(3)
-
-                    Dim i As Integer = 0
-                    For Each ans As String In tmpAnswer
-                        If ans.ToLower = "true" Then
-                            txtCorrectAnswer.Text = i
-                            txtCorrectChoice.Text = tmpChoice(i)
-                            i += 1
-                        End If
-                    Next
-                End If
-            End If
         Catch ex As Exception
 
         End Try

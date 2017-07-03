@@ -22,7 +22,11 @@ Public Class UCyesno
         txtQuestionID.Text = dt.Rows(0)("id")
         Me.lblQNumber.Text = "ข้อ " + question_no.ToString + "/" + QuestionQty.ToString
         Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
-
+        If dt.Rows(0)("icon_url") & "" <> "" Then
+            links.InnerHtml = "<a href='" & dt.Rows(0)("icon_url") & "' title='' data-gallery='' >"
+            links.InnerHtml += "    <img  src='" & dt.Rows(0)("icon_url") & "' style='width:200px;height:200px' />"
+            links.InnerHtml += "</a>"
+        End If
         txtCorrectAnswer.Text = dt.Rows(0)("yesno_correct_answer")
         txtCorrectChoice.Text = IIf(dt.Rows(0)("yesno_correct_answer") = 1, "ใช่", "ไม่ใช่")
     End Sub
