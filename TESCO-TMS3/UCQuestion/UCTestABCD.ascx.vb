@@ -32,12 +32,17 @@ Public Class UCTestABCD
             If (dt.Rows.Count > 0) Then
                 Me.lblQNumber.Text = "ข้อ " + question_no.ToString + "/" + QuestionCount.ToString
                 Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
-                'Dim srt1 As String = dt.Rows(0)("icon_url")
-                'If srt1 <> "" Then
-                '    Dim srt2 As String = srt1.Substring(srt1.Length - (3 - 1), 3)
-                'End If
-
-                If dt.Rows(0)("icon_url") & "" <> "" Then
+                Dim srt1 As String = dt.Rows(0)("icon_url").ToString
+                Dim srt2 As String
+                If srt1 <> "" Then
+                    srt2 = srt1.Substring(srt1.Length - 3)
+                End If
+                If srt2 = "mp4" Then
+                    If Convert.IsDBNull(dt.Rows(0)("icon_url")) = False Then
+                        myVideo.Attributes.Add("src", dt.Rows(0)("icon_url"))
+                    End If
+                Else
+                    If dt.Rows(0)("icon_url") & "" <> "" Then
                         links.InnerHtml = "<a href='" & dt.Rows(0)("icon_url") & "' title='' data-gallery='' >"
                         links.InnerHtml += "    <img  src='" & dt.Rows(0)("icon_url") & "' style='width:200px;height:200px' />"
                         links.InnerHtml += "</a>"
@@ -48,8 +53,9 @@ Public Class UCTestABCD
                         'links.InnerHtml += "    <img  src='../Assets/PC/noimagefound.jpg' style='width:200px;height:200px' />"
                         'links.InnerHtml += "</a>"
                     End If
+                End If
 
-                    Dim tmpAnswer() As String = Split(dt.Rows(0)("answer"), "##")
+                Dim tmpAnswer() As String = Split(dt.Rows(0)("answer"), "##")
                     Dim tmpChoice() As String = Split(dt.Rows(0)("choice"), "##")
 
                     If tmpChoice.Length = 4 And tmpAnswer.Length = 4 Then
