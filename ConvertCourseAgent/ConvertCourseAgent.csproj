@@ -7,11 +7,26 @@
     <ProjectGuid>{DCB9AFB2-1034-4242-9B1C-7F1C1148DA96}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConvertPDFWindowsService</RootNamespace>
-    <AssemblyName>ConvertPDFWindowsService</AssemblyName>
+    <RootNamespace>ConvertCourseAgent</RootNamespace>
+    <AssemblyName>ConvertCourseAgent</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -22,6 +37,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +48,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Interop.Acrobat, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -53,49 +73,57 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConvertPDFService.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ConvertPDFService.Designer.cs">
-      <DependentUpon>ConvertPDFService.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConvertPDFServiceENG.cs" />
-    <Compile Include="frmTestForm.cs">
+    <Compile Include="ConvertPDFFileENG.cs" />
+    <Compile Include="frmConvertDataAgent.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmTestForm.Designer.cs">
-      <DependentUpon>frmTestForm.cs</DependentUpon>
+    <Compile Include="frmConvertDataAgent.Designer.cs">
+      <DependentUpon>frmConvertDataAgent.cs</DependentUpon>
     </Compile>
     <Compile Include="IniFileCs.cs" />
     <Compile Include="PDFConvertor.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ProjectInstaller.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ProjectInstaller.Designer.cs">
-      <DependentUpon>ProjectInstaller.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="pdftoimg_TemporaryKey.pfx" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ConvertPDFService.resx">
-      <DependentUpon>ConvertPDFService.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmTestForm.resx">
-      <DependentUpon>frmTestForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProjectInstaller.resx">
-      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    <EmbeddedResource Include="frmConvertDataAgent.resx">
+      <DependentUpon>frmConvertDataAgent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.vbproj">
+      <Project>{60864e80-ca75-42d8-b519-36751a9919dc}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LinqDB\LinqDB.vbproj">
       <Project>{631d831b-7e5a-44e4-a947-4cb0cb9f35ad}</Project>
       <Name>LinqDB</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

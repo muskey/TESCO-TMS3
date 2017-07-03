@@ -10,7 +10,7 @@ Public Class frmLogin
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
-            'txtUsername.Attributes.Add("onBlur", "return GetLoginStatus('" & txtUsername.ClientID & "')")
+            txtUsername.Attributes.Add("onBlur", "return GetLoginStatus(event,'" & txtUsername.ClientID & "')")
         End If
     End Sub
 
@@ -371,15 +371,22 @@ Public Class frmLogin
                 lnq.DEPARTMENT_ID = desc("id").ToString
                 lnq.DEPARTMENT_TITLE = desc("title").ToString
                 lnq.DEPARTMENT_COVER_URL = desc("cover").ToString
+                lnq.COURSE_DETAIL = "{" & desc.Last.ToString & "}"
+                lnq.BIND_COURSE = "N"
                 ret = lnq.InsertData(Username, trans.Trans)
-                If ret.IsSuccess = True Then
-                    ret = BindDatableTableFromCourse(lnq.ID, UserID, Username, desc.Last, trans)
-                    If ret.IsSuccess = False Then
-                        Exit For
-                    End If
-                Else
+
+                If ret.IsSuccess = False Then
                     Exit For
                 End If
+
+                'If ret.IsSuccess = True Then
+                '    ret = BindDatableTableFromCourse(lnq.ID, UserID, Username, desc.Last, trans)
+                '    If ret.IsSuccess = False Then
+                '        Exit For
+                '    End If
+                'Else
+                '    Exit For
+                'End If
             Next
         Next
         Return ret
@@ -394,7 +401,7 @@ Public Class frmLogin
             Return ret
         End If
 
-        Dim ci As Integer = 1
+        'Dim ci As Integer = 1
         For Each comment As JObject In item.Values
             Try
                 Dim lnq As New TbUserCourseLinqDB
@@ -422,7 +429,7 @@ Public Class frmLogin
                 ret.ErrorMessage = ex.Message
                 Exit For
             End Try
-            ci += 1
+            'ci += 1
         Next
         Return ret
     End Function
@@ -790,10 +797,13 @@ Public Class frmLogin
 #End Region
 
     Private Sub btnForgetPassword_Click(sender As Object, e As EventArgs) Handles btnForgetPassword.Click
+        txtRequestOTPShowMobileNo.Text = ""
         pnlLogin.Visible = False
         pnlRequestOTP.Visible = True
-
+        txtRequestOTPShowMobileNo.Text = txtTempMobileNo.Text
         txtReqestOTPSendUsername.Text = txtUsername.Text
+
+        txtReqestOTPSendUsername.Attributes.Add("onBlur", "return GetMobileNo(event,'" & txtReqestOTPSendUsername.ClientID & "','" & txtRequestOTPShowMobileNo.ClientID & "')")
     End Sub
 
     Private Sub btnSendOTP_Click(sender As Object, e As EventArgs) Handles btnSendOTP.Click
@@ -914,7 +924,7 @@ Public Class frmLogin
                 Next
 
                 If ret = "true" Then
-                    If Login(txtUsername.Text, txtPassword.Text) = True Then
+                    If Login(txtUsername.Text, txtOTPPassword.Text) = True Then
                         Session("Username") = txtUsername.Text
                         Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
                     End If

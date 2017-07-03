@@ -23,13 +23,13 @@ Partial Public Class frmDisplayPDF1
     Protected WithEvents lblContent As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
-    '''myIframe control.
+    '''imgShow control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents myIframe As Global.System.Web.UI.HtmlControls.HtmlIframe
+    Protected WithEvents imgShow As Global.System.Web.UI.WebControls.Image
     
     '''<summary>
     '''btnBack control.

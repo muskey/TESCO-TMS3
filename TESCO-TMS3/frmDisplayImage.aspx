@@ -161,17 +161,14 @@
     </div>
     <div id="myBody" style="height: 87vh; width: 100%; overflow-y: scroll;">
         <div class="row">
-            <%--    <div class="span1"></div>--%>
             <div class="span12">
                 <div class="box-content">
                     <asp:Image runat="server" ID="imgShow" src="https://gifyu.com/images/17883105_623102657889044_5265897545783050240_n.jpg" Width="100%" />
                 </div>
             </div>
-            <%--<div class="span1"></div>--%>
         </div>
     </div>
 
-    <%--    <div class="footer">This footer will always be positioned at the bottom of the page, but <strong>not fixed</strong>.</div>--%>
     <div class="footer">
         <div class="row">
             <div class="span5"></div>

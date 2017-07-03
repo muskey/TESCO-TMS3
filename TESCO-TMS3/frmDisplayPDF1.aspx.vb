@@ -1,9 +1,11 @@
 ﻿Imports System.Drawing
+'Imports System.Net
+'Imports iTextSharp.text
+'Imports iTextSharp.text.pdf
+'Imports iTextSharp.text.pdf.parser
 Imports System.IO
 Imports System.Data.SqlClient
-Imports System.Windows.Forms
 Imports LinqDB.ConnectDB
-Imports pdftoimg
 
 Public Class frmDisplayPDF1
     Inherits System.Web.UI.Page
@@ -30,7 +32,7 @@ Public Class frmDisplayPDF1
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
-
+            Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
             UpdateLog(Me, Me.GetType, UserData.LoginHistoryID, id, UserData.CurrentClassID, UserData.Token, DirectCast(Session("UserDataCourseFile"), DataTable), UserData.UserName)
             SetContent()
             GetData()
@@ -40,7 +42,7 @@ Public Class frmDisplayPDF1
 
     Private Sub GetData()
         ' Dim UserID As String = "3"
-        Dim sql As String = " select file_url from TB_USER_COURSE_DOCUMENT_File  where id=@_ID"
+        Dim sql As String = " select file_url, pdf_page from TB_USER_COURSE_DOCUMENT_File  where id=@_ID"
         Dim p(1) As SqlParameter
         p(0) = SqlDB.SetBigInt("@_ID", id)
         Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
@@ -48,48 +50,33 @@ Public Class frmDisplayPDF1
 
             Dim frompath = dt.Rows(0)("file_url") & ""
             Dim topath = Server.MapPath("~/Document") & "\" & User_Folder
-            Dim OutputFile As String = Server.MapPath("~/Document") & "\TempPDF\" & Path.GetFileName(frompath)
 
-            DeleteFilesFromFolder(topath)
-            DeleteFilesFromFolder(New FileInfo(OutputFile).Directory.FullName)
-
-            If (Not System.IO.Directory.Exists(topath)) Then
-                System.IO.Directory.CreateDirectory(topath)
-            End If
-
-            If Directory.Exists(Server.MapPath("~/Document") & "\TempPDF\") = False Then
-                Directory.CreateDirectory(Server.MapPath("~/Document") & "\TempPDF\")
-            End If
-
-            If GetFileFromURL(frompath, OutputFile) = True Then
-                splitpdf(OutputFile, topath)
-            End If
-
-
+            splitpdf(dt.Rows(0)("pdf_page"), frompath, topath)
         End If
         dt.Dispose()
     End Sub
 
-    Sub DeleteFilesFromFolder(Folder As String)
-        If Directory.Exists(Folder) Then
-            For Each _file As String In Directory.GetFiles(Folder)
-                File.Delete(_file)
-            Next
-            For Each _folder As String In Directory.GetDirectories(Folder)
-                DeleteFilesFromFolder(_folder)
-            Next
-        End If
-    End Sub
+    Private Sub splitpdf(ByVal pagecount As Integer, frompath As String, ByVal topath As String)
+        Dim CoursePDF = New DataTable
+        CoursePDF.Columns.Add("next_id")
+        CoursePDF.Columns.Add("pathName")
 
-
-    Private Sub splitpdf(ByVal frompath As String, ByVal topath As String)
+        Dim outfile As String = String.Empty
         Try
-            Dim pdf As New PDFConvertor()
-            Dim CoursePDF As DataTable = pdf.ConvertToDatatable(frompath, topath, Imaging.ImageFormat.Jpeg)
-            If CoursePDF.Rows.Count = 0 Then
+            If pagecount <= 0 Then
                 Throw New ArgumentException("Not enough pages in source pdf to split")
-            End If
+            Else
 
+                For i As Integer = 1 To pagecount
+                    outfile = frompath.Replace(".pdf", "") & "_" & i.ToString & ".Jpeg"
+                    Dim filename = Path.GetFileName(outfile)
+                    Dim strUrl As String = Request.Url.GetLeftPart(UriPartial.Authority) & Request.ApplicationPath & "\Document\" & User_Folder & "\" & filename
+                    Dim drcoursepdf As DataRow = CoursePDF.NewRow
+                    drcoursepdf("next_id") = i
+                    drcoursepdf("pathname") = strUrl
+                    CoursePDF.Rows.Add(drcoursepdf)
+                Next
+            End If
             Session("CoursePdf") = CoursePDF
 
             Me.ddlPage.DataSource = CoursePDF
@@ -102,21 +89,20 @@ Public Class frmDisplayPDF1
                 Me.txtPre.Text = 0
                 Me.txtCurrent.Text = 1
                 Me.txtNext.Text = IIf(CoursePDF.Rows.Count = 1, 1, 2)
-                Me.txtMax.Text = CoursePDF.Rows.Count
+                Me.txtMax.Text = pagecount
             End If
             GetBottonPDF()
 
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Information, "splitpdf")
-            'errormsg = ex.Message
-
         End Try
     End Sub
 
 
 
     Private Sub SetInitShow(path As DataRow)
-        myIframe.Attributes.Add("src", path("pathname").ToString())
+        'myIframe.Attributes.Add("src", path("pathname").ToString())
+        imgShow.Attributes.Add("src", path("pathname").ToString())
     End Sub
 
     Private Sub SetContent()
@@ -200,7 +186,7 @@ Public Class frmDisplayPDF1
             Response.Redirect(url)
         ElseIf dr("file_url").ToString.IndexOf(".pdf") <> -1 Then
             LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงบทเรียน " & dr("file_title") & vbNewLine & "URL=" & dr("file_url"))
-            url = "frmDisplayPDF.aspx?id=" + dr("id").ToString
+            url = "frmDisplayPDF1.aspx?id=" + dr("id").ToString
             Response.Redirect(url)
         ElseIf dr("file_url").ToString.IndexOf(".mp4") <> -1 Then
             LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงบทเรียน " & dr("file_title") & vbNewLine & "URL=" & dr("file_url"))

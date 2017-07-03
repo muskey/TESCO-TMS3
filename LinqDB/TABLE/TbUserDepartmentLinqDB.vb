@@ -8,7 +8,7 @@ Imports LinqDB.ConnectDB
 
 Namespace TABLE
     'Represents a transaction for TB_USER_DEPARTMENT table LinqDB.
-    '[Create by  on Febuary, 28 2017]
+    '[Create by  on June, 28 2017]
     Public Class TbUserDepartmentLinqDB
         Public sub TbUserDepartmentLinqDB()
 
@@ -50,6 +50,8 @@ Namespace TABLE
         Dim _DEPARTMENT_ID As Long = 0
         Dim _DEPARTMENT_TITLE As String = ""
         Dim _DEPARTMENT_COVER_URL As  String  = ""
+        Dim _COURSE_DETAIL As  String  = ""
+        Dim _BIND_COURSE As Char = "N"
 
         'Generate Field Property 
         <Column(Storage:="_ID", DbType:="BigInt NOT NULL ",CanBeNull:=false)>  _
@@ -151,6 +153,24 @@ Namespace TABLE
                _DEPARTMENT_COVER_URL = value
             End Set
         End Property 
+        <Column(Storage:="_COURSE_DETAIL", DbType:="Text")>  _
+        Public Property COURSE_DETAIL() As  String 
+            Get
+                Return _COURSE_DETAIL
+            End Get
+            Set(ByVal value As  String )
+               _COURSE_DETAIL = value
+            End Set
+        End Property 
+        <Column(Storage:="_BIND_COURSE", DbType:="Char(1) NOT NULL ",CanBeNull:=false)>  _
+        Public Property BIND_COURSE() As Char
+            Get
+                Return _BIND_COURSE
+            End Get
+            Set(ByVal value As Char)
+               _BIND_COURSE = value
+            End Set
+        End Property 
 
 
         'Clear All Data
@@ -166,6 +186,8 @@ Namespace TABLE
             _DEPARTMENT_ID = 0
             _DEPARTMENT_TITLE = ""
             _DEPARTMENT_COVER_URL = ""
+            _COURSE_DETAIL = ""
+            _BIND_COURSE = "N"
         End Sub
 
        'Define Public Method 
@@ -420,7 +442,7 @@ Namespace TABLE
         End Function
 
         Private Function SetParameterData() As SqlParameter()
-            Dim cmbParam(10) As SqlParameter
+            Dim cmbParam(12) As SqlParameter
             cmbParam(0) = New SqlParameter("@_ID", SqlDbType.BigInt)
             cmbParam(0).Value = _ID
 
@@ -474,6 +496,16 @@ Namespace TABLE
                 cmbParam(10).Value = DBNull.value
             End If
 
+            cmbParam(11) = New SqlParameter("@_COURSE_DETAIL", SqlDbType.Text)
+            If _COURSE_DETAIL IsNot Nothing Then 
+                cmbParam(11).Value = _COURSE_DETAIL.Trim
+            Else
+                cmbParam(11).Value = DBNull.value
+            End IF
+
+            cmbParam(12) = New SqlParameter("@_BIND_COURSE", SqlDbType.Char)
+            cmbParam(12).Value = _BIND_COURSE
+
             Return cmbParam
         End Function
 
@@ -504,6 +536,8 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("department_id")) = False Then _department_id = Convert.ToInt64(Rdr("department_id"))
                         If Convert.IsDBNull(Rdr("department_title")) = False Then _department_title = Rdr("department_title").ToString()
                         If Convert.IsDBNull(Rdr("department_cover_url")) = False Then _department_cover_url = Rdr("department_cover_url").ToString()
+                        If Convert.IsDBNull(Rdr("course_detail")) = False Then _course_detail = Rdr("course_detail").ToString()
+                        If Convert.IsDBNull(Rdr("bind_course")) = False Then _bind_course = Rdr("bind_course").ToString()
                     Else
                         ret = False
                         _error = MessageResources.MSGEV002
@@ -549,6 +583,8 @@ Namespace TABLE
                         If Convert.IsDBNull(Rdr("department_id")) = False Then _department_id = Convert.ToInt64(Rdr("department_id"))
                         If Convert.IsDBNull(Rdr("department_title")) = False Then _department_title = Rdr("department_title").ToString()
                         If Convert.IsDBNull(Rdr("department_cover_url")) = False Then _department_cover_url = Rdr("department_cover_url").ToString()
+                        If Convert.IsDBNull(Rdr("course_detail")) = False Then _course_detail = Rdr("course_detail").ToString()
+                        If Convert.IsDBNull(Rdr("bind_course")) = False Then _bind_course = Rdr("bind_course").ToString()
                     Else
                         _error = MessageResources.MSGEV002
                     End If
@@ -573,8 +609,8 @@ Namespace TABLE
         Private ReadOnly Property SqlInsert() As String 
             Get
                 Dim Sql As String=""
-                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_FUNCTION_ID, USER_ID, FUNCTION_ID, DEPARTMENT_ID, DEPARTMENT_TITLE, DEPARTMENT_COVER_URL)"
-                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_FUNCTION_ID, INSERTED.USER_ID, INSERTED.FUNCTION_ID, INSERTED.DEPARTMENT_ID, INSERTED.DEPARTMENT_TITLE, INSERTED.DEPARTMENT_COVER_URL"
+                Sql += "INSERT INTO " & tableName  & " (CREATED_BY, CREATED_DATE, TB_USER_FUNCTION_ID, USER_ID, FUNCTION_ID, DEPARTMENT_ID, DEPARTMENT_TITLE, DEPARTMENT_COVER_URL, COURSE_DETAIL, BIND_COURSE)"
+                Sql += " OUTPUT INSERTED.ID, INSERTED.CREATED_BY, INSERTED.CREATED_DATE, INSERTED.UPDATED_BY, INSERTED.UPDATED_DATE, INSERTED.TB_USER_FUNCTION_ID, INSERTED.USER_ID, INSERTED.FUNCTION_ID, INSERTED.DEPARTMENT_ID, INSERTED.DEPARTMENT_TITLE, INSERTED.DEPARTMENT_COVER_URL, INSERTED.COURSE_DETAIL, INSERTED.BIND_COURSE"
                 Sql += " VALUES("
                 sql += "@_CREATED_BY" & ", "
                 sql += "@_CREATED_DATE" & ", "
@@ -583,7 +619,9 @@ Namespace TABLE
                 sql += "@_FUNCTION_ID" & ", "
                 sql += "@_DEPARTMENT_ID" & ", "
                 sql += "@_DEPARTMENT_TITLE" & ", "
-                sql += "@_DEPARTMENT_COVER_URL"
+                sql += "@_DEPARTMENT_COVER_URL" & ", "
+                sql += "@_COURSE_DETAIL" & ", "
+                sql += "@_BIND_COURSE"
                 sql += ")"
                 Return sql
             End Get
@@ -602,7 +640,9 @@ Namespace TABLE
                 Sql += "FUNCTION_ID = " & "@_FUNCTION_ID" & ", "
                 Sql += "DEPARTMENT_ID = " & "@_DEPARTMENT_ID" & ", "
                 Sql += "DEPARTMENT_TITLE = " & "@_DEPARTMENT_TITLE" & ", "
-                Sql += "DEPARTMENT_COVER_URL = " & "@_DEPARTMENT_COVER_URL" + ""
+                Sql += "DEPARTMENT_COVER_URL = " & "@_DEPARTMENT_COVER_URL" & ", "
+                Sql += "COURSE_DETAIL = " & "@_COURSE_DETAIL" & ", "
+                Sql += "BIND_COURSE = " & "@_BIND_COURSE" + ""
                 Return Sql
             End Get
         End Property
@@ -620,7 +660,7 @@ Namespace TABLE
         'Get Select Statement for table TB_USER_DEPARTMENT
         Private ReadOnly Property SqlSelect() As String
             Get
-                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_FUNCTION_ID, USER_ID, FUNCTION_ID, DEPARTMENT_ID, DEPARTMENT_TITLE, DEPARTMENT_COVER_URL FROM " & tableName
+                Dim Sql As String = "SELECT ID, CREATED_BY, CREATED_DATE, UPDATED_BY, UPDATED_DATE, TB_USER_FUNCTION_ID, USER_ID, FUNCTION_ID, DEPARTMENT_ID, DEPARTMENT_TITLE, DEPARTMENT_COVER_URL, COURSE_DETAIL, BIND_COURSE FROM " & tableName
                 Return Sql
             End Get
         End Property

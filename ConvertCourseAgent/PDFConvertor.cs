@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
-
-namespace pdftoimg
-{
+using System.Data;
+using Engine;
 
     // A delegate type for hooking up change notifications.
     public delegate void ProgressChangingEventHandler(object sender, string  e);
@@ -47,108 +43,122 @@ namespace pdftoimg
         /// <param name="DestinationPath">Destination PDF File Path</param>
         /// <param name="outPutImageFormat">Type Of Exported Image</param>
         /// <returns>Returns Count Of Exported Images</returns>
-        public int Convert(string sourceFileName, string DestinationPath, ImageFormat outPutImageFormat)
+    public int Convert(string sourceFileName, string DestinationPath, ImageFormat outPutImageFormat)
+    { 
+        if (pdfDoc.Open(sourceFileName))
         {
 
+            // pdfapp.Hide();
+            pageCount = pdfDoc.GetNumPages();
 
-            if (pdfDoc.Open(sourceFileName))
+            for (int i = 0; i < pageCount; i++)
             {
-
-                // pdfapp.Hide();
-                pageCount = pdfDoc.GetNumPages();
-
-                for (int i = 0; i < pageCount; i++)
-                {
-                    pdfPage = (Acrobat.CAcroPDPage)pdfDoc.AcquirePage(i);
+                pdfPage = (Acrobat.CAcroPDPage)pdfDoc.AcquirePage(i);
 
 
-                    pdfPoint = (Acrobat.AcroPoint)pdfPage.GetSize();
-                    pdfRect.Left = 0;
-                    pdfRect.right = pdfPoint.x;
-                    pdfRect.Top = 0;
-                    pdfRect.bottom = pdfPoint.y;
+                pdfPoint = (Acrobat.AcroPoint)pdfPage.GetSize();
+                pdfRect.Left = 0;
+                pdfRect.right = pdfPoint.x;
+                pdfRect.Top = 0;
+                pdfRect.bottom = pdfPoint.y;
 
-                    pdfPage.CopyToClipboard(pdfRect, 0, 0, 100);
+                pdfPage.CopyToClipboard(pdfRect, 0, 0, 100);
 
-                    string outimg = "";
-                    string filename = sourceFileName.Substring(sourceFileName.LastIndexOf("\\")).Replace(".pdf", "");
+                string outimg = "";
+                string filename = sourceFileName.Substring(sourceFileName.LastIndexOf("\\")).Replace(".pdf", "");
 
-                    //if (pageCount == 1)
-                    //    outimg = DestinationPath + "\\" + filename + "." + outPutImageFormat.ToString();
-                    //else
-                        outimg = DestinationPath + "\\" + filename + "_" + (i+1).ToString() + "." + outPutImageFormat.ToString();
+                //if (pageCount == 1)
+                //    outimg = DestinationPath + "\\" + filename + "." + outPutImageFormat.ToString();
+                //else
+                    outimg = DestinationPath + "\\" + filename + "_" + (i+1).ToString() + "." + outPutImageFormat.ToString();
                     
-                    Clipboard.GetImage().Save(outimg, outPutImageFormat);
+                Clipboard.GetImage().Save(outimg, outPutImageFormat);
 
-                    ////////////Firing Progress Event 
-                    OnExportProgressChanging(outimg);
-                }
-
-                  Dispose();
+                ////////////Firing Progress Event 
+                OnExportProgressChanging(outimg);
             }
-            else
-            {
+
                 Dispose();
-                throw new System.IO.FileNotFoundException(sourceFileName +" Not Found!");
-
-            }
-            return pageCount;
         }
-
-        public System.Data.DataTable ConvertToDatatable(string sourceFileName, string DestinationPath, ImageFormat outPutImageFormat)
+        else
         {
-            System.Data.DataTable dt = new System.Data.DataTable();
-            dt.Columns.Add("next_id", typeof(int));
-            dt.Columns.Add("pathname");
+            Dispose();
+            throw new System.IO.FileNotFoundException(sourceFileName +" Not Found!");
 
+        }
+        return pageCount;
+    }
+
+    public DataTable ConvertToDatatable(string sourceFileName, string DestinationPath, ImageFormat outPutImageFormat)
+    {
+        DataTable dt = new System.Data.DataTable();
+        dt.Columns.Add("next_id", typeof(int));
+        dt.Columns.Add("pathname");
+
+        try {
             if (pdfDoc.Open(sourceFileName))
             {
                 pageCount = pdfDoc.GetNumPages();
 
                 for (int i = 0; i < pageCount; i++)
                 {
-                    pdfPage = (Acrobat.CAcroPDPage)pdfDoc.AcquirePage(i);
+                    try
+                    {
+                        pdfPage = (Acrobat.CAcroPDPage)pdfDoc.AcquirePage(i);
 
-                    pdfPoint = (Acrobat.AcroPoint)pdfPage.GetSize();
-                    pdfRect.Left = 0;
-                    pdfRect.right = pdfPoint.x;
-                    pdfRect.Top = 0;
-                    pdfRect.bottom = pdfPoint.y;
+                        pdfPoint = (Acrobat.AcroPoint)pdfPage.GetSize();
+                        pdfRect.Left = 0;
+                        pdfRect.right = pdfPoint.x;
+                        pdfRect.Top = 0;
+                        pdfRect.bottom = pdfPoint.y;
 
-                    pdfPage.CopyToClipboard(pdfRect, 0, 0, 100);
+                        pdfPage.CopyToClipboard(pdfRect, 0, 0, 100);
 
-                    string outimg = "";
-                    string filename = sourceFileName.Substring(sourceFileName.LastIndexOf("\\")).Replace(".pdf", "");
+                        string outimg = "";
+                        string filename = sourceFileName.Substring(sourceFileName.LastIndexOf("\\")).Replace(".pdf", "").Replace("\\", "");
 
-                    //if (pageCount == 1)
-                    //    outimg = DestinationPath + "\\" + filename + "." + outPutImageFormat.ToString();
-                    //else
-                    outimg = DestinationPath +  filename + "_" + (i + 1).ToString() + "." + outPutImageFormat.ToString();
+                        outimg = DestinationPath + filename + "_" + (i + 1).ToString() + "." + outPutImageFormat.ToString();
+                        Clipboard.GetImage().Save(outimg, outPutImageFormat);
+                        if (System.IO.File.Exists(outimg) == true)
+                        {
+                            System.Data.DataRow dr = dt.NewRow();
+                            dr["next_id"] = (i + 1);
+                            dr["pathname"] = outimg;
 
-                    Clipboard.GetImage().Save(outimg, outPutImageFormat);
-                    if (System.IO.File.Exists(outimg) == true) {
-                        System.Data.DataRow dr = dt.NewRow();
-                        dr["next_id"] = (i + 1);
-                        dr["pathname"] = outimg;
+                            dt.Rows.Add(dr);
+                        }
 
-                        dt.Rows.Add(dr);
+                        ////////////Firing Progress Event 
+                        OnExportProgressChanging(outimg);
                     }
-
-                    ////////////Firing Progress Event 
-                    OnExportProgressChanging(outimg);
+                    catch (Exception ex)
+                    {
+                        pdfDoc.Close();
+                        Dispose();
+                        LogFileENG.LogException("Exception 1 " + ex.Message, ex.StackTrace);
+                    }
                 }
 
+                pdfDoc.Close();
                 Dispose();
             }
             else
             {
+                LogFileENG.LogError("File " + sourceFileName + " Not Found!");
                 Dispose();
-                throw new System.IO.FileNotFoundException(sourceFileName + " Not Found!");
-
+                //throw new System.IO.FileNotFoundException(sourceFileName + " Not Found!");
+                
             }
-            return dt;
         }
-        #endregion
+        catch (Exception ex) {
+            LogFileENG.LogException("Exception 2 " + ex.Message, ex.StackTrace);
+        }
+        
+
+        
+        return dt;
+    }
+    #endregion
 
         #region Convert With Zoom
         /// <summary>
@@ -238,4 +248,3 @@ namespace pdftoimg
         #endregion
 
     }
-}

@@ -50,6 +50,15 @@ Partial Public Class frmLogin
     Protected WithEvents btnLogin As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
+    '''txtTempMobileNo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtTempMobileNo As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
     '''btnForgetPassword control.
     '''</summary>
     '''<remarks>
@@ -75,6 +84,15 @@ Partial Public Class frmLogin
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtReqestOTPSendUsername As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtRequestOTPShowMobileNo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtRequestOTPShowMobileNo As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''btnSendOTP control.

@@ -2752,10 +2752,6 @@
       <Project>{631d831b-7e5a-44e4-a947-4cb0cb9f35ad}</Project>
       <Name>LinqDB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\pdftoimg\pdftoimg.csproj">
-      <Project>{8c41efaa-c7ba-43e6-9a2d-22ba2ff33bac}</Project>
-      <Name>pdftoimg</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -6,26 +6,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ConvertPDFWindowsService
+namespace ConvertCourseWindowsService
 {
     static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmTestForm());
-
-
-
+            Application.Run(new frmConvertDataAgent());
 
             //ServiceBase[] ServicesToRun;
             //ServicesToRun = new ServiceBase[]
             //{
-            //    new ConvertPDFService()
+            //    new ConvertDataService()
             //};
             //ServiceBase.Run(ServicesToRun);
         }
