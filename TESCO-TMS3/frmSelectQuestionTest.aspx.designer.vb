@@ -158,6 +158,15 @@ Partial Public Class frmSelectQuestionTest
     Protected WithEvents lblTotalScoreFalse As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''lblCorrectPercentFalse control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCorrectPercentFalse As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
     '''lblTotalQuestionFalse control.
     '''</summary>
     '''<remarks>
@@ -210,6 +219,15 @@ Partial Public Class frmSelectQuestionTest
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblTotalScoreTrue As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lblCorrectPercentTrue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCorrectPercentTrue As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
     '''lblTotalQuestionTrue control.

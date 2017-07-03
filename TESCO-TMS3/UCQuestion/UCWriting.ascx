@@ -19,10 +19,9 @@
         <div class="row">
             <div class="span2"></div>
             <div class="span8">
-                
-                <div id="links" class="links" runat="server">
-                    
-                </div>
+                <center>
+                <div id="links" class="links" runat="server"></div>
+                    </center>
                 <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
                 <div id="blueimp-gallery" class="blueimp-gallery">
                     <div class="slides"></div>
@@ -35,7 +34,9 @@
                 </div>
             </div>
         </div>
-        <div class="row"><div class="span12">&nbsp;</div></div>
+        <div class="row">
+            <div class="span12">&nbsp;</div>
+        </div>
         <div class="row">
             <div class="span2"></div>
             <div class="span8">
@@ -49,7 +50,7 @@
         <asp:TextBox ID="txtQuestionID" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtQuestion_no" runat="server"></asp:TextBox>
         <asp:Label ID="lblImage2" runat="server"></asp:Label>
-        <asp:TextBox ID="txtShowAnswer" runat="server"  ></asp:TextBox>
+        <asp:TextBox ID="txtShowAnswer" runat="server"></asp:TextBox>
     </div>
 </div>
 <div class="clearfix"></div>

@@ -2125,6 +2125,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\ScriptJS.js" />
+    <Content Include="Turing.aspx" />
     <Content Include="UCQuestion\UCMaching.ascx" />
     <Content Include="UCQuestion\UCPicture.ascx" />
     <Content Include="UCQuestion\UCWriting.ascx" />
@@ -2638,6 +2639,13 @@
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="TescoModule.vb" />
+    <Compile Include="Turing.aspx.designer.vb">
+      <DependentUpon>Turing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Turing.aspx.vb">
+      <DependentUpon>Turing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="UCQuestion\UCMaching.ascx.designer.vb">
       <DependentUpon>UCMaching.ascx</DependentUpon>
     </Compile>
@@ -2745,6 +2753,7 @@
     <Folder Include="App_Code\" />
     <Folder Include="Assets\js\plugins\elfinder\files\.quarantine\" />
     <Folder Include="Document\" />
+    <Folder Include="ImagesCap\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LinqDB\LinqDB.vbproj">

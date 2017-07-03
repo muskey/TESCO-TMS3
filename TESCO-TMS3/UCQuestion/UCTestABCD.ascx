@@ -21,18 +21,20 @@
             <div class="span2"></div>
             <div class="span3">
                 <div id="links" class="links" runat="server">
-                    
                 </div>
-                <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
-                <div id="blueimp-gallery" class="blueimp-gallery">
-                    <div class="slides"></div>
-                    <h3 class="title"></h3>
-                    <a class="prev">‹</a>
-                    <a class="next">›</a>
-                    <a class="close">x</a>
-                    <a class="play-pause"></a>
-                    <ol class="indicator"></ol>
-                </div>
+                <%--The Gallery as lightbox dialog, should be a child element of the document body -->--%>
+               <div id="blueimp-gallery" class="blueimp-gallery">
+                   <div class="slides"></div>
+                   <h3 class="title"></h3>
+                   <a class="prev">‹</a>
+                   <a class="next">›</a>
+                   <a class="close">Close</a>
+                   <a class="play-pause"></a>
+                   <ol class="indicator"></ol>
+               </div>
+                
+                <video class="fullscreen-bg__video" runat="server" id="myVideo" style='width:100%;height:100%' controls="controls" autoplay>
+                    <source src="" type="video/mp4"></video>
             </div>
             <div class="span7">
                 <div class="check-line">
@@ -55,13 +57,13 @@
         </div>
 
     </asp:Panel>
-    <div style="display:none">
+    <div style="display: none">
         <asp:TextBox ID="txtTestID" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtQuestionID" runat="server"></asp:TextBox>
         <asp:TextBox ID="txtQuestion_no" runat="server"></asp:TextBox>
-        <asp:TextBox ID="txtCorrectChoice" runat="server"  ></asp:TextBox>
-        <asp:TextBox ID="txtCorrectAnswer" runat="server"  ></asp:TextBox>
-        <asp:TextBox ID="txtShowAnswer" runat="server"  ></asp:TextBox>
+        <asp:TextBox ID="txtCorrectChoice" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txtCorrectAnswer" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txtShowAnswer" runat="server"></asp:TextBox>
     </div>
 </div>
 <div class="clearfix"></div>
@@ -77,16 +79,17 @@
     <div class="span5"></div>
 </div>
 
-<asp:Panel ID="pnlAnsResult" runat="server" CssClass="modal hide in" tabindex="-1" aria-hidden="false" style="display:block;" Visible="false" >
+<asp:Panel ID="pnlAnsResult" runat="server" CssClass="modal hide in" TabIndex="-1" aria-hidden="false" Style="display: block;" Visible="false">
     <div class="modal-dialog modal-center">
         <div class="modal-content">
-	        <div class="modal-header" style="background: #019b79" id="divHeader" runat="server">
+            <div class="modal-header" style="background: #019b79" id="divHeader" runat="server">
                 <asp:LinkButton ID="btnCloseDialog" runat="server" CssClass="close" data-dismiss="modal" aria-hidden="true">
                     x
                 </asp:LinkButton>
-		        <h3 class="text-center"><asp:Label ID="lblDialogHead" runat="server" ForeColor="White"></asp:Label></h3>
-	        </div>
-	        <div class="modal-body text-center">
+                <h3 class="text-center">
+                    <asp:Label ID="lblDialogHead" runat="server" ForeColor="White"></asp:Label></h3>
+            </div>
+            <div class="modal-body text-center">
                 <asp:Literal ID="litAnsDetail" runat="server"></asp:Literal>
                 <asp:LinkButton ID="btnNext" runat="server" CssClass="btn btn-green" data-dismiss="modal">
                     ต่อไป
@@ -96,7 +99,7 @@
     </div>
 </asp:Panel>
 
-<script>
+<%--<script>
     function onConfirmCheck(choice) {
         if (choice == 0) {
             $('#<%=ckbA.ClientID %>').attr('checked', true);
@@ -121,7 +124,7 @@
             $('#<%=ckbD.ClientID %>').attr('checked', true);
         }
 
-    }
+}
 
-    
-</script>
+
+</script>--%>

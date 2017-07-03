@@ -69,6 +69,7 @@
                                 <h3>
                                     คุณทำได้ <asp:Label runat="server" ID="lblCorrectScoreFalse" ForeColor="Red" ></asp:Label> คะแนน 
                                     จากทั้งหมด <asp:Label runat="server" ID="lblTotalScoreFalse" ForeColor="Red" ></asp:Label> คะแนน
+                                    คิดเป็น <asp:Label runat="server" ID="lblCorrectPercentFalse" ForeColor="Red" ></asp:Label>
                                 </h3>
                                 <h3>จำนวนคำถามทั้งหมด <asp:Label runat="server" ID="lblTotalQuestionFalse" ForeColor="red" ></asp:Label> ข้อ</h3>
                                 <h3>ไม่ผ่านเกณฑ์คะแนน <asp:Label runat="server" ID="lblResultPercentFalse" ></asp:Label></h3>
@@ -106,6 +107,7 @@
                                 <h3>
                                     คุณทำได้ <asp:Label runat="server" ID="lblCorrectScoreTrue" ForeColor="Green"></asp:Label> คะแนน 
                                     จากทั้งหมด <asp:Label runat="server" ID="lblTotalScoreTrue" ForeColor="Green" Text="5"></asp:Label> คะแนน
+                                    คิดเป็น <asp:Label runat="server" ID="lblCorrectPercentTrue" ForeColor="Green" ></asp:Label>
                                 </h3>
                                 <h3>จำนวนคำถามทั้งหมด <asp:Label runat="server" ID="lblTotalQuestionTrue" ForeColor="Green" ></asp:Label> ข้อ</h3>
                                 <h3>ผ่านเกณฑ์คะแนน <asp:Label runat="server" ID="lblResultPercentTrue" Text="100%"></asp:Label></h3>

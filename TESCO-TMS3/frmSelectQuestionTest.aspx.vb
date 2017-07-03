@@ -249,6 +249,7 @@ Public Class frmSelectQuestionTest
             lblTotalScoreFalse.Text = TotalWeight
             lblTotalQuestionFalse.Text = lblQuestionQty.Text
             lblResultPercentFalse.Text = Target & "%"
+            lblCorrectPercentFalse.Text = ResultPercent & "%"
         Else
             pnlSummaryTrue.Visible = True
 
@@ -256,6 +257,7 @@ Public Class frmSelectQuestionTest
             lblTotalScoreTrue.Text = TotalWeight
             lblTotalQuestionTrue.Text = lblQuestionQty.Text
             lblResultPercentTrue.Text = Target & "%"
+            lblCorrectPercentTrue.Text = ResultPercent & "%"
         End If
     End Sub
 

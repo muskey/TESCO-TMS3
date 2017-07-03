@@ -9,7 +9,7 @@
                     </button>
                 </div>
                 <div class="span8">
-                    <button class="btn-block btn btn-large" style="background: #fff; text-align: left">
+                    <button class="btn-block btn btn-large" style="background: #fff; text-align: left;">
                         <asp:Label ID="lblQDetail" runat="server"></asp:Label>
                     </button>
                 </div>
@@ -21,9 +21,9 @@
                 <div class="row">
                     <div class="span2"></div>
                     <div class="span8">
-                        <div id="links" class="links" runat="server">
-                    
-                        </div>
+                        <center>
+                        <div id="links" class="links" runat="server" style="align-items:center;"></div>
+                        </center>
                         <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
                         <div id="blueimp-gallery" class="blueimp-gallery">
                             <div class="slides"></div>

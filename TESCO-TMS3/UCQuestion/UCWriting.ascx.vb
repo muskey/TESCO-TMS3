@@ -27,7 +27,7 @@ Public Class UCWriting
             lblImage2.Text = dt.Rows(0)("icon_url") & ""
 
             links.InnerHtml = "<a href='" & dt.Rows(0)("icon_url") & "' title='' data-gallery='' >"
-            links.InnerHtml += "    <img  src='" & dt.Rows(0)("icon_url") & "' style='width:100%;height:200px' />"
+            links.InnerHtml += "    <img  src='" & dt.Rows(0)("icon_url") & "' style='width:200px;height:200px;' />"
             links.InnerHtml += "</a>"
             '    img1.Src = dt.Rows(0)("icon_url")
             '    likImage1.HRef = dt.Rows(0)("icon_url")

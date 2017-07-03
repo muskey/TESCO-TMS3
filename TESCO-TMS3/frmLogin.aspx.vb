@@ -2,6 +2,8 @@
 Imports Newtonsoft.Json.Linq
 Imports LinqDB.ConnectDB
 Imports LinqDB.TABLE
+Imports System.Drawing
+Imports System.Drawing.Imaging
 
 Public Class frmLogin
     Inherits System.Web.UI.Page
@@ -22,6 +24,7 @@ Public Class frmLogin
             Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
         End If
     End Sub
+
 
 #Region "Load Data Login"
 
@@ -936,4 +939,5 @@ Public Class frmLogin
             End If
         End If
     End Sub
+
 End Class
