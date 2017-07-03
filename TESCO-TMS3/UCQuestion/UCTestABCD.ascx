@@ -33,7 +33,7 @@
                    <ol class="indicator"></ol>
                </div>
                 
-                <video class="fullscreen-bg__video" runat="server" id="myVideo" style='width:100%;height:100%' controls="controls" autoplay>
+                <video class="fullscreen-bg__video" runat="server" id="myVideo" visible="false" style='width:100%;height:100%' controls="controls" autoplay>
                     <source src="" type="video/mp4"></video>
             </div>
             <div class="span7">

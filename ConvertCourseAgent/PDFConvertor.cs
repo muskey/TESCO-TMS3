@@ -229,21 +229,31 @@ using Engine;
         #region Destractor
         ~PDFConvertor()
         {
-            GC.Collect();
-            if (pdfPage!=null)
-                Marshal.ReleaseComObject(pdfPage);
-            Marshal.ReleaseComObject(pdfPoint);
-            Marshal.ReleaseComObject(pdfRect);
-            Marshal.ReleaseComObject(pdfDoc);
+            try {
+                GC.Collect();
+                if (pdfPage != null)
+                    Marshal.ReleaseComObject(pdfPage);
+                Marshal.ReleaseComObject(pdfPoint);
+                Marshal.ReleaseComObject(pdfRect);
+                Marshal.ReleaseComObject(pdfDoc);
+            }
+            catch (Exception ex) {
+                LogFileENG.LogException("Exception " + ex.Message, ex.StackTrace);
+            }
         }
         public void Dispose()
         {
-            GC.Collect();
-            if (pdfPage != null)
-                Marshal.ReleaseComObject(pdfPage);
-            Marshal.ReleaseComObject(pdfPoint);
-            Marshal.ReleaseComObject(pdfRect);
-            Marshal.ReleaseComObject(pdfDoc);
+            try {
+                GC.Collect();
+                if (pdfPage != null)
+                    Marshal.ReleaseComObject(pdfPage);
+                Marshal.ReleaseComObject(pdfPoint);
+                Marshal.ReleaseComObject(pdfRect);
+                Marshal.ReleaseComObject(pdfDoc);
+            }
+            catch (Exception ex) {
+                LogFileENG.LogException("Exception " + ex.Message, ex.StackTrace);
+            }
         }
         #endregion
 

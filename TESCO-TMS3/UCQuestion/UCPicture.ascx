@@ -28,7 +28,7 @@
                 <h3 class="title"></h3>
                 <a class="prev">‹</a>
                 <a class="next">›</a>
-                <a class="close">x</a>
+                <a class="close">Close</a>
                 <a class="play-pause"></a>
                 <ol class="indicator"></ol>
             </div>

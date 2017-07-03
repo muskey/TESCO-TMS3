@@ -39,6 +39,9 @@ Public Class UCTestABCD
                 End If
                 If srt2 = "mp4" Then
                     If Convert.IsDBNull(dt.Rows(0)("icon_url")) = False Then
+                        links.Visible = False
+
+                        myVideo.Visible = True
                         myVideo.Attributes.Add("src", dt.Rows(0)("icon_url"))
                     End If
                 Else

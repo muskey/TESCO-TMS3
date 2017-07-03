@@ -38,13 +38,13 @@
             // timerConvertPDF
             // 
             this.timerConvertPDF.Enabled = true;
-            this.timerConvertPDF.Interval = 10000;
+            this.timerConvertPDF.Interval = 1000;
             this.timerConvertPDF.Tick += new System.EventHandler(this.timerConvertPDF_Tick);
             // 
             // timerConvertCourse
             // 
             this.timerConvertCourse.Enabled = true;
-            this.timerConvertCourse.Interval = 5000;
+            this.timerConvertCourse.Interval = 1000;
             this.timerConvertCourse.Tick += new System.EventHandler(this.timerConvertCourse_Tick);
             // 
             // notifyIcon1
