@@ -11,6 +11,8 @@ Public Class frmLogin
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
             txtUsername.Attributes.Add("onBlur", "return GetLoginStatus(event,'" & txtUsername.ClientID & "')")
+
+
         End If
     End Sub
 
@@ -800,7 +802,16 @@ Public Class frmLogin
         txtRequestOTPShowMobileNo.Text = ""
         pnlLogin.Visible = False
         pnlRequestOTP.Visible = True
-        txtRequestOTPShowMobileNo.Text = txtTempMobileNo.Text
+
+        Dim MobileNo As String = ""
+        Dim ws As New WebService
+        Dim ret As String = ws.GetLoginStatus(txtUsername.Text)
+        If ret.Trim <> "" Then
+            Dim str() As String = ret.Split("#")
+            MobileNo = str(2)
+        End If
+
+        txtRequestOTPShowMobileNo.Text = MobileNo 'txtTempMobileNo.Text
         txtReqestOTPSendUsername.Text = txtUsername.Text
 
         txtReqestOTPSendUsername.Attributes.Add("onBlur", "return GetMobileNo(event,'" & txtReqestOTPSendUsername.ClientID & "','" & txtRequestOTPShowMobileNo.ClientID & "')")
@@ -836,6 +847,8 @@ Public Class frmLogin
                 txtOTPUserLogin.Text = txtReqestOTPSendUsername.Text
                 pnlRequestOTP.Visible = False
                 pnlLoginOTP.Visible = True
+
+                rowPssPolicy.Visible = True
             End If
         End If
     End Sub
@@ -940,4 +953,11 @@ Public Class frmLogin
         End If
     End Sub
 
+    'Private Sub chkShowPassword_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowPassword.CheckedChanged
+    '    If chkShowPassword.Checked = True Then
+    '        txtPassword.TextMode = TextBoxMode.SingleLine
+    '    Else
+    '        txtPassword.TextMode = TextBoxMode.Password
+    '    End If
+    'End Sub
 End Class

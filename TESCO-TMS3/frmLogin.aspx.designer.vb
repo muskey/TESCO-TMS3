@@ -41,6 +41,15 @@ Partial Public Class frmLogin
     Protected WithEvents txtPassword As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''chkShowPassword control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkShowPassword As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
     '''btnLogin control.
     '''</summary>
     '''<remarks>
@@ -158,6 +167,15 @@ Partial Public Class frmLogin
     Protected WithEvents txtOTPConfirmPassword As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''chkShowOTPPassword control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkShowOTPPassword As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
     '''btnOTPLogin control.
     '''</summary>
     '''<remarks>
@@ -165,4 +183,13 @@ Partial Public Class frmLogin
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnOTPLogin As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''rowPssPolicy control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rowPssPolicy As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 End Class

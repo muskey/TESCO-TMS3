@@ -3,12 +3,12 @@ Public Class RenderCaptcha
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Dim objBmp As New Bitmap(60, 20)
+        Dim objBmp As New Bitmap(50, 20)
         Dim objGraphics As Graphics = Graphics.FromImage(objBmp)
         objGraphics.Clear(Color.White)
 
         objGraphics.TextRenderingHint = Text.TextRenderingHint.AntiAlias
-        Dim objFont As New Font("Arial", 10, FontStyle.Bold)
+        Dim objFont As New Font("Arial", 9, FontStyle.Bold)
         Dim randomStr As String = ""
 
         Dim autoRand = New Random

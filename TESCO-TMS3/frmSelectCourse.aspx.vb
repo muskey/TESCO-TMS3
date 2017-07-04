@@ -77,14 +77,14 @@ Public Class frmSelectCourse
 
             If IsShow = True Then
                 strMain += " <li  onclick=""ShowPopup('" + dr("id").ToString + "','" + dr("course_title").ToString + "','" + dr("course_title").ToString + "','" & UserData.UserSessionID & "');"" id=" + dr("id").ToString
-                strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px"">"
+                strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px;margin:8px 12px 0 8px;"">"
                 strMain += "    <a href=""#"">"
                 strMain += "        <span class=""text-center"" style=""font-size:20px;padding-top:25px;padding-left:15px;padding-right:15px;"" >" + dr("course_title").ToString + "</span>"
                 strMain += "    </a>"
                 strMain += " </li>"
             Else
                 strMain += " <li id=" + dr("id").ToString
-                strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px"">"
+                strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px;margin:8px 12px 0 8px;"">"
                 strMain += "    <a href=""#"" style='cursor:default' >"
                 strMain += "        <span class=""text-center"" style=""font-size:20px;padding-top:25px;padding-left:15px;padding-right:15px;"" >" + dr("course_title").ToString + "</span>"
                 strMain += "    </a>"

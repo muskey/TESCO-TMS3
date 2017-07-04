@@ -73,10 +73,18 @@
                                 Style="padding: 4px 0px; font-size: 20px; height: 26px"></asp:TextBox>
                         </div>
                     </div>
+                    <div class="control-group" style="margin-bottom:0px;">
+                        <div class="form-group ">
+                            <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"  placeholder="รหัสผ่าน" AutoComplete="off" data-rule-required="true"
+                                Style="padding: 4px 0px;margin-bottom:0px; font-size: 20px; height: 26px"  ></asp:TextBox>
+                        </div>
+                    </div>
                     <div class="control-group">
                         <div class="form-group ">
-                            <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="รหัสผ่าน" AutoComplete="off" data-rule-required="true"
-                                Style="padding: 4px 0px; font-size: 20px; height: 26px"></asp:TextBox>
+                            <asp:CheckBox ID="chkShowPassword" runat="server" AutoPostBack="false" />
+                            <span style="color:white;font-weight:bold;font-size: 12px;">
+                                แสดงรหัสผ่าน
+                            </span>
                         </div>
                     </div>
                     <div class="control-group">
@@ -101,10 +109,10 @@
                             Style="padding: 4px 0px;font-size:20px;height:26px"></asp:TextBox>
                     </div>
                     <div class="from-group">
-                        <IMG  alt="" src="RenderCaptcha.aspx" style="width:100%;height:80px">
+                        <IMG  alt="" src="RenderCaptcha.aspx" style="width:100%;height:60px">
                     </div>
                     <div class="from-group">
-                        <asp:TextBox ID="txtCaptchaText" runat="server" CssClass="form-control" placeholder="CAPTCHA TEXT" AutoComplete="off" data-rule-required="true" 
+                        <asp:TextBox ID="txtCaptchaText" runat="server" CssClass="form-control" placeholder="กรุณากรอกรหัสด้านบน" AutoComplete="off" data-rule-required="true" 
                             Style="padding: 4px 0px;font-size:20px;height:26px;"></asp:TextBox>
                     </div>
                     <div class="form-group ">
@@ -118,30 +126,97 @@
                             Style="padding: 4px 0px; font-size: 20px; height: 26px"></asp:TextBox>
                     </div>
                     <div class="form-group ">
-                        <img height="30" alt="" src="Turing.aspx" width="80">
                         <asp:TextBox ID="txtOTPCode" runat="server" CssClass="form-control" placeholder="OTP Code" AutoComplete="off" data-rule-required="true"
                             Style="padding: 4px 0px; font-size: 20px; height: 26px"></asp:TextBox>
                     </div>
                     <div class="form-group ">
-                        <asp:TextBox ID="txtOTPPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="รหัสผ่านใหม่" AutoComplete="off" data-rule-required="true"
+                        <asp:TextBox ID="txtOTPPassword" runat="server" TextMode="Password" CssClass="form-control" MaxLength="18" placeholder="รหัสผ่านใหม่" AutoComplete="off" data-rule-required="true"
                             Style="padding: 4px 0px; font-size: 20px; height: 26px"></asp:TextBox>
                     </div>
                     <div class="form-group ">
-                        <asp:TextBox ID="txtOTPConfirmPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="ยืนยันรหัสผ่าน" AutoComplete="off" data-rule-required="true"
-                            Style="padding: 4px 0px; font-size: 20px; height: 26px"></asp:TextBox>
+                        <asp:TextBox ID="txtOTPConfirmPassword" runat="server" TextMode="Password" CssClass="form-control" MaxLength="18" placeholder="ยืนยันรหัสผ่าน" AutoComplete="off" data-rule-required="true"
+                            Style="padding: 4px 0px;margin-bottom:0px; font-size: 20px; height: 26px"></asp:TextBox>
                     </div>
-                    <div class="form-group ">
+                    <div class="form-group" style="margin-bottom:10px;">
+                        <asp:CheckBox ID="chkShowOTPPassword" runat="server" AutoPostBack="false" />
+                        <span style="color:white;font-weight:bold;font-size: 12px;">
+                            แสดงรหัสผ่าน
+                        </span>
+                    </div>
+                    <div class="form-group">
                         <asp:Button ID="btnOTPLogin" runat="server" CssClass="log-btn" Style="width: 100%" Text="Login" />
                     </div>
-
                 </asp:Panel>
             </form>
         </div>
+
+        <div class="login-body" style="background-color:rgba(211, 211, 211, 0.12);" id="rowPssPolicy" runat="server" visible="false">
+            <h4 style="color:white;font-weight:bold;">
+                &nbsp;&nbsp;นโยบายการตั้งรหัสผ่าน
+            </h4>
+            <span style="color:white;font-weight:bold;font-size: 12px;">
+                <ul>
+                    <li>รหัสผ่านต้องประกอบไปด้วย ตัวอักษรพิมพ์ใหญ่, ตัวอักษรตัวพิมพ์เล็ก, ตัวอักษรตัวเลข, ตัวอักษรพิเศษ (A-Z, a-z, 0-9, !"#$%)</li>
+                    <li>รหัสผ่านต้องมีความยาวต่ำสุด 8 ตัวอักษร และสูงสุด 18 ตัวอักษร</li>
+                    <li>รหัสผ่านต้องไม่ซ้ำกับรหัสผ่านล่าสุด 3 ครั้งสุดท้าย</li>
+                </ul>
+            </span>
+        </div>
+        <br />
+        <br />
+        <br />
     </div>
 
     <script>
+
+        $(function () {
+            $("#chkShowPassword").bind("click", function () {
+                var txtPassword = $("[id*=txtPassword]");
+                if ($(this).is(":checked")) {
+                    txtPassword.after('<input id = "txt_' + txtPassword.attr("id") + '" type = "text" value = "' + txtPassword.val() + '" style="padding: 4px 0px;margin-bottom:0px; font-size: 20px; height: 26px" />');
+                    txtPassword.hide();
+                } else {
+                    txtPassword.val(txtPassword.next().val());
+                    txtPassword.next().remove();
+                    txtPassword.show();
+                }
+            });
+
+            $("#chkShowOTPPassword").bind("click", function () {
+                var txtOTPPassword = $("[id*=txtOTPPassword]");
+                var txtOTPConfirmPassword = $("[id*=txtOTPConfirmPassword]");
+                if ($(this).is(":checked")) {
+                    txtOTPPassword.after('<input id = "txt_' + txtOTPPassword.attr("id") + '" type = "text" value = "' + txtOTPPassword.val() + '" style="padding: 4px 0px; font-size: 20px; height: 26px" />');
+                    txtOTPPassword.hide();
+
+                    txtOTPConfirmPassword.after('<input id = "txt_' + txtOTPConfirmPassword.attr("id") + '" type = "text" value = "' + txtOTPConfirmPassword.val() + '" style="padding: 4px 0px; margin-bottom:0px; font-size: 20px; height: 26px" />');
+                    txtOTPConfirmPassword.hide();
+                } else {
+                    txtOTPPassword.val(txtOTPPassword.next().val());
+                    txtOTPPassword.next().remove();
+                    txtOTPPassword.show();
+
+                    txtOTPConfirmPassword.val(txtOTPConfirmPassword.next().val());
+                    txtOTPConfirmPassword.next().remove();
+                    txtOTPConfirmPassword.show();
+                }
+            });
+        });
+
+
+        function zeroFill(number, width) {
+            width -= number.toString().length;
+            if (width > 0) {
+                return new Array(width + (/\./.test(number) ? 2 : 1)).join('0') + number;
+            }
+            return number + ""; // always return a string
+        }
+
         function GetLoginStatus(event, txtUserName) {
             var UserName = document.getElementById(txtUserName).value;
+            if (UserName.length < 8) {
+                UserName = "764" + zeroFill(UserName, 8);
+            }
 
             var param = "{'UserName':" + JSON.stringify(UserName) + "}";
             $.ajax({
@@ -182,6 +257,10 @@
 
         function GetMobileNo(event, txtReqestOTPSendUsername, txtRequestOTPShowMobileNo) {
             var UserName = document.getElementById(txtReqestOTPSendUsername).value;
+
+            if (UserName.length < 8) {
+                UserName = "764" + zeroFill(UserName, 8);
+            }
 
             var param = "{'UserName':" + JSON.stringify(UserName) + "}";
             $.ajax({
