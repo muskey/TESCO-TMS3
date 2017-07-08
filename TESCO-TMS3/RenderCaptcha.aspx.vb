@@ -18,6 +18,7 @@ Public Class RenderCaptcha
 
         Session("randomStr") = randomStr
 
+        DrawNetLine(objGraphics)
         objGraphics.DrawString(randomStr, objFont, Brushes.Black, 3, 3)
         Response.ContentType = "image/GIF"
 
@@ -28,4 +29,19 @@ Public Class RenderCaptcha
         objBmp.Dispose()
     End Sub
 
+
+    Private Sub DrawNetLine(objGraphics As Graphics)
+        'ทำเส้นเป็นตาข่ายด้านหลังตัวเลข
+        Dim autoRand = New Random
+        Dim LineQty As Integer = autoRand.Next(3, 8)
+
+        For i As Integer = 0 To LineQty - 1
+            Dim grayPen As New Pen(Color.Gray, 1)
+            Dim StartPoint As Integer = autoRand.Next(3, 18)
+            Dim EndPoint As Integer = autoRand.Next(3, 18)
+
+            objGraphics.DrawLine(grayPen, New Point(3, StartPoint), New Point(45, EndPoint))
+        Next
+
+    End Sub
 End Class

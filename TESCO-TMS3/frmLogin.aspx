@@ -43,6 +43,7 @@
 		</script>
 	<![endif]-->
 
+    <script src="Scripts/ScriptJS.js"></script>
     <style>
         .log-btn {
             background: #0AC986;

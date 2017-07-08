@@ -814,12 +814,21 @@ Public Class frmLogin
         txtRequestOTPShowMobileNo.Text = MobileNo 'txtTempMobileNo.Text
         txtReqestOTPSendUsername.Text = txtUsername.Text
 
+        SetTextIntKeypress(txtCaptchaText)
         txtReqestOTPSendUsername.Attributes.Add("onBlur", "return GetMobileNo(event,'" & txtReqestOTPSendUsername.ClientID & "','" & txtRequestOTPShowMobileNo.ClientID & "')")
     End Sub
 
     Private Sub btnSendOTP_Click(sender As Object, e As EventArgs) Handles btnSendOTP.Click
         If Session("randomStr") IsNot Nothing Then
             If txtCaptchaText.Text <> Session("randomStr").ToString Then
+                Dim ws As New WebService
+                Dim ret As String = ws.GetLoginStatus(txtReqestOTPSendUsername.Text)
+                If ret.Trim <> "" Then
+                    Dim str() As String = ret.Split("#")
+                    txtRequestOTPShowMobileNo.Text = str(2)
+                End If
+
+                txtCaptchaText.Text = ""
                 ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "Alert", "alert('กรุณาระบุ CAPTCHA ให้ถูกต้อง');", True)
                 Exit Sub
             End If
