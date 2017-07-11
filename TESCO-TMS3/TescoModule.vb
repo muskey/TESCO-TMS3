@@ -182,10 +182,11 @@ Module TescoModule
 
     Public Sub UpdateLog(pa As Page, pt As Type, LoginHisID As Long, id As Long, ClassID As Long, Token As String, UserDataCourseFile As DataTable, Username As String)
         Dim tb_user_course_document_id As String = "0"
+        Dim file_id As Long = 0
         Dim doc_id As String = "0"
         Dim course_id As String = "0"
         Dim Sql As String
-        Sql = " select cdf.id, cdf.document_file_id,cd.document_id, c.id course_id "
+        Sql = " select cdf.id, cdf.document_file_id,cd.document_id, c.course_id "
         Sql += " from TB_USER_COURSE_DOCUMENT_FILE cdf"
         Sql += " inner join TB_USER_COURSE_DOCUMENT cd on cd.id=cdf.tb_user_course_document_id"
         Sql += " inner join TB_USER_COURSE c on c.id=cd.tb_user_course_id"
@@ -194,6 +195,7 @@ Module TescoModule
         p(0) = SqlDB.SetBigInt("@_ID", id)
         Dim dtCourseFile As DataTable = SqlDB.ExecuteTable(Sql, p)
         If dtCourseFile.Rows.Count Then
+            file_id = dtCourseFile.Rows(0)("document_file_id")
             doc_id = dtCourseFile.Rows(0)("document_id")
             course_id = dtCourseFile.Rows(0)("course_id")
         End If
@@ -202,26 +204,80 @@ Module TescoModule
         Dim strfillter As String = "id >" & id
         UserDataCourseFile.DefaultView.RowFilter = strfillter
         If UserDataCourseFile.DefaultView.Count = 0 Then
-            If CallAPIUpdateLog(pa, pt, LoginHisID, Token, "complete", "class", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "}") = True Then
-                'เมื่อเรียนจบหลักสูตรแล้วให้ Update IS_FINISHED ว่าเรียนจบแล้ว
-
-                Dim lnq As New TbUserCourseLinqDB
-                lnq.GetDataByPK(course_id, Nothing)
-                lnq.IS_FINISHED = "Y"
-
-                Dim trans As New TransactionDB
-                Dim ret As ExecuteDataInfo = lnq.UpdateData(Username, trans.Trans)
-                If ret.IsSuccess = True Then
-                    trans.CommitTransaction()
-                Else
-                    trans.RollbackTransaction()
-                End If
+            If UpdateCourseHisFinished(course_id, Username) = True Then
+                CallAPIUpdateLog(pa, pt, LoginHisID, Token, "complete", "class", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "}")
             End If
         Else
-            CallAPIUpdateLog(pa, pt, LoginHisID, Token, "complete", "document", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "," & Chr(34) & "document_id" & Chr(34) & ":" & doc_id & "}")
+            If UpdateFileHisIsStudy(file_id, Username) = True Then
+                CallAPIUpdateLog(pa, pt, LoginHisID, Token, "complete", "document", "{" & Chr(34) & "class_id" & Chr(34) & ":" & ClassID.ToString & "," & Chr(34) & "document_id" & Chr(34) & ":" & doc_id & "}")
+            End If
         End If
         UserDataCourseFile.DefaultView.RowFilter = ""
     End Sub
+
+    Private Function UpdateFileHisIsStudy(FileID As Long, Username As String) As Boolean
+        'เมื่อเริ่มเรียนที่ไฟล์ไหน ก็ให้ Update ว่าได้เรียนไฟล์นั้นแล้ว
+        Dim sql As String = "update TB_USER_COURSE_DOC_FILE_HIS"
+        sql += " set is_study='Y', updated_by=@_USERNAME, updated_date=getdate() "
+        sql += " where document_file_id=@_FILE_ID"
+        sql += " and username=@_USERNAME"
+
+        Dim p(2) As SqlParameter
+        p(0) = SqlDB.SetText("@_USERNAME", Username)
+        p(1) = SqlDB.SetBigInt("@_FILE_ID", FileID)
+
+        Dim trans As New TransactionDB
+        Dim lnq As New TbUserCourseDocFileHisLinqDB
+        Dim ret As ExecuteDataInfo = lnq.UpdateBySql(sql, trans.Trans, p)
+        If ret.IsSuccess = True Then
+            trans.CommitTransaction()
+        Else
+            trans.RollbackTransaction()
+        End If
+        lnq = Nothing
+
+        Return ret.IsSuccess
+    End Function
+
+    Private Function UpdateCourseHisFinished(CourseID As Long, Username As String) As Boolean
+        'เมื่อเรียนจบหลักสูตรแล้วให้ Update IS_FINISHED ว่าเรียนจบแล้ว
+        Dim sql As String = "update TB_USER_COURSE_HIS"
+        sql += " set is_finished='Y', updated_by=@_USERNAME, updated_date=getdate()"
+        sql += " where username=@_USERNAME"
+        sql += " and course_id=@_COURSE_ID"
+
+        Dim p(2) As SqlParameter
+        p(0) = SqlDB.SetText("@_USERNAME", Username)
+        p(1) = SqlDB.SetBigInt("@_COURSE_ID", CourseID)
+
+        Dim trans As New TransactionDB
+        Dim lnq As New TbUserCourseHisLinqDB
+
+        Dim ret As ExecuteDataInfo = lnq.UpdateBySql(sql, trans.Trans, p)
+        If ret.IsSuccess = True Then
+            'Update File ทั้งหมดที่อยู่ในบทเรียนนี้ให้เป็นเรียนแล้ว
+            sql = "update TB_USER_COURSE_DOC_FILE_HIS"
+            sql += " set is_study='Y', updated_by=@_USERNAME, updated_date=getdate() "
+            sql += " where tb_user_course_doc_his_id in (select id from TB_USER_COURSE_DOC_HIS where tb_user_course_his_id in (select id from TB_USER_COURSE_HIS where course_id=@_COURSE_ID and username=@_USERNAME)) "
+            sql += " and is_study='N'"
+
+            ReDim p(2)
+            p(0) = SqlDB.SetText("@_USERNAME", Username)
+            p(1) = SqlDB.SetBigInt("@_COURSE_ID", CourseID)
+            ret = lnq.UpdateBySql(sql, trans.Trans, p)
+
+            If ret.IsSuccess = True Then
+                trans.CommitTransaction()
+            Else
+                trans.RollbackTransaction()
+            End If
+        Else
+            trans.RollbackTransaction()
+        End If
+        lnq = Nothing
+
+        Return ret.IsSuccess
+    End Function
 #End Region
 
     'Public Function CreateClass(token As String, stdID As String, ClientID As String, CourseID As String, UserID As String) As Long

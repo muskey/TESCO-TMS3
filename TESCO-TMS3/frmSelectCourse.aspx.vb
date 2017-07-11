@@ -52,7 +52,7 @@ Public Class frmSelectCourse
 
         Dim sql As String = "select c.*, cr.is_finished pre_course_finish "
         sql += " from tb_user_course c"
-        sql += " left join tb_user_course cr on cr.course_id=c.prerequisite_course_id and cr.user_id=@_USER_ID"
+        sql += " left join TB_USER_COURSE_HIS cr on cr.course_id=c.prerequisite_course_id and cr.user_id=@_USER_ID"
         sql += " where 1=1 And c.tb_user_department_id=@_USER_DEPARTMENT_ID"
         sql += " and c.user_id=@_USER_ID"
         sql += " order by c.course_title"
@@ -76,16 +76,16 @@ Public Class frmSelectCourse
             End If
 
             If IsShow = True Then
-                strMain += " <li  onclick=""ShowPopup('" + dr("id").ToString + "','" + dr("course_title").ToString + "','" + dr("course_title").ToString + "','" & UserData.UserSessionID & "');"" id=" + dr("id").ToString
+                strMain += " <li  onclick=""ShowPopup('" + dr("id").ToString + "','" + dr("course_title").ToString + "','" + dr("course_title").ToString + "','" & UserData.UserSessionID & "');return false;"" id=" + dr("id").ToString
                 strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px;margin:8px 12px 0 8px;"">"
-                strMain += "    <a href=""#"">"
+                strMain += "    <a href=""#"" onclick=""return false;"" >"
                 strMain += "        <span class=""text-center"" style=""font-size:20px;padding-top:25px;padding-left:15px;padding-right:15px;"" >" + dr("course_title").ToString + "</span>"
                 strMain += "    </a>"
                 strMain += " </li>"
             Else
                 strMain += " <li id=" + dr("id").ToString
                 strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px;margin:8px 12px 0 8px;"">"
-                strMain += "    <a href=""#"" style='cursor:default' >"
+                strMain += "    <a href=""#"" onclick=""return false;"" style='cursor:default' >"
                 strMain += "        <span class=""text-center"" style=""font-size:20px;padding-top:25px;padding-left:15px;padding-right:15px;"" >" + dr("course_title").ToString + "</span>"
                 strMain += "    </a>"
                 strMain += " </li>"

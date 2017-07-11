@@ -99,8 +99,11 @@
     <Compile Include="TABLE\TbTestingAnswerWritingLinqDB.vb" />
     <Compile Include="TABLE\TbTestingLinqDB.vb" />
     <Compile Include="TABLE\TbTestingQuestionLinqDB.vb" />
+    <Compile Include="TABLE\TbUserCourseDocFileHisLinqDB.vb" />
+    <Compile Include="TABLE\TbUserCourseDocHisLinqDB.vb" />
     <Compile Include="TABLE\TbUserCourseDocumentFileLinqDB.vb" />
     <Compile Include="TABLE\TbUserCourseDocumentLinqDB.vb" />
+    <Compile Include="TABLE\TbUserCourseHisLinqDB.vb" />
     <Compile Include="TABLE\TbUserCourseLinqDB.vb" />
     <Compile Include="TABLE\TbUserDepartmentLinqDB.vb" />
     <Compile Include="TABLE\TbUserFormatLinqDB.vb" />

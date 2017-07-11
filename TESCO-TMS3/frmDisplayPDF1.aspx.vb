@@ -51,6 +51,14 @@ Public Class frmDisplayPDF1
             Dim frompath = dt.Rows(0)("file_url") & ""
             Dim topath = Server.MapPath("~/Document") & "\" & User_Folder
 
+            If Convert.IsDBNull(dt.Rows(0)("pdf_page")) = True Then
+                Threading.Thread.Sleep(5000)
+
+                LogFileBL.LogTrans(UserData.LoginHistoryID, "โหลดไฟล์ใหม่หลังจากรอ 5 วินาที" & vbNewLine & "URL=" & dt.Rows(0)("file_url"))
+                Dim url As String = "frmDisplayPDF1.aspx?id=" + id
+                Response.Redirect(url)
+            End If
+
             splitpdf(dt.Rows(0)("pdf_page"), frompath, topath)
         End If
         dt.Dispose()

@@ -99,7 +99,7 @@ Public Class frmDisplayImage
             Response.Redirect(url)
         ElseIf dr("file_url").ToString.IndexOf(".pdf") <> -1 Then
             LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงบทเรียน " & dr("file_title") & vbNewLine & "URL=" & dr("file_url"))
-            url = "frmDisplayPDF.aspx?id=" + dr("id").ToString
+            url = "frmDisplayPDF1.aspx?id=" + dr("id").ToString
             Response.Redirect(url)
         ElseIf dr("file_url").ToString.IndexOf(".mp4") <> -1 Then
             LogFileBL.LogTrans(UserData.LoginHistoryID, "แสดงบทเรียน " & dr("file_title") & vbNewLine & "URL=" & dr("file_url"))

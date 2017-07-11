@@ -81,7 +81,7 @@
             if (file_url.indexOf(".png") != -1 || file_url.indexOf(".jpg") != -1) {
                 url = 'frmDisplayImage.aspx?id=' + id;
             } else if (file_url.indexOf(".pdf") != -1) {
-                url = 'frmDisplayPDF.aspx?id=' + id;
+                url = 'frmDisplayPDF1.aspx?id=' + id;
             } else if (file_url.indexOf(".mp4") != -1) {
                 url = 'frmDisplayVDO.aspx?id=' + id;
             } else if (file_url.indexOf(".html") != -1) {

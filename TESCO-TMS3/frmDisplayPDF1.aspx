@@ -172,7 +172,7 @@
             <div class="span4 text-center" >
                 <asp:ImageButton ID="btnBack" runat="server" ImageUrl="~/Assets/PC/btnPreviousDoc.png" Height="35px" Width="88px" />
                 <asp:ImageButton ID="btnPDFBack" runat="server" ImageUrl="~/Assets/PC/btnPreviousDidable.png" Height="35px" Width="35px" />
-                <asp:DropDownList CssClass="form-control" ID="ddlPage" runat="server" Width="40px" Height="20px" AutoPostBack="true"  Font-Size="XX-Small" ></asp:DropDownList><asp:Label ID="lblPDFPage" runat="server" Text="1/99"></asp:Label>
+                <asp:DropDownList CssClass="form-control" ID="ddlPage" runat="server" Width="40px" AutoPostBack="true"  style="margin-bottom:0px;padding:0px 0px;" ></asp:DropDownList><asp:Label ID="lblPDFPage" runat="server" Text="1/99"></asp:Label>
 
                 <asp:ImageButton ID="btnPDFNext" runat="server" ImageUrl="~/Assets/PC/btnNextDisable.png" Height="35px" Width="35px" />
                 <asp:ImageButton ID="btnNext" runat="server" ImageUrl="~/Assets/PC/btnNextDoc.png" Height="35px" Width="88px" />
