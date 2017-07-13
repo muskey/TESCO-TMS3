@@ -47,7 +47,7 @@
  */
 
         .footer {
-            position: absolute;
+            position: relative;
             right: 0;
             bottom: 0;
             left: 0;
@@ -158,10 +158,10 @@
 
 
     </div>
-    <div id="myBody" style="height: 87vh; width: 100%; overflow-y: scroll;">
+    <div id="myBody" style="width: 100%; overflow-y: scroll;">
         <div class="row">
             <div class="span12 text-center">
-                <asp:Image runat="server" ID="imgShow" src="https://gifyu.com/images/17883105_623102657889044_5265897545783050240_n.jpg" Width="98%" />
+                <asp:Image runat="server" ID="imgShow" src="https://gifyu.com/images/17883105_623102657889044_5265897545783050240_n.jpg" Width="95%" />
             </div>
         </div>
     </div>
@@ -183,8 +183,9 @@
                 <asp:TextBox ID="txtMax" runat="server" Visible="false"></asp:TextBox>
             </div>
             <div class="span3 text-center">
-                <asp:ImageButton ID="btnHome" runat="server" ImageUrl="~/Assets/PC/btnCloseDoc.png" Height="35px" Width="88px" />
                 <asp:ImageButton ID="btnContent" runat="server" ImageUrl="~/Assets/PC/index_icon.png" Height="35px" Width="88px" />
+                <asp:ImageButton ID="btnHome" runat="server" ImageUrl="~/Assets/PC/btnCloseDoc.png" Height="35px" Width="88px" />
+                
                 <asp:Button ID="btnCloseContent" runat="server" CssClass="btn btn-Normal btn-green" Text="ปิด" Width="" Visible="false" />
             </div>
 

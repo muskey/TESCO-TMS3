@@ -21,6 +21,8 @@
 
             onEdit(id);
 
+            onDocumentData(id, name, UserSessionID);
+
             $(function () {
                 // $("#dialog").html(message);
                 var wWidth = $(window).width();
@@ -40,8 +42,6 @@
                                   $("#dialog").dialog("close");
 
                                   CreateTransLog('<%=UserData.LoginHistoryID %>', 'เริ่มเรียน Course ' + name);
-                                  //onDocumentData(id, name, UserSessionID);
-
                                   var url = "frmDisplayCenter.aspx?id=" + id + '&title=' + name;
                                   window.location = url;
                                   //return false;
@@ -79,29 +79,29 @@
 
         }
 
-        //function onDocumentData(id, name, UserSessionID) {
+        function onDocumentData(id, name, UserSessionID) {
 
-        //    var param = "{'id':" + JSON.stringify(id) + ",'UserSessionID':" + JSON.stringify(UserSessionID) +  "}";
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "WebService/WebService.asmx/SetDocumentData",
-        //        data: param,
-        //        contentType: "application/json; charset=utf-8",
-        //        dataType: "json",
-        //        success: function (data) {
+            var param = "{'id':" + JSON.stringify(id) + ",'UserSessionID':" + JSON.stringify(UserSessionID) +  "}";
+            $.ajax({
+                type: "POST",
+                url: "WebService/WebService.asmx/SetDocumentData",
+                data: param,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
 
-        //            var strvalue = data.d;
-        //            if (strvalue == 'True') {
-        //                var url = "frmDisplayCenter.aspx?id=" + id + '&title=' + name;
-        //                window.location = url;
-        //                return false;
-        //            }
-        //        },
-        //        error: function (data) {
-        //        }
-        //    });
+                    var strvalue = data.d;
+                    if (strvalue == 'True') {
+                        //var url = "frmDisplayCenter.aspx?id=" + id + '&title=' + name;
+                        //window.location = url;
+                        return false;
+                    }
+                },
+                error: function (data) {
+                }
+            });
 
-        //}
+        }
         function goBack() {
             window.location.href = document.referrer;
             return false;

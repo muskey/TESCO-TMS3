@@ -76,7 +76,7 @@
                     </div>
                     <div class="control-group" style="margin-bottom:0px;">
                         <div class="form-group ">
-                            <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"  placeholder="รหัสผ่าน" AutoComplete="off" data-rule-required="true"
+                            <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" placeholder="รหัสผ่าน" AutoComplete="off" data-rule-required="true"
                                 Style="padding: 4px 0px;margin-bottom:0px; font-size: 20px; height: 26px"  ></asp:TextBox>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
             $("#chkShowPassword").bind("click", function () {
                 var txtPassword = $("[id*=txtPassword]");
                 if ($(this).is(":checked")) {
-                    txtPassword.after('<input id = "txt_' + txtPassword.attr("id") + '" type = "text" value = "' + txtPassword.val() + '" style="padding: 4px 0px;margin-bottom:0px; font-size: 20px; height: 26px" />');
+                    txtPassword.after('<input id = "txt_' + txtPassword.attr("id") + '" type = "text" value = "' + txtPassword.val() + '" onBlur="TextPasswordChange(txtPassword, txt_' + txtPassword.attr("id") + ');" style="padding: 4px 0px;margin-bottom:0px; font-size: 20px; height: 26px" />');
                     txtPassword.hide();
                 } else {
                     txtPassword.val(txtPassword.next().val());
@@ -187,10 +187,10 @@
                 var txtOTPPassword = $("[id*=txtOTPPassword]");
                 var txtOTPConfirmPassword = $("[id*=txtOTPConfirmPassword]");
                 if ($(this).is(":checked")) {
-                    txtOTPPassword.after('<input id = "txt_' + txtOTPPassword.attr("id") + '" type = "text" value = "' + txtOTPPassword.val() + '" style="padding: 4px 0px; font-size: 20px; height: 26px" />');
+                    txtOTPPassword.after('<input   id = "txt_' + txtOTPPassword.attr("id") + '" type = "text" value = "' + txtOTPPassword.val() + '" onBlur="TextPasswordChange(txtOTPPassword, txt_' + txtOTPPassword.attr("id") + ');" style="padding: 4px 0px; font-size: 20px; height: 26px" />');
                     txtOTPPassword.hide();
 
-                    txtOTPConfirmPassword.after('<input id = "txt_' + txtOTPConfirmPassword.attr("id") + '" type = "text" value = "' + txtOTPConfirmPassword.val() + '" style="padding: 4px 0px; margin-bottom:0px; font-size: 20px; height: 26px" />');
+                    txtOTPConfirmPassword.after('<input id = "txt_' + txtOTPConfirmPassword.attr("id") + '" type = "text" value = "' + txtOTPConfirmPassword.val() + '" onBlur="TextPasswordChange(txtOTPConfirmPassword, txt_' + txtOTPConfirmPassword.attr("id") + ');" style="padding: 4px 0px; margin-bottom:0px; font-size: 20px; height: 26px" />');
                     txtOTPConfirmPassword.hide();
                 } else {
                     txtOTPPassword.val(txtOTPPassword.next().val());
@@ -205,6 +205,38 @@
         });
 
 
+        function setTextPassword() {
+            var txtPassword = $("[id*=txtPassword]");
+            if ($("#chkShowPassword").is(":checked")) {
+                txtPassword.val(txtPassword.next().val());
+            } 
+
+            return true;
+        }
+
+        function setTextOTPPassword() {
+            var txtOTPPassword = $("[id*=txtOTPPassword]");
+            var txtOTPConfirmPassword = $("[id*=txtOTPConfirmPassword]");
+
+            if ($("#chkShowOTPPassword").is(":checked")) {
+                txtOTPPassword.val(txtOTPPassword.next().val());
+                txtOTPConfirmPassword.val(txtOTPConfirmPassword.next().val());
+            }
+
+            return true;
+        }
+
+
+
+        function TextPasswordChange(txtPassword, txtShowPassword) {
+            setTimeout(function () {  //the horror...the horror...  
+                $("#" + txtPassword).val($("#" + txtShowPassword).next().val());
+                $("#" + txtPassword).next().remove();
+                $("#" + txtPassword).show();
+            }, 1);
+        }
+
+
         function zeroFill(number, width) {
             width -= number.toString().length;
             if (width > 0) {
@@ -215,8 +247,14 @@
 
         function GetLoginStatus(event, txtUserName) {
             var UserName = document.getElementById(txtUserName).value;
-            if (UserName.length < 8) {
-                UserName = "764" + zeroFill(UserName, 8);
+
+            var startChr = UserName.substring(0, 1);
+            var chrInt = startChr.charCodeAt(0);
+            
+            if (chrInt >= 48 && chrInt <= 57) {
+                if (UserName.length < 8) {
+                    UserName = "764" + zeroFill(UserName, 8);
+                }
             }
 
             var param = "{'UserName':" + JSON.stringify(UserName) + "}";
@@ -258,7 +296,6 @@
 
         function GetMobileNo(event, txtReqestOTPSendUsername, txtRequestOTPShowMobileNo) {
             var UserName = document.getElementById(txtReqestOTPSendUsername).value;
-
             if (UserName.length < 8) {
                 UserName = "764" + zeroFill(UserName, 8);
             }

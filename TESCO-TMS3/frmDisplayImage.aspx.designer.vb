@@ -86,15 +86,6 @@ Partial Public Class frmDisplayImage
     Protected WithEvents txtMax As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''btnHome control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnHome As Global.System.Web.UI.WebControls.ImageButton
-    
-    '''<summary>
     '''btnContent control.
     '''</summary>
     '''<remarks>
@@ -102,6 +93,15 @@ Partial Public Class frmDisplayImage
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnContent As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''btnHome control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnHome As Global.System.Web.UI.WebControls.ImageButton
     
     '''<summary>
     '''btnCloseContent control.

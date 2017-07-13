@@ -95,9 +95,12 @@
     <Compile Include="TABLE\CfSysconfigLinqDB.vb" />
     <Compile Include="TABLE\TbLoginHistoryLinqDB.vb" />
     <Compile Include="TABLE\TbLogUserActivityLinqDB.vb" />
+    <Compile Include="TABLE\TbTestingAnswerHisLinqDB.vb" />
     <Compile Include="TABLE\TbTestingAnswerLinqDB.vb" />
     <Compile Include="TABLE\TbTestingAnswerWritingLinqDB.vb" />
+    <Compile Include="TABLE\TbTestingHisLinqDB.vb" />
     <Compile Include="TABLE\TbTestingLinqDB.vb" />
+    <Compile Include="TABLE\TbTestingQuestionHisLinqDB.vb" />
     <Compile Include="TABLE\TbTestingQuestionLinqDB.vb" />
     <Compile Include="TABLE\TbUserCourseDocFileHisLinqDB.vb" />
     <Compile Include="TABLE\TbUserCourseDocHisLinqDB.vb" />

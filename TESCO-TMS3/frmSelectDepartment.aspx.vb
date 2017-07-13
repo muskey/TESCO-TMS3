@@ -57,7 +57,7 @@ Public Class frmSelectDepartment
         Try
             Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
 
-            Dim sql As String = "select id, department_id, department_title, department_cover_url "
+            Dim sql As String = "select id, department_id, department_title, department_cover_url, bind_course "
             sql += " from TB_USER_DEPARTMENT "
             sql += " where tb_user_function_id=@_USER_FUNCTION_ID "
             sql += " order by id "

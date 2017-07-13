@@ -61,40 +61,44 @@ Public Class frmSelectCourse
         p(1) = SqlDB.SetBigInt("@_USER_ID", UserData.UserID)
         Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
 
-        Dim strMain As String = "<ul class=""tiles"">"
-        For Each dr As DataRowView In dt.DefaultView
-            'ถ้าเป็น Course ที่มี Prerequisite ให้ตรวจสอบว่า Course ที่เป็น Prerequisite นั้นได้เรียนจบแล้วหรือไม่
-            Dim IsShow As Boolean = False
-            If Convert.ToInt64(dr("prerequisite_course_id")) > 0 Then
-                If Convert.IsDBNull(dr("pre_course_finish")) = False Then
-                    If dr("pre_course_finish") = "Y" Then
-                        IsShow = True
+        If dt.Rows.Count > 0 Then
+            Dim strMain As String = "<ul class=""tiles"">"
+            For Each dr As DataRowView In dt.DefaultView
+                'ถ้าเป็น Course ที่มี Prerequisite ให้ตรวจสอบว่า Course ที่เป็น Prerequisite นั้นได้เรียนจบแล้วหรือไม่
+                Dim IsShow As Boolean = False
+                If Convert.ToInt64(dr("prerequisite_course_id")) > 0 Then
+                    If Convert.IsDBNull(dr("pre_course_finish")) = False Then
+                        If dr("pre_course_finish") = "Y" Then
+                            IsShow = True
+                        End If
                     End If
+                Else
+                    IsShow = True
                 End If
-            Else
-                IsShow = True
-            End If
 
-            If IsShow = True Then
-                strMain += " <li  onclick=""ShowPopup('" + dr("id").ToString + "','" + dr("course_title").ToString + "','" + dr("course_title").ToString + "','" & UserData.UserSessionID & "');return false;"" id=" + dr("id").ToString
-                strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px;margin:8px 12px 0 8px;"">"
-                strMain += "    <a href=""#"" onclick=""return false;"" >"
-                strMain += "        <span class=""text-center"" style=""font-size:20px;padding-top:25px;padding-left:15px;padding-right:15px;"" >" + dr("course_title").ToString + "</span>"
-                strMain += "    </a>"
-                strMain += " </li>"
-            Else
-                strMain += " <li id=" + dr("id").ToString
-                strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px;margin:8px 12px 0 8px;"">"
-                strMain += "    <a href=""#"" onclick=""return false;"" style='cursor:default' >"
-                strMain += "        <span class=""text-center"" style=""font-size:20px;padding-top:25px;padding-left:15px;padding-right:15px;"" >" + dr("course_title").ToString + "</span>"
-                strMain += "    </a>"
-                strMain += " </li>"
-            End If
+                If IsShow = True Then
+                    strMain += " <li  onclick=""ShowPopup('" + dr("id").ToString + "','" + dr("course_title").ToString + "','" + dr("course_title").ToString + "','" & UserData.UserSessionID & "');return false;"" id=" + dr("id").ToString
+                    strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px;margin:8px 12px 0 8px;"">"
+                    strMain += "    <a href=""#"" onclick=""return false;"" >"
+                    strMain += "        <span class=""text-center"" style=""font-size:20px;padding-top:25px;padding-left:15px;padding-right:15px;"" >" + dr("course_title").ToString + "</span>"
+                    strMain += "    </a>"
+                    strMain += " </li>"
+                Else
+                    strMain += " <li id=" + dr("id").ToString
+                    strMain += " style=""background-image:url('Assets/PC/icon_course_book.png');background-size: 140px auto;background-repeat: no-repeat;height:150px;margin:8px 12px 0 8px;"">"
+                    strMain += "    <a href=""#"" onclick=""return false;"" style='cursor:default' >"
+                    strMain += "        <span class=""text-center"" style=""font-size:20px;padding-top:25px;padding-left:15px;padding-right:15px;"" >" + dr("course_title").ToString + "</span>"
+                    strMain += "    </a>"
+                    strMain += " </li>"
+                End If
 
 
-        Next
-        strMain += "</ul>"
-        lblMain.Text = strMain
+            Next
+            strMain += "</ul>"
+            lblMain.Text = strMain
+        End If
+
+
         dt.Dispose()
     End Sub
 

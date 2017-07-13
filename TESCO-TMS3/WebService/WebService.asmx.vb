@@ -51,138 +51,138 @@ Public Class WebService
 
     End Function
 
-    '<WebMethod()>
-    'Public Function SetDocumentData(id As String, UserSessionID As String) As String
-    '    Try
-    '        Dim trans As New TransactionDB
-    '        Dim ret As New ExecuteDataInfo
-    '        Dim document_txt As String = ""
-    '        Dim CourseID As Long = 0
-    '        Dim sql As String = " select document_detail, course_id from TB_USER_COURSE where id=@_ID"
-    '        Dim p(1) As SqlParameter
-    '        p(0) = SqlDB.SetBigInt("@_ID", id)
+    <WebMethod()>
+    Public Function SetDocumentData(id As String, UserSessionID As String) As String
+        Try
+            Dim trans As New TransactionDB
+            Dim ret As New ExecuteDataInfo
+            Dim document_txt As String = ""
+            Dim CourseID As Long = 0
+            Dim sql As String = " select document_detail, course_id from TB_USER_COURSE where id=@_ID"
+            Dim p(1) As SqlParameter
+            p(0) = SqlDB.SetBigInt("@_ID", id)
 
-    '        Dim dt As DataTable = SqlDB.ExecuteTable(sql, trans.Trans, p)
-    '        If dt.Rows.Count > 0 Then
-    '            sql = "delete from TB_USER_COURSE_DOCUMENT_FILE where tb_user_course_document_id in (select id from TB_USER_COURSE_DOCUMENT where tb_user_course_id=@_ID) "
-    '            ReDim p(1)
-    '            p(0) = SqlDB.SetBigInt("@_ID", id)
-    '            ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            Dim dt As DataTable = SqlDB.ExecuteTable(sql, trans.Trans, p)
+            If dt.Rows.Count > 0 Then
+                sql = "delete from TB_USER_COURSE_DOCUMENT_FILE where tb_user_course_document_id in (select id from TB_USER_COURSE_DOCUMENT where tb_user_course_id=@_ID) "
+                ReDim p(1)
+                p(0) = SqlDB.SetBigInt("@_ID", id)
+                ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
-    '            If ret.IsSuccess = True Then
-    '                sql = " delete from TB_USER_COURSE_DOCUMENT  where tb_user_course_id=@_ID"
-    '                ReDim p(1)
-    '                p(0) = SqlDB.SetBigInt("@_ID", id)
-    '                ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+                If ret.IsSuccess = True Then
+                    sql = " delete from TB_USER_COURSE_DOCUMENT  where tb_user_course_id=@_ID"
+                    ReDim p(1)
+                    p(0) = SqlDB.SetBigInt("@_ID", id)
+                    ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
-    '                If ret.IsSuccess = True Then
-    '                    If Convert.IsDBNull(dt.Rows(0)("document_detail")) = False Then
-    '                        document_txt = dt.Rows(0)("document_detail")
-    '                    End If
-    '                    CourseID = dt.Rows(0)("course_id")
-    '                End If
-    '            End If
-    '        End If
-    '        dt.Dispose()
+                    If ret.IsSuccess = True Then
+                        If Convert.IsDBNull(dt.Rows(0)("document_detail")) = False Then
+                            document_txt = dt.Rows(0)("document_detail")
+                        End If
+                        CourseID = dt.Rows(0)("course_id")
+                    End If
+                End If
+            End If
+            dt.Dispose()
 
-    '        If ret.IsSuccess = False Then
-    '            trans.RollbackTransaction()
-    '            Return "False"
-    '        End If
+            If ret.IsSuccess = False Then
+                trans.RollbackTransaction()
+                Return "False"
+            End If
 
-    '        Dim UserData As New UserProfileData
-    '        UserData.GetUserSessionData(UserSessionID)
+            Dim UserData As New UserProfileData
+            UserData.GetUserSessionData(UserSessionID)
 
-    '        If document_txt.Trim <> "" Then
-    '            Dim document_ser As JObject = JObject.Parse(document_txt)
-    '            Dim document_data As List(Of JToken) = document_ser.Children().ToList
-    '            For Each document_item As JProperty In document_data
+            If document_txt.Trim <> "" Then
+                Dim document_ser As JObject = JObject.Parse(document_txt)
+                Dim document_data As List(Of JToken) = document_ser.Children().ToList
+                For Each document_item As JProperty In document_data
 
-    '                Dim cdi As Integer = 1
-    '                For Each document_comment As JObject In document_item.Values
-    '                    document_item.CreateReader()
+                    Dim cdi As Integer = 1
+                    For Each document_comment As JObject In document_item.Values
+                        document_item.CreateReader()
 
-    '                    Dim cdLnq As New LinqDB.TABLE.TbUserCourseDocumentLinqDB
-    '                    cdLnq.DOCUMENT_ID = Convert.ToInt64(document_comment("id").ToString)
-    '                    cdLnq.TB_USER_COURSE_ID = id
-    '                    cdLnq.USER_ID = UserData.UserID
-    '                    cdLnq.DOCUMENT_TITLE = document_comment("title").ToString
-    '                    cdLnq.MS_DOCUMENT_ICON_ID = document_comment("icon_id").ToString
-    '                    cdLnq.DOCUMENT_VERSION = document_comment("version").ToString
-    '                    cdLnq.DOCUMENT_TYPE = document_comment("type").ToString
-    '                    cdLnq.ORDER_BY = document_comment("order").ToString
+                        Dim cdLnq As New LinqDB.TABLE.TbUserCourseDocumentLinqDB
+                        cdLnq.DOCUMENT_ID = Convert.ToInt64(document_comment("id").ToString)
+                        cdLnq.TB_USER_COURSE_ID = id
+                        cdLnq.USER_ID = UserData.UserID
+                        cdLnq.DOCUMENT_TITLE = document_comment("title").ToString
+                        cdLnq.MS_DOCUMENT_ICON_ID = document_comment("icon_id").ToString
+                        cdLnq.DOCUMENT_VERSION = document_comment("version").ToString
+                        cdLnq.DOCUMENT_TYPE = document_comment("type").ToString
+                        cdLnq.ORDER_BY = document_comment("order").ToString
 
-    '                    ret = cdLnq.InsertData(UserData.UserName, trans.Trans)
-    '                    If ret.IsSuccess = True Then
-    '                        Dim file_txt As String = "{""file"":" & document_comment("file").ToString & "}"
-    '                        Dim file_ser As JObject = JObject.Parse(file_txt)
-    '                        Dim file_data As List(Of JToken) = file_ser.Children().ToList
-    '                        For Each file_item As JProperty In file_data
+                        ret = cdLnq.InsertData(UserData.UserName, trans.Trans)
+                        If ret.IsSuccess = True Then
+                            Dim file_txt As String = "{""file"":" & document_comment("file").ToString & "}"
+                            Dim file_ser As JObject = JObject.Parse(file_txt)
+                            Dim file_data As List(Of JToken) = file_ser.Children().ToList
+                            For Each file_item As JProperty In file_data
 
-    '                            Dim cdfi As Integer = 1
-    '                            For Each file_comment As JObject In file_item.Values
-    '                                file_item.CreateReader()
+                                Dim cdfi As Integer = 1
+                                For Each file_comment As JObject In file_item.Values
+                                    file_item.CreateReader()
 
-    '                                Dim vUrl As New Uri(file_comment("file"))
-    '                                Dim vFile As String = vUrl.Segments(vUrl.Segments.Length - 1)
+                                    Dim vUrl As New Uri(file_comment("file"))
+                                    Dim vFile As String = vUrl.Segments(vUrl.Segments.Length - 1)
 
-    '                                Dim StoryFile As String = file_comment("file").ToString
-    '                                If vFile.StartsWith("index_lms.html") = True Then
-    '                                    StoryFile = file_comment("file").ToString.Replace("index_lms.html", "story.html")
+                                    Dim StoryFile As String = file_comment("file").ToString
+                                    If vFile.StartsWith("index_lms.html") = True Then
+                                        StoryFile = file_comment("file").ToString.Replace("index_lms.html", "story.html")
 
-    '                                End If
+                                    End If
 
-    '                                Dim FileExt As String = GetURLFileExtension(file_comment("file").ToString)
-    '                                Dim FileName As String = file_comment("id").ToString & FileExt
-    '                                Dim DocFileID As String = EnCripText(FileName)
-    '                                'Dim DocFileName As String = "null"
+                                    Dim FileExt As String = GetURLFileExtension(file_comment("file").ToString)
+                                    Dim FileName As String = file_comment("id").ToString & FileExt
+                                    Dim DocFileID As String = EnCripText(FileName)
+                                    'Dim DocFileName As String = "null"
 
-    '                                Dim cfLnq As New LinqDB.TABLE.TbUserCourseDocumentFileLinqDB
-    '                                cfLnq.DOCUMENT_FILE_ID = file_comment("id").ToString
-    '                                cfLnq.TB_USER_COURSE_DOCUMENT_ID = cdLnq.ID
-    '                                cfLnq.USER_ID = UserData.UserID
-    '                                cfLnq.FILE_TITLE = file_comment("title").ToString
-    '                                cfLnq.FILE_URL = StoryFile
-    '                                cfLnq.ORDER_BY = file_comment("order").ToString
-    '                                If FileExt.ToLower = ".pdf" Then
-    '                                    cfLnq.IS_CONVERT = "N"
-    '                                Else
-    '                                    cfLnq.IS_CONVERT = "Z"
-    '                                End If
+                                    Dim cfLnq As New LinqDB.TABLE.TbUserCourseDocumentFileLinqDB
+                                    cfLnq.DOCUMENT_FILE_ID = file_comment("id").ToString
+                                    cfLnq.TB_USER_COURSE_DOCUMENT_ID = cdLnq.ID
+                                    cfLnq.USER_ID = UserData.UserID
+                                    cfLnq.FILE_TITLE = file_comment("title").ToString
+                                    cfLnq.FILE_URL = StoryFile
+                                    cfLnq.ORDER_BY = file_comment("order").ToString
+                                    If FileExt.ToLower = ".pdf" Then
+                                        cfLnq.IS_CONVERT = "N"
+                                    Else
+                                        cfLnq.IS_CONVERT = "Z"
+                                    End If
 
-    '                                ret = cfLnq.InsertData(UserData.UserName, trans.Trans)
-    '                                If ret.IsSuccess = False Then
-    '                                    trans.RollbackTransaction()
-    '                                    Return "False"
-    '                                End If
-    '                                cfLnq = Nothing
-    '                                cdfi += 1
-    '                            Next
-    '                        Next
-    '                    Else
-    '                        trans.RollbackTransaction()
-    '                        Return "False"
-    '                    End If
-    '                    cdLnq = Nothing
-    '                    cdi += 1
-    '                Next
-    '            Next
+                                    ret = cfLnq.InsertData(UserData.UserName, trans.Trans)
+                                    If ret.IsSuccess = False Then
+                                        trans.RollbackTransaction()
+                                        Return "False"
+                                    End If
+                                    cfLnq = Nothing
+                                    cdfi += 1
+                                Next
+                            Next
+                        Else
+                            trans.RollbackTransaction()
+                            Return "False"
+                        End If
+                        cdLnq = Nothing
+                        cdi += 1
+                    Next
+                Next
 
-    '            If ret.IsSuccess = True Then
-    '                trans.CommitTransaction()
+                If ret.IsSuccess = True Then
+                    trans.CommitTransaction()
 
-    '                CreateUserClass(UserSessionID, UserData.UserName, UserData.UserID, CourseID, UserData.Token)
+                    CreateUserClass(UserSessionID, UserData.UserName, UserData.UserID, CourseID, UserData.Token)
 
-    '                Return "True"
-    '            Else
-    '                trans.RollbackTransaction()
-    '                Return "False"
-    '            End If
-    '        End If
-    '    Catch ex As Exception
-    '        Return "False"
-    '    End Try
-    'End Function
+                    Return "True"
+                Else
+                    trans.RollbackTransaction()
+                    Return "False"
+                End If
+            End If
+        Catch ex As Exception
+            Return "False"
+        End Try
+    End Function
 
 
 #Region "Create Class"

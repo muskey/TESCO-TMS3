@@ -93,6 +93,15 @@ Public Class LogFileBL
         CreateUserActivityLog(UserSession.LoginHistoryID, UserSession.UserName, ClassName, FunctionName, LineNo, LogMsg, AgentLogType.ErrorLog)
     End Sub
 
+    Public Shared Sub LogError(Username As String, LogMsg As String)
+        Dim frame As StackFrame = New StackFrame(1, True)
+        Dim ClassName As String = frame.GetMethod.ReflectedType.Name
+        Dim FunctionName As String = frame.GetMethod.Name
+        Dim LineNo As Integer = frame.GetFileLineNumber
+
+        CreateUserActivityLog(0, Username, ClassName, FunctionName, LineNo, LogMsg, AgentLogType.ErrorLog)
+    End Sub
+
     Public Shared Sub LogException(UserSession As UserProfileData, ExMessage As String, ExStackTrace As String)
         Dim frame As StackFrame = New StackFrame(1, True)
         Dim ClassName As String = frame.GetMethod.ReflectedType.Name

@@ -42,7 +42,7 @@ Public Class frmDisplayPDF1
 
     Private Sub GetData()
         ' Dim UserID As String = "3"
-        Dim sql As String = " select file_url, pdf_page from TB_USER_COURSE_DOCUMENT_File  where id=@_ID"
+        Dim sql As String = " select file_url, is_convert, pdf_page from TB_USER_COURSE_DOCUMENT_File  where id=@_ID"
         Dim p(1) As SqlParameter
         p(0) = SqlDB.SetBigInt("@_ID", id)
         Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
@@ -51,7 +51,7 @@ Public Class frmDisplayPDF1
             Dim frompath = dt.Rows(0)("file_url") & ""
             Dim topath = Server.MapPath("~/Document") & "\" & User_Folder
 
-            If Convert.IsDBNull(dt.Rows(0)("pdf_page")) = True Then
+            If dt.Rows(0)("is_convert") = "N" Then
                 Threading.Thread.Sleep(5000)
 
                 LogFileBL.LogTrans(UserData.LoginHistoryID, "โหลดไฟล์ใหม่หลังจากรอ 5 วินาที" & vbNewLine & "URL=" & dt.Rows(0)("file_url"))

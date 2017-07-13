@@ -11,8 +11,8 @@ Public Class frmLogin
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
             txtUsername.Attributes.Add("onBlur", "return GetLoginStatus(event,'" & txtUsername.ClientID & "')")
-
-
+            btnLogin.Attributes.Add("onClick", "return setTextPassword();")
+            btnOTPLogin.Attributes.Add("onClick", "return setTextOTPPassword();")
         End If
     End Sub
 
@@ -21,6 +21,7 @@ Public Class frmLogin
     End Sub
 
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
+        chkShowPassword.Checked = False
         If Login(txtUsername.Text, txtPassword.Text) = True Then
             Session("Username") = txtUsername.Text
             Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
@@ -374,21 +375,16 @@ Public Class frmLogin
                 lnq.DEPARTMENT_TITLE = desc("title").ToString
                 lnq.DEPARTMENT_COVER_URL = desc("cover").ToString
                 lnq.COURSE_DETAIL = "{" & desc.Last.ToString & "}"
-                lnq.BIND_COURSE = "N"
+                lnq.BIND_COURSE = "Y"
                 ret = lnq.InsertData(Username, trans.Trans)
-
-                If ret.IsSuccess = False Then
+                If ret.IsSuccess = True Then
+                    ret = BindDatableTableFromCourse(lnq.ID, UserID, Username, desc.Last, trans)
+                    If ret.IsSuccess = False Then
+                        Exit For
+                    End If
+                Else
                     Exit For
                 End If
-
-                'If ret.IsSuccess = True Then
-                '    ret = BindDatableTableFromCourse(lnq.ID, UserID, Username, desc.Last, trans)
-                '    If ret.IsSuccess = False Then
-                '        Exit For
-                '    End If
-                'Else
-                '    Exit For
-                'End If
             Next
         Next
         Return ret
@@ -932,6 +928,7 @@ Public Class frmLogin
         Return True
     End Function
     Private Sub btnOTPLogin_Click(sender As Object, e As EventArgs) Handles btnOTPLogin.Click
+        chkShowOTPPassword.Checked = False
         'Validate Password
         If CheckPasswordPolicy(txtOTPPassword.Text) = True Then
             Dim info As String = ""
@@ -942,13 +939,19 @@ Public Class frmLogin
                 Dim data As List(Of JToken) = ser.Children().ToList
                 Dim ret As String = ""
 
+                Dim _Err As String = ""
+
                 For Each item As JProperty In data
                     item.CreateReader()
 
                     Select Case item.Name
                         Case "status"
                             ret = item.First.ToString.ToLower
-                            Exit For
+                            'Exit For
+                        Case "error_msg"
+                            If ret = "false" Then
+                                _Err = item.First.ToString
+                            End If
                     End Select
                 Next
 
@@ -957,10 +960,27 @@ Public Class frmLogin
                         Session("Username") = txtUsername.Text
                         Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
                     End If
+                Else
+                    ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "Alert", "alert('" & _Err & "');", True)
+                    LogFileBL.LogError(txtUsername.Text, info)
                 End If
             End If
         End If
     End Sub
+
+    'Private Sub chkShowPassword_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowPassword.CheckedChanged
+    '    If chkShowPassword.Checked = True Then
+    '        txtShowPassword.Text = txtPassword.Text
+
+    '        txtPassword.Visible = False
+    '        txtShowPassword.Visible = True
+    '    Else
+    '        txtPassword.Text = txtShowPassword.Text
+
+    '        txtPassword.Visible = True
+    '        txtShowPassword.Visible = False
+    '    End If
+    'End Sub
 
     'Private Sub chkShowPassword_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowPassword.CheckedChanged
     '    If chkShowPassword.Checked = True Then

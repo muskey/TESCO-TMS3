@@ -20,13 +20,13 @@ namespace ConvertCourseWindowsService
             timerConvertPDF.Enabled = true;
         }
 
-        private void timerConvertCourse_Tick(object sender, EventArgs e)
-        {
-            timerConvertCourse.Enabled = false;
-            LogFileENG.CreateHartbeat("tmConvertCourse");
-            ConvertCourseENG.ConvertCourseData();
-            timerConvertCourse.Enabled = true;
-        }
+        //private void timerConvertCourse_Tick(object sender, EventArgs e)
+        //{
+        //    timerConvertCourse.Enabled = false;
+        //    LogFileENG.CreateHartbeat("tmConvertCourse");
+        //    ConvertCourseENG.ConvertCourseData();
+        //    timerConvertCourse.Enabled = true;
+        //}
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {

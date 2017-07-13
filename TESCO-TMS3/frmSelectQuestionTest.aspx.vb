@@ -31,7 +31,7 @@ Public Class frmSelectQuestionTest
                 lblTargetPercent.Text = lnq.TARGET_PERCENTAGE
 
                 If q_id <= Convert.ToInt32(lblQuestionQty.Text) Then
-                    SetStartTest()
+                    SetStartTest(lnq)
                 Else
                     'ถ้าเป็นคำถามสุดท้ายแล้วให้ Update Log ไปยัง Backend และแสดงหน้าจอสรุป
                     pnlTestQuestion.Visible = False
@@ -44,7 +44,7 @@ Public Class frmSelectQuestionTest
             End If
         End If
     End Sub
-    Private Sub SetStartTest()
+    Private Sub SetStartTest(TestLnq As TbTestingLinqDB)
         'Dim dt As DataTable = GetTesting(UserData.UserSessionID)
         'dt.DefaultView.RowFilter = "id='" & test_id & "'"
 
@@ -58,7 +58,32 @@ Public Class frmSelectQuestionTest
 
             Dim ret As ExecuteDataInfo = SqlDB.ExecuteNonQuery(sql, p)
             If ret.IsSuccess = True Then
-                trans.CommitTransaction()
+
+                'Update TestHistory
+                Dim tLnq As New TbTestingHisLinqDB
+                tLnq.ChkDataByTEST_ID_USER_ID(TestLnq.TEST_ID, UserData.UserID, trans.Trans)
+
+                tLnq.USER_ID = UserData.UserID
+                tLnq.USERNAME = UserData.UserName
+                tLnq.TEST_ID = TestLnq.TEST_ID
+                tLnq.TEST_TITLE = TestLnq.TEST_TITLE
+                tLnq.TEST_DESC = TestLnq.TEST_DESC
+                tLnq.TARGET_PERCENTAGE = TestLnq.TARGET_PERCENTAGE
+                tLnq.COURSE_ID = TestLnq.COURSE_ID
+                tLnq.QUESTION_QTY = TestLnq.QUESTION_QTY
+
+                If tLnq.ID = 0 Then
+                    ret = tLnq.InsertData(UserData.UserName, trans.Trans)
+                Else
+                    ret = tLnq.UpdateData(UserData.UserName, trans.Trans)
+                End If
+
+                If ret.IsSuccess = True Then
+                    trans.CommitTransaction()
+                Else
+                    trans.RollbackTransaction()
+                End If
+                tLnq = Nothing
             Else
                 trans.RollbackTransaction()
             End If

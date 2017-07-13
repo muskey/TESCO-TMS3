@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConvertDataAgent));
             this.timerConvertPDF = new System.Windows.Forms.Timer(this.components);
-            this.timerConvertCourse = new System.Windows.Forms.Timer(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.SuspendLayout();
             // 
@@ -40,12 +39,6 @@
             this.timerConvertPDF.Enabled = true;
             this.timerConvertPDF.Interval = 1000;
             this.timerConvertPDF.Tick += new System.EventHandler(this.timerConvertPDF_Tick);
-            // 
-            // timerConvertCourse
-            // 
-            this.timerConvertCourse.Enabled = true;
-            this.timerConvertCourse.Interval = 1000;
-            this.timerConvertCourse.Tick += new System.EventHandler(this.timerConvertCourse_Tick);
             // 
             // notifyIcon1
             // 
@@ -70,7 +63,6 @@
 
         #endregion
         private System.Windows.Forms.Timer timerConvertPDF;
-        private System.Windows.Forms.Timer timerConvertCourse;
         protected System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }
