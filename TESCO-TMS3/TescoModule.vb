@@ -50,8 +50,8 @@ Module TescoModule
         Try
             Dim StartTime As DateTime = DateTime.Now
             Dim ret As String = ""
-            If CheckInternetConnection(GetWebServiceURL() & "api/welcome") = True Then
-                Dim request As WebRequest
+            'If CheckInternetConnection(GetWebServiceURL() & "api/welcome") = True Then
+            Dim request As WebRequest
                 request = WebRequest.Create(URL)
                 Dim response As WebResponse
                 Dim data As Byte() = Encoding.UTF8.GetBytes(Parameter)
@@ -75,10 +75,10 @@ Module TescoModule
                 End If
 
                 Return sr.ReadToEnd()
-            Else
-                ScriptManager.RegisterStartupScript(p, pt, Guid.NewGuid().ToString(), "alert('Unable to connect Back-End server " & vbCrLf & vbCrLf & "Please contract your support !!')", True)
-                LogFileBL.LogError(LoginHisID, "Unable to connect Back-End server URL :" & URL)
-            End If
+            'Else
+            '    ScriptManager.RegisterStartupScript(p, pt, Guid.NewGuid().ToString(), "alert('Unable to connect Back-End server " & vbCrLf & vbCrLf & "Please contract your support !!')", True)
+            '    LogFileBL.LogError(LoginHisID, "Unable to connect Back-End server URL :" & URL)
+            'End If
         Catch ex As Exception
             'MessageBox.Show(ex.Message & vbCrLf & ex.StackTrace, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
             ScriptManager.RegisterStartupScript(p, pt, Guid.NewGuid().ToString(), "alert('Unable to connect Back-End server " & vbCrLf & vbCrLf & "Please contract your support !!')", True)
@@ -89,8 +89,8 @@ Module TescoModule
     Function GetStringDataFromURL(ByVal URL As String, Optional ByVal Parameter As String = "") As String
         Try
             Dim ret As String = ""
-            If CheckInternetConnection(GetWebServiceURL() & "api/welcome") = True Then
-                Dim request As WebRequest
+            'If CheckInternetConnection(GetWebServiceURL() & "api/welcome") = True Then
+            Dim request As WebRequest
                 request = WebRequest.Create(URL)
                 Dim response As WebResponse
                 Dim data As Byte() = Encoding.UTF8.GetBytes(Parameter)
@@ -108,9 +108,9 @@ Module TescoModule
                 Dim sr As New StreamReader(response.GetResponseStream())
 
                 Return sr.ReadToEnd()
-            Else
-                'LogFileBL.LogError()
-            End If
+            'Else
+            '    'LogFileBL.LogError()
+            'End If
         Catch ex As Exception
             'MessageBox.Show(ex.Message & vbCrLf & ex.StackTrace, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try

@@ -28,12 +28,19 @@
         function onConfirmTest(id, title, desc, percent, qty) {
             CreateTransLog('<%=UserData.LoginHistoryID %>', 'เลือกแบบทดสอบ' + title);
 
+            var wWidth = $(window).width();
+            var dWidth = wWidth * 0.8;
+            var wHeight = $(window).height();
+            var dHeight = wHeight * 0.8;
+
             var msg = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             msg += desc + '<br /><br /><br />';
             msg += 'จำนวนคำถาม ' + qty + ' ข้อ เกณฑ์คะแนน ' + percent + '%';
             var div = $("<div><h4>" + msg + "<h4></div>");
             div.dialog({
                 title: title,
+                width: dWidth,
+                height: dHeight,
                 modal: true,
                 buttons: [
                             {

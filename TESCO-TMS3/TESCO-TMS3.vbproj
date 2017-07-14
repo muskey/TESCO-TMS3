@@ -2112,7 +2112,7 @@
     <Content Include="frmLogin.aspx" />
     <Content Include="frmSelectCourse.aspx" />
     <Content Include="frmSelectCourseDetail.aspx" />
-    <Content Include="frmSelectCourseStudy.aspx" />
+    <Content Include="frmSelectCourseCheckStudent.aspx" />
     <Content Include="frmSelectDepartment.aspx" />
     <Content Include="frmSelectFormat.aspx" />
     <Content Include="frmSelectFunction.aspx" />
@@ -2533,11 +2533,11 @@
       <DependentUpon>frmSelectCourseDetail.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="frmSelectCourseStudy.aspx.designer.vb">
-      <DependentUpon>frmSelectCourseStudy.aspx</DependentUpon>
+    <Compile Include="frmSelectCourseCheckStudent.aspx.designer.vb">
+      <DependentUpon>frmSelectCourseCheckStudent.aspx</DependentUpon>
     </Compile>
-    <Compile Include="frmSelectCourseStudy.aspx.vb">
-      <DependentUpon>frmSelectCourseStudy.aspx</DependentUpon>
+    <Compile Include="frmSelectCourseCheckStudent.aspx.vb">
+      <DependentUpon>frmSelectCourseCheckStudent.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="frmSelectDepartment.aspx.designer.vb">

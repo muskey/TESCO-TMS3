@@ -46,6 +46,15 @@
                                   window.location = url;
                                   //return false;
                               }
+                          },
+                          {
+                              text: "ลงเบียนเรียนเป็นกลุ่ม",
+                              "class": 'saveButtonClass',
+                              click: function () {
+                                  CreateTransLog('<%=UserData.LoginHistoryID %>', 'คลิกปุ่มเริ่มเรียนเป็นกลุ่ม Course ' + name);
+                                  var url = "frmSelectCourseCheckStudent.aspx?user_course_id=" + id + "&title=" + name;
+                                  window.location = url;
+                              }
                           }
                     ],
                     modal: true
