@@ -23,13 +23,22 @@ Partial Public Class frmSelectCourseCheckStudent
     Protected WithEvents btnClose As Global.System.Web.UI.WebControls.LinkButton
     
     '''<summary>
-    '''lblHeader control.
+    '''lblCourseID control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblHeader As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblCourseID As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lblCourseName control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCourseName As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
     '''txtCheckUser control.
@@ -48,6 +57,15 @@ Partial Public Class frmSelectCourseCheckStudent
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnAddUser As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''rptUserList control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rptUserList As Global.System.Web.UI.WebControls.Repeater
     
     '''<summary>
     '''btnStart control.

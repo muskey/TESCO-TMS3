@@ -212,7 +212,7 @@ Public Class ConvertCourseENG
     End Function
 
 #Region "Update User Course History"
-    Private Shared Function UpdateUserCourseHistory(UserID As Long, UserName As String, CourseID As Long, CourseTitle As String, CourseDesc As String, UserCourseID As Long, trans As TransactionDB) As ExecuteDataInfo
+    Public Shared Function UpdateUserCourseHistory(UserID As Long, UserName As String, CourseID As Long, CourseTitle As String, CourseDesc As String, UserCourseID As Long, trans As TransactionDB) As ExecuteDataInfo
         Dim ret As New ExecuteDataInfo
         Try
             Dim lnq As New TbUserCourseHisLinqDB

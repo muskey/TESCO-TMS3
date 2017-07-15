@@ -16,13 +16,14 @@
                                         <span class="close">&times;</span>
                                     </asp:LinkButton>
 									<h5 style="float:none;">
-										<asp:Label ID="lblHeader" runat="server" ForeColor="White" Font-Size="XX-Large" Text="สำหรับแผนกเบเกอรี่ part1" ></asp:Label>
+                                        <asp:Label ID="lblCourseID" runat="server" Visible="false"></asp:Label>
+										<asp:Label ID="lblCourseName" runat="server" ForeColor="White" Font-Size="XX-Large" Text="สำหรับแผนกเบเกอรี่ part1" ></asp:Label>
 									</h5>
                                     <div class="row">
                                         <div class="span1"></div>
-                                        <div class="span4 text-center"><span style="color:white"> เพิ่มผู้เรียน ใส่รหัสพนักงาน</span></div>
+                                        <div class="span4 text-center"><span style="color:white">เพิ่มผู้เรียน ใส่รหัสพนักงาน</span></div>
                                         <div class="span6">
-                                            <asp:TextBox id="txtCheckUser" runat="server" ></asp:TextBox>
+                                            <asp:TextBox id="txtCheckUser" runat="server" style="width:95%;" ></asp:TextBox>
                                         </div>
                                         <div class="span1">
                                             <asp:Button ID="btnAddUser" runat="server" style="display:none" />
@@ -45,26 +46,24 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td style="text-align:center">Trident</td>
-                                                        <td>Internet
-												    Explorer 4.0
-                                                        </td>
-                                                        <td ></td>
-                                                        
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="text-align:center">Presto</td>
-                                                        <td>Nokia N800</td>
-                                                        <td ></td>
-                                                        
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="text-align:center">Misc</td>
-                                                        <td>NetFront 3.4</td>
-                                                        <td ></td>
-                                                        
-                                                    </tr>
+                                                    <asp:Repeater ID="rptUserList" runat="server">
+                                                        <ItemTemplate>
+                                                            <tr>
+                                                                <td style="text-align:center">
+                                                                    <asp:Label ID="lblUserCode" runat="server"></asp:Label>
+                                                                    <asp:Label ID="lblUserID" runat="server" Text="0" Visible="false"></asp:Label>
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Label ID="lblUserFullname" runat="server"></asp:Label>
+                                                                </td>
+                                                                <td style="text-align:center">
+                                                                    <asp:LinkButton ID="btnDelete" runat="server" CommandName="DELETE">
+                                                                        <img src="Assets/img/delete-icon.png" width="32" />
+                                                                    </asp:LinkButton>
+                                                                </td>
+                                                            </tr>
+                                                        </ItemTemplate>
+                                                    </asp:Repeater>
                                                 </tbody>
                                             </table>
                                         </div>

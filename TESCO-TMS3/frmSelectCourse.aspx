@@ -41,6 +41,8 @@
                               click: function () {
                                   $("#dialog").dialog("close");
 
+                                  onCreateUserClass(id, UserSessionID);
+
                                   CreateTransLog('<%=UserData.LoginHistoryID %>', 'เริ่มเรียน Course ' + name);
                                   var url = "frmDisplayCenter.aspx?id=" + id + '&title=' + name;
                                   window.location = url;
@@ -111,6 +113,27 @@
             });
 
         }
+
+        function onCreateUserClass(id, UserSessionID) {
+            var param = "{'id':" + JSON.stringify(id) + ",'UserSessionID':" + JSON.stringify(UserSessionID) + "}";
+            $.ajax({
+                type: "POST",
+                url: "WebService/WebService.asmx/CreateUserClass",
+                data: param,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    var strvalue = data.d;
+                    if (strvalue == 'True') {
+                        return false;
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+
         function goBack() {
             window.location.href = document.referrer;
             return false;

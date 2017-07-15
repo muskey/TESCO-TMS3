@@ -280,59 +280,62 @@ Module TescoModule
     End Function
 #End Region
 
-    'Public Function CreateClass(token As String, stdID As String, ClientID As String, CourseID As String, UserID As String) As Long
-    '    Dim ret As Long = 0
-    '    Try
-    '        Dim info As String = ""
-    '        info = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", token & "&client_id=" & ClientID & "&course_id=" & CourseID & "&user_id=" & UserID & "&student_id_list=" & stdID)
+#Region "User and Class"
 
-    '        Dim json As String = info
-    '        Dim ser As JObject = JObject.Parse(json)
-    '        Dim data As List(Of JToken) = ser.Children().ToList
+    Public Function CreateClass(token As String, stdID As String, CourseID As String, UserID As String) As Long
+        Dim ret As Long = 0
+        Try
+            Dim info As String = ""
+            info = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", token & "&course_id=" & CourseID & "&user_id=" & UserID & "&student_id_list=" & stdID)
 
-    '        If data.Count = 3 Then
-    '            If DirectCast(data(0), JProperty).Value.ToString.ToLower = "true" Then
-    '                ret = DirectCast(data(2), JProperty).Value
-    '            End If
-    '        End If
-    '    Catch ex As Exception
-    '        ret = 0
-    '    End Try
-    'End Function
+            Dim json As String = info
+            Dim ser As JObject = JObject.Parse(json)
+            Dim data As List(Of JToken) = ser.Children().ToList
 
-    'Public Function AddUser(ByVal Token As String, ByVal UserID As String, CourseID As String) As String()
-    '    Dim ret(3) As String
-    '    Dim info As String = ""
-    '    info = GetStringDataFromURL(GetWebServiceURL() & "api/user/get", Token & "&user_company_id=" & UserID & "&course_id=" & CourseID)
-    '    If info.Trim <> "" Then
-    '        Dim json As String = info
-    '        Dim ser As JObject = JObject.Parse(json)
-    '        Dim data As List(Of JToken) = ser.Children().ToList
-    '        Dim output As String = ""
+            If data.Count = 3 Then
+                If DirectCast(data(0), JProperty).Value.ToString.ToLower = "true" Then
+                    ret = DirectCast(data(2), JProperty).Value
+                End If
+            End If
+        Catch ex As Exception
+            ret = 0
+        End Try
+        Return ret
+    End Function
 
-    '        For Each item As JProperty In data
-    '            item.CreateReader()
-    '            Select Case item.Name
-    '                Case "user"
-    '                    For Each comment As JProperty In item.Values
-    '                        Select Case comment.Name
-    '                            Case "id"
-    '                                ret(0) = comment.Value.ToString
-    '                            Case "firstname"
-    '                                ret(1) = comment.Value.ToString
-    '                            Case "lastname"
-    '                                ret(2) = comment.Value.ToString
-    '                            Case "company_id"
-    '                                ret(3) = comment.Value.ToString
-    '                        End Select
-    '                    Next
+    Public Function GetStudentUser(ByVal Token As String, ByVal UserID As String, CourseID As String) As String()
+        Dim ret(3) As String
+        Dim info As String = ""
+        info = GetStringDataFromURL(GetWebServiceURL() & "api/user/get", Token & "&user_company_id=" & UserID & "&course_id=" & CourseID)
+        If info.Trim <> "" Then
+            Dim json As String = info
+            Dim ser As JObject = JObject.Parse(json)
+            Dim data As List(Of JToken) = ser.Children().ToList
+            Dim output As String = ""
 
-    '            End Select
-    '        Next
-    '    End If
-    '    Return ret
-    'End Function
+            For Each item As JProperty In data
+                item.CreateReader()
+                Select Case item.Name
+                    Case "user"
+                        For Each comment As JProperty In item.Values
+                            Select Case comment.Name
+                                Case "id"
+                                    ret(0) = comment.Value.ToString
+                                Case "firstname"
+                                    ret(1) = comment.Value.ToString
+                                Case "lastname"
+                                    ret(2) = comment.Value.ToString
+                                Case "company_id"  'company_id คือ รหัสพนักงาน
+                                    ret(3) = comment.Value.ToString
+                            End Select
+                        Next
 
+                End Select
+            Next
+        End If
+        Return ret
+    End Function
+#End Region
 #Region "Set validate Textbox Property"
     Public Sub SetTextIntKeypress(txt As TextBox)
         txt.Attributes.Add("OnKeyPress", "ChkMinusInt(this,event);")

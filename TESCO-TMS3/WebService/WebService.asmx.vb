@@ -170,9 +170,6 @@ Public Class WebService
 
                 If ret.IsSuccess = True Then
                     trans.CommitTransaction()
-
-                    CreateUserClass(UserSessionID, UserData.UserName, UserData.UserID, CourseID, UserData.Token)
-
                     Return "True"
                 Else
                     trans.RollbackTransaction()
@@ -186,37 +183,52 @@ Public Class WebService
 
 
 #Region "Create Class"
-    Private Sub CreateUserClass(UserSessionID As Long, UserName As String, ByVal UserID As String, CourseID As String, Token As String)
+    <WebMethod()>
+    Public Function CreateUserClass(id As String, UserSessionID As String) As String
 
-        Try
-            Dim info As String = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", Token & "&course_id=" & CourseID & "&user_id=" & UserID & "&student_id_list=" & UserID)
-            Dim json As String = info
-            Dim ser As JObject = JObject.Parse(json)
-            Dim data As List(Of JToken) = ser.Children().ToList
+        Dim sql As String = " select  course_id from TB_USER_COURSE where id=@_ID"
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_ID", id)
 
-            If data.Count = 3 Then
-                If DirectCast(data(0), JProperty).Value.ToString.ToLower = "true" Then
-                    'ret = DirectCast(data(2), JProperty).Value
+        Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
+        If dt.Rows.Count > 0 Then
+            Dim CourseID As Long = dt.Rows(0)("course_id")
 
-                    Dim lnq As New LinqDB.TABLE.TbUserSessionLinqDB
-                    lnq.GetDataByPK(UserSessionID, Nothing)
-                    If lnq.ID > 0 Then
-                        lnq.CURRENT_CLASS_ID = Convert.ToInt64(DirectCast(data(2), JProperty).Value)
+            Dim UserData As New UserProfileData
+            UserData.GetUserSessionData(UserSessionID)
 
-                        Dim trans As New LinqDB.ConnectDB.TransactionDB
-                        If lnq.UpdateData(UserName, trans.Trans).IsSuccess = True Then
-                            trans.CommitTransaction()
-                        Else
-                            trans.RollbackTransaction()
+            Try
+                Dim info As String = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", UserData.Token & "&course_id=" & CourseID & "&user_id=" & UserData.UserID & "&student_id_list=" & UserData.UserID)
+                Dim json As String = info
+                Dim ser As JObject = JObject.Parse(json)
+                Dim data As List(Of JToken) = ser.Children().ToList
+
+                If data.Count = 3 Then
+                    If DirectCast(data(0), JProperty).Value.ToString.ToLower = "true" Then
+                        'ret = DirectCast(data(2), JProperty).Value
+
+                        Dim lnq As New LinqDB.TABLE.TbUserSessionLinqDB
+                        lnq.GetDataByPK(UserSessionID, Nothing)
+                        If lnq.ID > 0 Then
+                            lnq.CURRENT_CLASS_ID = Convert.ToInt64(DirectCast(data(2), JProperty).Value)
+
+                            Dim trans As New TransactionDB
+                            If lnq.UpdateData(UserData.UserName, trans.Trans).IsSuccess = True Then
+                                trans.CommitTransaction()
+                                Return "True"
+                            Else
+                                trans.RollbackTransaction()
+                                Return "False|" & lnq.ErrorMessage
+                            End If
                         End If
+                        lnq = Nothing
                     End If
-                    lnq = Nothing
                 End If
-            End If
-        Catch ex As Exception
-
-        End Try
-    End Sub
+            Catch ex As Exception
+                Return "False|Exception " & ex.Message
+            End Try
+        End If
+    End Function
 
 #End Region
 

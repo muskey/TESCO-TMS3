@@ -421,6 +421,11 @@ Public Class frmLogin
                 ret = lnq.InsertData(Username, trans.Trans)
                 If ret.IsSuccess = False Then
                     Exit For
+                Else
+                    ret = Engine.ConvertCourseENG.UpdateUserCourseHistory(UserID, Username, lnq.COURSE_ID, lnq.COURSE_TITLE, lnq.COURSE_DESC, lnq.ID, trans)
+                    If ret.IsSuccess = False Then
+                        Exit For
+                    End If
                 End If
             Catch ex As Exception
                 ret.IsSuccess = False
