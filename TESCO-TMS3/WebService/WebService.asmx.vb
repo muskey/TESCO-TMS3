@@ -169,8 +169,30 @@ Public Class WebService
                 Next
 
                 If ret.IsSuccess = True Then
-                    trans.CommitTransaction()
-                    Return "True"
+                    Dim cLnq As New LinqDB.TABLE.TbUserCourseLinqDB
+                    cLnq.GetDataByPK(id, trans.Trans)
+                    If cLnq.ID > 0 Then
+                        cLnq.BIND_DOCUMENT = "Y"
+
+                        ret = cLnq.UpdateData(UserData.UserName, trans.Trans)
+                        If ret.IsSuccess = True Then
+                            ret = UpdateUserCourseHistory(cLnq.USER_ID, UserData.UserName, cLnq.COURSE_ID, cLnq.COURSE_TITLE, cLnq.COURSE_DESC, cLnq.ID, trans)
+
+                            If ret.IsSuccess = True Then
+                                trans.CommitTransaction()
+                                Return "True"
+                            Else
+                                trans.RollbackTransaction()
+                                Return "False"
+                            End If
+                        Else
+                            trans.RollbackTransaction()
+                            Return "False"
+                        End If
+                    Else
+                        trans.RollbackTransaction()
+                        Return "False"
+                    End If
                 Else
                     trans.RollbackTransaction()
                     Return "False"
@@ -181,6 +203,90 @@ Public Class WebService
         End Try
     End Function
 
+    Private Function UpdateUserCourseHistory(UserID As Long, UserName As String, CourseID As Long, CourseTitle As String, CourseDesc As String, UserCourseID As Long, trans As TransactionDB) As ExecuteDataInfo
+        Dim ret As New ExecuteDataInfo
+        Try
+            Dim lnq As New LinqDB.TABLE.TbUserCourseHisLinqDB
+            lnq.ChkDataByCOURSE_ID_USER_ID(CourseID, UserID, trans.Trans)
+
+            lnq.USER_ID = UserID
+            lnq.USERNAME = UserName
+            lnq.COURSE_ID = CourseID
+            lnq.COURSE_TITLE = CourseTitle
+            lnq.COURSE_DESC = CourseDesc
+
+            If lnq.ID > 0 Then
+                ret = lnq.UpdateData(UserName, trans.Trans)
+            Else
+                lnq.IS_FINISHED = "N"
+                ret = lnq.InsertData(UserName, trans.Trans)
+            End If
+
+            If ret.IsSuccess = True Then
+                Dim dLnq As New LinqDB.TABLE.TbUserCourseDocumentLinqDB
+                Dim p(1) As SqlParameter
+                p(0) = SqlDB.SetBigInt("@_USER_COURSE_ID", UserCourseID)
+                Dim dDt As DataTable = dLnq.GetDataList("tb_user_course_id=@_USER_COURSE_ID", "", trans.Trans, p)
+                If dDt.Rows.Count > 0 Then
+                    For Each dDr As DataRow In dDt.Rows
+                        Dim dhLnq As New LinqDB.TABLE.TbUserCourseDocHisLinqDB
+                        dhLnq.ChkDataByDOCUMENT_ID_USER_ID(dDr("document_id"), UserID, trans.Trans)
+
+                        If dhLnq.ID = 0 Then
+                            dhLnq.TB_USER_COURSE_HIS_ID = lnq.ID
+                            dhLnq.USER_ID = UserID
+                            dhLnq.USERNAME = UserName
+                            dhLnq.DOCUMENT_ID = dDr("document_id")
+                            dhLnq.DOCUMENT_TITLE = dDr("document_title")
+
+                            ret = dhLnq.InsertData(UserName, trans.Trans)
+                            If ret.IsSuccess = False Then
+                                Exit For
+                            End If
+                        End If
+
+                        Dim fLnq As New LinqDB.TABLE.TbUserCourseDocumentFileLinqDB
+                        ReDim p(1)
+                        p(0) = SqlDB.SetBigInt("@_USER_COURSE_DOCUMENT_ID", dDr("id"))
+                        Dim fDt As DataTable = fLnq.GetDataList("tb_user_course_document_id=@_USER_COURSE_DOCUMENT_ID", "", trans.Trans, p)
+                        If fDt.Rows.Count > 0 Then
+                            For Each fDr As DataRow In fDt.Rows
+                                Dim fhLnq As New LinqDB.TABLE.TbUserCourseDocFileHisLinqDB
+                                fhLnq.ChkDataByDOCUMENT_FILE_ID_USER_ID(fDr("document_file_id"), UserID, trans.Trans)
+                                If fhLnq.ID = 0 Then
+                                    fhLnq.TB_USER_COURSE_DOC_HIS_ID = dhLnq.ID
+                                    fhLnq.USER_ID = UserID
+                                    fhLnq.USERNAME = UserName
+                                    fhLnq.DOCUMENT_FILE_ID = fDr("document_file_id")
+                                    fhLnq.FILE_TITLE = fDr("file_title")
+                                    fhLnq.FILE_URL = fDr("file_url")
+                                    fhLnq.IS_STUDY = "N"
+
+                                    ret = fhLnq.InsertData(UserName, trans.Trans)
+                                    If ret.IsSuccess = False Then
+                                        Exit For
+                                    End If
+                                End If
+                                fhLnq = Nothing
+                            Next
+
+                            If ret.IsSuccess = False Then
+                                Exit For
+                            End If
+                        End If
+                        fDt.Dispose()
+                        dhLnq = Nothing
+                    Next
+                End If
+                dDt.Dispose()
+            End If
+
+        Catch ex As Exception
+            ret.IsSuccess = False
+            ret.ErrorMessage = "Exception " & ex.Message & vbNewLine & ex.StackTrace
+        End Try
+        Return ret
+    End Function
 
 #Region "Create Class"
     <WebMethod()>
