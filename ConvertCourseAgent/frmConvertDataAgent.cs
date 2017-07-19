@@ -16,7 +16,15 @@ namespace ConvertCourseWindowsService
         {
             timerConvertPDF.Enabled = false;
             LogFileENG.CreateHartbeat("tmConvertPDF");
+            ConvertPDFFileENG.lblProgressStatus = lblProgressStatus;
+            ConvertPDFFileENG.lblTime = lblTime;
+            ConvertPDFFileENG.pb = progressBar1;
+            ConvertPDFFileENG.NotiIcon = notifyIcon1;
             ConvertPDFFileENG.ConvertFilePDF();
+            
+            lblTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", new System.Globalization.CultureInfo("en-US"));
+            Application.DoEvents();
+
             timerConvertPDF.Enabled = true;
         }
 

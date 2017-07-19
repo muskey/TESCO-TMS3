@@ -8,11 +8,30 @@ using System.Data;
 using System.IO;
 using System.Net;
 using Engine;
+using System.Windows.Forms;
 
 namespace ConvertCourseWindowsService
 {
     public class ConvertPDFFileENG
     {
+        static Label _lblProgressStatus;
+        static Label _lblTime;
+        static ProgressBar _pb;
+        static NotifyIcon _NotifyIcon;
+
+        public static Label lblProgressStatus {
+            set { _lblProgressStatus = value; }
+        }
+        public static Label lblTime {
+            set { _lblTime = value; }
+        }
+        public static ProgressBar pb {
+            set { _pb = value; }
+        }
+        public static NotifyIcon NotiIcon {
+           set { _NotifyIcon = value; }
+        }
+
         #region "Convert File PDF"
         public static void ConvertFilePDF() {
             try { 
@@ -25,7 +44,11 @@ namespace ConvertCourseWindowsService
                 DataTable dt = lnq.GetDataList("is_convert='N'", "", null, null);
                 if (dt.Rows.Count > 0)
                 {
+                    _pb.Maximum = dt.Rows.Count;
+                    _pb.Value = 0;
+                    SetTextProgress("Start Convert " + dt.Rows.Count.ToString() + " File(s)");
                     LogFileENG.LogTrans("พบข้อมูล " + dt.Rows.Count.ToString() + " รายการ");
+
                     foreach (DataRow dr in dt.Rows)
                     {
                         if (Convert.IsDBNull(dr["file_url"]) == false)
@@ -39,15 +62,23 @@ namespace ConvertCourseWindowsService
                             LogFileENG.LogTrans("เริ่ม Download File " + OutputFile);
 
                             //Download PDF File Form Backend
+                            SetTextProgress("Download File " + dr["file_url"].ToString());
+                            Application.DoEvents();
+
                             if (DownloadFileFromURL(dr["file_url"].ToString(), OutputFile) == true)
                             {
-
+                                SetTextProgress("Download File " + dr["file_url"].ToString() + " Success");
+                                
                                 LogFileENG.LogTrans("เริ่ม Convert File " + OutputFile);
+                                SetTextProgress("Convert File " + OutputFile);
+                                
                                 PDFConvertor pdf = new PDFConvertor();
                                 DataTable fileDt = pdf.ConvertToDatatable(OutputFile, DocumentFolder, System.Drawing.Imaging.ImageFormat.Jpeg);
                                 if (fileDt.Rows.Count > 0)
                                 {
                                     LogFileENG.LogTrans("Convert File " + OutputFile + " สำเร็จ จำนวน " + fileDt.Rows.Count + " หน้า");
+                                    SetTextProgress("Convert File " + OutputFile + " Success " + fileDt.Rows.Count.ToString() + " Page(s)");
+                                    
                                     lnq = new TbUserCourseDocumentFileLinqDB();
                                     lnq.GetDataByPK(Convert.ToInt64(dr["id"]), null);
                                     lnq.PDF_PAGE = fileDt.Rows.Count;
@@ -58,7 +89,9 @@ namespace ConvertCourseWindowsService
                                     if (ret.IsSuccess == true)
                                     {
                                         trans.CommitTransaction();
+
                                         LogFileENG.LogTrans("Update IS_CONVERT ของไฟล์ " + OutputFile + " สำเร็จ");
+                                        SetTextProgress("Update IS_CONVERT ของไฟล์ " + OutputFile + " สำเร็จ");
                                     }
                                     else
                                     {
@@ -66,14 +99,27 @@ namespace ConvertCourseWindowsService
                                         LogFileENG.LogError("Update IS_CONVERT ของไฟล์ " + OutputFile + " ไม่สำเร็จ");
                                     }
                                 }
-                                else {
+                                else
+                                {
                                     LogFileENG.LogError("Convert File " + OutputFile + " ไม่สำเร็จ");
+                                    SetTextProgress("Convert File " + OutputFile + " Fail");
                                 }
                             }
+                            else {
+                                SetTextProgress("Download File " + dr["file_url"].ToString() + " Fail");
+                            }
                         }
+                        _pb.Value += 1;
+                        _lblTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", new System.Globalization.CultureInfo("en-US"));
+                        Application.DoEvents();
                     }
+
+                    _pb.Value = 0;
+                    _lblTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", new System.Globalization.CultureInfo("en-US"));
+                    SetTextProgress("Ready");
+                    _NotifyIcon.Text = "Convert Data Agent (Ready)";
+                    Application.DoEvents();
                 }
-                
                 dt.Dispose();
             }
             catch (Exception ex) {
@@ -81,32 +127,38 @@ namespace ConvertCourseWindowsService
             }
         }
 
+        private static void SetTextProgress(string ProgressStatus) {
+            _lblProgressStatus.Text = ProgressStatus;
+            _NotifyIcon.Text = "Processing " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", new System.Globalization.CultureInfo("en-US"));
+            _lblTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", new System.Globalization.CultureInfo("en-US"));
+            Application.DoEvents();
+        }
+
         private static bool DownloadFileFromURL(string URL, string OutputFile)
         {
             bool ret = false;
             try
             {
-                if (File.Exists(OutputFile) == true)
+                if (File.Exists(OutputFile) == false)
                 {
-                    File.SetAttributes(OutputFile, FileAttributes.Normal);
-                    File.Delete(OutputFile);
+                    //ถ้ายังไม่มีไฟล์นี้ค่อย Download
+                    WebClient client = new WebClient();
+                    client.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+                    byte[] b = client.DownloadData(URL);
+                    client.Dispose();
+
+                    FileStream fs = new FileStream(OutputFile, FileMode.Create);
+                    fs.Write(b, 0, b.Length);
+                    fs.Close();
                 }
-
-                WebClient client = new WebClient();
-                client.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-                byte[] b = client.DownloadData(URL);
-                client.Dispose();
-
-                FileStream fs = new FileStream(OutputFile, FileMode.Create);
-                fs.Write(b, 0, b.Length);
-                fs.Close();
 
                 if (File.Exists(OutputFile) == true)
                 {
                     ret = true;
                     LogFileENG.LogTrans("ดาวน์โหลดไพล์ " + URL + " สำเร็จ");
                 }
-                else {
+                else
+                {
                     LogFileENG.LogError("Error : ดาวน์โหลดไพล์ " + URL + " ไม่สำเร็จ");
                 }
             }
