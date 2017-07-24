@@ -47,40 +47,42 @@ Module TescoModule
 
 
     Function GetStringDataFromURL(p As Page, pt As Type, LoginHisID As Long, ByVal URL As String, ByVal Parameter As String) As String
+        Dim StartTime As DateTime = DateTime.Now
         Try
-            Dim StartTime As DateTime = DateTime.Now
+
             Dim ret As String = ""
             'If CheckInternetConnection(GetWebServiceURL() & "api/welcome") = True Then
             Dim request As WebRequest
-                request = WebRequest.Create(URL)
-                Dim response As WebResponse
-                Dim data As Byte() = Encoding.UTF8.GetBytes(Parameter)
+            request = WebRequest.Create(URL)
+            Dim response As WebResponse
+            Dim data As Byte() = Encoding.UTF8.GetBytes(Parameter)
 
-                request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials
-                request.Method = "POST"
-                request.ContentType = "application/x-www-form-urlencoded"
-                request.ContentLength = data.Length
+            request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials
+            request.Method = "POST"
+            request.ContentType = "application/x-www-form-urlencoded"
+            request.ContentLength = data.Length
 
-                Dim stream As Stream = request.GetRequestStream()
-                stream.Write(data, 0, data.Length)
-                stream.Close()
+            Dim stream As Stream = request.GetRequestStream()
+            stream.Write(data, 0, data.Length)
+            stream.Close()
 
-                response = request.GetResponse()
-                Dim sr As New StreamReader(response.GetResponseStream())
+            response = request.GetResponse()
+            Dim sr As New StreamReader(response.GetResponseStream())
 
-                If LoginHisID > 0 Then
-                    LogFileBL.LogTrans(LoginHisID, "Call API URL:" & URL & "  Parameter:" & Parameter & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
-                Else
-                    LogFileBL.LogTrans(Parameter, "Call API URL:" & URL & "  Parameter:" & Parameter & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
-                End If
+            If LoginHisID > 0 Then
+                LogFileBL.LogTrans(LoginHisID, "Call API URL:" & URL & "  Parameter:" & Parameter & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
+            Else
+                LogFileBL.LogTrans(Parameter, "Call API URL:" & URL & "  Parameter:" & Parameter & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
+            End If
 
-                Return sr.ReadToEnd()
+            Return sr.ReadToEnd()
             'Else
             '    ScriptManager.RegisterStartupScript(p, pt, Guid.NewGuid().ToString(), "alert('Unable to connect Back-End server " & vbCrLf & vbCrLf & "Please contract your support !!')", True)
             '    LogFileBL.LogError(LoginHisID, "Unable to connect Back-End server URL :" & URL)
             'End If
         Catch ex As Exception
             'MessageBox.Show(ex.Message & vbCrLf & ex.StackTrace, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            LogFileBL.LogTrans(LoginHisID, "Call API FAIL URL:" & URL & "  Parameter:" & Parameter & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds & vbNewLine & " Exception Message : " & ex.Message)
             ScriptManager.RegisterStartupScript(p, pt, Guid.NewGuid().ToString(), "alert('Unable to connect Back-End server " & vbCrLf & vbCrLf & "Please contract your support !!')", True)
         End Try
         Return ""

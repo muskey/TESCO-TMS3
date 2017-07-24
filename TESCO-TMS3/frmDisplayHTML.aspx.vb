@@ -48,7 +48,7 @@ Public Class frmDisplayHTML
             If (dtUserDataCourseFile.Rows.Count > 0) Then
                 For i As Int32 = 0 To dtUserDataCourseFile.Rows.Count - 1
                     Dim dr As DataRow = dtUserDataCourseFile.Rows(i)
-                    str += " <p> <button class=""btn-block btn btn-larges"" id=" + dr("id").ToString + " onclick=""fselect('" + dr("id").ToString + "','" + dr("file_url").ToString + "','" + dr("rowindex").ToString + "');return false;"" >" + dr("file_title").ToString + "</button></p>"
+                    str += " <p> <button class=""btn-block btn btn-larges"" id=" + dr("id").ToString + " onclick=""fselect('" + dr("id").ToString + "','" + dr("file_url").ToString + "','" + dr("rowindex").ToString + "');return false;"" >" + dr("document_title").ToString + "</button></p>"
                 Next
 
             End If

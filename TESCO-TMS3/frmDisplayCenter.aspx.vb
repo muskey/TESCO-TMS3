@@ -53,6 +53,7 @@ Public Class frmDisplayCenter
         UserCourseFile.Columns.Add("tb_user_course_document_id")
         UserCourseFile.Columns.Add("file_title")
         UserCourseFile.Columns.Add("file_url")
+        UserCourseFile.Columns.Add("document_title")
         UserCourseFile.Columns.Add("order_by")
         UserCourseFile.Columns.Add("user_id")
         UserCourseFile.Columns.Add("rowindex")
@@ -77,7 +78,11 @@ Public Class frmDisplayCenter
             UserCourse.Rows.Add(drcourse)
         Next
 
-        Sql = "select ROW_NUMBER() OVER(ORDER BY tb_user_course_document_id,  order_by ASC) AS rowindex, id,tb_user_course_document_id,file_title,file_url,order_by,user_id from TB_USER_COURSE_DOCUMENT_FILE where tb_user_course_document_id in (select id from TB_USER_COURSE_DOCUMENT where tb_user_course_id=@_COURSE_ID)  and file_title  not like '%.swf%' order by tb_user_course_document_id,  order_by"
+        Sql = "select ROW_NUMBER() OVER(ORDER BY df.tb_user_course_document_id,  df.order_by ASC) AS rowindex, df.id, df.tb_user_course_document_id, df.file_title, df.file_url, d.document_title, df.order_by, df.user_id "
+        Sql += " from TB_USER_COURSE_DOCUMENT_FILE df "
+        Sql += " inner join TB_USER_COURSE_DOCUMENT d on d.id=df.tb_user_course_document_id"
+        Sql += " where df.tb_user_course_document_id in (select id from TB_USER_COURSE_DOCUMENT where tb_user_course_id=@_COURSE_ID)  And df.file_title  Not Like '%.swf%' "
+        Sql += " order by df.tb_user_course_document_id,  df.order_by"
         ReDim p(1)
         p(0) = SqlDB.SetBigInt("@_COURSE_ID", id)
         Dim inext As Integer = 1
@@ -88,6 +93,7 @@ Public Class frmDisplayCenter
             drfile("tb_user_course_document_id") = item("tb_user_course_document_id").ToString
             drfile("file_title") = item("file_title").ToString
             drfile("file_url") = item("file_url").ToString
+            drfile("document_title") = item("document_title").ToString
             drfile("order_by") = item("order_by").ToString
             drfile("user_id") = item("user_id").ToString
             drfile("rowindex") = item("rowindex").ToString
