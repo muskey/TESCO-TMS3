@@ -10,7 +10,7 @@ Public Class frmLogin
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
-            txtUsername.Attributes.Add("onBlur", "return GetLoginStatus(event,'" & txtUsername.ClientID & "')")
+            'txtUsername.Attributes.Add("onBlur", "return GetLoginStatus(event,'" & txtUsername.ClientID & "')")
             btnLogin.Attributes.Add("onClick", "return setTextPassword();")
             btnOTPLogin.Attributes.Add("onClick", "return setTextOTPPassword();")
         End If
@@ -22,8 +22,19 @@ Public Class frmLogin
 
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
         chkShowPassword.Checked = False
-        If Login(txtUsername.Text, txtPassword.Text) = True Then
-            Session("Username") = txtUsername.Text
+        Dim UserName As String = txtUsername.Text
+        Dim chrInt As Integer = Asc(UserName.Substring(0, 1))
+        'Dim chrInt As Integer = Asc(startChr)
+        If chrInt >= 48 And chrInt <= 57 Then
+            If UserName.Length < 8 Then
+                UserName = "764" & UserName.PadLeft(8, "0")
+            Else
+                UserName = "764" & UserName
+            End If
+        End If
+
+        If Login(UserName, txtPassword.Text) = True Then
+            Session("Username") = UserName
             Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
         End If
     End Sub
@@ -961,7 +972,17 @@ Public Class frmLogin
                 Next
 
                 If ret = "true" Then
-                    If Login(txtUsername.Text, txtOTPPassword.Text) = True Then
+                    Dim UserName As String = txtUsername.Text
+                    Dim chrInt As Integer = Asc(UserName.Substring(0, 1))
+                    If chrInt >= 48 And chrInt <= 57 Then
+                        If UserName.Length < 8 Then
+                            UserName = "764" & UserName.PadLeft(8, "0")
+                        Else
+                            UserName = "764" & UserName
+                        End If
+                    End If
+
+                    If Login(UserName, txtOTPPassword.Text) = True Then
                         Session("Username") = txtUsername.Text
                         Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
                     End If

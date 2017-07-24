@@ -254,6 +254,8 @@
             if (chrInt >= 48 && chrInt <= 57) {
                 if (UserName.length < 8) {
                     UserName = "764" + zeroFill(UserName, 8);
+                } else {
+                    UserName = "764" + UserName;
                 }
             }
 
