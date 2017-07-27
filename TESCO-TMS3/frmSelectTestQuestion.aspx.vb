@@ -26,6 +26,10 @@ Public Class frmSelectTestQuestion
 
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("UserData") Is Nothing Then
+            Response.Redirect("frmLogin.aspx")
+        End If
+
         If Not Page.IsPostBack Then
             Dim dt As DataTable = GetTesting(UserData.UserSessionID)
             dt.DefaultView.RowFilter = "id=" & test_id

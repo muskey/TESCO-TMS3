@@ -211,7 +211,7 @@
             <div class="span12">
                 <div class="fullscreen-bg">
                 </div>
-                <video class="fullscreen-bg__video" runat="server" id="myVideo" style="padding-top: 40px; padding-bottom: 80px" controls="controls" autoplay>
+                <video class="fullscreen-bg__video" runat="server" id="myVideo" style="padding-top: 40px; padding-bottom: 80px" controls="controls" controlsList="nodownload" autoplay>
                     <source src="" type="video/mp4"></video>
 
             </div>

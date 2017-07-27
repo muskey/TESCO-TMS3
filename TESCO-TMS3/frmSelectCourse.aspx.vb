@@ -32,6 +32,10 @@ Public Class frmSelectCourse
 
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("UserData") Is Nothing Then
+            Response.Redirect("frmLogin.aspx")
+        End If
+
         If Not Page.IsPostBack Then
             Me.lblTitle.Text = "<h3>&nbsp>&nbsp"
             lblTitle.Text += " <a onClick=""return CreateTransLog('" & UserData.LoginHistoryID & "','กลับหน้าจอเลือก Format')"" href=""frmSelectFormat.aspx""><font color=""#019b79"">" + Session("backpathname1") + "&nbsp>&nbsp</font></a>"

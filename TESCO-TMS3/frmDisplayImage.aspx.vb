@@ -19,6 +19,10 @@ Public Class frmDisplayImage
 
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("UserData") Is Nothing Then
+            Response.Redirect("frmLogin.aspx")
+        End If
+
         If Not Page.IsPostBack Then
             Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
             UpdateLog(Me, Me.GetType, UserData.LoginHistoryID, id, UserData.CurrentClassID, UserData.Token, DirectCast(Session("UserDataCourseFile"), DataTable), UserData.UserName)
@@ -137,7 +141,15 @@ Public Class frmDisplayImage
 
     Private Sub btnHome_Click(sender As Object, e As EventArgs) Handles btnHome.Click
         LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกปุ่ม Home")
-        Response.Redirect("frmSelectFormat.aspx")
+        'id = file id
+
+        '?id=" + id + '&title=' + name + "&color=" + color
+        Dim dt As DataTable = GetCourseInfoByFileID(id)
+        If dt.Rows.Count > 0 Then
+            Response.Redirect("frmSelectCourse.aspx?id=" & dt.Rows(0)("department_id") & "&title=" & dt.Rows(0)("department_title") & "&color=" & dt.Rows(0)("function_cover_color").ToString.Replace("#", ""))
+        Else
+            Response.Redirect("frmSelectFormat.aspx")
+        End If
     End Sub
 
 

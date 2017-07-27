@@ -21,6 +21,10 @@ Public Class frmSelectCourseCheckStudent
     End Property
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("UserData") Is Nothing Then
+            Response.Redirect("frmLogin.aspx")
+        End If
+
         If IsPostBack = False Then
             ''''ScriptManager.RegisterStartupScript(Me, Me.GetType, Guid.NewGuid().ToString(), "ShowPopup('" & UserCourseID & "')", True)
 

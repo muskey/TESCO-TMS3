@@ -21,6 +21,10 @@ Public Class frmSelectQuestionTest
     End Property
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("UserData") Is Nothing Then
+            Response.Redirect("frmLogin.aspx")
+        End If
+
         If Not Page.IsPostBack Then
             Dim lnq As TbTestingLinqDB = GetTestingData(test_id)
             If lnq.ID > 0 Then

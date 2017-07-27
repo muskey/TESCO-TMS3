@@ -156,13 +156,28 @@ Module TescoModule
         Return ret
     End Function
 
+    Public Function GetCourseInfoByFileID(FileID As Long) As DataTable
+        Dim sql As String = " select f.function_cover_color, d.id department_id, d.department_title "
+        sql += " from TB_USER_COURSE_DOCUMENT_File cdf "
+        sql += " inner join TB_USER_COURSE_DOCUMENT cd on cd.id=cdf.tb_user_course_document_id "
+        sql += " inner join TB_USER_COURSE c On c.id=cd.tb_user_course_id "
+        sql += " inner join TB_USER_DEPARTMENT d On d.id=c.tb_user_department_id "
+        sql += " inner join TB_USER_FUNCTION f On f.id=d.tb_user_function_id "
+        sql += " where cdf.id=@_ID"
+
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_ID", FileID)
+        Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
+        Return dt
+    End Function
+
 #Region "Log"
     Public Function CallAPIUpdateLog(p As Page, pt As Type, LoginHisID As Long, token As String, vAction As String, vModule As String, data As String) As Boolean
         'เมื่อเรียนจบหลักสูตรให้บันทึก Log
 
         Dim ret As Boolean = False
         Dim info As String = ""
-        info = GetStringDataFromURL(p, pt, LoginHisID, GetWebServiceURL() & "api/log", token & "&action=" & vAction & "&module=" & vModule & "&data=" & data)
+        info = GetStringDataFromURL(p, pt, LoginHisID, GetWebServiceURL() & "api/log", token & "&action=" & vAction & "&Module=" & vModule & "&data=" & data)
         If info.Trim <> "" Then
             Dim json As String = info
             Dim ser As JObject = JObject.Parse(json)
@@ -188,10 +203,10 @@ Module TescoModule
         Dim doc_id As String = "0"
         Dim course_id As String = "0"
         Dim Sql As String
-        Sql = " select cdf.id, cdf.document_file_id,cd.document_id, c.course_id "
+        Sql = " Select cdf.id, cdf.document_file_id,cd.document_id, c.course_id "
         Sql += " from TB_USER_COURSE_DOCUMENT_FILE cdf"
-        Sql += " inner join TB_USER_COURSE_DOCUMENT cd on cd.id=cdf.tb_user_course_document_id"
-        Sql += " inner join TB_USER_COURSE c on c.id=cd.tb_user_course_id"
+        Sql += " inner join TB_USER_COURSE_DOCUMENT cd On cd.id=cdf.tb_user_course_document_id"
+        Sql += " inner join TB_USER_COURSE c On c.id=cd.tb_user_course_id"
         Sql += " where cdf.id=@_ID"
         Dim p(1) As SqlParameter
         p(0) = SqlDB.SetBigInt("@_ID", id)

@@ -154,7 +154,7 @@
                     <ul class="dropdown-menu pull-right">
                         <li>
                             <asp:LinkButton  ID="btnCourse" runat="server">
-                                <span>บทเรียน</span>
+                                <span>หน้าหลัก</span>
                             </asp:LinkButton>
                         </li>
                         <li>
