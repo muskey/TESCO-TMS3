@@ -11,13 +11,12 @@ Public Class frmLogin
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
             'txtUsername.Attributes.Add("onBlur", "return GetLoginStatus(event,'" & txtUsername.ClientID & "')")
-            btnLogin.Attributes.Add("onClick", "return setTextPassword();")
+            txtUsername.Attributes.Add("onChange", "EnabledButton('" & btnLogin.ClientID & "');")
+            btnLogin.Attributes.Add("onClick", "return setTextPassword('" & btnLogin.ClientID & "');")
             btnOTPLogin.Attributes.Add("onClick", "return setTextOTPPassword();")
-        End If
-    End Sub
 
-    Private Sub txtUsername_TextChanged(sender As Object, e As EventArgs) Handles txtUsername.TextChanged
-        'Call Backend เพื่อเช็คว่าเป็นการ Login ครั้งแรก หรือเช็คว่ามีเบอร์โทรหรือไม่มี
+            SetTextNonSpeCharKeypress(txtUsername)
+        End If
     End Sub
 
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
@@ -38,6 +37,9 @@ Public Class frmLogin
             Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
         End If
     End Sub
+
+
+
 
 
 #Region "Load Data Login"
@@ -993,6 +995,7 @@ Public Class frmLogin
             End If
         End If
     End Sub
+
 
     'Private Sub chkShowPassword_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowPassword.CheckedChanged
     '    If chkShowPassword.Checked = True Then

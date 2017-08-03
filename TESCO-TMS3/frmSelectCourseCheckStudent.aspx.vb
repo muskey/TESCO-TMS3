@@ -39,6 +39,10 @@ Public Class frmSelectCourseCheckStudent
             'Default ชื่อคนที่ Login เลย
             txtCheckUser.Text = UserData.UserName
             btnAddUser_Click(Nothing, Nothing)
+
+
+            txtCheckUser.Attributes.Add("OnKeyPress", "ChkNonKeySpecialChar(this,event); return clickCheckUser(event,'" & btnAddUser.ClientID & "')")
+            txtCheckUser.Attributes.Add("onpaste", "return false;")
         End If
     End Sub
 

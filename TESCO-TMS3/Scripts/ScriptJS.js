@@ -111,11 +111,50 @@ function checkTextAreaMaxLength(textBox, e, length) {
     }
 }
 
-function checkSpecialKeys(e) {
-    if (e.keyCode != 8 && e.keyCode != 46 && e.keyCode != 37 && e.keyCode != 38 && e.keyCode != 39 && e.keyCode != 40)
-        return false;
-    else
-        return true;
+function ChkNonKeySpecialChar(ctl, e) {
+    var zz = e.keyCode || e.charCode;
+    //alert(e.keyCode + 'AAA' + e.charCode + ' aaa ' + zz);
+    //return;
+
+    if (zz == 8 || zz == 9 || zz == 32)
+        return;
+
+    if ((zz >= 32 && zz <= 47) || (zz >= 58 && zz <= 64) || (zz >= 91 && zz <= 96) || (zz >= 123 && zz <= 126)) {
+        if (window.event) {//IE 
+            var ieVersion = parseFloat(navigator.appVersion);
+            if (ieVersion == 5)  //IE 9, 10 
+                e.preventDefault();
+            else if (ieVersion == 4)  //IE 7,8 
+                event.returnValue = false;
+        } else if (e) {//Firefox 
+            if (e.keyCode == 46) //e.keyCode = 46 = Del
+                return;
+
+            e.preventDefault();
+        }
+    }
+}
+
+function CheckCtrlV(e) {
+    //삯系⊥묀櫓〈쀼窪  ctrl 笑剋陌졔饑 V 
+    var evt = e ? e : window.event;
+    var keyCode = evt.keyCode || evt.charCode;
+
+    alert(e.keyCode + '$$$$' + keyCode + '####' + evt.charCode);
+
+    if (keyCode == 17) {
+        if (window.event) {//IE 
+            var ieVersion = parseFloat(navigator.appVersion);
+            //alert(ieVersion); 
+            if (ieVersion == 5)  //IE 9, 10 
+                e.preventDefault();
+            else if (ieVersion == 4)  //IE 7,8 
+                event.returnValue = false;
+        } else if (e) {//Firefox 
+            //alert("firefox");
+            e.preventDefault();
+        }
+    }
 }
 
 function AddComma(txtId) {

@@ -17,33 +17,6 @@
     <link rel="stylesheet" href="Assets/css/style.css">
     <!-- Color CSS -->
     <link rel="stylesheet" href="Assets/css/themes.css">
-
-
-    <!-- jQuery -->
-    <script src="Assets/js/jquery.min.js"></script>
-
-    <!-- Nice Scroll -->
-    <script src="Assets/js/plugins/nicescroll/jquery.nicescroll.min.js"></script>
-    <!-- Validation -->
-    <script src="Assets/js/plugins/validation/jquery.validate.min.js"></script>
-    <script src="Assets/js/plugins/validation/additional-methods.min.js"></script>
-    <!-- icheck -->
-    <script src="Assets/js/plugins/icheck/jquery.icheck.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="Assets/js/bootstrap.min.js"></script>
-    <script src="Assets/js/eakroko.js"></script>
-    <%--<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' />--%>
-
-    <!--[if lte IE 9]>
-		<script src="Assets/js/plugins/placeholder/jquery.placeholder.min.js"></script>
-		<script>
-			$(document).ready(function() {
-				$('input, textarea').placeholder();
-			});
-		</script>
-	<![endif]-->
-
-    <script src="Scripts/ScriptJS.js"></script>
     <style>
         .log-btn {
             background: #0AC986;
@@ -58,7 +31,13 @@
             -webkit-border-radius: 4px;
             border-radius: 4px;
         }
+
+        input[disabled] {
+            cursor: not-allowed;
+            background: #0AC986;
+        }
     </style>
+    <script src="Scripts/ScriptJS.js"></script>
 </head>
 
 <body class='login' style="background: #29363f;">
@@ -90,7 +69,7 @@
                     </div>
                     <div class="control-group">
                         <div class="form-group text-center">
-                            <asp:Button ID="btnLogin" runat="server" CssClass="log-btn" Style="width: 100%" Text="Login" />
+                            <asp:Button ID="btnLogin" runat="server" CssClass="log-btn"  Style="width: 100%" Text="Login"  />
                             <asp:TextBox ID="txtTempMobileNo" runat="server" style="display:none;"></asp:TextBox>
                         </div>
                     </div>
@@ -170,6 +149,12 @@
 
     <script>
 
+<%--        function ClickLoginButton(btnLogin) {
+            document.getElementById("<%=btnDisableLogin.ClientID%>").click();
+            btnLogin.setAttribute("disabled", "disabled");
+            return false;
+        }--%>
+
         $(function () {
             $("#chkShowPassword").bind("click", function () {
                 var txtPassword = $("[id*=txtPassword]");
@@ -205,7 +190,7 @@
         });
 
 
-        function setTextPassword() {
+        function setTextPassword(btn) {
             var txtPassword = $("[id*=txtPassword]");
             if ($("#chkShowPassword").is(":checked")) {
                 txtPassword.val(txtPassword.next().val());
@@ -243,6 +228,10 @@
                 return new Array(width + (/\./.test(number) ? 2 : 1)).join('0') + number;
             }
             return number + ""; // always return a string
+        }
+
+        function EnabledButton(btn) {
+            btn.setAttribute("disabled", "");
         }
 
         function GetLoginStatus(event, txtUserName) {

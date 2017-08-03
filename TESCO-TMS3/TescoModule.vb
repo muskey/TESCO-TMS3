@@ -365,6 +365,12 @@ Module TescoModule
     Public Sub SetTextAreaMaxLength(txt As TextBox, MaxLength As Int16)
         txt.Attributes.Add("onKeyDown", "checkTextAreaMaxLength(this,event,'" & MaxLength & "');")
     End Sub
+
+    Public Sub SetTextNonSpeCharKeypress(txt As TextBox)
+        txt.Attributes.Add("OnKeyPress", "ChkNonKeySpecialChar(this,event);")
+        'txt.Attributes.Add("onKeyDown", "CheckCtrlV(event);")
+        txt.Attributes.Add("onpaste", "return false;")
+    End Sub
 #End Region
 
 #Region "Testing"

@@ -49,7 +49,6 @@
         .footer {
             position: absolute;
             right: 0;
-            bottom: 0;
             left: 0;
             background-color: #2B4354;
             text-align: center;
@@ -154,17 +153,16 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 
     <div id="myContent" style="display: none;">
-
         <div style="width: 100%">
             <asp:Label ID="lblContent" runat="server" Text="sssssssssssssssssssss"></asp:Label>
         </div>
-
-
-
     </div>
-    <div id="myBody">
-        <iframe name="myIframe" id="myIframe" runat="server" style="height: 87vh; width: 100%" align="center" frameborder="0" allowfullscreen="true"></iframe>
-
+    <div id="myBody" style="width: 100%; overflow-y: scroll;overflow-x:hidden;">
+        <div class="row">
+            <div class="span12 text-center">
+                <iframe name="myIframe" id="myIframe" runat="server" style="height: 87vh; width: 100%" align="center" frameborder="0" allowfullscreen="true"></iframe>
+            </div>
+        </div>
     </div>
 
     <div class="footer">
