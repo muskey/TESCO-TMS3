@@ -2191,7 +2191,9 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <None Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="MasterPage.Master" />
     <Content Include="frmMain.aspx" />
     <Content Include="Assets\dist\.gitignore" />

@@ -37,6 +37,9 @@
             background: #0AC986;
         }
     </style>
+
+    <!-- jQuery -->
+    <script src="Assets/js/jquery.min.js"></script>
     <script src="Scripts/ScriptJS.js"></script>
 </head>
 
@@ -148,13 +151,6 @@
     </div>
 
     <script>
-
-<%--        function ClickLoginButton(btnLogin) {
-            document.getElementById("<%=btnDisableLogin.ClientID%>").click();
-            btnLogin.setAttribute("disabled", "disabled");
-            return false;
-        }--%>
-
         $(function () {
             $("#chkShowPassword").bind("click", function () {
                 var txtPassword = $("[id*=txtPassword]");
