@@ -10,7 +10,7 @@ Public Class frmLogin
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
-            'txtUsername.Attributes.Add("onBlur", "return GetLoginStatus(event,'" & txtUsername.ClientID & "')")
+            txtUsername.Attributes.Add("onBlur", "return GetLoginStatus(event,'" & txtUsername.ClientID & "')")
             txtUsername.Attributes.Add("onChange", "EnabledButton('" & btnLogin.ClientID & "');")
             btnLogin.Attributes.Add("onClick", "return setTextPassword('" & btnLogin.ClientID & "');")
             btnOTPLogin.Attributes.Add("onClick", "return setTextOTPPassword();")
