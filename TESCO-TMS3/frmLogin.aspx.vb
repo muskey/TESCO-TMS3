@@ -974,7 +974,7 @@ Public Class frmLogin
                 Next
 
                 If ret = "true" Then
-                    Dim UserName As String = txtUsername.Text
+                    Dim UserName As String = txtOTPUserLogin.Text
                     Dim chrInt As Integer = Asc(UserName.Substring(0, 1))
                     If chrInt >= 48 And chrInt <= 57 Then
                         If UserName.Length < 8 Then
