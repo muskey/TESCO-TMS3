@@ -49,6 +49,10 @@ Module TescoModule
     Function GetStringDataFromURL(p As Page, pt As Type, LoginHisID As Long, ByVal URL As String, ByVal Parameter As String) As String
         Dim StartTime As DateTime = DateTime.Now
         Try
+            System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                              Function(se As Object, cert As System.Security.Cryptography.X509Certificates.X509Certificate,
+                              chain As System.Security.Cryptography.X509Certificates.X509Chain,
+                              sslerror As System.Net.Security.SslPolicyErrors) True
 
             Dim ret As String = ""
             'If CheckInternetConnection(GetWebServiceURL() & "api/welcome") = True Then
@@ -90,26 +94,31 @@ Module TescoModule
 
     Function GetStringDataFromURL(ByVal URL As String, Optional ByVal Parameter As String = "") As String
         Try
+            System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                              Function(se As Object, cert As System.Security.Cryptography.X509Certificates.X509Certificate,
+                              chain As System.Security.Cryptography.X509Certificates.X509Chain,
+                              sslerror As System.Net.Security.SslPolicyErrors) True
+
             Dim ret As String = ""
             'If CheckInternetConnection(GetWebServiceURL() & "api/welcome") = True Then
             Dim request As WebRequest
-                request = WebRequest.Create(URL)
-                Dim response As WebResponse
-                Dim data As Byte() = Encoding.UTF8.GetBytes(Parameter)
+            request = WebRequest.Create(URL)
+            Dim response As WebResponse
+            Dim data As Byte() = Encoding.UTF8.GetBytes(Parameter)
 
-                request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials
-                request.Method = "POST"
-                request.ContentType = "application/x-www-form-urlencoded"
-                request.ContentLength = data.Length
+            request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials
+            request.Method = "POST"
+            request.ContentType = "application/x-www-form-urlencoded"
+            request.ContentLength = data.Length
 
-                Dim stream As Stream = request.GetRequestStream()
-                stream.Write(data, 0, data.Length)
-                stream.Close()
+            Dim stream As Stream = request.GetRequestStream()
+            stream.Write(data, 0, data.Length)
+            stream.Close()
 
-                response = request.GetResponse()
-                Dim sr As New StreamReader(response.GetResponseStream())
+            response = request.GetResponse()
+            Dim sr As New StreamReader(response.GetResponseStream())
 
-                Return sr.ReadToEnd()
+            Return sr.ReadToEnd()
             'Else
             '    'LogFileBL.LogError()
             'End If
@@ -121,6 +130,11 @@ Module TescoModule
 
     Function GetImageFromURL(ByVal URL As String) As Image
         Try
+            System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                              Function(se As Object, cert As System.Security.Cryptography.X509Certificates.X509Certificate,
+                              chain As System.Security.Cryptography.X509Certificates.X509Chain,
+                              sslerror As System.Net.Security.SslPolicyErrors) True
+
             Dim Client As WebClient = New WebClient
             Client.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials
             Dim Image As Bitmap = Bitmap.FromStream(New MemoryStream(Client.DownloadData(URL)))
@@ -133,6 +147,11 @@ Module TescoModule
     Function GetFileFromURL(ByVal URL As String, OutputFile As String) As Boolean
         Dim ret As Boolean = False
         Try
+            System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                              Function(se As Object, cert As System.Security.Cryptography.X509Certificates.X509Certificate,
+                              chain As System.Security.Cryptography.X509Certificates.X509Chain,
+                              sslerror As System.Net.Security.SslPolicyErrors) True
+
             If File.Exists(OutputFile) = True Then
                 File.SetAttributes(OutputFile, FileAttributes.Normal)
                 File.Delete(OutputFile)

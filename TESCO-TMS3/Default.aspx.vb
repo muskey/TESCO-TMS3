@@ -35,6 +35,8 @@ Public Class _Default
         If Login(UserName, txtPassword.Text) = True Then
             Session("Username") = UserName
             Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
+        Else
+            ScriptManager.RegisterStartupScript(Me, Me.GetType, Guid.NewGuid().ToString(), "alert('Invalid username or password')", True)
         End If
     End Sub
 
@@ -63,6 +65,7 @@ Public Class _Default
                 Dim IsTeacher As String = ""
                 Dim FormatData As JToken
                 Dim MessageData As JProperty
+                Dim LoginStatus As Boolean = True
 
                 Dim UserData = New UserProfileData
                 UserData.UserName = Username
@@ -70,6 +73,11 @@ Public Class _Default
                     item.CreateReader()
 
                     Select Case item.Name
+                        Case "status"
+                            If item.First.ToString.ToLower() = "false" Then
+                                ret = False
+                                Return False
+                            End If
                         Case "token"
                             UserData.TokenStr = item.First
                             UserData.Token = "token=" & UserData.TokenStr
@@ -304,10 +312,17 @@ Public Class _Default
             comment.CreateReader()
             Select Case comment.Name
                 Case "format"
+                    If comment.Values.Count = 1 Then
+                        For Each f As JObject In comment.Values
+                            If f("id").ToString = "1" Then
+                                ScriptManager.RegisterStartupScript(Me, Me.GetType, Guid.NewGuid().ToString(), "alert('ผู้ใช้งานยังไม่ถูกกำหนด Format')", True)
+                                LogFileBL.LogTrans(LoginHisID, "Login Fail : ผู้ใช้งานยังไม่ถูกกำหนด Format", trans)
+                                Return ret
+                            End If
+                        Next
+                    End If
                     For Each f As JObject In comment.Values
                         If f("id").ToString = "1" Then
-                            ScriptManager.RegisterStartupScript(Me, Me.GetType, Guid.NewGuid().ToString(), "alert('ผู้ใช้งานยังไม่ถูกกำหนด Format')", True)
-                            LogFileBL.LogTrans(LoginHisID, "Login Fail : ผู้ใช้งานยังไม่ถูกกำหนด Format")
                             Continue For   'ถ้าเป็น Format Notset ก็ไม่ต้องให้แสดง
                         End If
 
@@ -977,28 +992,27 @@ Public Class _Default
                     End Select
                 Next
 
+                Dim UserName As String = txtOTPUserLogin.Text
                 If ret = "true" Then
-                    Session("Username") = txtUsername.Text
-                    Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
+                    'Session("Username") = UserName
+                    'Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
 
+                    Dim chrInt As Integer = Asc(UserName.Substring(0, 1))
+                    If chrInt >= 48 And chrInt <= 57 Then
+                        If UserName.Length < 8 Then
+                            UserName = "764" & UserName.PadLeft(8, "0")
+                        Else
+                            UserName = "764" & UserName
+                        End If
+                    End If
 
-                    'Dim UserName As String = txtOTPUserLogin.Text
-                    'Dim chrInt As Integer = Asc(UserName.Substring(0, 1))
-                    'If chrInt >= 48 And chrInt <= 57 Then
-                    '    If UserName.Length < 8 Then
-                    '        UserName = "764" & UserName.PadLeft(8, "0")
-                    '    Else
-                    '        UserName = "764" & UserName
-                    '    End If
-                    'End If
-
-                    'If Login(UserName, txtOTPPassword.Text) = True Then
-                    '    Session("Username") = txtUsername.Text
-                    '    Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
-                    'End If
+                    If Login(UserName, txtOTPPassword.Text) = True Then
+                        Session("Username") = UserName
+                        Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
+                    End If
                 Else
                     ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "Alert", "alert('" & _Err & "');", True)
-                    LogFileBL.LogError(txtUsername.Text, info)
+                    LogFileBL.LogError(UserName, info)
                 End If
             End If
         End If

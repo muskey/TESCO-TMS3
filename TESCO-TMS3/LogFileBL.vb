@@ -60,6 +60,21 @@ Public Class LogFileBL
         lnq = Nothing
     End Sub
 
+    Public Shared Sub LogTrans(LoginHisID As Long, LogMsg As String, trans As TransactionDB)
+
+        Dim frame As StackFrame = New StackFrame(1, True)
+        Dim ClassName As String = frame.GetMethod.ReflectedType.Name
+        Dim FunctionName As String = frame.GetMethod.Name
+        Dim LineNo As Integer = frame.GetFileLineNumber
+
+        Dim lnq As New LinqDB.TABLE.TbLoginHistoryLinqDB
+        lnq.GetDataByPK(LoginHisID, trans.Trans)
+        If lnq.ID > 0 Then
+            CreateUserActivityLog(LoginHisID, lnq.USERNAME, ClassName, FunctionName, LineNo, LogMsg, AgentLogType.TransLog)
+        End If
+        lnq = Nothing
+    End Sub
+
     Public Shared Sub LogTrans(UserName As String, LogMsg As String)
 
         Dim frame As StackFrame = New StackFrame(1, True)
@@ -139,6 +154,31 @@ Public Class LogFileBL
                 trans.CommitTransaction()
             Else
                 trans.RollbackTransaction()
+                CreateTextErrorLog(ret.ErrorMessage & Environment.NewLine & "LoginHisID=" & LoginHisID & "&Username=" & UserName & "&ClassName=" & ClassName & "&FunctionName=" & FunctionName & "&LogType=" & LogType & Environment.NewLine & LogMsg)
+            End If
+        Catch ex As Exception
+            CreateTextErrorLog("Exception : " & ex.Message & " " & ex.StackTrace & Environment.NewLine & "LoginHisID=" & LoginHisID & "&Username=" & UserName & "&ClassName=" & ClassName & "&FunctionName=" & FunctionName & "&LogType=" & LogType & Environment.NewLine & LogMsg)
+        End Try
+    End Sub
+
+
+    Private Shared Sub CreateUserActivityLog(LoginHisID As Long, UserName As String, ClassName As String, FunctionName As String, LineNo As Int16, LogMsg As String, LogType As Int16, trans As TransactionDB)
+        ''### Current Class and Function name
+        'Dim m As MethodBase = MethodBase.GetCurrentMethod()
+        'Dim ThisClassName As String = m.ReflectedType.Name
+        'Dim ThisFunctionName As String = m.Name
+
+        Try
+            Dim lnq As New TbLogUserActivityLinqDB
+            lnq.LOGIN_HISOTRY_ID = LoginHisID
+            lnq.LOG_TYPE = LogType.ToString
+            lnq.LOG_MESSAGE = LogMsg
+            lnq.CLASS_NAME = ClassName
+            lnq.FUNCTION_NAME = FunctionName
+            lnq.LINE_NO = LineNo
+
+            Dim ret As ExecuteDataInfo = lnq.InsertData(UserName, trans.Trans)
+            If ret.IsSuccess = False Then
                 CreateTextErrorLog(ret.ErrorMessage & Environment.NewLine & "LoginHisID=" & LoginHisID & "&Username=" & UserName & "&ClassName=" & ClassName & "&FunctionName=" & FunctionName & "&LogType=" & LogType & Environment.NewLine & LogMsg)
             End If
         Catch ex As Exception

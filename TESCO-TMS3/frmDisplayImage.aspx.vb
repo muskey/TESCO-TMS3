@@ -20,7 +20,7 @@ Public Class frmDisplayImage
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Session("UserData") Is Nothing Then
-            Response.Redirect("frmLogin.aspx")
+            Response.Redirect("Default.aspx")
         End If
 
         If Not Page.IsPostBack Then

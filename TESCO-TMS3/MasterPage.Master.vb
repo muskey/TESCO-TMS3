@@ -15,7 +15,7 @@ Public Class MasterPage
         If Session("UserData") IsNot Nothing Then
             Me.lblUsername.Text = UserData.FullName & ""
         Else
-            Response.Redirect("frmLogin.aspx?rnd=" & DateTime.Now.Millisecond)
+            Response.Redirect("Default.aspx?rnd=" & DateTime.Now.Millisecond)
         End If
     End Sub
 
@@ -26,7 +26,7 @@ Public Class MasterPage
     Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
         LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกเมนู ออกจากระบบ")
         Session.Abandon()
-        Response.Redirect("frmLogin.aspx?rnd=" & DateTime.Now.Millisecond)
+        Response.Redirect("~/")
     End Sub
     Private Sub btnCourse_Click(sender As Object, e As EventArgs) Handles btnCourse.Click
         LogFileBL.LogTrans(UserData.LoginHistoryID, "คลิกเมนู บทเรียน")
