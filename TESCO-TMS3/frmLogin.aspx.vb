@@ -305,7 +305,11 @@ Public Class frmLogin
             Select Case comment.Name
                 Case "format"
                     For Each f As JObject In comment.Values
-                        If f("id").ToString = "1" Then Continue For   'ถ้าเป็น Format Notset ก็ไม่ต้องให้แสดง
+                        If f("id").ToString = "1" Then
+                            ScriptManager.RegisterStartupScript(Me, Me.GetType, Guid.NewGuid().ToString(), "alert('ผู้ใช้งานยังไม่ถูกกำหนด Format')", True)
+                            LogFileBL.LogTrans(LoginHisID, "Login Fail : ผู้ใช้งานยังไม่ถูกกำหนด Format")
+                            Continue For   'ถ้าเป็น Format Notset ก็ไม่ต้องให้แสดง
+                        End If
 
                         Dim lnq As New TbUserFormatLinqDB
                         lnq.TB_USER_SESSION_ID = UserSessionID
@@ -974,20 +978,24 @@ Public Class frmLogin
                 Next
 
                 If ret = "true" Then
-                    Dim UserName As String = txtOTPUserLogin.Text
-                    Dim chrInt As Integer = Asc(UserName.Substring(0, 1))
-                    If chrInt >= 48 And chrInt <= 57 Then
-                        If UserName.Length < 8 Then
-                            UserName = "764" & UserName.PadLeft(8, "0")
-                        Else
-                            UserName = "764" & UserName
-                        End If
-                    End If
+                    Session("Username") = txtUsername.Text
+                    Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
 
-                    If Login(UserName, txtOTPPassword.Text) = True Then
-                        Session("Username") = txtUsername.Text
-                        Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
-                    End If
+
+                    'Dim UserName As String = txtOTPUserLogin.Text
+                    'Dim chrInt As Integer = Asc(UserName.Substring(0, 1))
+                    'If chrInt >= 48 And chrInt <= 57 Then
+                    '    If UserName.Length < 8 Then
+                    '        UserName = "764" & UserName.PadLeft(8, "0")
+                    '    Else
+                    '        UserName = "764" & UserName
+                    '    End If
+                    'End If
+
+                    'If Login(UserName, txtOTPPassword.Text) = True Then
+                    '    Session("Username") = txtUsername.Text
+                    '    Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
+                    'End If
                 Else
                     ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "Alert", "alert('" & _Err & "');", True)
                     LogFileBL.LogError(txtUsername.Text, info)
