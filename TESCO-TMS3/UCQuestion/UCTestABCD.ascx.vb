@@ -69,14 +69,14 @@ Public Class UCTestABCD
 
                         Dim i As Integer = 0
                         For Each ans As String In tmpAnswer
-                            If ans.ToLower = "true" Then
-                                txtCorrectAnswer.Text = i
-                                txtCorrectChoice.Text = tmpChoice(i)
-                                i += 1
-                            End If
-                        Next
-                    End If
+                        If ans.ToLower = "true" Then
+                            txtCorrectAnswer.Text = i
+                            txtCorrectChoice.Text = tmpChoice(i)
+                        End If
+                        i += 1
+                    Next
                 End If
+            End If
         Catch ex As Exception
 
         End Try

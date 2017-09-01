@@ -717,28 +717,35 @@ Public Class _Default
 
                                                 i = 1
                                                 For Each dr As DataRow In dt.Rows
-                                                    Dim qLnq As New TbTestingQuestionLinqDB
-                                                    qLnq.TB_TESTING_ID = lnq.ID
-                                                    qLnq.TEST_ID = dr("test_id")
-                                                    qLnq.QUESTION_NO = i
-                                                    If Convert.IsDBNull(dr("question_title")) = False Then qLnq.QUESTION_TITLE = dr("question_title")
-                                                    If Convert.IsDBNull(dr("icon_url")) = False Then qLnq.ICON_URL = dr("icon_url")
-                                                    If Convert.IsDBNull(dr("weight")) = False Then qLnq.WEIGHT = Convert.ToInt32(dr("weight"))
-                                                    qLnq.QUESTION_TYPE = dr("question_type")
-                                                    qLnq.IS_RANDOM_ANSWER = dr("is_random_answer")
-                                                    If Convert.IsDBNull(dr("choice")) = False Then qLnq.CHOICE = dr("choice")
-                                                    If Convert.IsDBNull(dr("answer")) = False Then qLnq.ANSWER = dr("answer")
-                                                    If Convert.IsDBNull(dr("yesno_correct_answer")) = False Then qLnq.YESNO_CORRECT_ANSWER = dr("yesno_correct_answer")
-                                                    If Convert.IsDBNull(dr("matching_lefttext")) = False Then qLnq.MATCHING_LEFTTEXT = dr("matching_lefttext")
-                                                    If Convert.IsDBNull(dr("matching_righttext")) = False Then qLnq.MATCHING_RIGHTTEXT = dr("matching_righttext")
-                                                    If Convert.IsDBNull(dr("matching_correct_answer")) = False Then qLnq.MATCHING_CORRECT_ANSWER = dr("matching_correct_answer")
-                                                    If Convert.IsDBNull(dr("picture_text")) = False Then qLnq.PICTURE_TEXT = dr("picture_text")
-                                                    If Convert.IsDBNull(dr("picture_correct_answer")) = False Then qLnq.PICTURE_CORRECT_ANSWER = dr("picture_correct_answer")
+                                                    Try
+                                                        Dim qLnq As New TbTestingQuestionLinqDB
+                                                        qLnq.TB_TESTING_ID = lnq.ID
+                                                        qLnq.TEST_ID = dr("test_id")
+                                                        qLnq.QUESTION_NO = i
+                                                        If Convert.IsDBNull(dr("question_title")) = False Then qLnq.QUESTION_TITLE = dr("question_title")
+                                                        If Convert.IsDBNull(dr("icon_url")) = False Then qLnq.ICON_URL = dr("icon_url")
+                                                        If Convert.IsDBNull(dr("weight")) = False Then qLnq.WEIGHT = Convert.ToInt32(dr("weight"))
+                                                        qLnq.QUESTION_TYPE = dr("question_type")
+                                                        qLnq.IS_RANDOM_ANSWER = dr("is_random_answer")
+                                                        If Convert.IsDBNull(dr("choice")) = False Then qLnq.CHOICE = dr("choice")
+                                                        If Convert.IsDBNull(dr("answer")) = False Then qLnq.ANSWER = dr("answer")
+                                                        If Convert.IsDBNull(dr("yesno_correct_answer")) = False Then qLnq.YESNO_CORRECT_ANSWER = Convert.ToInt64(dr("yesno_correct_answer"))
+                                                        If Convert.IsDBNull(dr("matching_lefttext")) = False Then qLnq.MATCHING_LEFTTEXT = dr("matching_lefttext")
+                                                        If Convert.IsDBNull(dr("matching_righttext")) = False Then qLnq.MATCHING_RIGHTTEXT = dr("matching_righttext")
+                                                        If Convert.IsDBNull(dr("matching_correct_answer")) = False Then qLnq.MATCHING_CORRECT_ANSWER = dr("matching_correct_answer")
+                                                        If Convert.IsDBNull(dr("picture_text")) = False Then qLnq.PICTURE_TEXT = dr("picture_text")
+                                                        If Convert.IsDBNull(dr("picture_correct_answer")) = False Then qLnq.PICTURE_CORRECT_ANSWER = dr("picture_correct_answer")
 
-                                                    ret = qLnq.InsertData(UserData.UserName, trans.Trans)
-                                                    If ret.IsSuccess = False Then
+                                                        ret = qLnq.InsertData(UserData.UserName, trans.Trans)
+                                                        If ret.IsSuccess = False Then
+                                                            Exit For
+                                                        End If
+                                                    Catch ex As Exception
+                                                        ret.ErrorMessage = "Exception Insert TbTestingQuestionLinqDB " & ex.Message & vbNewLine & ex.StackTrace
+                                                        ret.IsSuccess = False
                                                         Exit For
-                                                    End If
+                                                    End Try
+
                                                     i += 1
                                                 Next
                                             Else
