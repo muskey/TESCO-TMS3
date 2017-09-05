@@ -303,6 +303,7 @@ Public Class WebService
             Dim UserData As New UserProfileData
             UserData.GetUserSessionData(UserSessionID)
 
+            LogFileBL.LogTrans(UserData.LoginHistoryID, "Create UserClass")
             Try
                 Dim info As String = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", UserData.Token & "&course_id=" & CourseID & "&user_id=" & UserData.UserID & "&student_id_list=" & UserData.UserID)
                 Dim json As String = info
@@ -321,6 +322,7 @@ Public Class WebService
                             Dim trans As New TransactionDB
                             If lnq.UpdateData(UserData.UserName, trans.Trans).IsSuccess = True Then
                                 trans.CommitTransaction()
+                                LogFileBL.LogTrans(UserData.LoginHistoryID, "New UserClass ID=" & lnq.CURRENT_CLASS_ID)
                                 Return "True"
                             Else
                                 trans.RollbackTransaction()

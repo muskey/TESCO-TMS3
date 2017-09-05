@@ -54,7 +54,7 @@ Module TescoModule
                               chain As System.Security.Cryptography.X509Certificates.X509Chain,
                               sslerror As System.Net.Security.SslPolicyErrors) True
 
-            Dim ret As String = ""
+
             'If CheckInternetConnection(GetWebServiceURL() & "api/welcome") = True Then
             Dim request As WebRequest
             request = WebRequest.Create(URL)
@@ -72,14 +72,14 @@ Module TescoModule
 
             response = request.GetResponse()
             Dim sr As New StreamReader(response.GetResponseStream())
-
+            Dim ret As String = sr.ReadToEnd()
             If LoginHisID > 0 Then
-                LogFileBL.LogTrans(LoginHisID, "Call API URL:" & URL & "  Parameter:" & Parameter & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
+                LogFileBL.LogTrans(LoginHisID, "Call API URL:" & URL & "  Parameter:" & Parameter & "Response:" & ret & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
             Else
-                LogFileBL.LogTrans(Parameter, "Call API URL:" & URL & "  Parameter:" & Parameter & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
+                LogFileBL.LogTrans(Parameter, "Call API URL:" & URL & "  Parameter:" & Parameter & "Response:" & ret & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
             End If
 
-            Return sr.ReadToEnd()
+            Return ret
             'Else
             '    ScriptManager.RegisterStartupScript(p, pt, Guid.NewGuid().ToString(), "alert('Unable to connect Back-End server " & vbCrLf & vbCrLf & "Please contract your support !!')", True)
             '    LogFileBL.LogError(LoginHisID, "Unable to connect Back-End server URL :" & URL)

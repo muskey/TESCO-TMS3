@@ -157,6 +157,9 @@ Public Class frmSelectCourseCheckStudent
             If lnq.ID > 0 Then
                 lnq.CURRENT_CLASS_ID = ClassID
 
+                UserData.CurrentClassID = ClassID
+                Session("UserData") = UserData
+
                 Dim trans As New TransactionDB
                 If lnq.UpdateData(UserData.UserName, trans.Trans).IsSuccess = True Then
                     trans.CommitTransaction()

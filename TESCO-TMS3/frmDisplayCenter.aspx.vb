@@ -18,7 +18,7 @@ Public Class frmDisplayCenter
         End Get
     End Property
 
-    Public ReadOnly Property itle As String
+    Public ReadOnly Property course_title As String
         Get
             Return Page.Request.QueryString("title") & ""
         End Get
@@ -111,6 +111,9 @@ Public Class frmDisplayCenter
             UserData.GetUserSessionData(UserData.UserSessionID)
             If UserData.CurrentClassID > 0 Then
                 Session("UserData") = UserData
+            Else
+                Response.Redirect("frmDisplayCenter.aspx?id=" + id + "&title=" + course_title)
+                Exit Sub
             End If
 
 

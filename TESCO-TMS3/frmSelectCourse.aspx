@@ -41,11 +41,7 @@
                               click: function () {
                                   $("#dialog").dialog("close");
 
-                                  onCreateUserClass(id, UserSessionID);
-
-                                  CreateTransLog('<%=UserData.LoginHistoryID %>', 'เริ่มเรียน Course ' + name);
-                                  var url = "frmDisplayCenter.aspx?id=" + id + '&title=' + name;
-                                  window.location = url;
+                                  onCreateUserClass(id, name, UserSessionID);
                                   //return false;
                               }
                           },
@@ -105,6 +101,7 @@
                     if (strvalue == 'True') {
                         //var url = "frmDisplayCenter.aspx?id=" + id + '&title=' + name;
                         //window.location = url;
+
                         return false;
                     }
                 },
@@ -114,7 +111,7 @@
 
         }
 
-        function onCreateUserClass(id, UserSessionID) {
+        function onCreateUserClass(id, name, UserSessionID) {
             var param = "{'id':" + JSON.stringify(id) + ",'UserSessionID':" + JSON.stringify(UserSessionID) + "}";
             $.ajax({
                 type: "POST",
@@ -126,6 +123,10 @@
 
                     var strvalue = data.d;
                     if (strvalue == 'True') {
+                        CreateTransLog('<%=UserData.LoginHistoryID %>', 'เริ่มเรียน Course ' + name);
+                        var url = "frmDisplayCenter.aspx?id=" + id + '&title=' + name;
+                        window.location = url;
+
                         return false;
                     }
                 },
