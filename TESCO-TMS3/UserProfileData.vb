@@ -1,5 +1,6 @@
-﻿Imports LinqDB.TABLE
-
+﻿Imports System.Data.SqlClient
+Imports LinqDB.TABLE
+Imports LinqDB.ConnectDB
 Public Class UserProfileData
 
     Dim _UserSessionID As Long = 0
@@ -127,34 +128,44 @@ Public Class UserProfileData
     End Property
 
     Public Sub GetUserSessionData(LoginSessionID As Long)
-        Dim lnq As New TbUserSessionLinqDB
-        lnq.GetDataByPK(LoginSessionID, Nothing)
+        Dim sql As String = "select u.id,u.token,u.[user_id], u.username, u.first_name_eng,u.last_name_eng, "
+        sql += " u.first_name_thai,u.last_name_thai,u.is_teacher, u.current_class_id,l.id login_history_id "
+        sql += " from TB_USER_SESSION u "
+        sql += " inner join TB_LOGIN_HISTORY l on u.token=l.token "
+        sql += " where u.id=@_USER_SESSION_ID"
 
-        If lnq.ID > 0 Then
-            _UserSessionID = lnq.ID
-            _UserName = lnq.USERNAME
-            _UserID = lnq.USER_ID
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_USER_SESSION_ID", LoginSessionID)
+
+        Dim dt As DataTable = SqlDB.ExecuteTable(sql, p)
+
+        If dt.Rows.Count > 0 Then
+            Dim dr As DataRow = dt.Rows(0)
+            _UserSessionID = dr("id")
+            _UserName = dr("username")
+            _UserID = dr("user_id")
+            _LoginHistoryID = dr("login_history_id")
 
             Dim FirstName As String = ""
-            If lnq.FIRST_NAME_THAI.Trim <> "" Then
-                FirstName = lnq.FIRST_NAME_THAI
+            If Convert.IsDBNull(dr("first_name_thai")) = False Then
+                FirstName = dr("first_name_thai")
             Else
-                FirstName = lnq.FIRST_NAME_ENG
+                If Convert.IsDBNull(dr("first_name_eng")) = False Then FirstName = dr("first_name_eng")
             End If
 
             Dim LastName As String = ""
-            If lnq.LAST_NAME_THAI.Trim <> "" Then
-                LastName = lnq.LAST_NAME_THAI
+            If Convert.IsDBNull(dr("last_name_thai")) = False Then
+                LastName = dr("last_name_thai")
             Else
-                LastName = lnq.LAST_NAME_ENG
+                If Convert.IsDBNull(dr("last_name_eng")) = False Then LastName = dr("last_name_eng")
             End If
 
             _FullName = FirstName & " " & LastName
-            _TokenStr = lnq.TOKEN
-            _Token = "token=" & lnq.TOKEN
-            _CurrentClassID = lnq.CURRENT_CLASS_ID
+            _TokenStr = dr("token")
+            _Token = "token=" & dr("token")
+            _CurrentClassID = dr("current_class_id")
         End If
-        lnq = Nothing
+        dt.Dispose()
 
     End Sub
 End Class

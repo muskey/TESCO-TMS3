@@ -57,10 +57,10 @@ Public Class frmDisplayPDF1
             Dim topath = Server.MapPath("~/Document") & "\" & User_Folder
 
             If dt.Rows(0)("is_convert") = "N" Then
-                Threading.Thread.Sleep(5000)
+                Threading.Thread.Sleep(15000)
 
-                LogFileBL.LogTrans(UserData.LoginHistoryID, "โหลดไฟล์ใหม่หลังจากรอ 5 วินาที" & vbNewLine & "URL=" & dt.Rows(0)("file_url"))
-                Dim url As String = "frmDisplayPDF1.aspx?id=" + id
+                LogFileBL.LogTrans(UserData.LoginHistoryID, "โหลดไฟล์ใหม่หลังจากรอ 15 วินาที" & vbNewLine & "URL=" & dt.Rows(0)("file_url"))
+                Dim url As String = "frmDisplayPDF1.aspx?id=" & id & "&rnd=" & DateTime.Now.Millisecond
                 Response.Redirect(url)
             End If
 

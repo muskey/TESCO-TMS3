@@ -305,7 +305,7 @@ Public Class WebService
 
             LogFileBL.LogTrans(UserData.LoginHistoryID, "Create UserClass")
             Try
-                Dim info As String = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", UserData.Token & "&course_id=" & CourseID & "&user_id=" & UserData.UserID & "&student_id_list=" & UserData.UserID)
+                Dim info As String = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", UserData.LoginHistoryID, UserData.Token & "&course_id=" & CourseID & "&user_id=" & UserData.UserID & "&student_id_list=" & UserData.UserID)
                 Dim json As String = info
                 Dim ser As JObject = JObject.Parse(json)
                 Dim data As List(Of JToken) = ser.Children().ToList
@@ -364,7 +364,7 @@ Public Class WebService
 
         Dim ret As String = ""
         Dim info As String = ""
-        info = GetStringDataFromURL(GetWebServiceURL() & "api/GetLoginStatus", "employee_id=" & UserName)
+        info = GetStringDataFromURL(GetWebServiceURL() & "api/GetLoginStatus", 0, "employee_id=" & UserName)
 
         If info.Trim <> "" Then
             Dim json As String = info

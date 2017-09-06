@@ -52,7 +52,7 @@ Public Class frmSelectCourseCheckStudent
             Exit Sub
         End If
 
-        Dim User() As String = GetStudentUser(UserData.Token, txtCheckUser.Text, lblCourseID.Text)
+        Dim User() As String = GetStudentUser(UserData.Token, txtCheckUser.Text, lblCourseID.Text, UserData.LoginHistoryID)
         If User(0) = "" Then
             ScriptManager.RegisterStartupScript(Me, Me.GetType, Guid.NewGuid().ToString(), "alert('ไม่มีรหัสพนักงานนี้');", True)
             Exit Sub
@@ -148,7 +148,7 @@ Public Class frmSelectCourseCheckStudent
             End If
         Next
 
-        Dim ClassID As Long = CreateClass(UserData.Token, stdID, lblCourseID.Text, UserData.UserID)
+        Dim ClassID As Long = CreateClass(UserData.Token, stdID, lblCourseID.Text, UserData.UserID, UserData.LoginHistoryID)
         If ClassID > 0 Then
             LogFileBL.LogTrans(UserData.LoginHistoryID, "สร้าง Class สำเร็จ ClassID= " & ClassID & " บทเรียน" & lblCourseName.Text)
 

@@ -92,7 +92,8 @@ Module TescoModule
         Return ""
     End Function
 
-    Function GetStringDataFromURL(ByVal URL As String, Optional ByVal Parameter As String = "") As String
+    Function GetStringDataFromURL(ByVal URL As String, LoginHisID As Long, ByVal Parameter As String) As String
+        Dim StartTime As DateTime = DateTime.Now
         Try
             System.Net.ServicePointManager.ServerCertificateValidationCallback =
                               Function(se As Object, cert As System.Security.Cryptography.X509Certificates.X509Certificate,
@@ -117,8 +118,14 @@ Module TescoModule
 
             response = request.GetResponse()
             Dim sr As New StreamReader(response.GetResponseStream())
+            ret = sr.ReadToEnd()
+            If LoginHisID > 0 Then
+                LogFileBL.LogTrans(LoginHisID, "Call API URL:" & URL & "  Parameter:" & Parameter & "Response:" & ret & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
+            Else
+                LogFileBL.LogTrans(Parameter, "Call API URL:" & URL & "  Parameter:" & Parameter & "Response:" & ret & "  Response Time :" & (DateTime.Now - StartTime).TotalMilliseconds)
+            End If
 
-            Return sr.ReadToEnd()
+            Return ret
             'Else
             '    'LogFileBL.LogError()
             'End If
@@ -196,7 +203,7 @@ Module TescoModule
 
         Dim ret As Boolean = False
         Dim info As String = ""
-        info = GetStringDataFromURL(p, pt, LoginHisID, GetWebServiceURL() & "api/log", token & "&action=" & vAction & "&Module=" & vModule & "&data=" & data)
+        info = GetStringDataFromURL(p, pt, LoginHisID, GetWebServiceURL() & "api/log", token & "&action=" & vAction & "&module=" & vModule & "&data=" & data)
         If info.Trim <> "" Then
             Dim json As String = info
             Dim ser As JObject = JObject.Parse(json)
@@ -318,11 +325,12 @@ Module TescoModule
 
 #Region "User and Class"
 
-    Public Function CreateClass(token As String, stdID As String, CourseID As String, UserID As String) As Long
+    Public Function CreateClass(token As String, stdID As String, CourseID As String, UserID As String, LoginHisID As Long) As Long
         Dim ret As Long = 0
         Try
+
             Dim info As String = ""
-            info = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", token & "&course_id=" & CourseID & "&user_id=" & UserID & "&student_id_list=" & stdID)
+            info = GetStringDataFromURL(GetWebServiceURL() & "api/class/create", LoginHisID, token & "&course_id=" & CourseID & "&user_id=" & UserID & "&student_id_list=" & stdID)
 
             Dim json As String = info
             Dim ser As JObject = JObject.Parse(json)
@@ -339,10 +347,10 @@ Module TescoModule
         Return ret
     End Function
 
-    Public Function GetStudentUser(ByVal Token As String, ByVal UserID As String, CourseID As String) As String()
+    Public Function GetStudentUser(ByVal Token As String, ByVal UserID As String, CourseID As String, LoginHisID As Long) As String()
         Dim ret(3) As String
         Dim info As String = ""
-        info = GetStringDataFromURL(GetWebServiceURL() & "api/user/get", Token & "&user_company_id=" & UserID & "&course_id=" & CourseID)
+        info = GetStringDataFromURL(GetWebServiceURL() & "api/user/get", LoginHisID, Token & "&user_company_id=" & UserID & "&course_id=" & CourseID)
         If info.Trim <> "" Then
             Dim json As String = info
             Dim ser As JObject = JObject.Parse(json)

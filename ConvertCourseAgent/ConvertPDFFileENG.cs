@@ -53,9 +53,14 @@ namespace ConvertCourseWindowsService
                     {
                         if (Convert.IsDBNull(dr["file_url"]) == false)
                         {
-                            string DocumentFolder = ini.GetKeyValue("FolderSetting", "DocumentFolder") + dr["user_id"].ToString() + "\\";
+                            //string DocumentFolder = ini.GetKeyValue("FolderSetting", "DocumentFolder") + dr["user_id"].ToString() + "\\";
+                            string DocumentFolder = ini.GetKeyValue("FolderSetting", "DocumentFolder") + "FILE_ID_" + dr["document_file_id"].ToString() + "\\";
                             if (Directory.Exists(DocumentFolder) == false)
                                 Directory.CreateDirectory(DocumentFolder);
+
+                            string UserFolder = ini.GetKeyValue("FolderSetting", "DocumentFolder") + dr["user_id"].ToString() + "\\";
+                            if (Directory.Exists(UserFolder) == false)
+                                Directory.CreateDirectory(UserFolder);
 
                             string OutputFile = TempFolder + Path.GetFileName(dr["file_url"].ToString());
 
@@ -73,30 +78,46 @@ namespace ConvertCourseWindowsService
                                 SetTextProgress("Convert File " + OutputFile);
                                 
                                 PDFConvertor pdf = new PDFConvertor();
-                                DataTable fileDt = pdf.ConvertToDatatable(OutputFile, DocumentFolder, System.Drawing.Imaging.ImageFormat.Jpeg);
-                                if (fileDt.Rows.Count > 0)
+                                Int32 pageCount = pdf.ConvertAndCountFile(OutputFile, DocumentFolder, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                if (pageCount > 0)
                                 {
-                                    LogFileENG.LogTrans("Convert File " + OutputFile + " สำเร็จ จำนวน " + fileDt.Rows.Count + " หน้า");
-                                    SetTextProgress("Convert File " + OutputFile + " Success " + fileDt.Rows.Count.ToString() + " Page(s)");
-                                    
-                                    lnq = new TbUserCourseDocumentFileLinqDB();
-                                    lnq.GetDataByPK(Convert.ToInt64(dr["id"]), null);
-                                    lnq.PDF_PAGE = fileDt.Rows.Count;
-                                    lnq.IS_CONVERT = 'Y';
+                                    LogFileENG.LogTrans("Convert File " + OutputFile + " สำเร็จ จำนวน " + pageCount + " หน้า");
+                                    SetTextProgress("Convert File " + OutputFile + " Success " + pageCount.ToString() + " Page(s)");
 
-                                    TransactionDB trans = new TransactionDB();
-                                    ExecuteDataInfo ret = lnq.UpdateData("ConvertPDFService", trans.Trans);
-                                    if (ret.IsSuccess == true)
-                                    {
-                                        trans.CommitTransaction();
+                                    try {
+                                        Directory.Delete(UserFolder, true);
+                                        if (Directory.Exists(UserFolder)==false)
+                                            Directory.CreateDirectory(UserFolder);
 
-                                        LogFileENG.LogTrans("Update IS_CONVERT ของไฟล์ " + OutputFile + " สำเร็จ");
-                                        SetTextProgress("Update IS_CONVERT ของไฟล์ " + OutputFile + " สำเร็จ");
+                                        foreach (string f in Directory.GetFiles(DocumentFolder)) {
+                                            FileInfo fInfo = new FileInfo(f);
+                                            File.Copy(f, UserFolder + fInfo.Name);
+                                        }
+
+                                        lnq = new TbUserCourseDocumentFileLinqDB();
+                                        lnq.GetDataByPK(Convert.ToInt64(dr["id"]), null);
+                                        lnq.PDF_PAGE = pageCount;
+                                        lnq.IS_CONVERT = 'Y';
+
+                                        TransactionDB trans = new TransactionDB();
+                                        ExecuteDataInfo ret = lnq.UpdateData("ConvertPDFService", trans.Trans);
+                                        if (ret.IsSuccess == true)
+                                        {
+                                            trans.CommitTransaction();
+
+                                            LogFileENG.LogTrans("Update IS_CONVERT ของไฟล์ " + OutputFile + " สำเร็จ");
+                                            SetTextProgress("Update IS_CONVERT ของไฟล์ " + OutputFile + " สำเร็จ");
+                                        }
+                                        else
+                                        {
+                                            trans.RollbackTransaction();
+                                            LogFileENG.LogError("Update IS_CONVERT ของไฟล์ " + OutputFile + " ไม่สำเร็จ");
+                                        }
                                     }
-                                    else
-                                    {
-                                        trans.RollbackTransaction();
-                                        LogFileENG.LogError("Update IS_CONVERT ของไฟล์ " + OutputFile + " ไม่สำเร็จ");
+                                    catch (Exception ex) {
+                                        LogFileENG.LogError("Exception : Convert File " + OutputFile + " ไม่สำเร็จ");
+                                        LogFileENG.LogException(ex.Message, ex.StackTrace);
+                                        SetTextProgress("Convert File " + OutputFile + " Fail");
                                     }
                                 }
                                 else
@@ -154,6 +175,7 @@ namespace ConvertCourseWindowsService
 
                 if (File.Exists(OutputFile) == true)
                 {
+                    //ถ้ามีไฟล์อยู่แล้วก็ไม่ต้องดาวน์โหลดใหม่
                     ret = true;
                     LogFileENG.LogTrans("ดาวน์โหลดไพล์ " + URL + " สำเร็จ");
                 }
