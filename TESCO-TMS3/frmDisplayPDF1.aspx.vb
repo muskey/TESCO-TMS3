@@ -37,8 +37,7 @@ Public Class frmDisplayPDF1
 
 
         If Not Page.IsPostBack Then
-            Dim UserData As UserProfileData = DirectCast(Session("UserData"), UserProfileData)
-            UpdateLog(Me, Me.GetType, UserData.LoginHistoryID, id, UserData.CurrentClassID, UserData.Token, DirectCast(Session("UserDataCourseFile"), DataTable), UserData.UserName)
+
             SetContent()
             GetData()
             GetBotton()
@@ -300,6 +299,9 @@ Public Class frmDisplayPDF1
 
         If Val(Me.txtCurrent.Text) >= Val(Me.txtMax.Text) Then
             Me.btnPDFNext.Visible = False
+
+            'กรณีอยู่หน้าสุดท้ายให้เก็บ log
+            UpdateLog(Me, Me.GetType, UserData.LoginHistoryID, id, UserData.CurrentClassID, UserData.Token, DirectCast(Session("UserDataCourseFile"), DataTable), UserData.UserName)
         Else
             Me.btnPDFNext.Visible = True
         End If

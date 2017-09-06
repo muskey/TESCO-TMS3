@@ -74,7 +74,7 @@
 	<script src="Assets/js/plugins/mockjax/jquery.mockjax.js"></script>
 
 	<!-- Theme framework -->
-	<script src="Assets/js/eakroko.min.js"></script>
+	<%--<script src="Assets/js/eakroko.min.js"></script>--%>
 	<!-- Theme scripts -->
 	<script src="Assets/js/application.min.js"></script>
 	<!-- Just for demonstration -->

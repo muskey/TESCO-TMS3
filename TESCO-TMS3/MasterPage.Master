@@ -81,7 +81,7 @@
 	<!-- Theme framework -->
     <!-- Bootstrap -->
 	<script src="Assets/js/bootstrap.min.js"></script>
-	<script src="Assets/js/eakroko.min.js"></script>
+	<%--<script src="Assets/js/eakroko.min.js"></script>--%>
 	<!-- Theme scripts -->
 	<script src="Assets/js/application.min.js"></script>
 	<!-- Just for demonstration -->
