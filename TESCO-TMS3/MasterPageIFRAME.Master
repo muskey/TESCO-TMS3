@@ -79,8 +79,7 @@
 	<script src="Assets/js/application.min.js"></script>
 	<!-- Just for demonstration -->
 	<script src="Assets/js/demonstration.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Kanit">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Tangerine">
+    
 	
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="Assets/img/favicon.ico" />

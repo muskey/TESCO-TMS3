@@ -95,8 +95,6 @@ Public Class frmSelectCourse
                     strMain += "    </a>"
                     strMain += " </li>"
                 End If
-
-
             Next
             strMain += "</ul>"
             lblMain.Text = strMain

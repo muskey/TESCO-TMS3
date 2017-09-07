@@ -2121,6 +2121,15 @@
     <Content Include="frmTestingCourse.aspx" />
     <Content Include="HtmlPage1.html" />
     <Content Include="RenderCaptcha.aspx" />
+    <Content Include="Scripts\ajax\jquery.ui\1.8.9\jquery-ui.js" />
+    <Content Include="Scripts\ajax\jquery.ui\1.8.9\themes\start\images\ui-bg_flat_75_aaaaaa_40x100.png" />
+    <Content Include="Scripts\ajax\jquery.ui\1.8.9\themes\start\images\ui-bg_glass_75_79c9ec_1x400.png" />
+    <Content Include="Scripts\ajax\jquery.ui\1.8.9\themes\start\images\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
+    <Content Include="Scripts\ajax\jquery.ui\1.8.9\themes\start\images\ui-icons_0078ae_256x240.png" />
+    <Content Include="Scripts\ajax\jquery.ui\1.8.9\themes\start\images\ui-icons_056b93_256x240.png" />
+    <Content Include="Scripts\ajax\jquery.ui\1.8.9\themes\start\images\ui-icons_d8e7f3_256x240.png" />
+    <Content Include="Scripts\ajax\jquery.ui\1.8.9\themes\start\jquery-ui.css" />
+    <Content Include="Scripts\ajax\libs\jquery\1.7.2\jquery.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\ScriptJS.js" />
