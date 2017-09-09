@@ -130,7 +130,7 @@ Public Class frmSelectQuestionTest
     End Sub
 
     Private Function GetAnswerDT() As DataTable
-        Dim sql As String = "select ta.id, t.id test_id, ta.answer_result, ta.answer_choice,tq.question_no, ta.tb_testing_question_id,ta.time_spent, "
+        Dim sql As String = "select ta.id, t.id tb_testing_id, t.test_id, ta.answer_result, ta.answer_choice,tq.question_no, ta.tb_testing_question_id,ta.time_spent, "
         sql += " tq.question_type, tq.weight"
         sql += " From TB_TESTING_ANSWER ta "
         sql += " inner join TB_TESTING_QUESTION tq on tq.id=ta.tb_testing_question_id "
@@ -164,8 +164,7 @@ Public Class frmSelectQuestionTest
                     End If
                     AnswerData += "{"
                     AnswerData += Chr(34) + "question_id" + Chr(34) & ":" & qDr("question_no") & ", " & Environment.NewLine
-
-                    AnswerData += Chr(34) + "type" + Chr(34) + ":" & qDr("question_type") & ", " & Environment.NewLine
+                    AnswerData += Chr(34) + "type" + Chr(34) + ":" & Chr(34) & qDr("question_type") & Chr(34) & ", " & Environment.NewLine
                     AnswerData += Chr(34) + "weight" + Chr(34) + ":" & qDr("weight") & "," & Environment.NewLine
                     AnswerData += Chr(34) + "answer_id" + Chr(34) & ":" & qDr("answer_choice") & ", " & Environment.NewLine
                     AnswerData += Chr(34) + "is_correct" + Chr(34) & ":" & Chr(34) & IIf(qDr("answer_result").ToString = "Y", "true", "false") & Chr(34) & ", " & Environment.NewLine
