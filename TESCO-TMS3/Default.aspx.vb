@@ -94,7 +94,7 @@ Public Class _Default
                         Case "is_teacher"
                             IsTeacher = item.First.ToString
                         Case "data"
-                            ClearUserSession(Username)
+
 
                             FormatData = item.First
                         Case "welcome"
@@ -102,6 +102,8 @@ Public Class _Default
                             MessageData = item
                     End Select
                 Next
+
+                ClearUserSession(Username, UserData.UserID)
 
                 Dim FirstName As String = ""
                 Dim LastName As String = ""
@@ -205,10 +207,14 @@ Public Class _Default
         Return ret
     End Function
 
-    Private Sub ClearUserSession(Username As String)
+    Private Sub ClearUserSession(Username As String, UserID As String)
 
         Dim uLnq As New LinqDB.TABLE.TbUserSessionLinqDB
         uLnq.ChkDataByUSERNAME(Username, Nothing)
+
+        If uLnq.ID = 0 Then
+            uLnq.ChkDataByUSER_ID(UserID, Nothing)
+        End If
         If uLnq.ID > 0 Then
             Dim trans As New TransactionDB
             Dim sql As String = ""
