@@ -1031,26 +1031,51 @@ Public Class _Default
         End If
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        CheckTestResult(80, GetAnswerDT(201111))
+    End Sub
 
-    'Private Sub chkShowPassword_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowPassword.CheckedChanged
-    '    If chkShowPassword.Checked = True Then
-    '        txtShowPassword.Text = txtPassword.Text
+    Private Sub CheckTestResult(TargetPercent As Integer, AnswerDt As DataTable)
+        Dim TotalWeight As Integer = 0
+        Dim CorrectScore As Double = 0
+        Dim ResultPercent As Double = 0
+        Dim Target As Integer = TargetPercent 'lblTargetPercent.Text
+        Dim qDt As DataTable = AnswerDt.DefaultView.ToTable(True, "tb_testing_question_id", "weight")
+        If qDt.Rows.Count > 0 Then
+            TotalWeight = Convert.ToInt64(qDt.Compute("sum(weight)", ""))   '100%
+            For i As Integer = 0 To qDt.Rows.Count - 1
+                Dim TestQuestionID As Long = qDt.Rows(i)("tb_testing_question_id")
+                Dim Weight As Integer = qDt.Rows(i)("weight")
 
-    '        txtPassword.Visible = False
-    '        txtShowPassword.Visible = True
-    '    Else
-    '        txtPassword.Text = txtShowPassword.Text
+                AnswerDt.DefaultView.RowFilter = "tb_testing_question_id=" & TestQuestionID & " and answer_result='Y'"
+                Dim CorrectQty As Integer = AnswerDt.DefaultView.Count
 
-    '        txtPassword.Visible = True
-    '        txtShowPassword.Visible = False
-    '    End If
-    'End Sub
+                AnswerDt.DefaultView.RowFilter = "tb_testing_question_id=" & TestQuestionID
+                Dim AnsQty As Integer = AnswerDt.DefaultView.Count
 
-    'Private Sub chkShowPassword_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowPassword.CheckedChanged
-    '    If chkShowPassword.Checked = True Then
-    '        txtPassword.TextMode = TextBoxMode.SingleLine
-    '    Else
-    '        txtPassword.TextMode = TextBoxMode.Password
-    '    End If
-    'End Sub
+                CorrectScore += ((CorrectQty * Weight) / AnsQty)
+
+                AnswerDt.DefaultView.RowFilter = ""
+            Next
+
+            ResultPercent = (CorrectScore * 100) / TotalWeight
+        End If
+    End Sub
+
+    Private Function GetAnswerDT(test_id As Integer) As DataTable
+        Dim sql As String = "select ta.id, t.id tb_testing_id, t.test_id, ta.answer_result, ta.answer_choice,tq.question_no, ta.tb_testing_question_id,ta.time_spent, "
+        sql += " tq.question_type, tq.weight"
+        sql += " From TB_TESTING_ANSWER ta "
+        sql += " inner join TB_TESTING_QUESTION tq on tq.id=ta.tb_testing_question_id "
+        sql += " inner join TB_TESTING t on t.id=tq.tb_testing_id"
+        sql += " where ta.tb_testing_id=@_TESTING_ID "
+        Dim p(1) As SqlParameter
+        p(0) = SqlDB.SetBigInt("@_TESTING_ID", test_id)
+
+        Dim aDt As DataTable = SqlDB.ExecuteTable(sql, p)
+        Return aDt
+    End Function
+
+
+
 End Class

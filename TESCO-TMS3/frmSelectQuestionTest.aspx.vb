@@ -83,6 +83,7 @@ Public Class frmSelectQuestionTest
                 End If
 
                 If ret.IsSuccess = True Then
+                    Session("TestingHisID") = tLnq.ID
                     trans.CommitTransaction()
                 Else
                     trans.RollbackTransaction()

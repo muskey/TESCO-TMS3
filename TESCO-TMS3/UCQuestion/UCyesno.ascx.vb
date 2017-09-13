@@ -22,6 +22,10 @@ Public Class UCyesno
         txtQuestionID.Text = dt.Rows(0)("id")
         Me.lblQNumber.Text = "ข้อ " + question_no.ToString + "/" + QuestionQty.ToString
         Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
+        txtIconURL.Text = dt.Rows(0)("icon_url").ToString
+        If Convert.IsDBNull(dt.Rows(0)("weight")) = False Then txtWeight.Text = dt.Rows(0)("weight")
+        txtIsRandomAns.Text = dt.Rows(0)("is_random_answer")
+
         If dt.Rows(0)("icon_url") & "" <> "" Then
             links.InnerHtml = "<a href='" & dt.Rows(0)("icon_url") & "' title='' data-gallery='' >"
             links.InnerHtml += "    <img  src='" & dt.Rows(0)("icon_url") & "' style='width:200px;height:200px' />"
@@ -50,35 +54,42 @@ Public Class UCyesno
 
             Dim TimeSpen As Integer = DateDiff(DateInterval.Second, Convert.ToDateTime(Session("teststarttime")), DateTime.Now)
             Dim trans As New TransactionDB
-            Dim ret As ExecuteDataInfo = SaveTestAnswer(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, AnswerChoice, IIf(isCorrect = True, "Y", "N"))
-            If ret.IsSuccess = True Then
-                trans.CommitTransaction()
+            Dim qHisID As Long = SaveQuestionHis(UserData.UserName, trans, Session("TestingHisID"), txtQuestion_no.Text, lblQDetail.Text, txtIconURL.Text, txtWeight.Text, "yesno", IIf(txtIsRandomAns.Text = "Y", True, False), AnswerChoice, txtCorrectAnswer.Text)
+            If qHisID > 0 Then
+                Dim ret As ExecuteDataInfo = SaveTestAnswer(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, AnswerChoice, IIf(isCorrect = True, "Y", "N"), Session("TestingHisID"), qHisID)
+                If ret.IsSuccess = True Then
+                    trans.CommitTransaction()
+                Else
+                    trans.RollbackTransaction()
+                End If
             Else
                 trans.RollbackTransaction()
             End If
 
+
+
             Dim LogMsg As String = "ตอบคำถาม " & lblQNumber.Text & " " & lblQDetail.Text
-            If isCorrect = True Then
-                lblDialogHead.Text = "ยินดีด้วย"
-                litAnsDetail.Text = "<h2>คุณตอบถูก</h2>"
-                LogMsg += " ตอบถูก"
-            Else
-                lblDialogHead.Text = "คุณตอบผิด"
-                divHeader.Attributes.Remove("style")
-                divHeader.Attributes.Add("style", "background:red")
+                If isCorrect = True Then
+                    lblDialogHead.Text = "ยินดีด้วย"
+                    litAnsDetail.Text = "<h2>คุณตอบถูก</h2>"
+                    LogMsg += " ตอบถูก"
+                Else
+                    lblDialogHead.Text = "คุณตอบผิด"
+                    divHeader.Attributes.Remove("style")
+                    divHeader.Attributes.Add("style", "background:red")
 
-                litAnsDetail.Text = "<font color='#019b79'><h4>คำตอบที่ถูกคือ<h4></font>"
-                litAnsDetail.Text += "<font color='#019b79'><h4>" + txtCorrectChoice.Text + "</h4></font>"
-                LogMsg += " ตอบผิด"
-            End If
-            LogFileBL.LogTrans(UserData.LoginHistoryID, LogMsg)
+                    litAnsDetail.Text = "<font color='#019b79'><h4>คำตอบที่ถูกคือ<h4></font>"
+                    litAnsDetail.Text += "<font color='#019b79'><h4>" + txtCorrectChoice.Text + "</h4></font>"
+                    LogMsg += " ตอบผิด"
+                End If
+                LogFileBL.LogTrans(UserData.LoginHistoryID, LogMsg)
 
-            If txtShowAnswer.Text = "Y" Then
-                pnlAnsResult.Visible = True
-            Else
-                Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
+                If txtShowAnswer.Text = "Y" Then
+                    pnlAnsResult.Visible = True
+                Else
+                    Response.Redirect("frmSelectQuestionTest.aspx?id=" & txtTestID.Text & "&q_id=" & (Convert.ToInt16(txtQuestion_no.Text) + 1))
+                End If
             End If
-        End If
     End Sub
 
     Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click

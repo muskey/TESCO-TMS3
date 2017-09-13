@@ -74,6 +74,8 @@
                         <div class="form-group text-center">
                             <asp:Button ID="btnLogin" runat="server" CssClass="log-btn"  Style="width: 100%" Text="Login"  />
                             <asp:TextBox ID="txtTempMobileNo" runat="server" style="display:none;"></asp:TextBox>
+
+                            <asp:Button ID="Button1" runat="server"   Style="width: 100%" Text="CheckTest" Visible="false" />
                         </div>
                     </div>
                     <div class="form-group" style="text-align: center;">

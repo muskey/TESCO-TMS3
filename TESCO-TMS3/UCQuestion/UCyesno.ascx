@@ -52,6 +52,9 @@
         <asp:TextBox ID="txtCorrectChoice" runat="server"  ></asp:TextBox>
         <asp:TextBox ID="txtCorrectAnswer" runat="server"  ></asp:TextBox>
         <asp:TextBox ID="txtShowAnswer" runat="server"  ></asp:TextBox>
+        <asp:TextBox ID="txtIconURL" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txtWeight" runat="server" Text="0" ></asp:TextBox>
+        <asp:TextBox ID="txtIsRandomAns" runat="server" Text="N" ></asp:TextBox>
     </div>
 </div>
 <div class="clearfix"></div>

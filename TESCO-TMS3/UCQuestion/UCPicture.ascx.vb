@@ -23,6 +23,9 @@ Public Class UCPicture
         Me.lblQNumber.Text = "ข้อ " + question_no.ToString + "/" + QuestionQty.ToString
         Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
         txtQuestionID.Text = dt.Rows(0)("id")
+        txtIconURL.Text = dt.Rows(0)("icon_url").ToString
+        If Convert.IsDBNull(dt.Rows(0)("weight")) = False Then txtWeight.Text = dt.Rows(0)("weight")
+        txtIsRandomAns.Text = dt.Rows(0)("is_random_answer")
 
         If dt.Rows(0)("icon_url") & "" <> "" Then
             lblImage2.Text = dt.Rows(0)("icon_url") & ""
@@ -71,8 +74,13 @@ Public Class UCPicture
                 Dim AnswerResult As String = IIf(lblCorrectAnswer.Text = txtAnswer.Text, "Y", "N")
                 LogFileBL.LogTrans(UserData.LoginHistoryID, "ตอบคำถาม " & lblQuestion.Text & ":" & txtAnswer.Text & "  " & IIf(AnswerResult = "Y", "ตอบถูก", "ตอบผิด"))
 
-                ret = SaveTestAnswer(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, txtAnswer.Text, AnswerResult)
-                If ret.IsSuccess = False Then
+                Dim qHisID As Long = SaveQuestionHis(UserData.UserName, trans, Session("TestingHisID"), txtQuestion_no.Text, lblQDetail.Text, txtIconURL.Text, txtWeight.Text, "picture", IIf(txtIsRandomAns.Text = "Y", True, False), (Convert.ToInt16(txtAnswer.Text) - 1), lblCorrectAnswer.Text)
+                If qHisID > 0 Then
+                    ret = SaveTestAnswer(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, txtAnswer.Text, AnswerResult, Session("TestingHisID"), qHisID)
+                    If ret.IsSuccess = False Then
+                        Exit For
+                    End If
+                Else
                     Exit For
                 End If
             Next

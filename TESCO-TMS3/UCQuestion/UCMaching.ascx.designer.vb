@@ -113,6 +113,33 @@ Partial Public Class UCMaching
     Protected WithEvents txtShowAnswer As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''txtIconURL control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtIconURL As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtWeight control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtWeight As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtIsRandomAns control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtIsRandomAns As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
     '''btnAns control.
     '''</summary>
     '''<remarks>

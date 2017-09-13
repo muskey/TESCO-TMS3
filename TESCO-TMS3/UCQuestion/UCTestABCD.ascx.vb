@@ -32,10 +32,13 @@ Public Class UCTestABCD
             If (dt.Rows.Count > 0) Then
                 Me.lblQNumber.Text = "ข้อ " + question_no.ToString + "/" + QuestionCount.ToString
                 Me.lblQDetail.Text = dt.Rows(0)("question_title") & ""
-                Dim srt1 As String = dt.Rows(0)("icon_url").ToString
+                txtIconURL.Text = dt.Rows(0)("icon_url").ToString
+                If Convert.IsDBNull(dt.Rows(0)("weight")) = False Then txtWeight.Text = dt.Rows(0)("weight")
+                txtIsRandomAns.Text = dt.Rows(0)("is_random_answer")
+
                 Dim srt2 As String
-                If srt1 <> "" Then
-                    srt2 = srt1.Substring(srt1.Length - 3)
+                If txtIconURL.Text <> "" Then
+                    srt2 = txtIconURL.Text.Substring(txtIconURL.Text.Length - 3)
                 End If
                 If srt2 = "mp4" Then
                     If Convert.IsDBNull(dt.Rows(0)("icon_url")) = False Then
@@ -112,9 +115,14 @@ Public Class UCTestABCD
 
             Dim TimeSpen As Integer = DateDiff(DateInterval.Second, Convert.ToDateTime(Session("teststarttime")), DateTime.Now)
             Dim trans As New TransactionDB
-            Dim ret As ExecuteDataInfo = SaveTestAnswer(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, AnswerChoice, IIf(isCorrect = True, "Y", "N"))
-            If ret.IsSuccess = True Then
-                trans.CommitTransaction()
+            Dim qHisID As Long = SaveQuestionHis(UserData.UserName, trans, Session("TestingHisID"), txtQuestion_no.Text, lblQDetail.Text, txtIconURL.Text, txtWeight.Text, "abcd", IIf(txtIsRandomAns.Text = "Y", True, False), AnswerChoice, txtCorrectAnswer.Text)
+            If qHisID > 0 Then
+                Dim ret As ExecuteDataInfo = SaveTestAnswer(UserData.UserName, trans, txtTestID.Text, txtQuestionID.Text, TimeSpen, AnswerChoice, IIf(isCorrect = True, "Y", "N"), Session("TestingHisID"), qHisID)
+                If ret.IsSuccess = True Then
+                    trans.CommitTransaction()
+                Else
+                    trans.RollbackTransaction()
+                End If
             Else
                 trans.RollbackTransaction()
             End If

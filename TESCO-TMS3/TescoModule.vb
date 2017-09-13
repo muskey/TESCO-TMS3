@@ -469,19 +469,57 @@ Module TescoModule
         Return ret
     End Function
 
-    Public Function SaveTestAnswer(Username As String, trans As TransactionDB, TestID As Long, QuestionID As Long, TimeSpen As Integer, AnswerChoice As Integer, AnswerResult As String) As ExecuteDataInfo
+    Public Function SaveTestAnswer(Username As String, trans As TransactionDB, TestingID As Long, QuestionID As Long, TimeSpen As Integer, AnswerChoice As Integer, AnswerResult As String, TestingHisID As Long, QuestionHisID As Long) As ExecuteDataInfo
         Dim ret As New ExecuteDataInfo
         Dim lnq As New TbTestingAnswerLinqDB
-        lnq.TB_TESTING_ID = TestID
+        lnq.TB_TESTING_ID = TestingID
         lnq.TB_TESTING_QUESTION_ID = QuestionID
         lnq.TIME_SPENT = TimeSpen
         lnq.ANSWER_CHOICE = AnswerChoice
         lnq.ANSWER_RESULT = AnswerResult
 
         ret = lnq.InsertData(Username, trans.Trans)
+        If ret.IsSuccess = True Then
+            Dim hLnq As New TbTestingAnswerHisLinqDB
+            hLnq.TB_TESTING_HIS_ID = TestingHisID
+            hLnq.TB_TESTING_QUESTION_HIS_ID = QuestionHisID
+            hLnq.TIME_SPENT = TimeSpen
+            hLnq.ANSWER_RESULT = AnswerResult
+            hLnq.ANSWER_CHOICE = AnswerChoice
+            ret = hLnq.InsertData(Username, trans.Trans)
+        End If
 
         Return ret
     End Function
+
+    Public Function SaveQuestionHis(Username As String, trnas As TransactionDB, TestingHisID As Long, QuestionNo As String, QuestionTitle As String, IconURL As String, Weight As Integer, QuestionType As String, IsRandomAns As Boolean, SelectChoice As Integer, CorrectChoice As Integer) As Long
+        Dim ret As Long
+        Dim lnq As New TbTestingQuestionHisLinqDB
+        lnq.ChkDataByQUESTION_TITLE_TB_TESTING_HIS_ID(QuestionTitle, TestingHisID, trnas.Trans)
+
+        lnq.TB_TESTING_HIS_ID = TestingHisID
+        lnq.QUESTION_NO = QuestionNo
+        lnq.QUESTION_TITLE = QuestionTitle
+        lnq.ICON_URL = IconURL
+        lnq.WEIGHT = Weight
+        lnq.QUESTION_TYPE = QuestionType
+        lnq.IS_RANDOM_ANSWER = IIf(IsRandomAns = True, "Y", "N")
+        lnq.SELECT_CHOICE = SelectChoice
+        lnq.CORRECT_CHOICE = CorrectChoice
+
+        Dim re As New ExecuteDataInfo
+        If lnq.ID > 0 Then
+            re = lnq.UpdateData(Username, trnas.Trans)
+        Else
+            re = lnq.InsertData(Username, trnas.Trans)
+        End If
+        If re.IsSuccess = True Then
+            ret = lnq.ID
+        End If
+
+        Return ret
+    End Function
+
     Public Function SaveTestAnswerWriting(Username As String, trans As TransactionDB, TestID As Long, QuestionID As Long, TimeSpen As Integer, AnswerText As String) As ExecuteDataInfo
         Dim ret As New ExecuteDataInfo
         Dim lnq As New TbTestingAnswerWritingLinqDB
