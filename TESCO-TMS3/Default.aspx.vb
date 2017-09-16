@@ -542,8 +542,17 @@ Public Class _Default
                             Return ret
                         End If
 
+                        If ret.IsSuccess = True Then
+                            trans.CommitTransaction()
+                            LogFileBL.LogTrans(UserData.LoginHistoryID, "Delete Temp Testing Data")
+                        Else
+                            trans.RollbackTransaction()
+                            LogFileBL.LogError(UserData, ret.ErrorMessage)
+                        End If
 
-                        LogFileBL.LogTrans(UserData.LoginHistoryID, "Insert Testing Data")
+
+                        LogFileBL.LogTrans(UserData.LoginHistoryID, "Insert New Testing Data")
+                        trans = New TransactionDB
                         For Each comment As JObject In item.Values
                             Dim lnq As New TbTestingLinqDB
                             lnq.TEST_ID = comment("id")
