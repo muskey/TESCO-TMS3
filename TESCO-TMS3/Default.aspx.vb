@@ -888,9 +888,14 @@ Public Class _Default
                 Exit Sub
             End If
         End If
-
+        Dim UserNameOTP As String = txtReqestOTPSendUsername.Text
+        If UserNameOTP.Length < 8 Then
+            UserNameOTP = "764" & UserNameOTP.PadLeft(8, "0")
+        ElseIf UserNameOTP.Length = 8 Then
+            UserNameOTP = "764" & UserNameOTP
+        End If
         Dim info As String = ""
-        info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/get", "employee_id=" & txtReqestOTPSendUsername.Text)
+        info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/get", "employee_id=" & UserNameOTP)
         If info.Trim <> "" Then
             Dim json As String = info
             Dim ser As JObject = JObject.Parse(json)
@@ -990,8 +995,14 @@ Public Class _Default
         chkShowOTPPassword.Checked = False
         'Validate Password
         If CheckPasswordPolicy(txtOTPPassword.Text) = True Then
+            Dim UserNameOTP As String = txtReqestOTPSendUsername.Text
+            If UserNameOTP.Length < 8 Then
+                UserNameOTP = "764" & UserNameOTP.PadLeft(8, "0")
+            ElseIf UserNameOTP.Length = 8 Then
+                UserNameOTP = "764" & UserNameOTP
+            End If
             Dim info As String = ""
-            info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/login", "employee_id=" & txtOTPUserLogin.Text & "&otp=" & txtOTPCode.Text & "&password=" & txtOTPPassword.Text)
+            info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/login", "employee_id=" & UserNameOTP & "&otp=" & txtOTPCode.Text & "&password=" & txtOTPPassword.Text)
             If info.Trim <> "" Then
                 Dim json As String = info
                 Dim ser As JObject = JObject.Parse(json)
@@ -1023,7 +1034,15 @@ Public Class _Default
                     If chrInt >= 48 And chrInt <= 57 Then
                         If UserName.Length < 8 Then
                             UserName = "764" & UserName.PadLeft(8, "0")
+                        ElseIf UserName.Length = 11 Then
+
                         Else
+                            UserName = "764" & UserName
+                        End If
+                    Else
+                        If UserName.Length < 8 Then
+                            UserName = "764" & UserName.PadLeft(8, "0")
+                        ElseIf UserName.Length = 8 Then
                             UserName = "764" & UserName
                         End If
                     End If
