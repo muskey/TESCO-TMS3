@@ -27,7 +27,13 @@ Public Class _Default
         If chrInt >= 48 And chrInt <= 57 Then
             If UserName.Length < 8 Then
                 UserName = "764" & UserName.PadLeft(8, "0")
-            Else
+            ElseIf UserName.Length = 8 Then
+                UserName = "764" & UserName
+            End If
+        Else
+            If UserName.Length < 8 Then
+                UserName = "764" & UserName.PadLeft(8, "0")
+            ElseIf UserName.Length = 8 Then
                 UserName = "764" & UserName
             End If
         End If
