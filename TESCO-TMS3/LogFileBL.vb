@@ -37,7 +37,7 @@ Public Class LogFileBL
     'End Sub
 
     Public Shared Sub LogTrans(UserSession As UserProfileData, LogMsg As String)
-
+        Exit Sub
         Dim frame As StackFrame = New StackFrame(1, True)
         Dim ClassName As String = frame.GetMethod.ReflectedType.Name
         Dim FunctionName As String = frame.GetMethod.Name
@@ -46,7 +46,7 @@ Public Class LogFileBL
     End Sub
 
     Public Shared Sub LogTrans(LoginHisID As Long, LogMsg As String)
-
+        Exit Sub
         Dim frame As StackFrame = New StackFrame(1, True)
         Dim ClassName As String = frame.GetMethod.ReflectedType.Name
         Dim FunctionName As String = frame.GetMethod.Name
@@ -61,7 +61,7 @@ Public Class LogFileBL
     End Sub
 
     Public Shared Sub LogTrans(LoginHisID As Long, LogMsg As String, trans As TransactionDB)
-
+        Exit Sub
         Dim frame As StackFrame = New StackFrame(1, True)
         Dim ClassName As String = frame.GetMethod.ReflectedType.Name
         Dim FunctionName As String = frame.GetMethod.Name
@@ -76,7 +76,7 @@ Public Class LogFileBL
     End Sub
 
     Public Shared Sub LogTrans(UserName As String, LogMsg As String)
-
+        Exit Sub
         Dim frame As StackFrame = New StackFrame(1, True)
         Dim ClassName As String = frame.GetMethod.ReflectedType.Name
         Dim FunctionName As String = frame.GetMethod.Name
@@ -86,6 +86,7 @@ Public Class LogFileBL
     End Sub
 
     Public Shared Sub LogError(LoginHistoryID As Long, LogMsg As String)
+        Exit Sub
         Dim frame As StackFrame = New StackFrame(1, True)
         Dim ClassName As String = frame.GetMethod.ReflectedType.Name
         Dim FunctionName As String = frame.GetMethod.Name
@@ -100,6 +101,7 @@ Public Class LogFileBL
     End Sub
 
     Public Shared Sub LogError(UserSession As UserProfileData, LogMsg As String)
+        Exit Sub
         Dim frame As StackFrame = New StackFrame(1, True)
         Dim ClassName As String = frame.GetMethod.ReflectedType.Name
         Dim FunctionName As String = frame.GetMethod.Name
@@ -109,6 +111,7 @@ Public Class LogFileBL
     End Sub
 
     Public Shared Sub LogError(Username As String, LogMsg As String)
+        Exit Sub
         Dim frame As StackFrame = New StackFrame(1, True)
         Dim ClassName As String = frame.GetMethod.ReflectedType.Name
         Dim FunctionName As String = frame.GetMethod.Name
@@ -118,6 +121,7 @@ Public Class LogFileBL
     End Sub
 
     Public Shared Sub LogException(UserSession As UserProfileData, ExMessage As String, ExStackTrace As String)
+        Exit Sub
         Dim frame As StackFrame = New StackFrame(1, True)
         Dim ClassName As String = frame.GetMethod.ReflectedType.Name
         Dim FunctionName As String = frame.GetMethod.Name
@@ -138,7 +142,7 @@ Public Class LogFileBL
         'Dim m As MethodBase = MethodBase.GetCurrentMethod()
         'Dim ThisClassName As String = m.ReflectedType.Name
         'Dim ThisFunctionName As String = m.Name
-
+        Exit Sub
         Try
             Dim lnq As New TbLogUserActivityLinqDB
             lnq.LOGIN_HISOTRY_ID = LoginHisID
@@ -167,7 +171,7 @@ Public Class LogFileBL
         'Dim m As MethodBase = MethodBase.GetCurrentMethod()
         'Dim ThisClassName As String = m.ReflectedType.Name
         'Dim ThisFunctionName As String = m.Name
-
+        Exit Sub
         Try
             Dim lnq As New TbLogUserActivityLinqDB
             lnq.LOGIN_HISOTRY_ID = LoginHisID
@@ -188,6 +192,7 @@ Public Class LogFileBL
 
 
     Private Shared Sub CreateTextErrorLog(LogMsg As String)
+        Exit Sub
         Try
             Dim frame As StackFrame = New StackFrame(1, True)
             Dim ClassName As String = frame.GetMethod.ReflectedType.Name
@@ -216,6 +221,7 @@ Public Class LogFileBL
 
 
     Public Shared Sub TestTraceFrame()
+        Exit Sub
         '### Current Class and Function name
         Dim m As MethodBase = MethodBase.GetCurrentMethod()
         Dim ThisClassName As String = m.ReflectedType.Name
