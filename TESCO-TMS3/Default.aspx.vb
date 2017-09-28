@@ -46,10 +46,6 @@ Public Class _Default
         End If
     End Sub
 
-
-
-
-
 #Region "Load Data Login"
 
     Dim LoginHisID As Long = 0
@@ -1000,6 +996,7 @@ Public Class _Default
     Private Sub btnOTPLogin_Click(sender As Object, e As EventArgs) Handles btnOTPLogin.Click
         chkShowOTPPassword.Checked = False
         'Validate Password
+
         If CheckPasswordPolicy(txtOTPPassword.Text) = True Then
             Dim UserNameOTP As String = txtReqestOTPSendUsername.Text
             If UserNameOTP.Length < 8 Then
