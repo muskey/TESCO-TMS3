@@ -15,6 +15,8 @@ Public Class frmSelectFormat
 
 #Region "Initail"
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        Dim A As String = Server.GetLastError.ToString
         If Session("UserData") Is Nothing Then
             Response.Redirect("Default.aspx")
         End If

@@ -21,39 +21,19 @@ Public Class _Default
 
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
         chkShowPassword.Checked = False
-        'Dim UserName As String = txtUsername.Text
-        'Dim chrInt As Integer = Asc(UserName.Substring(0, 1))
-        ''Dim chrInt As Integer = Asc(startChr)
-        'If chrInt >= 48 And chrInt <= 57 Then
-        '    If UserName.Length < 8 Then
-        '        UserName = "764" & UserName.PadLeft(8, "0")
-        '    ElseIf UserName.Length = 8 Then
-        '        UserName = "764" & UserName
-        '    End If
-        'Else
-        '    If UserName.Length < 8 Then
-        '        UserName = "764" & UserName.PadLeft(8, "0")
-        '    ElseIf UserName.Length = 8 Then
-        '        UserName = "764" & UserName
-        '    End If
-        'End If
 
         Dim UserName As String = txtUsername.Text
-        Dim chrInt As Integer = Asc(UserName.Substring(0, 1))
-        'Dim chrInt As Integer = Asc(startChr)
-        If chrInt >= 48 And chrInt <= 57 Then
-            If UserName.Length < 8 Then
-                UserName = "764" & UserName.PadLeft(8, "0")
-            Else
-                UserName = "764" & UserName
-            End If
+        Dim chrStart As Integer = Asc(UserName.Substring(0, 1))
+
+        If chrStart >= 48 And chrStart <= 57 And UserName.Length <= 8 Then
+            UserName = "764" & UserName.PadLeft(8, "0")
         End If
 
         If Login(UserName, txtPassword.Text) = True Then
             Session("Username") = UserName
             Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
         Else
-            ScriptManager.RegisterStartupScript(Me, Me.GetType, Guid.NewGuid().ToString(), "alert('Invalid username or password')", True)
+            'ScriptManager.RegisterStartupScript(Me, Me.GetType, Guid.NewGuid().ToString(), "alert('Invalid username or password')", True)
         End If
     End Sub
 
@@ -78,19 +58,17 @@ Public Class _Default
                 Dim IsTeacher As String = ""
                 Dim FormatData As JToken
                 Dim MessageData As JProperty
-                Dim LoginStatus As Boolean = True
+                Dim LoginStatus As Boolean = False
 
                 Dim UserData = New UserProfileData
                 UserData.UserName = Username
+                Dim ErrMessage As String = ""
                 For Each item As JProperty In data
                     item.CreateReader()
 
                     Select Case item.Name
                         Case "status"
-                            If item.First.ToString.ToLower() = "false" Then
-                                ret = False
-                                Return False
-                            End If
+                            LoginStatus = CBool(item.Value)
                         Case "token"
                             UserData.TokenStr = item.First
                             UserData.Token = "token=" & UserData.TokenStr
@@ -113,8 +91,15 @@ Public Class _Default
                         Case "welcome"
                             'BuiltDatableTableUserMessage(item)
                             MessageData = item
+                        Case "error_msg"
+                            ErrMessage = item.Value
                     End Select
                 Next
+
+                If Not LoginStatus Then
+                    ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "LoginStatus", "alert('" & ErrMessage & "');", True)
+                    Return False
+                End If
 
                 ClearUserSession(Username, UserData.UserID)
 
@@ -146,14 +131,16 @@ Public Class _Default
                         LogFileBL.LogTrans(UserData.LoginHistoryID, "Login Success")
                     Else
                         ret = re.IsSuccess
-                        ScriptManager.RegisterStartupScript(Me, Me.GetType, Guid.NewGuid().ToString(), "alert('" & "Login Fail" & "')", True)
+                        ScriptManager.RegisterStartupScript(Me, Me.GetType, Guid.NewGuid().ToString(), "alert('" & re.InfoMessage & "')", True)
                         LogFileBL.LogTrans(UserData.LoginHistoryID, "Login Fail : " + re.ErrorMessage)
+                        Return False
                     End If
                 End If
             End If
         Catch ex As Exception
             'MessageBox.Show(ex.Message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Information)
             ScriptManager.RegisterStartupScript(Me, Me.GetType, Guid.NewGuid().ToString(), "alert('" & ex.Message & "')", True)
+            Return False
         End Try
 
         Return ret
@@ -220,7 +207,7 @@ Public Class _Default
         Return ret
     End Function
 
-    Private Sub ClearUserSession(Username As String, UserID As String)
+    Private Sub ClearUserSession(ByVal Username As String, ByVal UserID As Integer)
 
         Dim uLnq As New LinqDB.TABLE.TbUserSessionLinqDB
         uLnq.ChkDataByUSERNAME(Username, Nothing)
@@ -229,97 +216,127 @@ Public Class _Default
             uLnq.ChkDataByUSER_ID(UserID, Nothing)
         End If
         If uLnq.ID > 0 Then
-            Dim trans As New TransactionDB
-            Dim sql As String = ""
-            Dim ret As New ExecuteDataInfo
+            'Dim trans As New TransactionDB
+            'Dim sql As String = ""
+            'Dim ret As New ExecuteDataInfo
 
-            sql = "delete from TB_USER_COURSE_DOCUMENT_FILE where user_id=@_USER_ID "
-            Dim p(1) As SqlParameter
-            p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+            'sql = "delete from TB_USER_COURSE_DOCUMENT_FILE where user_id=@_USER_ID "
+            'Dim p(1) As SqlParameter
+            'p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
 
-            ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            'ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
-            If ret.IsSuccess = True Then
-                sql = "delete from TB_USER_COURSE_DOCUMENT where user_id=@_USER_ID"
-                ReDim p(1)
-                p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
-                ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            'If ret.IsSuccess = True Then
+            '    sql = "delete from TB_USER_COURSE_DOCUMENT where user_id=@_USER_ID"
+            '    ReDim p(1)
+            '    p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+            '    ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
-                If ret.IsSuccess = True Then
-                    sql = "delete from TB_USER_COURSE where user_id=@_USER_ID"
-                    ReDim p(1)
-                    p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
-                    ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            '    If ret.IsSuccess = True Then
+            '        sql = "delete from TB_USER_COURSE where user_id=@_USER_ID"
+            '        ReDim p(1)
+            '        p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+            '        ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
-                    If ret.IsSuccess = True Then
-                        sql = "delete from TB_USER_DEPARTMENT where user_id=@_USER_ID"
-                        ReDim p(1)
-                        p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
-                        ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            '        If ret.IsSuccess = True Then
+            '            sql = "delete from TB_USER_DEPARTMENT where user_id=@_USER_ID"
+            '            ReDim p(1)
+            '            p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+            '            ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
-                        If ret.IsSuccess = True Then
-                            sql = "delete from TB_USER_FUNCTION where user_id=@_USER_ID"
-                            ReDim p(1)
-                            p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
-                            ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            '            If ret.IsSuccess = True Then
+            '                sql = "delete from TB_USER_FUNCTION where user_id=@_USER_ID"
+            '                ReDim p(1)
+            '                p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+            '                ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
-                            If ret.IsSuccess = True Then
-                                sql = "delete from TB_USER_FORMAT where user_id=@_USER_ID"
-                                ReDim p(1)
-                                p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
-                                ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            '                If ret.IsSuccess = True Then
+            '                    sql = "delete from TB_USER_FORMAT where user_id=@_USER_ID"
+            '                    ReDim p(1)
+            '                    p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+            '                    ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
-                                If ret.IsSuccess = True Then
-                                    sql = "delete from TB_USER_MESSAGE where user_id=@_USER_ID"
-                                    ReDim p(1)
-                                    p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
-                                    ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            '                    If ret.IsSuccess = True Then
+            '                        sql = "delete from TB_USER_MESSAGE where user_id=@_USER_ID"
+            '                        ReDim p(1)
+            '                        p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+            '                        ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
-                                    If ret.IsSuccess = True Then
-                                        sql = "delete from TB_TESTING_ANSWER where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))"
-                                        ReDim p(1)
-                                        p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
-                                        ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            '                        If ret.IsSuccess = True Then
+            '                            sql = "delete from TB_TESTING_ANSWER where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))"
+            '                            ReDim p(1)
+            '                            p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+            '                            ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
-                                        If ret.IsSuccess = True Then
-                                            sql = "delete from TB_TESTING_ANSWER_WRITING where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))"
-                                            ReDim p(1)
-                                            p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
-                                            ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            '                            If ret.IsSuccess = True Then
+            '                                sql = "delete from TB_TESTING_ANSWER_WRITING where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))"
+            '                                ReDim p(1)
+            '                                p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+            '                                ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
-                                            If ret.IsSuccess = True Then
-                                                sql = "delete from TB_TESTING_QUESTION where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))"
-                                                ReDim p(1)
-                                                p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
-                                                ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
-                                                If ret.IsSuccess = True Then
-                                                    sql = "delete From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID)"
-                                                    ReDim p(1)
-                                                    p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
-                                                    ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            '                                If ret.IsSuccess = True Then
+            '                                    sql = "delete from TB_TESTING_QUESTION where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))"
+            '                                    ReDim p(1)
+            '                                    p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+            '                                    ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            '                                    If ret.IsSuccess = True Then
+            '                                        sql = "delete From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID)"
+            '                                        ReDim p(1)
+            '                                        p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+            '                                        ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
 
-                                                    If ret.IsSuccess = True Then
-                                                        sql = "delete from TB_USER_SESSION where user_id=@_USER_ID"
-                                                        ReDim p(1)
-                                                        p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
-                                                        ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
-                                                    End If
-                                                End If
-                                            End If
-                                        End If
-                                    End If
-                                End If
-                            End If
-                        End If
-                    End If
-                End If
-            End If
+            '                                        If ret.IsSuccess = True Then
+            '                                            sql = "delete from TB_USER_SESSION where user_id=@_USER_ID"
+            '                                            ReDim p(1)
+            '                                            p(0) = SqlDB.SetBigInt("@_USER_ID", uLnq.USER_ID)
+            '                                            ret = SqlDB.ExecuteNonQuery(sql, trans.Trans, p)
+            '                                        End If
+            '                                    End If
+            '                                End If
+            '                            End If
+            '                        End If
+            '                    End If
+            '                End If
+            '            End If
+            '        End If
+            '    End If
+            'End If
 
-            If ret.IsSuccess = True Then
-                trans.CommitTransaction()
-            Else
-                trans.RollbackTransaction()
-            End If
+            Dim Sql As String = " Declare @_USER_ID AS INT=" & uLnq.USER_ID & vbLf
+            Sql &= "delete from TB_USER_COURSE_DOCUMENT_FILE where user_id=@_USER_ID " & vbLf
+            Sql &= "delete from TB_USER_COURSE_DOCUMENT where user_id=@_USER_ID" & vbLf
+            Sql &= "delete from TB_USER_COURSE where user_id=@_USER_ID" & vbLf
+            Sql &= "delete from TB_USER_DEPARTMENT where user_id=@_USER_ID" & vbLf
+            Sql &= "delete from TB_USER_FUNCTION where user_id=@_USER_ID" & vbLf
+            Sql &= "delete from TB_USER_FORMAT where user_id=@_USER_ID" & vbLf
+            Sql &= "delete from TB_USER_MESSAGE where user_id=@_USER_ID" & vbLf
+            Sql &= "delete from TB_TESTING_ANSWER where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))" & vbLf
+            Sql &= "delete from TB_TESTING_ANSWER_WRITING where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))" & vbLf
+            Sql &= "delete from TB_TESTING_QUESTION where tb_testing_id  in ( select id From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID))" & vbLf
+            Sql &= "delete From TB_TESTING  Where tb_user_session_id  In (Select id from TB_USER_SESSION where user_id=@_USER_ID)" & vbLf
+            Sql &= "delete from TB_USER_SESSION where user_id=@_USER_ID" & vbLf
+
+
+            Dim Comm As New SqlCommand
+            Dim Conn As SqlConnection = SqlDB.GetConnection
+            With Comm
+                .CommandType = CommandType.Text
+                .CommandText = Sql
+                .Connection = Conn
+                .ExecuteNonQuery()
+                .Dispose()
+            End With
+            Conn.Close()
+            Conn.Dispose()
+
+
+
+            'ret = SqlDB.ExecuteNonQuery(sql, trans.Trans)
+            'If ret.IsSuccess = True Then
+            '    trans.CommitTransaction()
+            'Else
+            '    trans.RollbackTransaction()
+            'End If
         End If
         uLnq = Nothing
     End Sub
@@ -1004,73 +1021,56 @@ Public Class _Default
 
         Return True
     End Function
+
     Private Sub btnOTPLogin_Click(sender As Object, e As EventArgs) Handles btnOTPLogin.Click
+
         chkShowOTPPassword.Checked = False
         'Validate Password
 
-        If CheckPasswordPolicy(txtOTPPassword.Text) = True Then
-            Dim UserNameOTP As String = txtReqestOTPSendUsername.Text
-            If UserNameOTP.Length < 8 Then
-                UserNameOTP = "764" & UserNameOTP.PadLeft(8, "0")
-            ElseIf UserNameOTP.Length = 8 Then
-                UserNameOTP = "764" & UserNameOTP
-            End If
-            Dim info As String = ""
-            info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/login", "employee_id=" & UserNameOTP & "&otp=" & txtOTPCode.Text & "&password=" & txtOTPPassword.Text)
-            If info.Trim <> "" Then
-                Dim json As String = info
-                Dim ser As JObject = JObject.Parse(json)
-                Dim data As List(Of JToken) = ser.Children().ToList
-                Dim ret As String = ""
+        If Not CheckPasswordPolicy(txtOTPPassword.Text) Then Exit Sub
 
-                Dim _Err As String = ""
+        Dim UserNameOTP As String = txtReqestOTPSendUsername.Text
+        Dim chrStart As Integer = Asc(UserNameOTP.Substring(0, 1))
+        If chrStart >= 48 And chrStart <= 57 And UserNameOTP <= 8 Then
+            UserNameOTP = "764" & UserNameOTP.PadLeft(8, "0")
+        End If
+        Dim info As String = ""
+        info = GetStringDataFromURL(Me, Me.GetType, 0, GetWebServiceURL() & "api/otp/login", "employee_id=" & UserNameOTP & "&otp=" & txtOTPCode.Text & "&password=" & txtOTPPassword.Text)
 
-                For Each item As JProperty In data
-                    item.CreateReader()
+        If info.Trim <> "" Then
+            Dim json As String = info
+            Dim ser As JObject = JObject.Parse(json)
+            Dim data As List(Of JToken) = ser.Children().ToList
+            Dim OTPStatus As Boolean = False
+            Dim _Err As String = ""
 
-                    Select Case item.Name
-                        Case "status"
-                            ret = item.First.ToString.ToLower
-                            'Exit For
-                        Case "error_msg"
-                            If ret = "false" Then
-                                _Err = item.First.ToString
-                            End If
-                    End Select
-                Next
+            For Each item As JProperty In data
+                item.CreateReader()
+                Select Case item.Name
+                    Case "status"
+                        OTPStatus = CBool(item.Value)
+                    Case "error_msg"
+                        _Err = item.Value
+                End Select
+            Next
 
-                Dim UserName As String = txtOTPUserLogin.Text
-                If ret = "true" Then
-                    'Session("Username") = UserName
-                    'Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
-
-                    Dim chrInt As Integer = Asc(UserName.Substring(0, 1))
-                    If chrInt >= 48 And chrInt <= 57 Then
-                        If UserName.Length < 8 Then
-                            UserName = "764" & UserName.PadLeft(8, "0")
-                        ElseIf UserName.Length = 11 Then
-
-                        Else
-                            UserName = "764" & UserName
-                        End If
-                    Else
-                        If UserName.Length < 8 Then
-                            UserName = "764" & UserName.PadLeft(8, "0")
-                        ElseIf UserName.Length = 8 Then
-                            UserName = "764" & UserName
-                        End If
-                    End If
-
-                    If Login(UserName, txtOTPPassword.Text) = True Then
-                        Session("Username") = UserName
-                        Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
-                    End If
-                Else
-                    ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "Alert", "alert('" & _Err & "');", True)
-                    LogFileBL.LogError(UserName, info)
+            UserNameOTP = txtOTPUserLogin.Text
+            chrStart = Asc(UserNameOTP.Substring(0, 1))
+            If OTPStatus Then
+                If chrStart >= 48 And chrStart <= 57 And UserNameOTP.Length <= 8 Then
+                    UserNameOTP = "764" & UserNameOTP.PadLeft(8, "0")
                 End If
+
+                If Login(UserNameOTP, txtOTPPassword.Text) = True Then
+                    Session("Username") = UserNameOTP
+                    Response.Redirect("frmSelectFormat.aspx?rnd=" & DateTime.Now.Millisecond)
+                End If
+            Else
+                ScriptManager.RegisterStartupScript(Me.Page, GetType(String), "Alert", "alert('" & _Err.Replace("'", "''") & "');", True)
+                LogFileBL.LogError(UserNameOTP, info)
             End If
         End If
+
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
