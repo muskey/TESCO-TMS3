@@ -21,19 +21,30 @@ Public Class _Default
 
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
         chkShowPassword.Checked = False
+        'Dim UserName As String = txtUsername.Text
+        'Dim chrInt As Integer = Asc(UserName.Substring(0, 1))
+        ''Dim chrInt As Integer = Asc(startChr)
+        'If chrInt >= 48 And chrInt <= 57 Then
+        '    If UserName.Length < 8 Then
+        '        UserName = "764" & UserName.PadLeft(8, "0")
+        '    ElseIf UserName.Length = 8 Then
+        '        UserName = "764" & UserName
+        '    End If
+        'Else
+        '    If UserName.Length < 8 Then
+        '        UserName = "764" & UserName.PadLeft(8, "0")
+        '    ElseIf UserName.Length = 8 Then
+        '        UserName = "764" & UserName
+        '    End If
+        'End If
+
         Dim UserName As String = txtUsername.Text
         Dim chrInt As Integer = Asc(UserName.Substring(0, 1))
         'Dim chrInt As Integer = Asc(startChr)
         If chrInt >= 48 And chrInt <= 57 Then
             If UserName.Length < 8 Then
                 UserName = "764" & UserName.PadLeft(8, "0")
-            ElseIf UserName.Length = 8 Then
-                UserName = "764" & UserName
-            End If
-        Else
-            If UserName.Length < 8 Then
-                UserName = "764" & UserName.PadLeft(8, "0")
-            ElseIf UserName.Length = 8 Then
+            Else
                 UserName = "764" & UserName
             End If
         End If
